@@ -10,8 +10,34 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 @Mod.EventBusSubscriber(modid = RFGen.MODID)
 public class TooltipHandler {
+
+    /** Registry paths that have tooltip.rfgen.<path>.summary (+ optional .detail.N). */
+    private static final Set<String> DOCUMENTED = new HashSet<String>(Arrays.asList(
+            "wormhole_duplicator",
+            "unstable_wormhole_duplicator",
+            "rf_generator",
+            "unstable_wormhole_energy_converter",
+            "naquadah_generator",
+            "naquadah_ore",
+            "unstable_naquadah_block",
+            "raw_naquadah",
+            "refined_naquadah",
+            "unstable_naquadah",
+            "prysmian",
+            "prysmian_block",
+            "unstable_prysmian_block",
+            "quantum_glue",
+            "naquadah_reactor",
+            "unstable_naquadah_reactor",
+            "synthetic_mineral",
+            "mineral_tuner_coal"
+    ));
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
@@ -22,36 +48,36 @@ public class TooltipHandler {
         ResourceLocation id = stack.getItem().getRegistryName();
         if (!RFGen.MODID.equals(id.getResourceDomain())) return;
 
-        // Brand line for every mod item
         event.getToolTip().add(TextFormatting.BLUE + "Wormhole Technologies");
 
-        if ("wormhole_duplicator".equals(id.getResourcePath())) {
-            addDuplicatorTooltips(event, false);
-        } else if ("unstable_wormhole_duplicator".equals(id.getResourcePath())) {
-            addDuplicatorTooltips(event, true);
+        String path = id.getResourcePath();
+        if (DOCUMENTED.contains(path)) {
+            addDocumentedTooltips(event, path);
         }
     }
 
-    private static void addDuplicatorTooltips(ItemTooltipEvent event, boolean unstable) {
-        String summaryKey = unstable
-                ? "tooltip.rfgen.unstable_wormhole_duplicator.summary"
-                : "tooltip.rfgen.wormhole_duplicator.summary";
-        event.getToolTip().add(TextFormatting.GRAY + net.minecraft.client.resources.I18n.format(summaryKey));
+    private static void addDocumentedTooltips(ItemTooltipEvent event, String path) {
+        String summaryKey = "tooltip.rfgen." + path + ".summary";
+        String summary = net.minecraft.client.resources.I18n.format(summaryKey);
+        if (!summary.equals(summaryKey)) {
+            event.getToolTip().add(TextFormatting.GRAY + summary);
+        }
 
         if (GuiScreen.isShiftKeyDown()) {
-            String prefix = unstable
-                    ? "tooltip.rfgen.unstable_wormhole_duplicator.detail."
-                    : "tooltip.rfgen.wormhole_duplicator.detail.";
-            for (int i = 1; i <= 4; i++) {
-                String key = prefix + i;
+            for (int i = 1; i <= 6; i++) {
+                String key = "tooltip.rfgen." + path + ".detail." + i;
                 String line = net.minecraft.client.resources.I18n.format(key);
                 if (!line.equals(key)) {
                     event.getToolTip().add(TextFormatting.DARK_GRAY + line);
                 }
             }
         } else {
-            event.getToolTip().add(TextFormatting.DARK_GRAY
-                    + net.minecraft.client.resources.I18n.format("tooltip.rfgen.more"));
+            // Only show "Hold Shift" if at least one detail line exists
+            String firstDetail = "tooltip.rfgen." + path + ".detail.1";
+            if (!net.minecraft.client.resources.I18n.format(firstDetail).equals(firstDetail)) {
+                event.getToolTip().add(TextFormatting.DARK_GRAY
+                        + net.minecraft.client.resources.I18n.format("tooltip.rfgen.more"));
+            }
         }
     }
 }

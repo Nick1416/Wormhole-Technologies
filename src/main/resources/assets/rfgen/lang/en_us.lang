@@ -42,3 +42,65 @@ jei.rfgen.duplication=Wormhole Duplication
 jei.rfgen.duplication.stable=Stable · reusable
 jei.rfgen.duplication.unstable=Unstable · one shot → Unstable Naquadah
 jei.rfgen.duplication.catalyst_note=Accepts most items without NBT (see blacklist in-game).
+
+# --- Generators / converters ---
+tooltip.rfgen.rf_generator.summary=Free energy: 100,000 RF/t into neighbors
+tooltip.rfgen.rf_generator.detail.1=Buffer 10,000,000 RF. Extract up to 100,000 RF/t.
+tooltip.rfgen.rf_generator.detail.2=No fuel. Pushes Forge Energy to adjacent machines.
+tooltip.rfgen.rf_generator.detail.3=Permanent — does not expire or convert.
+
+tooltip.rfgen.unstable_wormhole_energy_converter.summary=10,000 RF/t for 1 hour, then Unstable Naquadah
+tooltip.rfgen.unstable_wormhole_energy_converter.detail.1=Buffer 1,000,000 RF. Extract up to 10,000 RF/t.
+tooltip.rfgen.unstable_wormhole_energy_converter.detail.2=Lifetime: 72,000 ticks (~60 minutes at 20 TPS).
+tooltip.rfgen.unstable_wormhole_energy_converter.detail.3=When time runs out, becomes Unstable Block of Naquadah.
+
+tooltip.rfgen.naquadah_generator.summary=5,000 RF/t for 10 minutes, then Unstable Naquadah
+tooltip.rfgen.naquadah_generator.detail.1=Buffer 500,000 RF. Extract up to 5,000 RF/t.
+tooltip.rfgen.naquadah_generator.detail.2=Lifetime: 12,000 ticks (~10 minutes at 20 TPS).
+tooltip.rfgen.naquadah_generator.detail.3=When time runs out, becomes Unstable Block of Naquadah.
+
+# --- World / drops ---
+tooltip.rfgen.naquadah_ore.summary=Mine for a chance at Raw Naquadah
+tooltip.rfgen.naquadah_ore.detail.1=25% chance to drop 1 Raw Naquadah when mined by a player.
+tooltip.rfgen.naquadah_ore.detail.2=Silk Touch suppresses the special drop.
+
+tooltip.rfgen.unstable_naquadah_block.summary=Mines into 4 Unstable Naquadah
+tooltip.rfgen.unstable_naquadah_block.detail.1=Dropped by expired generators and the Unstable Duplicator.
+tooltip.rfgen.unstable_naquadah_block.detail.2=Player harvest (no Silk Touch) yields 4 Unstable Naquadah.
+
+tooltip.rfgen.raw_naquadah.summary=Blow it up to refine it
+tooltip.rfgen.raw_naquadah.detail.1=Item entities caught in an explosion become Refined Naquadah 1:1.
+tooltip.rfgen.raw_naquadah.detail.2=Drop it, detonate nearby — TNT, creepers, etc.
+
+tooltip.rfgen.refined_naquadah.summary=Core crafting material for Wormhole tech
+tooltip.rfgen.refined_naquadah.detail.1=Also craftable from Unstable Naquadah + blaze powder.
+tooltip.rfgen.refined_naquadah.detail.2=Used in Quantum Glue, reactors, and machines.
+
+tooltip.rfgen.unstable_naquadah.summary=Byproduct of unstable machines and blocks
+tooltip.rfgen.unstable_naquadah.detail.1=Craft into Refined Naquadah or Synthetic Mineral.
+tooltip.rfgen.unstable_naquadah.detail.2=Comes from mining Unstable Block of Naquadah (×4).
+
+# --- Materials ---
+tooltip.rfgen.prysmian.summary=Crafting component for Prysmian Block
+tooltip.rfgen.prysmian_block.summary=Structural block for reactors and machines
+tooltip.rfgen.unstable_prysmian_block.summary=Unstable variant used in advanced crafts
+
+tooltip.rfgen.quantum_glue.summary=Crafting binder for high-tier Wormhole recipes
+tooltip.rfgen.quantum_glue.detail.1=Made with refined naquadah, slime, coal, milk, and eyes of ender.
+
+tooltip.rfgen.naquadah_reactor.summary=Crafting part for Wormhole machines
+tooltip.rfgen.naquadah_reactor.detail.1=Built from refined naquadah, Prysmian Block, and redstone logic.
+
+tooltip.rfgen.unstable_naquadah_reactor.summary=Unstable crafting part for end-tier machines
+
+tooltip.rfgen.synthetic_mineral.summary=Crafted mineral used in further recipes
+tooltip.rfgen.synthetic_mineral.detail.1=Quartz, blaze powder, and Unstable Naquadah.
+
+tooltip.rfgen.mineral_tuner_coal.summary=Sets this chunk’s IE excavator mineral to Coal
+tooltip.rfgen.mineral_tuner_coal.detail.1=Requires Immersive Engineering.
+tooltip.rfgen.mineral_tuner_coal.detail.2=Right-click: set mineral vein here (consumes the tuner).
+tooltip.rfgen.mineral_tuner_coal.detail.3=Sneak + right-click: list registered IE minerals.
+
+jei.rfgen.explosion_refine=Explosion Refining
+jei.rfgen.explosion_refine.hint=Explosion (item entity)
+jei.rfgen.explosion_refine.tooltip=Drop Raw Naquadah as an item, then detonate nearby.
