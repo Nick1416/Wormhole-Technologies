@@ -16,7 +16,6 @@ tile.rfgen.wormhole_duplicator.name=Wormhole Duplicator
 container.rfgen.wormhole_duplicator=Wormhole Duplicator
 tile.rfgen.unstable_wormhole_duplicator.name=Unstable Wormhole Duplicator
 container.rfgen.unstable_wormhole_duplicator=Unstable Wormhole Duplicator
-item.rfgen.mineral_tuner_coal.name=Mineral Tuner (coal)
 tile.rfgen.naquadah_generator.name=Naquadah Generator
 
 # Duplicator player-facing copy
@@ -95,11 +94,32 @@ tooltip.rfgen.unstable_naquadah_reactor.summary=Unstable crafting part for end-t
 tooltip.rfgen.synthetic_mineral.summary=Crafted mineral used in further recipes
 tooltip.rfgen.synthetic_mineral.detail.1=Quartz, blaze powder, and Unstable Naquadah.
 
-tooltip.rfgen.mineral_tuner_coal.summary=Sets this chunk’s IE excavator mineral to Coal
-tooltip.rfgen.mineral_tuner_coal.detail.1=Requires Immersive Engineering.
-tooltip.rfgen.mineral_tuner_coal.detail.2=Right-click: set mineral vein here (consumes the tuner).
-tooltip.rfgen.mineral_tuner_coal.detail.3=Sneak + right-click: list registered IE minerals.
 
 jei.rfgen.explosion_refine=Explosion Refining
 jei.rfgen.explosion_refine.hint=Explosion (item entity)
 jei.rfgen.explosion_refine.tooltip=Drop Raw Naquadah as an item, then detonate nearby.
+
+# Mineral Tuners
+item.rfgen.mineral_tuner_coal.name=Mineral Tuner (Coal)
+item.rfgen.mineral_tuner_iron.name=Mineral Tuner (Iron)
+item.rfgen.mineral_tuner_magnetite.name=Mineral Tuner (Magnetite)
+item.rfgen.mineral_tuner_pyrite.name=Mineral Tuner (Pyrite)
+item.rfgen.mineral_tuner_bauxite.name=Mineral Tuner (Bauxite)
+item.rfgen.mineral_tuner_copper.name=Mineral Tuner (Copper)
+item.rfgen.mineral_tuner_cassiterite.name=Mineral Tuner (Cassiterite)
+item.rfgen.mineral_tuner_gold.name=Mineral Tuner (Gold)
+item.rfgen.mineral_tuner_nickel.name=Mineral Tuner (Nickel)
+item.rfgen.mineral_tuner_platinum.name=Mineral Tuner (Platinum)
+item.rfgen.mineral_tuner_uranium.name=Mineral Tuner (Uranium)
+item.rfgen.mineral_tuner_quartzite.name=Mineral Tuner (Quartzite)
+item.rfgen.mineral_tuner_galena.name=Mineral Tuner (Galena)
+item.rfgen.mineral_tuner_lead.name=Mineral Tuner (Lead)
+item.rfgen.mineral_tuner_silver.name=Mineral Tuner (Silver)
+item.rfgen.mineral_tuner_lapis.name=Mineral Tuner (Lapis)
+item.rfgen.mineral_tuner_cinnabar.name=Mineral Tuner (Cinnabar)
+item.rfgen.mineral_tuner_silt.name=Mineral Tuner (Silt)
+tooltip.rfgen.mineral_tuner.summary=Sets this chunk's IE excavator mineral to %s
+tooltip.rfgen.mineral_tuner.detail.1=Requires Immersive Engineering.
+tooltip.rfgen.mineral_tuner.detail.2=Right-click: set the mineral vein here (consumes the tuner).
+tooltip.rfgen.mineral_tuner.detail.3=Sneak + right-click: list registered IE minerals.
+tooltip.rfgen.mineral_tuner.jei.1=Sets this chunk's IE excavator mineral (see item name for which).
