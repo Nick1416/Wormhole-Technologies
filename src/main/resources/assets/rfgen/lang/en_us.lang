@@ -18,3 +18,27 @@ tile.rfgen.unstable_wormhole_duplicator.name=Unstable Wormhole Duplicator
 container.rfgen.unstable_wormhole_duplicator=Unstable Wormhole Duplicator
 item.rfgen.mineral_tuner_coal.name=Mineral Tuner (coal)
 tile.rfgen.naquadah_generator.name=Naquadah Generator
+
+# Duplicator player-facing copy
+tooltip.rfgen.more=Hold Shift for details
+tooltip.rfgen.wormhole_duplicator.summary=1 diamond nugget + 1 item → 2 of that item
+tooltip.rfgen.wormhole_duplicator.detail.1=Consumes the template each craft.
+tooltip.rfgen.wormhole_duplicator.detail.2=Fuel: diamond nugget (Thermal Foundation or nuggetDiamond).
+tooltip.rfgen.wormhole_duplicator.detail.3=Rejects NBT items and blacklisted mod machines/resources.
+tooltip.rfgen.wormhole_duplicator.detail.4=Reusable — keeps crafting while fuel, template, and output space remain.
+tooltip.rfgen.unstable_wormhole_duplicator.summary=1 diamond + 1 item → 2 of that item (once)
+tooltip.rfgen.unstable_wormhole_duplicator.detail.1=Single use only.
+tooltip.rfgen.unstable_wormhole_duplicator.detail.2=Fuel: one full diamond.
+tooltip.rfgen.unstable_wormhole_duplicator.detail.3=After crafting, contents drop and the block becomes Unstable Naquadah.
+tooltip.rfgen.unstable_wormhole_duplicator.detail.4=Same template rules as the stable duplicator (no NBT / blacklist).
+
+gui.rfgen.slot.fuel_nugget=Fuel — diamond nugget
+gui.rfgen.slot.fuel_diamond=Fuel — diamond
+gui.rfgen.slot.template=Template — consumed
+gui.rfgen.slot.template.hint=Most items OK; no NBT / blacklisted
+gui.rfgen.slot.output=Output — receives ×2
+
+jei.rfgen.duplication=Wormhole Duplication
+jei.rfgen.duplication.stable=Stable · reusable
+jei.rfgen.duplication.unstable=Unstable · one shot → Unstable Naquadah
+jei.rfgen.duplication.catalyst_note=Accepts most items without NBT (see blacklist in-game).
