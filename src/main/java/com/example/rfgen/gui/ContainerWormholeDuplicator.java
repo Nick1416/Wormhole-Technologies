@@ -12,10 +12,10 @@ import net.minecraftforge.items.SlotItemHandler;
 
 public class ContainerWormholeDuplicator extends Container {
 
-    // slot positions (aligned to your GUI)
-    private static final int DIAMOND_X = 44, DIAMOND_Y = 36;
-    private static final int TEMPLATE_X = 80, TEMPLATE_Y = 36;
-    private static final int OUTPUT_X  =116, OUTPUT_Y  = 36;
+    // slot positions (aligned to textures/gui/wormhole_duplicator.png interiors)
+    private static final int DIAMOND_X = 44, DIAMOND_Y = 35;
+    private static final int TEMPLATE_X = 80, TEMPLATE_Y = 35;
+    private static final int OUTPUT_X  =116, OUTPUT_Y  = 35;
 
     // Overloads for both tile types
     public ContainerWormholeDuplicator(InventoryPlayer playerInv, WormholeDuplicatorTileEntity te) {
