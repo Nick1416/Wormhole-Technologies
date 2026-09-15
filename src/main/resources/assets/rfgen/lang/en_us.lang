@@ -34,9 +34,8 @@ tooltip.rfgen.unstable_wormhole_duplicator.detail.4=Same template rules as the s
 
 gui.rfgen.slot.fuel_nugget=Fuel — diamond nugget
 gui.rfgen.slot.fuel_diamond=Fuel — diamond
-gui.rfgen.slot.template=Template — consumed
-gui.rfgen.slot.template.hint=Most items OK; no NBT / blacklisted
-gui.rfgen.slot.output=Output — receives ×2
+gui.rfgen.slot.template.hint=Most items work — no NBT or blacklisted stuff
+gui.rfgen.slot.output=Output — receive x2
 
 jei.rfgen.duplication=Wormhole Duplication
 jei.rfgen.duplication.stable=Stable · reusable
@@ -60,7 +59,7 @@ tooltip.rfgen.naquadah_generator.detail.2=Lifetime: 12,000 ticks (~10 minutes at
 tooltip.rfgen.naquadah_generator.detail.3=When time runs out, becomes Unstable Block of Naquadah.
 
 # --- World / drops ---
-tooltip.rfgen.naquadah_ore.summary=Mine for a chance at Raw Naquadah
+tooltip.rfgen.naquadah_ore.summary=25% chance to drop Raw Naquadah when mined
 tooltip.rfgen.naquadah_ore.detail.1=25% chance to drop 1 Raw Naquadah when mined by a player.
 tooltip.rfgen.naquadah_ore.detail.2=Silk Touch suppresses the special drop.
 
