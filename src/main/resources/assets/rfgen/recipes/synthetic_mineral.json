@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " Q ",
+    "QNQ",
+    " B "
+  ],
+  "key": {
+    "Q": { "item": "minecraft:quartz" },
+    "B": { "item": "minecraft:blaze_powder" },
+	"N": { "item": "rfgen:unstable_naquadah"}
+  },
+  "result": { "item": "rfgen:synthetic_mineral" }
+}

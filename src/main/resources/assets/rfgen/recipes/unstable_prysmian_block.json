@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PP",
+    "PP"
+  ],
+  "key": {
+    "P": { "item": "rfgen:prysmian" }
+  },
+  "result": { "item": "rfgen:unstable_prysmian_block" }
+}

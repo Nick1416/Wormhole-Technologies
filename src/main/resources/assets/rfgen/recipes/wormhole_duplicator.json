@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "INI",
+    "ISI"
+  ],
+  "key": {
+    "G": { "item": "minecraft:glass" },
+    "I": { "item": "minecraft:iron_block" },
+    "S": { "item": "rfgen:unstable_naquadah" },
+	"N": { "item": "rfgen:naquadah_reactor"}
+  },
+  "result": { "item": "rfgen:wormhole_duplicator" }
+}

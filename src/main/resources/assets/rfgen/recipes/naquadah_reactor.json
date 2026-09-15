@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NPN",
+    "SCS",
+    "SRS"
+  ],
+  "key": {
+    "P": { "item": "rfgen:prysmian_block" },
+    "N": { "item": "rfgen:refined_naquadah" },
+	"C": { "item": "minecraft:comparator"},
+	"R": { "item": "minecraft:repeater"},
+	"S": { "item": "minecraft:redstone"}
+  },
+  "result": { "item": "rfgen:naquadah_reactor" }
+}

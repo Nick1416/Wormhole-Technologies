@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "QPQ",
+    "PQP",
+    "QPQ"
+  ],
+  "key": {
+    "P": { "item": "rfgen:prysmian" },
+    "Q": { "item": "rfgen:quantum_glue" }
+  },
+  "result": { "item": "rfgen:prysmian_block" }
+}
