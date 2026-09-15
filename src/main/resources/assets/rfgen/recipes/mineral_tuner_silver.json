@@ -22,11 +22,11 @@
       "item": "minecraft:glass"
     },
     "Z": {
-      "item": "minecraft:coal",
-      "data": 0
+      "type": "forge:ore_dict",
+      "ore": "ingotSilver"
     }
   },
   "result": {
-    "item": "rfgen:mineral_tuner_coal"
+    "item": "rfgen:mineral_tuner_silver"
   }
 }

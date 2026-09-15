@@ -35,8 +35,7 @@ public class TooltipHandler {
             "quantum_glue",
             "naquadah_reactor",
             "unstable_naquadah_reactor",
-            "synthetic_mineral",
-            "mineral_tuner_coal"
+            "synthetic_mineral"
     ));
 
     @SubscribeEvent
@@ -51,8 +50,30 @@ public class TooltipHandler {
         event.getToolTip().add(TextFormatting.BLUE + "Wormhole Technologies");
 
         String path = id.getResourcePath();
-        if (DOCUMENTED.contains(path)) {
+        if (path.startsWith("mineral_tuner_")) {
+            addMineralTunerTooltips(event, stack);
+        } else if (DOCUMENTED.contains(path)) {
             addDocumentedTooltips(event, path);
+        }
+    }
+
+    private static void addMineralTunerTooltips(ItemTooltipEvent event, ItemStack stack) {
+        String mineral = "Coal";
+        if (stack.getItem() instanceof com.example.rfgen.item.ItemMineralTuner) {
+            mineral = ((com.example.rfgen.item.ItemMineralTuner) stack.getItem()).getMineralName();
+        }
+        event.getToolTip().add(TextFormatting.GRAY + net.minecraft.client.resources.I18n.format(
+                "tooltip.rfgen.mineral_tuner.summary", mineral));
+        if (GuiScreen.isShiftKeyDown()) {
+            event.getToolTip().add(TextFormatting.DARK_GRAY + net.minecraft.client.resources.I18n.format(
+                    "tooltip.rfgen.mineral_tuner.detail.1"));
+            event.getToolTip().add(TextFormatting.DARK_GRAY + net.minecraft.client.resources.I18n.format(
+                    "tooltip.rfgen.mineral_tuner.detail.2"));
+            event.getToolTip().add(TextFormatting.DARK_GRAY + net.minecraft.client.resources.I18n.format(
+                    "tooltip.rfgen.mineral_tuner.detail.3"));
+        } else {
+            event.getToolTip().add(TextFormatting.DARK_GRAY
+                    + net.minecraft.client.resources.I18n.format("tooltip.rfgen.more"));
         }
     }
 

@@ -22,11 +22,11 @@
       "item": "minecraft:glass"
     },
     "Z": {
-      "item": "minecraft:coal",
+      "item": "minecraft:sand",
       "data": 0
     }
   },
   "result": {
-    "item": "rfgen:mineral_tuner_coal"
+    "item": "rfgen:mineral_tuner_silt"
   }
 }

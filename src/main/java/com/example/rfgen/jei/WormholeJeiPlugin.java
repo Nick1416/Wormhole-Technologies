@@ -51,7 +51,15 @@ public class WormholeJeiPlugin implements IModPlugin {
         info(registry, Registration.NAQUADAH_REACTOR, "naquadah_reactor", 1);
         info(registry, Registration.UNSTABLE_NAQUADAH_REACTOR, "unstable_naquadah_reactor", 0);
         info(registry, Registration.SYNTHETIC_MINERAL, "synthetic_mineral", 1);
-        info(registry, Registration.MINERAL_TUNER_COAL, "mineral_tuner_coal", 3);
+        for (com.example.rfgen.item.ItemMineralTuner tuner : Registration.MINERAL_TUNERS) {
+            registry.addIngredientInfo(
+                    new ItemStack(tuner),
+                    VanillaTypes.ITEM,
+                    "tooltip.rfgen.mineral_tuner.jei.1",
+                    "tooltip.rfgen.mineral_tuner.detail.1",
+                    "tooltip.rfgen.mineral_tuner.detail.2",
+                    "tooltip.rfgen.mineral_tuner.detail.3");
+        }
     }
 
     private static void info(IModRegistry registry, Item item, String path, int detailCount) {

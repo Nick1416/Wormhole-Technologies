@@ -125,8 +125,31 @@ public class Registration {
     		.setRegistryName(RFGen.MODID, "naquadah_reactor")
     		.setUnlocalizedName(RFGen.MODID + ".naquadah_reactor");
     
- // -- Mineral Tuner (coal) -- 
- 	public static final Item MINERAL_TUNER_COAL = new ItemMineralTuner();
+
+    // -- Mineral Tuners (IE excavator) --
+    public static final ItemMineralTuner MINERAL_TUNER_COAL = new ItemMineralTuner("coal", "Coal");
+    public static final ItemMineralTuner MINERAL_TUNER_IRON = new ItemMineralTuner("iron", "Iron");
+    public static final ItemMineralTuner MINERAL_TUNER_MAGNETITE = new ItemMineralTuner("magnetite", "Magnetite");
+    public static final ItemMineralTuner MINERAL_TUNER_PYRITE = new ItemMineralTuner("pyrite", "Pyrite");
+    public static final ItemMineralTuner MINERAL_TUNER_BAUXITE = new ItemMineralTuner("bauxite", "Bauxite");
+    public static final ItemMineralTuner MINERAL_TUNER_COPPER = new ItemMineralTuner("copper", "Copper");
+    public static final ItemMineralTuner MINERAL_TUNER_CASSITERITE = new ItemMineralTuner("cassiterite", "Cassiterite");
+    public static final ItemMineralTuner MINERAL_TUNER_GOLD = new ItemMineralTuner("gold", "Gold");
+    public static final ItemMineralTuner MINERAL_TUNER_NICKEL = new ItemMineralTuner("nickel", "Nickel");
+    public static final ItemMineralTuner MINERAL_TUNER_PLATINUM = new ItemMineralTuner("platinum", "Platinum");
+    public static final ItemMineralTuner MINERAL_TUNER_URANIUM = new ItemMineralTuner("uranium", "Uranium");
+    public static final ItemMineralTuner MINERAL_TUNER_QUARTZITE = new ItemMineralTuner("quartzite", "Quartzite");
+    public static final ItemMineralTuner MINERAL_TUNER_GALENA = new ItemMineralTuner("galena", "Galena");
+    public static final ItemMineralTuner MINERAL_TUNER_LEAD = new ItemMineralTuner("lead", "Lead");
+    public static final ItemMineralTuner MINERAL_TUNER_SILVER = new ItemMineralTuner("silver", "Silver");
+    public static final ItemMineralTuner MINERAL_TUNER_LAPIS = new ItemMineralTuner("lapis", "Lapis");
+    public static final ItemMineralTuner MINERAL_TUNER_CINNABAR = new ItemMineralTuner("cinnabar", "Cinnabar");
+    public static final ItemMineralTuner MINERAL_TUNER_SILT = new ItemMineralTuner("silt", "Silt");
+
+    public static final ItemMineralTuner[] MINERAL_TUNERS = {
+            MINERAL_TUNER_COAL, MINERAL_TUNER_IRON, MINERAL_TUNER_MAGNETITE, MINERAL_TUNER_PYRITE, MINERAL_TUNER_BAUXITE, MINERAL_TUNER_COPPER, MINERAL_TUNER_CASSITERITE, MINERAL_TUNER_GOLD, MINERAL_TUNER_NICKEL, MINERAL_TUNER_PLATINUM, MINERAL_TUNER_URANIUM, MINERAL_TUNER_QUARTZITE, MINERAL_TUNER_GALENA, MINERAL_TUNER_LEAD, MINERAL_TUNER_SILVER, MINERAL_TUNER_LAPIS, MINERAL_TUNER_CINNABAR, MINERAL_TUNER_SILT
+    };
+
     
     // --- Unstable Naquadah Reactor
     public static final Item UNSTABLE_NAQUADAH_REACTOR = new Item()
@@ -174,6 +197,23 @@ public class Registration {
                 ITEM_WORMHOLE_DUPLICATOR,
                 ITEM_UNSTABLE_WORMHOLE_DUPLICATOR,
                 MINERAL_TUNER_COAL,
+                MINERAL_TUNER_IRON,
+                MINERAL_TUNER_MAGNETITE,
+                MINERAL_TUNER_PYRITE,
+                MINERAL_TUNER_BAUXITE,
+                MINERAL_TUNER_COPPER,
+                MINERAL_TUNER_CASSITERITE,
+                MINERAL_TUNER_GOLD,
+                MINERAL_TUNER_NICKEL,
+                MINERAL_TUNER_PLATINUM,
+                MINERAL_TUNER_URANIUM,
+                MINERAL_TUNER_QUARTZITE,
+                MINERAL_TUNER_GALENA,
+                MINERAL_TUNER_LEAD,
+                MINERAL_TUNER_SILVER,
+                MINERAL_TUNER_LAPIS,
+                MINERAL_TUNER_CINNABAR,
+                MINERAL_TUNER_SILT,
                 ITEM_NAQUADAH_GENERATOR
         );
     }
