@@ -68,9 +68,7 @@ public class GuiWormholeDuplicator extends GuiContainer {
                         : "gui.rfgen.slot.fuel_nugget"));
                 break;
             case 1:
-                lines = Arrays.asList(
-                        I18n.format("gui.rfgen.slot.template"),
-                        I18n.format("gui.rfgen.slot.template.hint"));
+                lines = Arrays.asList(I18n.format("gui.rfgen.slot.template.hint"));
                 break;
             case 2:
                 lines = Arrays.asList(I18n.format("gui.rfgen.slot.output"));
