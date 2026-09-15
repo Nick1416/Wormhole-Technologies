@@ -6,12 +6,27 @@
     "SCS"
   ],
   "key": {
-    "N": { "item": "rfgen:refined_naquadah" },
-	"C": { "item": "minecraft:comparator"},
-	"R": { "item": "minecraft:repeater"},
-	"S": { "item": "minecraft:redstone"},
-	"G": { "item": "minecraft:glass"},
-	"Z": { "item": "minecraft:coal", "data": 0 }
+    "N": {
+      "item": "rfgen:refined_naquadah"
+    },
+    "C": {
+      "item": "minecraft:comparator"
+    },
+    "R": {
+      "item": "minecraft:repeater"
+    },
+    "S": {
+      "item": "minecraft:redstone"
+    },
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "Z": {
+      "item": "minecraft:coal",
+      "data": 0
+    }
   },
-  "result": { "item": "rfgen:mineral_tuner_coal" }
+  "result": {
+    "item": "rfgen:mineral_tuner_coal"
+  }
 }
