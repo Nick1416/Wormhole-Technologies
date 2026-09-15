@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GZG",
+    "RNR",
+    "SCS"
+  ],
+  "key": {
+    "N": {
+      "item": "rfgen:refined_naquadah"
+    },
+    "C": {
+      "item": "minecraft:comparator"
+    },
+    "R": {
+      "item": "minecraft:repeater"
+    },
+    "S": {
+      "item": "minecraft:redstone"
+    },
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "Z": {
+      "type": "forge:ore_dict",
+      "ore": "ingotSilver"
+    }
+  },
+  "result": {
+    "item": "rfgen:mineral_tuner_silver"
+  }
+}
