@@ -72,10 +72,11 @@ public class ClientProxy extends com.example.rfgen.common.CommonProxy {
 	    ModelLoader.setCustomModelResourceLocation(
 	    		reactorNaquadah, 0, new ModelResourceLocation(reactorNaquadah.getRegistryName(), "inventory"));
 	    
-	    // mineral tuner (coal)
-	    Item mineralTunerCoal = Registration.MINERAL_TUNER_COAL;
-	    ModelLoader.setCustomModelResourceLocation(
-	    		mineralTunerCoal, 0, new ModelResourceLocation(mineralTunerCoal.getRegistryName(), "inventory"));
+	    // mineral tuners
+	    for (Item tuner : Registration.MINERAL_TUNERS) {
+	        ModelLoader.setCustomModelResourceLocation(
+	                tuner, 0, new ModelResourceLocation(tuner.getRegistryName(), "inventory"));
+	    }
 	    
 	    // unstable naquadah reactor
 	    Item reactorNaquadahUnstable = Registration.UNSTABLE_NAQUADAH_REACTOR;
