@@ -20,7 +20,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.List;
 
-@Mod(modid = RFGen.MODID, name = "RF Generator", version = RFGen.VERSION)
+@Mod(modid = RFGen.MODID, name = "Wormhole Technologies", version = RFGen.VERSION, dependencies = "after:jei;")
 public class RFGen {
     public static final String MODID = "rfgen";
     public static final String VERSION = "1.0.0";
