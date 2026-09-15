@@ -25,13 +25,20 @@ import java.util.*;
 public class ItemMineralTuner extends Item {
 
     private static final String NBT_TARGET = "targetMineral";
-    private static final String DEFAULT_TARGET = "Coal";
 
-    public ItemMineralTuner() {
-        setRegistryName("mineral_tuner_coal");
-        setUnlocalizedName("rfgen.mineral_tuner_coal");
+    /** IE excavator mineral display name this tuner sets (e.g. "Coal"). */
+    private final String defaultTarget;
+
+    public ItemMineralTuner(String id, String mineralName) {
+        this.defaultTarget = mineralName;
+        setRegistryName(com.example.rfgen.RFGen.MODID, "mineral_tuner_" + id);
+        setUnlocalizedName(com.example.rfgen.RFGen.MODID + ".mineral_tuner_" + id);
         setCreativeTab(CreativeTabs.MISC);
         setMaxStackSize(1);
+    }
+
+    public String getMineralName() {
+        return defaultTarget;
     }
 
     public static void setTarget(ItemStack stack, String name) {
@@ -40,9 +47,9 @@ public class ItemMineralTuner extends Item {
         tag.setString(NBT_TARGET, name);
         stack.setTagCompound(tag);
     }
-    private static String getTarget(ItemStack stack) {
+    private String getTarget(ItemStack stack) {
         NBTTagCompound tag = stack.getTagCompound();
-        return (tag != null && tag.hasKey(NBT_TARGET)) ? tag.getString(NBT_TARGET) : DEFAULT_TARGET;
+        return (tag != null && tag.hasKey(NBT_TARGET)) ? tag.getString(NBT_TARGET) : defaultTarget;
     }
 
     @Override
