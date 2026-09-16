@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-@Mod.EventBusSubscriber(modid = RFGen.MODID)
+@Mod.EventBusSubscriber(modid = RFGen.MODID, value = Side.CLIENT)
 public class TooltipHandler {
 
     /** Registry paths that have tooltip.rfgen.<path>.summary (+ optional .detail.N). */
