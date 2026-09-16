@@ -91,16 +91,22 @@ public class ItemWormholeLinker extends Item {
         int dim = nbt.getInteger(KEY_DIM);
         BlockPos first = new BlockPos(nbt.getInteger(KEY_X), nbt.getInteger(KEY_Y), nbt.getInteger(KEY_Z));
 
-        if (dim != world.provider.getDimension()) {
-            player.sendStatusMessage(new TextComponentTranslation("message.rfgen.linker.cross_dim"), true);
-            return EnumActionResult.FAIL;
-        }
-        if (first.equals(pos)) {
+        if (dim == world.provider.getDimension() && first.equals(pos)) {
             player.sendStatusMessage(new TextComponentTranslation("message.rfgen.linker.same_pad"), true);
             return EnumActionResult.FAIL;
         }
 
-        TileEntity teA = world.getTileEntity(first);
+        World worldA = world;
+        if (dim != world.provider.getDimension()) {
+            if (world.getMinecraftServer() == null) return EnumActionResult.FAIL;
+            worldA = world.getMinecraftServer().getWorld(dim);
+            if (worldA == null) {
+                player.sendStatusMessage(new TextComponentTranslation("message.rfgen.linker.missing_first"), true);
+                return EnumActionResult.FAIL;
+            }
+        }
+
+        TileEntity teA = worldA.getTileEntity(first);
         if (!(teA instanceof WormholePadTileEntity)) {
             clearStored(stack);
             player.sendStatusMessage(new TextComponentTranslation("message.rfgen.linker.missing_first"), true);
@@ -108,17 +114,27 @@ public class ItemWormholeLinker extends Item {
         }
 
         WormholePadTileEntity padA = (WormholePadTileEntity) teA;
+        boolean cross = dim != world.provider.getDimension();
+        if (cross) {
+            if (!WormholePadTileEntity.hasActiveComputer(worldA, first)
+                    || !WormholePadTileEntity.hasActiveComputer(world, pos)) {
+                player.sendStatusMessage(new TextComponentTranslation("message.rfgen.linker.need_computers"), true);
+                return EnumActionResult.FAIL;
+            }
+        }
+
         boolean ok = WormholePadTileEntity.linkPads(padA, pad);
         clearStored(stack);
         if (ok) {
             player.sendStatusMessage(new TextComponentTranslation(
-                    "message.rfgen.linker.linked",
+                    cross ? "message.rfgen.linker.linked_cross" : "message.rfgen.linker.linked",
                     first.getX(), first.getY(), first.getZ(),
                     pos.getX(), pos.getY(), pos.getZ()), true);
             return EnumActionResult.SUCCESS;
         }
 
-        player.sendStatusMessage(new TextComponentTranslation("message.rfgen.linker.failed"), true);
+        player.sendStatusMessage(new TextComponentTranslation(
+                cross ? "message.rfgen.linker.need_computers" : "message.rfgen.linker.failed"), true);
         return EnumActionResult.FAIL;
     }
 

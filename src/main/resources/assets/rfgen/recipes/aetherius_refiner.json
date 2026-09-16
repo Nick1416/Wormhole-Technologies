@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["IRI","RFR","IRI"],
+  "key": {
+    "I": { "item": "minecraft:iron_ingot" },
+    "R": { "item": "rfgen:refined_naquadah" },
+    "F": { "item": "minecraft:furnace" }
+  },
+  "result": { "item": "rfgen:aetherius_refiner" }
+}

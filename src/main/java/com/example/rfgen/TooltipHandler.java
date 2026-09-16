@@ -37,6 +37,10 @@ public class TooltipHandler {
             "unstable_naquadah_reactor",
             "synthetic_mineral",
             "ancient_tablet",
+            "aetherius_refiner",
+            "relativistic_computer",
+            "compressed_naquadah",
+            "aetherius",
             "wormhole_pad",
             "wormhole_linker"
     ));
