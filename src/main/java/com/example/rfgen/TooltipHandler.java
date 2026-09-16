@@ -35,7 +35,8 @@ public class TooltipHandler {
             "quantum_glue",
             "naquadah_reactor",
             "unstable_naquadah_reactor",
-            "synthetic_mineral"
+            "synthetic_mineral",
+            "ancient_tablet"
     ));
 
     @SubscribeEvent

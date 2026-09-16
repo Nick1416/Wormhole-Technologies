@@ -7,6 +7,7 @@ import com.example.rfgen.block.UnstableWormholeEnergyConverter;
 import com.example.rfgen.block.UnstableNaquadahBlock;
 import com.example.rfgen.block.WormholeDuplicatorBlock;
 import com.example.rfgen.block.UnstableWormholeDuplicatorBlock;
+import com.example.rfgen.item.ItemAncientTablet;
 import com.example.rfgen.item.ItemMineralTuner;
 
 import net.minecraft.item.Item;
@@ -157,6 +158,8 @@ public class Registration {
     		.setUnlocalizedName(RFGen.MODID + ".unstable_naquadah_reactor");
     
     // -- Synthetic Mineral --
+    public static final Item ANCIENT_TABLET = new ItemAncientTablet();
+
     public static final Item SYNTHETIC_MINERAL = new Item()
     		.setRegistryName(RFGen.MODID, "synthetic_mineral")
     		.setUnlocalizedName(RFGen.MODID + ".synthetic_mineral");
@@ -214,6 +217,7 @@ public class Registration {
                 MINERAL_TUNER_LAPIS,
                 MINERAL_TUNER_CINNABAR,
                 MINERAL_TUNER_SILT,
+                ANCIENT_TABLET,
                 ITEM_NAQUADAH_GENERATOR
         );
     }
