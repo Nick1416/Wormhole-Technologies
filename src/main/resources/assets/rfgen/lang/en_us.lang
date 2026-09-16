@@ -61,14 +61,16 @@ tooltip.rfgen.naquadah_generator.detail.3=When time runs out, becomes Unstable B
 tooltip.rfgen.naquadah_ore.summary=25% chance to drop Raw Naquadah when mined
 tooltip.rfgen.naquadah_ore.detail.1=25% chance to drop 1 Raw Naquadah when mined by a player.
 tooltip.rfgen.naquadah_ore.detail.2=Silk Touch suppresses the special drop.
+tooltip.rfgen.naquadah_ore.detail.3=Crafted from stone, quartz, and obsidian — then mine it for Raw Naquadah.
 
 tooltip.rfgen.unstable_naquadah_block.summary=Mines into 4 Unstable Naquadah
 tooltip.rfgen.unstable_naquadah_block.detail.1=Dropped by expired generators and the Unstable Duplicator.
 tooltip.rfgen.unstable_naquadah_block.detail.2=Player harvest (no Silk Touch) yields 4 Unstable Naquadah.
 
-tooltip.rfgen.raw_naquadah.summary=Blow it up to refine it
-tooltip.rfgen.raw_naquadah.detail.1=Item entities caught in an explosion become Refined Naquadah 1:1.
-tooltip.rfgen.raw_naquadah.detail.2=Drop it, detonate nearby — TNT, creepers, etc.
+tooltip.rfgen.raw_naquadah.summary=Mine Synthetic Naquadah Ore (25% drop), then blow it up to refine
+tooltip.rfgen.raw_naquadah.detail.1=Obtain: craft Synthetic Naquadah Ore, place it, then mine it (25% chance per block).
+tooltip.rfgen.raw_naquadah.detail.2=Silk Touch on the ore skips the Raw Naquadah drop.
+tooltip.rfgen.raw_naquadah.detail.3=Refine: drop Raw Naquadah as an item and detonate nearby (TNT, etc.) → Refined 1:1.
 
 tooltip.rfgen.refined_naquadah.summary=Core crafting material for Wormhole tech
 tooltip.rfgen.refined_naquadah.detail.1=Also craftable from Unstable Naquadah + blaze powder.
@@ -123,3 +125,18 @@ tooltip.rfgen.mineral_tuner.detail.1=Requires Immersive Engineering.
 tooltip.rfgen.mineral_tuner.detail.2=Right-click: set the mineral vein here (consumes the tuner).
 tooltip.rfgen.mineral_tuner.detail.3=Sneak + right-click: list registered IE minerals.
 tooltip.rfgen.mineral_tuner.jei.1=Sets this chunk's IE excavator mineral (see item name for which).
+
+jei.rfgen.ore_drop=Wormhole Drops
+jei.rfgen.ore_drop.hint.chance=25% drop chance
+jei.rfgen.ore_drop.hint.always=Always drops ×4 when mined
+jei.rfgen.ore_drop.tooltip.raw=Craft Synthetic Naquadah Ore, place it, mine it (no Silk Touch).
+jei.rfgen.ore_drop.tooltip.unstable=Mine Unstable Block of Naquadah (no Silk Touch).
+
+advancements.rfgen.root.title=Wormhole Technologies
+advancements.rfgen.root.desc=Strange matter and synthetic stars await.
+advancements.rfgen.craft_ore.title=Synthetic Vein
+advancements.rfgen.craft_ore.desc=Craft Synthetic Naquadah Ore (stone, quartz, obsidian).
+advancements.rfgen.raw.title=Unstable Harvest
+advancements.rfgen.raw.desc=Mine the ore for a 25% chance at Raw Naquadah.
+advancements.rfgen.refined.title=Refined by Fire
+advancements.rfgen.refined.desc=Drop Raw Naquadah and detonate it to refine.

@@ -21,6 +21,7 @@ public class WormholeJeiPlugin implements IModPlugin {
         IGuiHelper guiHelper = helpers.getGuiHelper();
         registry.addRecipeCategories(new DuplicationRecipeCategory(guiHelper));
         registry.addRecipeCategories(new ExplosionRefineCategory(guiHelper));
+        registry.addRecipeCategories(new OreDropCategory(guiHelper));
     }
 
     @Override
@@ -34,14 +35,19 @@ public class WormholeJeiPlugin implements IModPlugin {
         registry.addRecipes(ExplosionRefineRecipe.createRecipes(), ExplosionRefineCategory.UID);
         registry.addRecipeCatalyst(new ItemStack(net.minecraft.init.Blocks.TNT), ExplosionRefineCategory.UID);
 
+        registry.handleRecipes(OreDropRecipe.class, OreDropWrapper::new, OreDropCategory.UID);
+        registry.addRecipes(OreDropRecipe.createRecipes(), OreDropCategory.UID);
+        registry.addRecipeCatalyst(new ItemStack(Registration.NAQUADAH_ORE), OreDropCategory.UID);
+        registry.addRecipeCatalyst(new ItemStack(Registration.UNSTABLE_NAQUADAH_BLOCK), OreDropCategory.UID);
+
         info(registry, Registration.ITEM_WORMHOLE_DUPLICATOR, "wormhole_duplicator", 4);
         info(registry, Registration.ITEM_UNSTABLE_WORMHOLE_DUPLICATOR, "unstable_wormhole_duplicator", 4);
         info(registry, Registration.ITEM_RF_GENERATOR, "rf_generator", 3);
         info(registry, Registration.ITEM_UNSTABLE_WORMHOLE_ENERGY_CONVERTER, "unstable_wormhole_energy_converter", 3);
         info(registry, Registration.ITEM_NAQUADAH_GENERATOR, "naquadah_generator", 3);
-        info(registry, Registration.ITEM_NAQUADAH_ORE, "naquadah_ore", 2);
+        info(registry, Registration.ITEM_NAQUADAH_ORE, "naquadah_ore", 3);
         info(registry, Registration.ITEM_UNSTABLE_NAQUADAH_BLOCK, "unstable_naquadah_block", 2);
-        info(registry, Registration.RAW_NAQUADAH, "raw_naquadah", 2);
+        info(registry, Registration.RAW_NAQUADAH, "raw_naquadah", 3);
         info(registry, Registration.REFINED_NAQUADAH, "refined_naquadah", 2);
         info(registry, Registration.UNSTABLE_NAQUADAH, "unstable_naquadah", 2);
         info(registry, Registration.PRYSMIAN, "prysmian", 0);
