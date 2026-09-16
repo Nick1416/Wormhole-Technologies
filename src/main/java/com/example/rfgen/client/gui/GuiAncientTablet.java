@@ -34,19 +34,10 @@ public class GuiAncientTablet extends GuiScreen {
                 },
                 null));
         pages.add(new Page(
-                "gui.rfgen.tablet.p1.title",
-                new String[] {
-                        TextFormatting.OBFUSCATED + "aaaaaaaa bbbb",
-                        TextFormatting.OBFUSCATED + "cccc ddddd eee",
-                        "",
-                        "gui.rfgen.tablet.p1.l1",
-                        "gui.rfgen.tablet.p1.l2",
-                        "gui.rfgen.tablet.p1.l3"
-                },
-                null));
-        pages.add(new Page(
                 "gui.rfgen.tablet.p2.title",
                 new String[] {
+                        TextFormatting.OBFUSCATED + "mmmmmm nnnnn",
+                        "",
                         "gui.rfgen.tablet.p2.l1",
                         "gui.rfgen.tablet.p2.l2"
                 },
@@ -87,15 +78,6 @@ public class GuiAncientTablet extends GuiScreen {
                         new ItemStack(Registration.MINERAL_TUNER_IRON),
                         new ItemStack(Registration.MINERAL_TUNER_GOLD)
                 }));
-        pages.add(new Page(
-                "gui.rfgen.tablet.p6.title",
-                new String[] {
-                        TextFormatting.OBFUSCATED + "zzzzzzzzzzzz",
-                        "",
-                        "gui.rfgen.tablet.p6.l1",
-                        "gui.rfgen.tablet.p6.l2"
-                },
-                null));
     }
 
     @Override

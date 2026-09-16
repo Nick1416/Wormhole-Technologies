@@ -142,7 +142,7 @@ advancements.rfgen.refined.title=Refined by Fire
 advancements.rfgen.refined.desc=Drop Raw Naquadah and detonate it to refine.
 
 item.rfgen.ancient_tablet.name=Ancient Tablet
-tooltip.rfgen.ancient_tablet.summary=A translated fragment of wormhole-era knowledge
+tooltip.rfgen.ancient_tablet.summary=A translated fragment of ancient technology
 tooltip.rfgen.ancient_tablet.detail.1=Right-click to read.
 tooltip.rfgen.ancient_tablet.detail.2=Shows progression, not full crafting recipes — use JEI for those.
 
@@ -153,33 +153,26 @@ gui.rfgen.tablet.progression=Progression
 gui.rfgen.tablet.arrow=>
 
 gui.rfgen.tablet.p0.title=Fragment I — Discovery
-gui.rfgen.tablet.p0.l1=[Translation] Looks like some ancient civilization built this.
-gui.rfgen.tablet.p0.l2=Technology that makes use of wormholes — not magic, but geometry folded thin.
+gui.rfgen.tablet.p0.l1=[Translation] Looks like some ancient civilization wrote this.
+gui.rfgen.tablet.p0.l2=[Translation] Technology that makes use of wormholes — not magic, but geometry folded thin.
 
-gui.rfgen.tablet.p1.title=Fragment II — The Builders
-gui.rfgen.tablet.p1.l1=[Translation] They did not dig stars. They synthesized them.
-gui.rfgen.tablet.p1.l2=Stone, quartz, and volcanic glass became a vein that never was.
-gui.rfgen.tablet.p1.l3=What falls from that vein is unstable until fire teaches it order.
 
 gui.rfgen.tablet.p2.title=Fragment III — Matter
-gui.rfgen.tablet.p2.l1=Matter path (craft the ore, mine it, then refine):
-gui.rfgen.tablet.p2.l2=Synthetic Ore -> Raw Naquadah (25%) -> Refined Naquadah (explode the raw item).
+gui.rfgen.tablet.p2.l1=[Translation] Matter path (craft the ore, mine it, then refine):
+gui.rfgen.tablet.p2.l2=[Translation] Synthetic Ore -> Raw Naquadah (25%%) -> Refined Naquadah (explode the raw item).
 
 gui.rfgen.tablet.p3.title=Fragment IV — Power
-gui.rfgen.tablet.p3.l1=Power path — each step borrows more of the wormhole:
-gui.rfgen.tablet.p3.l2=Naquadah Generator (brief) -> Unstable Converter (longer) -> Wormhole Energy Converter (steady).
+gui.rfgen.tablet.p3.l1=[Translation] Power path — each step borrows more of the wormhole:
+gui.rfgen.tablet.p3.l2=[Translation] Naquadah Generator (brief) -> Unstable Converter (longer) -> Wormhole Energy Converter (steady).
 
 gui.rfgen.tablet.p4.title=Fragment V — Echoes
-gui.rfgen.tablet.p4.l1=Duplication path — an item is remembered across a throat of space:
-gui.rfgen.tablet.p4.l2=Wormhole Duplicator (reusable) / Unstable Duplicator (once, then collapse).
+gui.rfgen.tablet.p4.l1=[Translation] An item is remembered across a throat of space. Making use of the rematerialization past the event horizon.
+gui.rfgen.tablet.p4.l2=[Translation] Wormhole Duplicator (reusable) / Unstable Duplicator (once, then collapse).
 
-gui.rfgen.tablet.p5.title=Fragment VI — The Ground Remembers
-gui.rfgen.tablet.p5.l1=Mineral Tuners persuade a chunk what vein it "always" had.
-gui.rfgen.tablet.p5.l2=Requires Immersive Engineering excavator minerals. Consumed on success.
+gui.rfgen.tablet.p5.title=Fragment VI — Seeking Veins
+gui.rfgen.tablet.p5.l1=[Translation] Tells your machinery what veins to look for.
+gui.rfgen.tablet.p5.l2=[Translation] Requires Immersive Engineering Excavator to extract the minerals.
 
-gui.rfgen.tablet.p6.title=Fragment VII — Closing
-gui.rfgen.tablet.p6.l1=[Translation] Do not ask the wormhole for diamonds made of diamonds.
-gui.rfgen.tablet.p6.l2=For exact crafts and chances, consult JEI — this tablet only remembers the road.
 advancements.rfgen.craft_synthetic_ore.title=Synthetic Vein
 advancements.rfgen.craft_synthetic_ore.desc=Craft Synthetic Naquadah Ore
 advancements.rfgen.get_raw_naquadah.title=Unstable Harvest
