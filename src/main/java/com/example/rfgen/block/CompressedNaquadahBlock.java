@@ -11,6 +11,6 @@ public class CompressedNaquadahBlock extends Block {
         setHardness(50.0F);
         setResistance(2000.0F);
         setSoundType(SoundType.STONE);
-        setCreativeTab(CreativeTabs.BUILDINGBLOCKS);
+        setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
     }
 }
