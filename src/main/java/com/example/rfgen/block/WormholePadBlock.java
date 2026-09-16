@@ -68,7 +68,7 @@ public class WormholePadBlock extends Block {
     }
 
     @Override
-    public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
+    public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
         if (world.isRemote) return;
         if (!(entity instanceof EntityLivingBase)) return;
         TileEntity te = world.getTileEntity(pos);
