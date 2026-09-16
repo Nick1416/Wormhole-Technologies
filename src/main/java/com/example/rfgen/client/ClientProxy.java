@@ -1,7 +1,9 @@
 package com.example.rfgen.client;
 
 import com.example.rfgen.RFGen;
+import com.example.rfgen.client.gui.GuiAncientTablet;
 import com.example.rfgen.registry.Registration;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -98,6 +100,15 @@ public class ClientProxy extends com.example.rfgen.common.CommonProxy {
 	    Item prys = Registration.PRYSMIAN;
 	    ModelLoader.setCustomModelResourceLocation(
 	    		prys, 0, new ModelResourceLocation(prys.getRegistryName(), "inventory"));
+
+	    Item tablet = Registration.ANCIENT_TABLET;
+	    ModelLoader.setCustomModelResourceLocation(
+	    		tablet, 0, new ModelResourceLocation(tablet.getRegistryName(), "inventory"));
+	}
+
+	@Override
+	public void openAncientTabletGui() {
+	    Minecraft.getMinecraft().displayGuiScreen(new GuiAncientTablet());
 	}
 
 }
