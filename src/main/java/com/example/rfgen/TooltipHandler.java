@@ -36,7 +36,9 @@ public class TooltipHandler {
             "naquadah_reactor",
             "unstable_naquadah_reactor",
             "synthetic_mineral",
-            "ancient_tablet"
+            "ancient_tablet",
+            "wormhole_pad",
+            "wormhole_linker"
     ));
 
     @SubscribeEvent

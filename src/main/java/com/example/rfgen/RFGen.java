@@ -3,6 +3,7 @@ package com.example.rfgen;
 import com.example.rfgen.common.CommonProxy;
 import com.example.rfgen.registry.Registration;
 import com.example.rfgen.tile.GeneratorTileEntity;
+import com.example.rfgen.tile.WormholePadTileEntity;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -56,6 +57,10 @@ public class RFGen {
         GameRegistry.registerTileEntity(
                 com.example.rfgen.tile.NaquadahGeneratorTileEntity.class,
                 new ResourceLocation(MODID, "naquadah_generator"));
+
+        GameRegistry.registerTileEntity(
+                WormholePadTileEntity.class,
+                new ResourceLocation(MODID, "wormhole_pad"));
 
         PROXY.preInit();
     }

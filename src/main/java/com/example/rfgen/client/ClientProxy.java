@@ -104,6 +104,15 @@ public class ClientProxy extends com.example.rfgen.common.CommonProxy {
 	    Item tablet = Registration.ANCIENT_TABLET;
 	    ModelLoader.setCustomModelResourceLocation(
 	    		tablet, 0, new ModelResourceLocation(tablet.getRegistryName(), "inventory"));
+
+	    Item padItem = Item.getItemFromBlock(Registration.WORMHOLE_PAD);
+	    ModelLoader.setCustomModelResourceLocation(
+	    		padItem, 0, new ModelResourceLocation(padItem.getRegistryName(), "inventory"));
+
+	    Item linker = Registration.WORMHOLE_LINKER;
+	    ModelLoader.setCustomModelResourceLocation(
+	    		linker, 0, new ModelResourceLocation(linker.getRegistryName(), "inventory"));
+
 	}
 
 	@Override
