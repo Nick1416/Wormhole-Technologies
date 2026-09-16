@@ -179,3 +179,28 @@ advancements.rfgen.get_raw_naquadah.title=Unstable Harvest
 advancements.rfgen.get_raw_naquadah.desc=Obtain Raw Naquadah
 advancements.rfgen.refined_naquadah.title=Taught by Fire
 advancements.rfgen.refined_naquadah.desc=Obtain Refined Naquadah
+
+# --- Wormhole Teleport Pads ---
+tile.rfgen.wormhole_pad.name=Wormhole Teleport Pad
+item.rfgen.wormhole_linker.name=Wormhole Linker
+
+tooltip.rfgen.wormhole_pad.summary=Linked pad teleport — 50,000 RF/t upkeep each while linked
+tooltip.rfgen.wormhole_pad.detail.1=Receives Forge Energy (buffer 2,000,000 RF). No extract to cables.
+tooltip.rfgen.wormhole_pad.detail.2=Must stay powered (≥50k RF/t) on BOTH ends to teleport.
+tooltip.rfgen.wormhole_pad.detail.3=Same-dimension links only. Walk onto a powered linked pad to travel.
+tooltip.rfgen.wormhole_pad.detail.4=Vs generators: Naquadah 5k/t · Unstable 10k/t · Wormhole Converter 100k/t.
+tooltip.rfgen.wormhole_pad.detail.5=Link with the Wormhole Linker. Unpowered or unlinked pads do nothing.
+
+tooltip.rfgen.wormhole_linker.summary=Right-click pads to create a bidirectional link
+tooltip.rfgen.wormhole_linker.detail.1=First right-click stores pad A; second links A↔B (clears old links).
+tooltip.rfgen.wormhole_linker.detail.2=Sneak + right-click clears the stored position.
+tooltip.rfgen.wormhole_linker.detail.3=Cross-dimension linking is refused.
+
+message.rfgen.linker.stored=Linker: stored pad at %s, %s, %s
+message.rfgen.linker.linked=Pads linked: (%s, %s, %s) ↔ (%s, %s, %s)
+message.rfgen.linker.cleared=Linker memory cleared
+message.rfgen.linker.empty=Linker has no stored pad
+message.rfgen.linker.cross_dim=Cannot link pads across dimensions
+message.rfgen.linker.same_pad=Cannot link a pad to itself
+message.rfgen.linker.missing_first=Stored pad is missing — linker cleared
+message.rfgen.linker.failed=Link failed

@@ -9,6 +9,8 @@ import com.example.rfgen.block.WormholeDuplicatorBlock;
 import com.example.rfgen.block.UnstableWormholeDuplicatorBlock;
 import com.example.rfgen.item.ItemAncientTablet;
 import com.example.rfgen.item.ItemMineralTuner;
+import com.example.rfgen.item.ItemWormholeLinker;
+import com.example.rfgen.block.WormholePadBlock;
 
 import net.minecraft.item.Item;
 import com.example.rfgen.RFGen;
@@ -164,6 +166,17 @@ public class Registration {
     		.setRegistryName(RFGen.MODID, "synthetic_mineral")
     		.setUnlocalizedName(RFGen.MODID + ".synthetic_mineral");
     
+    // -- Wormhole Teleport Pad --
+    public static final Block WORMHOLE_PAD = new WormholePadBlock()
+            .setRegistryName(RFGen.MODID, "wormhole_pad")
+            .setUnlocalizedName(RFGen.MODID + ".wormhole_pad");
+
+    public static final Item ITEM_WORMHOLE_PAD =
+            new ItemBlock(WORMHOLE_PAD).setRegistryName(WORMHOLE_PAD.getRegistryName());
+
+    // -- Wormhole Linker --
+    public static final Item WORMHOLE_LINKER = new ItemWormholeLinker();
+
     // --- Registry events ---
     @SubscribeEvent
     public static void onRegisterBlocks(RegistryEvent.Register<Block> e) {
@@ -176,7 +189,8 @@ public class Registration {
                 UNSTABLE_NAQUADAH_BLOCK,
                 WORMHOLE_DUPLICATOR,
                 UNSTABLE_WORMHOLE_DUPLICATOR,
-                NAQUADAH_GENERATOR
+                NAQUADAH_GENERATOR,
+                WORMHOLE_PAD
         );
     }
 
@@ -218,7 +232,9 @@ public class Registration {
                 MINERAL_TUNER_CINNABAR,
                 MINERAL_TUNER_SILT,
                 ANCIENT_TABLET,
-                ITEM_NAQUADAH_GENERATOR
+                ITEM_NAQUADAH_GENERATOR,
+                ITEM_WORMHOLE_PAD,
+                WORMHOLE_LINKER
         );
     }
 }
