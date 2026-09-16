@@ -1,0 +1,20 @@
+{
+  "parent": "rfgen:craft_synthetic_ore",
+  "display": {
+    "icon": { "item": "rfgen:raw_naquadah" },
+    "title": { "translate": "advancements.rfgen.raw.title" },
+    "description": { "translate": "advancements.rfgen.raw.desc" },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "raw": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{ "item": "rfgen:raw_naquadah" }]
+      }
+    }
+  }
+}
