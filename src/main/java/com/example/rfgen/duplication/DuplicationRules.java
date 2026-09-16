@@ -28,7 +28,11 @@ public final class DuplicationRules {
         rl("rfgen", "rf_generator"),
         rl("rfgen", "prysmian_block"),
         rl("rfgen", "prysmian"),
-        rl("rfgen","unstable_wormhole_energy_converter") // if you add one later
+        rl("rfgen","unstable_wormhole_energy_converter"),
+        rl("rfgen", "aetherius"),
+        rl("rfgen", "compressed_naquadah"),
+        rl("rfgen", "relativistic_computer"),
+        rl("rfgen", "aetherius_refiner")
     ));
 
   

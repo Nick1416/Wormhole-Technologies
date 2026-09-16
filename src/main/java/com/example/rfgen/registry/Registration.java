@@ -11,6 +11,9 @@ import com.example.rfgen.item.ItemAncientTablet;
 import com.example.rfgen.item.ItemMineralTuner;
 import com.example.rfgen.item.ItemWormholeLinker;
 import com.example.rfgen.block.WormholePadBlock;
+import com.example.rfgen.block.RelativisticComputerBlock;
+import com.example.rfgen.block.CompressedNaquadahBlock;
+import com.example.rfgen.block.AetheriusRefinerBlock;
 
 import net.minecraft.item.Item;
 import com.example.rfgen.RFGen;
@@ -177,6 +180,34 @@ public class Registration {
     // -- Wormhole Linker --
     public static final Item WORMHOLE_LINKER = new ItemWormholeLinker();
 
+    // -- Aetherius path --
+    public static final Item AETHERIUS = new Item()
+            .setRegistryName(RFGen.MODID, "aetherius")
+            .setUnlocalizedName(RFGen.MODID + ".aetherius")
+            .setCreativeTab(net.minecraft.creativetab.CreativeTabs.MATERIALS);
+
+    public static final Block COMPRESSED_NAQUADAH = new CompressedNaquadahBlock()
+            .setRegistryName(RFGen.MODID, "compressed_naquadah")
+            .setUnlocalizedName(RFGen.MODID + ".compressed_naquadah");
+
+    public static final Item ITEM_COMPRESSED_NAQUADAH =
+            new ItemBlock(COMPRESSED_NAQUADAH).setRegistryName(COMPRESSED_NAQUADAH.getRegistryName());
+
+    public static final Block RELATIVISTIC_COMPUTER = new RelativisticComputerBlock()
+            .setRegistryName(RFGen.MODID, "relativistic_computer")
+            .setUnlocalizedName(RFGen.MODID + ".relativistic_computer");
+
+    public static final Item ITEM_RELATIVISTIC_COMPUTER =
+            new ItemBlock(RELATIVISTIC_COMPUTER).setRegistryName(RELATIVISTIC_COMPUTER.getRegistryName());
+
+    public static final Block AETHERIUS_REFINER = new AetheriusRefinerBlock()
+            .setRegistryName(RFGen.MODID, "aetherius_refiner")
+            .setUnlocalizedName(RFGen.MODID + ".aetherius_refiner");
+
+    public static final Item ITEM_AETHERIUS_REFINER =
+            new ItemBlock(AETHERIUS_REFINER).setRegistryName(AETHERIUS_REFINER.getRegistryName());
+
+
     // --- Registry events ---
     @SubscribeEvent
     public static void onRegisterBlocks(RegistryEvent.Register<Block> e) {
@@ -190,7 +221,10 @@ public class Registration {
                 WORMHOLE_DUPLICATOR,
                 UNSTABLE_WORMHOLE_DUPLICATOR,
                 NAQUADAH_GENERATOR,
-                WORMHOLE_PAD
+                WORMHOLE_PAD,
+                COMPRESSED_NAQUADAH,
+                RELATIVISTIC_COMPUTER,
+                AETHERIUS_REFINER
         );
     }
 
@@ -234,7 +268,11 @@ public class Registration {
                 ANCIENT_TABLET,
                 ITEM_NAQUADAH_GENERATOR,
                 ITEM_WORMHOLE_PAD,
-                WORMHOLE_LINKER
+                WORMHOLE_LINKER,
+                AETHERIUS,
+                ITEM_COMPRESSED_NAQUADAH,
+                ITEM_RELATIVISTIC_COMPUTER,
+                ITEM_AETHERIUS_REFINER
         );
     }
 }

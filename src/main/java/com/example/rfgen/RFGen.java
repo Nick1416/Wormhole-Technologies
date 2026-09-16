@@ -62,6 +62,15 @@ public class RFGen {
                 WormholePadTileEntity.class,
                 new ResourceLocation(MODID, "wormhole_pad"));
 
+
+        GameRegistry.registerTileEntity(
+                com.example.rfgen.tile.RelativisticComputerTileEntity.class,
+                new ResourceLocation(MODID, "relativistic_computer"));
+
+        GameRegistry.registerTileEntity(
+                com.example.rfgen.tile.AetheriusRefinerTileEntity.class,
+                new ResourceLocation(MODID, "aetherius_refiner"));
+
         PROXY.preInit();
     }
 

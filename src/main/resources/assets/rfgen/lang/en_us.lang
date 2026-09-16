@@ -204,3 +204,35 @@ message.rfgen.linker.cross_dim=Cannot link pads across dimensions
 message.rfgen.linker.same_pad=Cannot link a pad to itself
 message.rfgen.linker.missing_first=Stored pad is missing — linker cleared
 message.rfgen.linker.failed=Link failed
+
+item.rfgen.aetherius.name=Aetherius
+tooltip.rfgen.aetherius.summary=Glass-like stellar matter — cannot be duplicated
+tooltip.rfgen.aetherius.detail.1=Catalyst for the Relativistic Computer (not consumed).
+tooltip.rfgen.aetherius.detail.2=Refine from Compressed Naquadah in an Aetherius Refiner (~1 hour).
+
+tile.rfgen.compressed_naquadah.name=Compressed Naquadah
+tooltip.rfgen.compressed_naquadah.summary=Bedrock-bound refined naquadah, awaiting slow refinement
+tooltip.rfgen.compressed_naquadah.detail.1=Smelt in an Aetherius Refiner for one hour to obtain Aetherius.
+
+tile.rfgen.aetherius_refiner.name=Aetherius Refiner
+tooltip.rfgen.aetherius_refiner.summary=Slowly refines Compressed Naquadah into Aetherius
+tooltip.rfgen.aetherius_refiner.detail.1=Right-click with Compressed Naquadah to insert. Needs RF (~100 RF/t).
+tooltip.rfgen.aetherius_refiner.detail.2=Takes one hour (72000 ticks). Sneak-right-click to eject.
+
+tile.rfgen.relativistic_computer.name=Relativistic Computer
+tooltip.rfgen.relativistic_computer.summary=Uses time dilation to compute wormhole trajectories
+tooltip.rfgen.relativistic_computer.detail.1=Needs Aetherius in its core (not consumed) and 50k RF/t.
+tooltip.rfgen.relativistic_computer.detail.2=Place beside a Wormhole Pad to enable cross-dimension links.
+
+message.rfgen.computer.inserted=Aetherius seated in the Relativistic Computer
+message.rfgen.computer.ejected=Aetherius removed
+message.rfgen.computer.full=The computer already holds Aetherius
+message.rfgen.computer.active=Computing trajectories (%s RF buffered)
+message.rfgen.computer.idle=Idle — needs Aetherius and 50k RF/t (%s RF buffered)
+message.rfgen.refiner.inserted=Compressed Naquadah loaded
+message.rfgen.refiner.took=Collected Aetherius
+message.rfgen.refiner.status=Refining %s%% — %s RF buffered
+message.rfgen.linker.need_computers=Cross-dimension link needs an active Relativistic Computer beside both pads
+message.rfgen.linker.linked_cross=Cross-dimension pads linked: %s,%s,%s <-> %s,%s,%s
+message.rfgen.pad.need_computer=Need an active Relativistic Computer beside this pad
+message.rfgen.pad.need_computer_dest=Destination pad needs an active Relativistic Computer

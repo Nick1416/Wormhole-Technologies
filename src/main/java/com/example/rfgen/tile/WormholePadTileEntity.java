@@ -12,6 +12,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class WormholePadTileEntity extends TileEntity implements ITickable {
 
@@ -81,7 +83,34 @@ public class WormholePadTileEntity extends TileEntity implements ITickable {
         markDirty();
     }
 
-    /** Unlink and clear partner if it still points here. */
+    /** True if an adjacent Relativistic Computer is actively calculating. */
+    public static boolean hasActiveComputer(net.minecraft.world.World world, BlockPos pos) {
+        if (world == null || pos == null) return false;
+        for (EnumFacing face : EnumFacing.VALUES) {
+            TileEntity te = world.getTileEntity(pos.offset(face));
+            if (te instanceof RelativisticComputerTileEntity
+                    && ((RelativisticComputerTileEntity) te).isActive()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static WormholePadTileEntity getPad(net.minecraft.world.World w, BlockPos p) {
+        if (w == null || p == null || !w.isBlockLoaded(p)) return null;
+        TileEntity te = w.getTileEntity(p);
+        return te instanceof WormholePadTileEntity ? (WormholePadTileEntity) te : null;
+    }
+
+    private static net.minecraft.world.World resolveWorld(net.minecraft.world.World hint, int dim) {
+        if (hint != null && hint.provider.getDimension() == dim) return hint;
+        if (hint != null && hint.getMinecraftServer() != null) {
+            return hint.getMinecraftServer().getWorld(dim);
+        }
+        return null;
+    }
+
+    /** Unlink and clear partner if it still points here (supports cross-dim). */
     public void unlinkAndNotifyPartner() {
         if (!linked || world == null || world.isRemote) {
             clearLinkLocal();
@@ -89,30 +118,36 @@ public class WormholePadTileEntity extends TileEntity implements ITickable {
         }
         BlockPos other = new BlockPos(partnerX, partnerY, partnerZ);
         int dim = partnerDim;
+        int myDim = world.provider.getDimension();
+        BlockPos myPos = pos.toImmutable();
         clearLinkLocal();
-        if (dim == world.provider.getDimension() && world.isBlockLoaded(other)) {
-            TileEntity te = world.getTileEntity(other);
-            if (te instanceof WormholePadTileEntity) {
-                WormholePadTileEntity partner = (WormholePadTileEntity) te;
-                if (partner.linked
-                        && partner.partnerX == pos.getX()
-                        && partner.partnerY == pos.getY()
-                        && partner.partnerZ == pos.getZ()
-                        && partner.partnerDim == world.provider.getDimension()) {
-                    partner.clearLinkLocal();
-                }
-            }
+        net.minecraft.world.World otherWorld = resolveWorld(world, dim);
+        WormholePadTileEntity partner = getPad(otherWorld, other);
+        if (partner != null && partner.linked
+                && partner.partnerX == myPos.getX()
+                && partner.partnerY == myPos.getY()
+                && partner.partnerZ == myPos.getZ()
+                && partner.partnerDim == myDim) {
+            partner.clearLinkLocal();
         }
     }
 
     /**
-     * Bidirectional same-dimension link. Clears any previous links on both pads
-     * (and their old partners).
+     * Bidirectional link. Same-dimension always OK.
+     * Cross-dimension requires an active Relativistic Computer adjacent to both pads.
      */
     public static boolean linkPads(WormholePadTileEntity a, WormholePadTileEntity b) {
         if (a == null || b == null || a.world == null || b.world == null) return false;
-        if (a.world.provider.getDimension() != b.world.provider.getDimension()) return false;
-        if (a.pos.equals(b.pos)) return false;
+        if (a.world.provider.getDimension() == b.world.provider.getDimension() && a.pos.equals(b.pos)) {
+            return false;
+        }
+
+        boolean cross = a.world.provider.getDimension() != b.world.provider.getDimension();
+        if (cross) {
+            if (!hasActiveComputer(a.world, a.pos) || !hasActiveComputer(b.world, b.pos)) {
+                return false;
+            }
+        }
 
         a.unlinkAndNotifyPartner();
         b.unlinkAndNotifyPartner();
@@ -137,35 +172,61 @@ public class WormholePadTileEntity extends TileEntity implements ITickable {
     public boolean tryTeleport(EntityLivingBase entity) {
         if (world == null || world.isRemote) return false;
         if (!linked || !powered) return false;
-        if (partnerDim != world.provider.getDimension()) return false;
 
         NBTTagCompound data = entity.getEntityData();
         long now = world.getTotalWorldTime();
         if (data.getLong(CD_KEY) > now) return false;
 
-        BlockPos destPad = new BlockPos(partnerX, partnerY, partnerZ);
-        if (!world.isBlockLoaded(destPad)) return false;
+        boolean cross = partnerDim != world.provider.getDimension();
+        if (cross) {
+            if (!(entity instanceof EntityPlayerMP)) return false;
+            if (!hasActiveComputer(world, pos)) {
+                if (entity instanceof EntityPlayer) {
+                    ((EntityPlayer) entity).sendStatusMessage(
+                            new TextComponentTranslation("message.rfgen.pad.need_computer"), true);
+                }
+                return false;
+            }
+        }
 
-        TileEntity te = world.getTileEntity(destPad);
-        if (!(te instanceof WormholePadTileEntity)) return false;
-        WormholePadTileEntity partner = (WormholePadTileEntity) te;
-        if (!partner.linked || !partner.powered) return false;
-        if (partner.partnerDim != world.provider.getDimension()) return false;
-        if (partner.partnerX != pos.getX() || partner.partnerY != pos.getY() || partner.partnerZ != pos.getZ()) {
+        net.minecraft.world.World destWorld = resolveWorld(world, partnerDim);
+        BlockPos destPad = new BlockPos(partnerX, partnerY, partnerZ);
+        WormholePadTileEntity partner = getPad(destWorld, destPad);
+        if (partner == null || !partner.linked || !partner.powered) return false;
+        if (partner.partnerX != pos.getX() || partner.partnerY != pos.getY() || partner.partnerZ != pos.getZ()
+                || partner.partnerDim != world.provider.getDimension()) {
+            return false;
+        }
+        if (cross && !hasActiveComputer(destWorld, destPad)) {
+            if (entity instanceof EntityPlayer) {
+                ((EntityPlayer) entity).sendStatusMessage(
+                        new TextComponentTranslation("message.rfgen.pad.need_computer_dest"), true);
+            }
             return false;
         }
 
-        double x = destPad.getX() + 0.5D;
-        double y = destPad.getY() + 1.0D;
-        double z = destPad.getZ() + 0.5D;
-        float yaw = entity.rotationYaw;
-        float pitch = entity.rotationPitch;
+        final double x = destPad.getX() + 0.5D;
+        final double y = destPad.getY() + 1.0D;
+        final double z = destPad.getZ() + 0.5D;
+        final float yaw = entity.rotationYaw;
+        final float pitch = entity.rotationPitch;
 
-        // Ender-pearl style whoosh at departure and arrival
         world.playSound(null, entity.posX, entity.posY, entity.posZ,
                 SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
 
-        if (entity instanceof EntityPlayerMP) {
+        if (cross) {
+            final EntityPlayerMP player = (EntityPlayerMP) entity;
+            player.changeDimension(partnerDim, new net.minecraftforge.common.util.ITeleporter() {
+                @Override
+                public void placeEntity(net.minecraft.world.World world, net.minecraft.entity.Entity entity, float yawIn) {
+                    entity.setLocationAndAngles(x, y, z, yaw, pitch);
+                }
+            });
+            // ensure exact spot after transfer
+            if (player.connection != null) {
+                player.connection.setPlayerLocation(x, y, z, yaw, pitch);
+            }
+        } else if (entity instanceof EntityPlayerMP) {
             ((EntityPlayerMP) entity).connection.setPlayerLocation(x, y, z, yaw, pitch);
         } else {
             entity.setPositionAndUpdate(x, y, z);
@@ -173,8 +234,10 @@ public class WormholePadTileEntity extends TileEntity implements ITickable {
             entity.rotationPitch = pitch;
         }
 
-        world.playSound(null, x, y, z,
-                SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+        if (destWorld != null) {
+            destWorld.playSound(null, x, y, z,
+                    SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+        }
 
         data.setLong(CD_KEY, now + TELEPORT_COOLDOWN_TICKS);
         return true;
