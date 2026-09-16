@@ -10,8 +10,9 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
-@Mod.EventBusSubscriber(modid = RFGen.MODID) // ensure it subscribes for your mod
+@Mod.EventBusSubscriber(modid = RFGen.MODID, value = Side.CLIENT)
 public class ClientProxy extends com.example.rfgen.common.CommonProxy {
 
 	@SubscribeEvent
