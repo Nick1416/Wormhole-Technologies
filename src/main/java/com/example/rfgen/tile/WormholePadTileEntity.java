@@ -1,6 +1,8 @@
 package com.example.rfgen.tile;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -159,6 +161,10 @@ public class WormholePadTileEntity extends TileEntity implements ITickable {
         float yaw = entity.rotationYaw;
         float pitch = entity.rotationPitch;
 
+        // Ender-pearl style whoosh at departure and arrival
+        world.playSound(null, entity.posX, entity.posY, entity.posZ,
+                SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+
         if (entity instanceof EntityPlayerMP) {
             ((EntityPlayerMP) entity).connection.setPlayerLocation(x, y, z, yaw, pitch);
         } else {
@@ -166,6 +172,9 @@ public class WormholePadTileEntity extends TileEntity implements ITickable {
             entity.rotationYaw = yaw;
             entity.rotationPitch = pitch;
         }
+
+        world.playSound(null, x, y, z,
+                SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
 
         data.setLong(CD_KEY, now + TELEPORT_COOLDOWN_TICKS);
         return true;
