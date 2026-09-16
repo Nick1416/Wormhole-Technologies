@@ -1,0 +1,30 @@
+{
+  "parent": "rfgen:refined_naquadah",
+  "display": {
+    "icon": {
+      "item": "rfgen:high_energy_refiner"
+    },
+    "title": {
+      "translate": "advancements.rfgen.high_energy_refiner.title"
+    },
+    "description": {
+      "translate": "advancements.rfgen.high_energy_refiner.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "rfgen:high_energy_refiner"
+          }
+        ]
+      }
+    }
+  }
+}

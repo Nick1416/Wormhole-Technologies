@@ -200,12 +200,12 @@ public class Registration {
     public static final Item ITEM_RELATIVISTIC_COMPUTER =
             new ItemBlock(RELATIVISTIC_COMPUTER).setRegistryName(RELATIVISTIC_COMPUTER.getRegistryName());
 
-    public static final Block AETHERIUS_REFINER = new AetheriusRefinerBlock()
-            .setRegistryName(RFGen.MODID, "aetherius_refiner")
-            .setUnlocalizedName(RFGen.MODID + ".aetherius_refiner");
+    public static final Block HIGH_ENERGY_REFINER = new AetheriusRefinerBlock()
+            .setRegistryName(RFGen.MODID, "high_energy_refiner")
+            .setUnlocalizedName(RFGen.MODID + ".high_energy_refiner");
 
-    public static final Item ITEM_AETHERIUS_REFINER =
-            new ItemBlock(AETHERIUS_REFINER).setRegistryName(AETHERIUS_REFINER.getRegistryName());
+    public static final Item ITEM_HIGH_ENERGY_REFINER =
+            new ItemBlock(HIGH_ENERGY_REFINER).setRegistryName(HIGH_ENERGY_REFINER.getRegistryName());
 
 
     // --- Registry events ---
@@ -224,7 +224,7 @@ public class Registration {
                 WORMHOLE_PAD,
                 COMPRESSED_NAQUADAH,
                 RELATIVISTIC_COMPUTER,
-                AETHERIUS_REFINER
+                HIGH_ENERGY_REFINER
         );
     }
 
@@ -272,7 +272,7 @@ public class Registration {
                 AETHERIUS,
                 ITEM_COMPRESSED_NAQUADAH,
                 ITEM_RELATIVISTIC_COMPUTER,
-                ITEM_AETHERIUS_REFINER
+                ITEM_HIGH_ENERGY_REFINER
         );
     }
 }

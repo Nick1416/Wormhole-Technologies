@@ -32,7 +32,7 @@ public final class DuplicationRules {
         rl("rfgen", "aetherius"),
         rl("rfgen", "compressed_naquadah"),
         rl("rfgen", "relativistic_computer"),
-        rl("rfgen", "aetherius_refiner")
+        rl("rfgen", "high_energy_refiner")
     ));
 
   

@@ -133,13 +133,13 @@ jei.rfgen.ore_drop.tooltip.raw=Craft Synthetic Naquadah Ore, place it, mine it (
 jei.rfgen.ore_drop.tooltip.unstable=Mine Unstable Block of Naquadah (no Silk Touch).
 
 advancements.rfgen.root.title=Wormhole Technologies
-advancements.rfgen.root.desc=Strange matter and synthetic stars await.
+advancements.rfgen.root.desc=Strange matter and wormholes await
 advancements.rfgen.craft_ore.title=Synthetic Vein
-advancements.rfgen.craft_ore.desc=Craft Synthetic Naquadah Ore (stone, quartz, obsidian).
+advancements.rfgen.craft_ore.desc=Craft Synthetic Naquadah Ore
 advancements.rfgen.raw.title=Unstable Harvest
-advancements.rfgen.raw.desc=Mine the ore for a 25% chance at Raw Naquadah.
+advancements.rfgen.raw.desc=Obtain Raw Naquadah from Synthetic Ore
 advancements.rfgen.refined.title=Refined by Fire
-advancements.rfgen.refined.desc=Drop Raw Naquadah and detonate it to refine.
+advancements.rfgen.refined.desc=Obtain Refined Naquadah
 
 item.rfgen.ancient_tablet.name=Ancient Tablet
 tooltip.rfgen.ancient_tablet.summary=A translated fragment of ancient technology
@@ -176,8 +176,8 @@ gui.rfgen.tablet.p5.l2=[Translation] Requires Immersive Engineering Excavator to
 advancements.rfgen.craft_synthetic_ore.title=Synthetic Vein
 advancements.rfgen.craft_synthetic_ore.desc=Craft Synthetic Naquadah Ore
 advancements.rfgen.get_raw_naquadah.title=Unstable Harvest
-advancements.rfgen.get_raw_naquadah.desc=Obtain Raw Naquadah
-advancements.rfgen.refined_naquadah.title=Taught by Fire
+advancements.rfgen.get_raw_naquadah.desc=Obtain Raw Naquadah from Synthetic Ore
+advancements.rfgen.refined_naquadah.title=Refined by Fire
 advancements.rfgen.refined_naquadah.desc=Obtain Refined Naquadah
 
 # --- Wormhole Teleport Pads ---
@@ -187,7 +187,7 @@ item.rfgen.wormhole_linker.name=Wormhole Linker
 tooltip.rfgen.wormhole_pad.summary=Linked pad teleport — 50,000 RF/t upkeep each while linked
 tooltip.rfgen.wormhole_pad.detail.1=Receives Forge Energy (buffer 2,000,000 RF). No extract to cables.
 tooltip.rfgen.wormhole_pad.detail.2=Must stay powered (≥50k RF/t) on BOTH ends to teleport.
-tooltip.rfgen.wormhole_pad.detail.3=Same-dimension links only. Walk onto a powered linked pad to travel.
+tooltip.rfgen.wormhole_pad.detail.3=Same-dimension by default. With active Relativistic Computers beside both pads, links can cross dimensions.
 tooltip.rfgen.wormhole_pad.detail.4=Vs generators: Naquadah 5k/t · Unstable 10k/t · Wormhole Converter 100k/t.
 tooltip.rfgen.wormhole_pad.detail.5=Link with the Wormhole Linker. Unpowered or unlinked pads do nothing.
 
@@ -200,7 +200,7 @@ message.rfgen.linker.stored=Linker: stored pad at %s, %s, %s
 message.rfgen.linker.linked=Pads linked: (%s, %s, %s) ↔ (%s, %s, %s)
 message.rfgen.linker.cleared=Linker memory cleared
 message.rfgen.linker.empty=Linker has no stored pad
-message.rfgen.linker.cross_dim=Cannot link pads across dimensions
+message.rfgen.linker.cross_dim=Cross-dimension link needs an active Relativistic Computer beside both pads
 message.rfgen.linker.same_pad=Cannot link a pad to itself
 message.rfgen.linker.missing_first=Stored pad is missing — linker cleared
 message.rfgen.linker.failed=Link failed
@@ -208,16 +208,12 @@ message.rfgen.linker.failed=Link failed
 item.rfgen.aetherius.name=Aetherius
 tooltip.rfgen.aetherius.summary=Glass-like stellar matter — cannot be duplicated
 tooltip.rfgen.aetherius.detail.1=Catalyst for the Relativistic Computer (not consumed).
-tooltip.rfgen.aetherius.detail.2=Refine from Compressed Naquadah in an Aetherius Refiner (~1 hour).
+tooltip.rfgen.aetherius.detail.2=Refine from Compressed Naquadah in a High Energy Refiner (~1 hour).
 
 tile.rfgen.compressed_naquadah.name=Compressed Naquadah
 tooltip.rfgen.compressed_naquadah.summary=Bedrock-bound refined naquadah, awaiting slow refinement
-tooltip.rfgen.compressed_naquadah.detail.1=Smelt in an Aetherius Refiner for one hour to obtain Aetherius.
+tooltip.rfgen.compressed_naquadah.detail.1=Process in a High Energy Refiner for one hour to obtain Aetherius.
 
-tile.rfgen.aetherius_refiner.name=Aetherius Refiner
-tooltip.rfgen.aetherius_refiner.summary=Slowly refines Compressed Naquadah into Aetherius
-tooltip.rfgen.aetherius_refiner.detail.1=Right-click with Compressed Naquadah to insert. Needs RF (~100 RF/t).
-tooltip.rfgen.aetherius_refiner.detail.2=Takes one hour (72000 ticks). Sneak-right-click to eject.
 
 tile.rfgen.relativistic_computer.name=Relativistic Computer
 tooltip.rfgen.relativistic_computer.summary=Uses time dilation to compute wormhole trajectories
@@ -236,3 +232,18 @@ message.rfgen.linker.need_computers=Cross-dimension link needs an active Relativ
 message.rfgen.linker.linked_cross=Cross-dimension pads linked: %s,%s,%s <-> %s,%s,%s
 message.rfgen.pad.need_computer=Need an active Relativistic Computer beside this pad
 message.rfgen.pad.need_computer_dest=Destination pad needs an active Relativistic Computer
+advancements.rfgen.aetherius.title=Glass of the Void
+advancements.rfgen.aetherius.desc=Obtain Aetherius from the High Energy Refiner
+advancements.rfgen.relativistic_computer.title=Time Dilated
+advancements.rfgen.relativistic_computer.desc=Craft a Relativistic Computer
+advancements.rfgen.wormhole_pad.title=Folded Path
+advancements.rfgen.wormhole_pad.desc=Craft a Wormhole Teleport Pad
+advancements.rfgen.high_energy_refiner.title=High Energy
+advancements.rfgen.high_energy_refiner.desc=Craft a High Energy Refiner
+tile.rfgen.high_energy_refiner.name=High Energy Refiner
+tooltip.rfgen.high_energy_refiner.summary=Slowly refines Compressed Naquadah into Aetherius
+tooltip.rfgen.high_energy_refiner.detail.1=Right-click with Compressed Naquadah to insert. Needs RF (~100 RF/t).
+tooltip.rfgen.high_energy_refiner.detail.2=Takes one hour (72000 ticks). Sneak-right-click to eject.
+gui.rfgen.tablet.p6.title=Fragment VII — Trajectories
+gui.rfgen.tablet.p6.l1=[Translation] Compress refined matter beneath bedrock pressure, then hold it in a High Energy Refiner for one hour.
+gui.rfgen.tablet.p6.l2=[Translation] Aetherius cannot be duplicated. Seat it in a Relativistic Computer (50k RF/t) beside a pad to calculate paths between worlds.

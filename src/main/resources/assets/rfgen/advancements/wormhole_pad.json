@@ -1,0 +1,30 @@
+{
+  "parent": "rfgen:relativistic_computer",
+  "display": {
+    "icon": {
+      "item": "rfgen:wormhole_pad"
+    },
+    "title": {
+      "translate": "advancements.rfgen.wormhole_pad.title"
+    },
+    "description": {
+      "translate": "advancements.rfgen.wormhole_pad.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "rfgen:wormhole_pad"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "parent": "rfgen:high_energy_refiner",
+  "display": {
+    "icon": {
+      "item": "rfgen:aetherius"
+    },
+    "title": {
+      "translate": "advancements.rfgen.aetherius.title"
+    },
+    "description": {
+      "translate": "advancements.rfgen.aetherius.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "rfgen:aetherius"
+          }
+        ]
+      }
+    }
+  }
+}

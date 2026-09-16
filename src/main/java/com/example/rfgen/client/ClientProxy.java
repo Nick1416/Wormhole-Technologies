@@ -125,7 +125,7 @@ public class ClientProxy extends com.example.rfgen.common.CommonProxy {
 	    ModelLoader.setCustomModelResourceLocation(
 	    		computer, 0, new ModelResourceLocation(computer.getRegistryName(), "inventory"));
 
-	    Item refiner = Item.getItemFromBlock(Registration.AETHERIUS_REFINER);
+	    Item refiner = Item.getItemFromBlock(Registration.HIGH_ENERGY_REFINER);
 	    ModelLoader.setCustomModelResourceLocation(
 	    		refiner, 0, new ModelResourceLocation(refiner.getRegistryName(), "inventory"));
 
