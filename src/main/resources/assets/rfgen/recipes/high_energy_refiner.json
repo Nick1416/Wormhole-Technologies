@@ -6,5 +6,5 @@
     "R": { "item": "rfgen:refined_naquadah" },
     "F": { "item": "minecraft:furnace" }
   },
-  "result": { "item": "rfgen:aetherius_refiner" }
+  "result": { "item": "rfgen:high_energy_refiner" }
 }

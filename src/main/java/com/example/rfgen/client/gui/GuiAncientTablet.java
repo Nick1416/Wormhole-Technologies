@@ -78,6 +78,20 @@ public class GuiAncientTablet extends GuiScreen {
                         new ItemStack(Registration.MINERAL_TUNER_IRON),
                         new ItemStack(Registration.MINERAL_TUNER_GOLD)
                 }));
+        pages.add(new Page(
+                "gui.rfgen.tablet.p6.title",
+                new String[] {
+                        TextFormatting.OBFUSCATED + "tttt uuuuu",
+                        "",
+                        "gui.rfgen.tablet.p6.l1",
+                        "gui.rfgen.tablet.p6.l2"
+                },
+                new ItemStack[] {
+                        new ItemStack(Registration.HIGH_ENERGY_REFINER),
+                        new ItemStack(Registration.AETHERIUS),
+                        new ItemStack(Registration.RELATIVISTIC_COMPUTER),
+                        new ItemStack(Registration.WORMHOLE_PAD)
+                }));
     }
 
     @Override

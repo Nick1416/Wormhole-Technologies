@@ -69,7 +69,7 @@ public class RFGen {
 
         GameRegistry.registerTileEntity(
                 com.example.rfgen.tile.AetheriusRefinerTileEntity.class,
-                new ResourceLocation(MODID, "aetherius_refiner"));
+                new ResourceLocation(MODID, "high_energy_refiner"));
 
         PROXY.preInit();
     }
