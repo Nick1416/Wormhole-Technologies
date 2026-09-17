@@ -8,11 +8,15 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
@@ -70,11 +74,38 @@ public class RelativisticComputerBlock extends Block {
     }
 
     @Override
-    public void breakBlock(World world, BlockPos pos, IBlockState state) {
+    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos,
+                         IBlockState state, int fortune) {
+        ItemStack stack = new ItemStack(Item.getItemFromBlock(this));
         TileEntity te = world.getTileEntity(pos);
         if (te instanceof RelativisticComputerTileEntity) {
-            ((RelativisticComputerTileEntity) te).dropContents(world, pos);
+            ((RelativisticComputerTileEntity) te).writeToItem(stack);
         }
+        drops.add(stack);
+    }
+
+    @Override
+    public ItemStack getItem(World world, BlockPos pos, IBlockState state) {
+        ItemStack stack = new ItemStack(Item.getItemFromBlock(this));
+        TileEntity te = world.getTileEntity(pos);
+        if (te instanceof RelativisticComputerTileEntity) {
+            ((RelativisticComputerTileEntity) te).writeToItem(stack);
+        }
+        return stack;
+    }
+
+    @Override
+    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state,
+                                EntityLivingBase placer, ItemStack stack) {
+        if (world.isRemote) return;
+        TileEntity te = world.getTileEntity(pos);
+        if (te instanceof RelativisticComputerTileEntity) {
+            ((RelativisticComputerTileEntity) te).readFromItem(stack);
+        }
+    }
+
+    @Override
+    public void breakBlock(World world, BlockPos pos, IBlockState state) {
+        // Aetherius + energy stay in dropped item NBT
         super.breakBlock(world, pos, state);
     }
-}
