@@ -1,1 +1,12 @@
-{ "parent": "block/cube_all", "textures": { "all": "rfgen:blocks/unstable_wormhole_duplicator" } }
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "rfgen:blocks/unstable_wormhole_duplicator",
+    "down": "rfgen:blocks/unstable_wormhole_duplicator_top",
+    "up": "rfgen:blocks/unstable_wormhole_duplicator_top",
+    "north": "rfgen:blocks/unstable_wormhole_duplicator",
+    "south": "rfgen:blocks/unstable_wormhole_duplicator",
+    "west": "rfgen:blocks/unstable_wormhole_duplicator_side",
+    "east": "rfgen:blocks/unstable_wormhole_duplicator_side"
+  }
+}
