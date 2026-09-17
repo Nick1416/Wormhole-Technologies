@@ -1,5 +1,5 @@
 {
-  "parent": "rfgen:relativistic_computer",
+  "parent": "rfgen:refined_naquadah",
   "display": {
     "icon": {
       "item": "rfgen:wormhole_pad"

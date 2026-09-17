@@ -157,19 +157,19 @@ gui.rfgen.tablet.p0.l1=[Translation] Looks like some ancient civilization wrote 
 gui.rfgen.tablet.p0.l2=[Translation] Technology that makes use of wormholes — not magic, but geometry folded thin.
 
 
-gui.rfgen.tablet.p2.title=Fragment III — Matter
+gui.rfgen.tablet.p2.title=Fragment II — Matter
 gui.rfgen.tablet.p2.l1=[Translation] Matter path (craft the ore, mine it, then refine):
 gui.rfgen.tablet.p2.l2=[Translation] Synthetic Ore -> Raw Naquadah (25%%) -> Refined Naquadah (explode the raw item).
 
-gui.rfgen.tablet.p3.title=Fragment IV — Power
+gui.rfgen.tablet.p3.title=Fragment III — Power
 gui.rfgen.tablet.p3.l1=[Translation] Power path — each step borrows more of the wormhole:
 gui.rfgen.tablet.p3.l2=[Translation] Naquadah Generator (brief) -> Unstable Converter (longer) -> Wormhole Energy Converter (steady).
 
-gui.rfgen.tablet.p4.title=Fragment V — Echoes
+gui.rfgen.tablet.p4.title=Fragment IV — Echoes
 gui.rfgen.tablet.p4.l1=[Translation] An item is remembered across a throat of space. Making use of the rematerialization past the event horizon.
 gui.rfgen.tablet.p4.l2=[Translation] Wormhole Duplicator (reusable) / Unstable Duplicator (once, then collapse).
 
-gui.rfgen.tablet.p5.title=Fragment VI — Seeking Veins
+gui.rfgen.tablet.p5.title=Fragment V — Seeking Veins
 gui.rfgen.tablet.p5.l1=[Translation] Tells your machinery what veins to look for.
 gui.rfgen.tablet.p5.l2=[Translation] Requires Immersive Engineering Excavator to extract the minerals.
 
@@ -235,16 +235,16 @@ message.rfgen.pad.need_computer_dest=Destination pad needs an active Relativisti
 advancements.rfgen.aetherius.title=Glass of the Void
 advancements.rfgen.aetherius.desc=Obtain Aetherius from the High Energy Refiner
 advancements.rfgen.relativistic_computer.title=Time Dilated
-advancements.rfgen.relativistic_computer.desc=Craft a Relativistic Computer
+advancements.rfgen.relativistic_computer.desc=Craft a Relativistic Computer for cross-dimension pads
 advancements.rfgen.wormhole_pad.title=Folded Path
-advancements.rfgen.wormhole_pad.desc=Craft a Wormhole Teleport Pad
+advancements.rfgen.wormhole_pad.desc=Craft a Wormhole Teleport Pad (same-dimension links)
 advancements.rfgen.high_energy_refiner.title=High Energy
-advancements.rfgen.high_energy_refiner.desc=Craft a High Energy Refiner
+advancements.rfgen.high_energy_refiner.desc=Craft a High Energy Refiner to make Aetherius
 tile.rfgen.high_energy_refiner.name=High Energy Refiner
 tooltip.rfgen.high_energy_refiner.summary=Slowly refines Compressed Naquadah into Aetherius
 tooltip.rfgen.high_energy_refiner.detail.1=GUI: insert Compressed Naquadah. Needs RF (~100 RF/t).
 tooltip.rfgen.high_energy_refiner.detail.2=Takes one hour (72000 ticks). Open the GUI to manage slots.
-gui.rfgen.tablet.p6.title=Fragment VII — Trajectories
+gui.rfgen.tablet.p6.title=Fragment VI — Trajectories
 gui.rfgen.tablet.p6.l1=[Translation] Compress refined matter beneath bedrock pressure, then hold it in a High Energy Refiner for one hour.
 gui.rfgen.tablet.p6.l2=[Translation] Aetherius cannot be duplicated. Seat it in a Relativistic Computer (50k RF/t) beside a pad to calculate paths between worlds.
 tooltip.rfgen.naquadah_generator.detail.4=Breaking the block keeps remaining lifetime.
