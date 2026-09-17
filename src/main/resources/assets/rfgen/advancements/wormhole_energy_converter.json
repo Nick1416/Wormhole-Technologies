@@ -1,14 +1,14 @@
 {
-  "parent": "rfgen:wormhole_duplicator",
+  "parent": "rfgen:refined_naquadah",
   "display": {
     "icon": {
-      "item": "rfgen:high_energy_refiner"
+      "item": "rfgen:rf_generator"
     },
     "title": {
-      "translate": "advancements.rfgen.high_energy_refiner.title"
+      "translate": "advancements.rfgen.wormhole_energy_converter.title"
     },
     "description": {
-      "translate": "advancements.rfgen.high_energy_refiner.desc"
+      "translate": "advancements.rfgen.wormhole_energy_converter.desc"
     },
     "frame": "task",
     "show_toast": true,
@@ -21,7 +21,7 @@
       "conditions": {
         "items": [
           {
-            "item": "rfgen:high_energy_refiner"
+            "item": "rfgen:rf_generator"
           }
         ]
       }

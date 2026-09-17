@@ -1,16 +1,16 @@
 {
-  "parent": "rfgen:wormhole_duplicator",
+  "parent": "rfgen:wormhole_energy_converter",
   "display": {
     "icon": {
-      "item": "rfgen:high_energy_refiner"
+      "item": "rfgen:wormhole_duplicator"
     },
     "title": {
-      "translate": "advancements.rfgen.high_energy_refiner.title"
+      "translate": "advancements.rfgen.wormhole_duplicator.title"
     },
     "description": {
-      "translate": "advancements.rfgen.high_energy_refiner.desc"
+      "translate": "advancements.rfgen.wormhole_duplicator.desc"
     },
-    "frame": "task",
+    "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
@@ -21,7 +21,7 @@
       "conditions": {
         "items": [
           {
-            "item": "rfgen:high_energy_refiner"
+            "item": "rfgen:wormhole_duplicator"
           }
         ]
       }
