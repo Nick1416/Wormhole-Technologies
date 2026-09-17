@@ -1,12 +1,13 @@
 package com.example.rfgen.block;
 
-import com.example.rfgen.registry.Registration;
+import com.example.rfgen.RFGen;
 import com.example.rfgen.tile.RelativisticComputerTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,8 +17,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
 public class RelativisticComputerBlock extends Block {
@@ -44,32 +43,7 @@ public class RelativisticComputerBlock extends Block {
         if (world.isRemote) return true;
         TileEntity te = world.getTileEntity(pos);
         if (!(te instanceof RelativisticComputerTileEntity)) return false;
-        RelativisticComputerTileEntity computer = (RelativisticComputerTileEntity) te;
-        ItemStack held = player.getHeldItem(hand);
-
-        if (player.isSneaking()) {
-            ItemStack out = computer.ejectAetherius();
-            if (!out.isEmpty()) {
-                if (!player.inventory.addItemStackToInventory(out)) {
-                    player.dropItem(out, false);
-                }
-                player.sendStatusMessage(new TextComponentTranslation("message.rfgen.computer.ejected"), true);
-            }
-            return true;
-        }
-
-        if (!held.isEmpty() && held.getItem() == Registration.AETHERIUS) {
-            if (computer.insertAetherius(held)) {
-                player.sendStatusMessage(new TextComponentTranslation("message.rfgen.computer.inserted"), true);
-            } else {
-                player.sendStatusMessage(new TextComponentTranslation("message.rfgen.computer.full"), true);
-            }
-            return true;
-        }
-
-        player.sendStatusMessage(new TextComponentTranslation(
-                computer.isActive() ? "message.rfgen.computer.active" : "message.rfgen.computer.idle",
-                computer.getEnergyStored()), true);
+        player.openGui(RFGen.INSTANCE, RFGen.GUI_RELATIVISTIC_COMPUTER, world, pos.getX(), pos.getY(), pos.getZ());
         return true;
     }
 
@@ -109,3 +83,4 @@ public class RelativisticComputerBlock extends Block {
         // Aetherius + energy stay in dropped item NBT
         super.breakBlock(world, pos, state);
     }
+}

@@ -1,6 +1,6 @@
 package com.example.rfgen.block;
 
-import com.example.rfgen.registry.Registration;
+import com.example.rfgen.RFGen;
 import com.example.rfgen.tile.AetheriusRefinerTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -16,7 +16,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -44,33 +43,7 @@ public class AetheriusRefinerBlock extends Block {
         if (world.isRemote) return true;
         TileEntity te = world.getTileEntity(pos);
         if (!(te instanceof AetheriusRefinerTileEntity)) return false;
-        AetheriusRefinerTileEntity refiner = (AetheriusRefinerTileEntity) te;
-        ItemStack held = player.getHeldItem(hand);
-
-        if (player.isSneaking()) {
-            ItemStack out = refiner.ejectAll();
-            if (!out.isEmpty()) {
-                if (!player.inventory.addItemStackToInventory(out)) player.dropItem(out, false);
-            }
-            return true;
-        }
-
-        if (!held.isEmpty() && held.getItem() == Item.getItemFromBlock(Registration.COMPRESSED_NAQUADAH)) {
-            if (refiner.insertInput(held)) {
-                player.sendStatusMessage(new TextComponentTranslation("message.rfgen.refiner.inserted"), true);
-            }
-            return true;
-        }
-
-        ItemStack product = refiner.takeOutput();
-        if (!product.isEmpty()) {
-            if (!player.inventory.addItemStackToInventory(product)) player.dropItem(product, false);
-            player.sendStatusMessage(new TextComponentTranslation("message.rfgen.refiner.took"), true);
-            return true;
-        }
-
-        int pct = refiner.getProgressPercent();
-        player.sendStatusMessage(new TextComponentTranslation("message.rfgen.refiner.status", pct, refiner.getEnergyStored()), true);
+        player.openGui(RFGen.INSTANCE, RFGen.GUI_HIGH_ENERGY_REFINER, world, pos.getX(), pos.getY(), pos.getZ());
         return true;
     }
 

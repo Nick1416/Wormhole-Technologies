@@ -97,4 +97,7 @@ public class RFGen {
     }
 
     public static final int GUI_WORMHOLE_DUPLICATOR = 1;
+    public static final int GUI_RELATIVISTIC_COMPUTER = 2;
+    public static final int GUI_HIGH_ENERGY_REFINER = 3;
 }
+
