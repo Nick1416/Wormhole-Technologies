@@ -22,7 +22,8 @@
       "item": "minecraft:glass"
     },
     "Z": {
-      "item": "minecraft:glowstone_dust"
+      "type": "forge:ore_dict",
+      "ore": "dustSulfur"
     }
   },
   "result": {
