@@ -58,16 +58,6 @@ public class GuiAncientTablet extends GuiScreen {
                         new ItemStack(Registration.ITEM_RF_GENERATOR)
                 }));
         pages.add(new Page(
-                "gui.rfgen.tablet.p4.title",
-                new String[] {
-                        "gui.rfgen.tablet.p4.l1",
-                        "gui.rfgen.tablet.p4.l2"
-                },
-                new ItemStack[] {
-                        new ItemStack(Registration.ITEM_WORMHOLE_DUPLICATOR),
-                        new ItemStack(Registration.ITEM_UNSTABLE_WORMHOLE_DUPLICATOR)
-                }));
-        pages.add(new Page(
                 "gui.rfgen.tablet.p5.title",
                 new String[] {
                         "gui.rfgen.tablet.p5.l1",
@@ -77,6 +67,16 @@ public class GuiAncientTablet extends GuiScreen {
                         new ItemStack(Registration.MINERAL_TUNER_COAL),
                         new ItemStack(Registration.MINERAL_TUNER_IRON),
                         new ItemStack(Registration.MINERAL_TUNER_GOLD)
+                }));
+        pages.add(new Page(
+                "gui.rfgen.tablet.p4.title",
+                new String[] {
+                        "gui.rfgen.tablet.p4.l1",
+                        "gui.rfgen.tablet.p4.l2"
+                },
+                new ItemStack[] {
+                        new ItemStack(Registration.ITEM_WORMHOLE_DUPLICATOR),
+                        new ItemStack(Registration.ITEM_UNSTABLE_WORMHOLE_DUPLICATOR)
                 }));
         pages.add(new Page(
                 "gui.rfgen.tablet.p6.title",

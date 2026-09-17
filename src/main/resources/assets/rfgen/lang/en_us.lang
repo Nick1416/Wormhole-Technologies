@@ -165,11 +165,11 @@ gui.rfgen.tablet.p3.title=Fragment III — Power
 gui.rfgen.tablet.p3.l1=[Translation] Power path — each step borrows more of the wormhole:
 gui.rfgen.tablet.p3.l2=[Translation] Naquadah Generator (brief) -> Unstable Converter (longer) -> Wormhole Energy Converter (steady).
 
-gui.rfgen.tablet.p4.title=Fragment IV — Echoes
+gui.rfgen.tablet.p4.title=Fragment V — Echoes
 gui.rfgen.tablet.p4.l1=[Translation] An item is remembered across a throat of space. Making use of the rematerialization past the event horizon.
 gui.rfgen.tablet.p4.l2=[Translation] Wormhole Duplicator (reusable) / Unstable Duplicator (once, then collapse).
 
-gui.rfgen.tablet.p5.title=Fragment V — Seeking Veins
+gui.rfgen.tablet.p5.title=Fragment IV — Seeking Veins
 gui.rfgen.tablet.p5.l1=[Translation] Tells your machinery what veins to look for.
 gui.rfgen.tablet.p5.l2=[Translation] Requires Immersive Engineering Excavator to extract the minerals.
 
