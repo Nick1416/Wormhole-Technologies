@@ -1,5 +1,5 @@
 {
-  "parent": "rfgen:refined_naquadah",
+  "parent": "rfgen:wormhole_duplicator",
   "display": {
     "icon": {
       "item": "rfgen:wormhole_pad"
