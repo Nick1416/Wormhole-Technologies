@@ -11,6 +11,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.ItemStackHandler;
 
 public class RelativisticComputerTileEntity extends TileEntity implements ITickable {
 
@@ -19,13 +22,30 @@ public class RelativisticComputerTileEntity extends TileEntity implements ITicka
     public static final int UPKEEP_RF_PER_TICK = 50_000;
 
     private final CompEnergy energy = new CompEnergy(BUFFER, MAX_RECEIVE);
-    private ItemStack aetherius = ItemStack.EMPTY;
+    private final ItemStackHandler inv = new ItemStackHandler(1) {
+        @Override
+        protected void onContentsChanged(int slot) {
+            markDirty();
+        }
+
+        @Override
+        public boolean isItemValid(int slot, ItemStack stack) {
+            return slot == 0 && !stack.isEmpty() && stack.getItem() == Registration.AETHERIUS;
+        }
+
+        @Override
+        public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+            if (!isItemValid(slot, stack)) return stack;
+            return super.insertItem(slot, stack, simulate);
+        }
+    };
     private boolean active;
 
     @Override
     public void update() {
         if (world == null || world.isRemote) return;
         boolean was = active;
+        ItemStack aetherius = inv.getStackInSlot(0);
         if (!aetherius.isEmpty() && aetherius.getItem() == Registration.AETHERIUS
                 && energy.getEnergyStored() >= UPKEEP_RF_PER_TICK) {
             energy.consume(UPKEEP_RF_PER_TICK);
@@ -41,34 +61,18 @@ public class RelativisticComputerTileEntity extends TileEntity implements ITicka
 
     public int getEnergyStored() { return energy.getEnergyStored(); }
 
-    public boolean insertAetherius(ItemStack held) {
-        if (held.isEmpty() || held.getItem() != Registration.AETHERIUS) return false;
-        if (!aetherius.isEmpty()) return false;
-        aetherius = held.splitStack(1);
-        markDirty();
-        return true;
-    }
-
-    public ItemStack ejectAetherius() {
-        if (aetherius.isEmpty()) return ItemStack.EMPTY;
-        ItemStack out = aetherius;
-        aetherius = ItemStack.EMPTY;
-        active = false;
-        markDirty();
-        return out;
-    }
+    public IItemHandlerModifiable items() { return inv; }
 
     public void dropContents(World world, BlockPos pos) {
-        if (!aetherius.isEmpty()) {
-            net.minecraft.inventory.InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), aetherius);
-            aetherius = ItemStack.EMPTY;
+        ItemStack stack = inv.getStackInSlot(0);
+        if (!stack.isEmpty()) {
+            net.minecraft.inventory.InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
+            inv.setStackInSlot(0, ItemStack.EMPTY);
         }
     }
 
-    @Override
-
-    public void writeToItem(net.minecraft.item.ItemStack stack) {
-        net.minecraft.nbt.NBTTagCompound tag = writeToNBT(new net.minecraft.nbt.NBTTagCompound());
+    public void writeToItem(ItemStack stack) {
+        NBTTagCompound tag = writeToNBT(new NBTTagCompound());
         tag.removeTag("x");
         tag.removeTag("y");
         tag.removeTag("z");
@@ -76,16 +80,17 @@ public class RelativisticComputerTileEntity extends TileEntity implements ITicka
         stack.setTagCompound(tag);
     }
 
-    public void readFromItem(net.minecraft.item.ItemStack stack) {
+    public void readFromItem(ItemStack stack) {
         if (stack.isEmpty() || !stack.hasTagCompound()) return;
         readFromNBT(stack.getTagCompound());
     }
 
+    @Override
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
         tag.setInteger("Energy", energy.getEnergyStored());
         tag.setBoolean("Active", active);
-        if (!aetherius.isEmpty()) tag.setTag("Aetherius", aetherius.writeToNBT(new NBTTagCompound()));
+        tag.setTag("Items", inv.serializeNBT());
         return tag;
     }
 
@@ -94,19 +99,26 @@ public class RelativisticComputerTileEntity extends TileEntity implements ITicka
         super.readFromNBT(tag);
         energy.setEnergy(tag.getInteger("Energy"));
         active = tag.getBoolean("Active");
-        if (tag.hasKey("Aetherius")) aetherius = new ItemStack(tag.getCompoundTag("Aetherius"));
-        else aetherius = ItemStack.EMPTY;
+        if (tag.hasKey("Items")) {
+            inv.deserializeNBT(tag.getCompoundTag("Items"));
+        } else if (tag.hasKey("Aetherius")) {
+            // Migrate PR #19 item/world NBT that stored a single Aetherius stack
+            inv.setStackInSlot(0, new ItemStack(tag.getCompoundTag("Aetherius")));
+        }
     }
 
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-        return capability == CapabilityEnergy.ENERGY || super.hasCapability(capability, facing);
+        return capability == CapabilityEnergy.ENERGY
+                || capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY
+                || super.hasCapability(capability, facing);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
         if (capability == CapabilityEnergy.ENERGY) return (T) energy;
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return (T) inv;
         return super.getCapability(capability, facing);
     }
 
