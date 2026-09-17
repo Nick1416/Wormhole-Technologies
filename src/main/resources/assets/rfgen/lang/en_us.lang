@@ -247,3 +247,7 @@ tooltip.rfgen.high_energy_refiner.detail.2=Takes one hour (72000 ticks). Sneak-r
 gui.rfgen.tablet.p6.title=Fragment VII — Trajectories
 gui.rfgen.tablet.p6.l1=[Translation] Compress refined matter beneath bedrock pressure, then hold it in a High Energy Refiner for one hour.
 gui.rfgen.tablet.p6.l2=[Translation] Aetherius cannot be duplicated. Seat it in a Relativistic Computer (50k RF/t) beside a pad to calculate paths between worlds.
+tooltip.rfgen.naquadah_generator.detail.4=Breaking the block keeps remaining lifetime.
+tooltip.rfgen.unstable_wormhole_energy_converter.detail.4=Breaking the block keeps remaining lifetime.
+tooltip.rfgen.high_energy_refiner.detail.3=Breaking the block keeps refine progress and contents.
+tooltip.rfgen.relativistic_computer.detail.3=Breaking the block keeps Aetherius and buffered RF.

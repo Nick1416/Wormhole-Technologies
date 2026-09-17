@@ -21,9 +21,27 @@ public class UnstableGeneratorTileEntity extends TileEntity implements ITickable
     private static final int MAX_EXTRACT = 10_000;
 
     // one real-time hour at 20 tps
-    private static final int LIFETIME_TICKS = 72_000;
+    public static final int LIFETIME_TICKS = 72_000;
 
     private int ageTicks = 0;  // persisted
+
+    public int getAgeTicks() { return ageTicks; }
+
+    public void setAgeTicks(int age) {
+        this.ageTicks = Math.max(0, age);
+    }
+
+    public int getRemainingTicks() {
+        return Math.max(0, LIFETIME_TICKS - ageTicks);
+    }
+
+    public int getEnergyStored() {
+        return energy.getEnergyStored();
+    }
+
+    public void setEnergyStored(int value) {
+        energy.setEnergy(value);
+    }
 
     private final GeneratorEnergyStorage energy = new GeneratorEnergyStorage(BUFFER, MAX_EXTRACT);
 

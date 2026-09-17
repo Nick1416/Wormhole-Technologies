@@ -9,6 +9,10 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import com.example.rfgen.tile.NaquadahGeneratorTileEntity;
+import com.example.rfgen.tile.UnstableGeneratorTileEntity;
+import com.example.rfgen.util.TimedBlockItems;
+import com.example.rfgen.tile.AetheriusRefinerTileEntity;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -61,6 +65,25 @@ public class TooltipHandler {
             addMineralTunerTooltips(event, stack);
         } else if (DOCUMENTED.contains(path)) {
             addDocumentedTooltips(event, path);
+        }
+        addPersistedStateTooltips(event, stack, path);
+    }
+
+    @SideOnly(Side.CLIENT)
+    private static void addPersistedStateTooltips(ItemTooltipEvent event, ItemStack stack, String path) {
+        if ("naquadah_generator".equals(path)) {
+            TimedBlockItems.addRemainingTooltip(event.getToolTip(), stack, NaquadahGeneratorTileEntity.LIFETIME_TICKS);
+        } else if ("unstable_wormhole_energy_converter".equals(path)) {
+            TimedBlockItems.addRemainingTooltip(event.getToolTip(), stack, UnstableGeneratorTileEntity.LIFETIME_TICKS);
+        } else if ("high_energy_refiner".equals(path) && stack.hasTagCompound()) {
+            int cook = stack.getTagCompound().getInteger("Cook");
+            if (cook > 0) {
+                int pct = Math.min(100, (cook * 100) / AetheriusRefinerTileEntity.COOK_TIME);
+                event.getToolTip().add(net.minecraft.util.text.TextFormatting.GRAY + "Refine progress: " + pct + "%");
+            }
+        } else if ("relativistic_computer".equals(path) && stack.hasTagCompound()
+                && stack.getTagCompound().hasKey("Aetherius")) {
+            event.getToolTip().add(net.minecraft.util.text.TextFormatting.GRAY + "Contains Aetherius");
         }
     }
 

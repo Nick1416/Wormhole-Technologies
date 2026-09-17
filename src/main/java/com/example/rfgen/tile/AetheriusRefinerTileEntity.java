@@ -101,6 +101,21 @@ public class AetheriusRefinerTileEntity extends TileEntity implements ITickable 
     }
 
     @Override
+
+    public void writeToItem(net.minecraft.item.ItemStack stack) {
+        net.minecraft.nbt.NBTTagCompound tag = writeToNBT(new net.minecraft.nbt.NBTTagCompound());
+        tag.removeTag("x");
+        tag.removeTag("y");
+        tag.removeTag("z");
+        tag.removeTag("id");
+        stack.setTagCompound(tag);
+    }
+
+    public void readFromItem(net.minecraft.item.ItemStack stack) {
+        if (stack.isEmpty() || !stack.hasTagCompound()) return;
+        readFromNBT(stack.getTagCompound());
+    }
+
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
         tag.setInteger("Energy", energy.getEnergyStored());
