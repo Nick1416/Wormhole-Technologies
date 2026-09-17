@@ -23,23 +23,23 @@ tooltip.rfgen.more=Hold Shift for details
 tooltip.rfgen.wormhole_duplicator.summary=1 diamond nugget + 1 item → 2 of that item
 tooltip.rfgen.wormhole_duplicator.detail.1=Consumes the template each craft.
 tooltip.rfgen.wormhole_duplicator.detail.2=Fuel: diamond nugget (Thermal Foundation or nuggetDiamond).
-tooltip.rfgen.wormhole_duplicator.detail.3=Rejects NBT items and blacklisted mod machines/resources.
+tooltip.rfgen.wormhole_duplicator.detail.3=Template items must have no NBT.
 tooltip.rfgen.wormhole_duplicator.detail.4=Reusable — keeps crafting while fuel, template, and output space remain.
 tooltip.rfgen.unstable_wormhole_duplicator.summary=1 diamond + 1 item → 2 of that item (once)
 tooltip.rfgen.unstable_wormhole_duplicator.detail.1=Single use only.
 tooltip.rfgen.unstable_wormhole_duplicator.detail.2=Fuel: one full diamond.
 tooltip.rfgen.unstable_wormhole_duplicator.detail.3=After crafting, contents drop and the block becomes Unstable Naquadah.
-tooltip.rfgen.unstable_wormhole_duplicator.detail.4=Same template rules as the stable duplicator (no NBT / blacklist).
+tooltip.rfgen.unstable_wormhole_duplicator.detail.4=Same template rules as the stable duplicator (no NBT).
 
 gui.rfgen.slot.fuel_nugget=Fuel — diamond nugget
 gui.rfgen.slot.fuel_diamond=Fuel — diamond
-gui.rfgen.slot.template.hint=Most items work — no NBT or blacklisted stuff
+gui.rfgen.slot.template.hint=Most items work — no NBT
 gui.rfgen.slot.output=Output — receive x2
 
 jei.rfgen.duplication=Wormhole Duplication
 jei.rfgen.duplication.stable=Stable · reusable
 jei.rfgen.duplication.unstable=Unstable · one shot → Unstable Naquadah
-jei.rfgen.duplication.catalyst_note=Accepts most items without NBT (see blacklist in-game).
+jei.rfgen.duplication.catalyst_note=Accepts most items without NBT.
 
 # --- Generators / converters ---
 tooltip.rfgen.rf_generator.summary=Free energy: 100,000 RF/t into neighbors
