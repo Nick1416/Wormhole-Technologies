@@ -132,8 +132,8 @@ jei.wormholetech.ore_drop.hint.always=Always drops ×4 when mined
 jei.wormholetech.ore_drop.tooltip.raw=Craft Synthetic Naquadah Ore, place it, mine it (no Silk Touch).
 jei.wormholetech.ore_drop.tooltip.unstable=Mine Unstable Block of Naquadah (no Silk Touch).
 
-advancements.wormholetech.root.title=Wormhole Technologies
-advancements.wormholetech.root.desc=Strange matter and wormholes await. Grants the Ancient Tablet — open Advancements (L) anytime to restore it if lost.
+advancements.wormholetech.root.title=Discovery of the Ancient Tablet
+advancements.wormholetech.root.desc=Strange matter and wormholes await. (Re-open Advancements to recover the Ancient Tablet if lost.)
 advancements.wormholetech.craft_ore.title=Synthetic Vein
 advancements.wormholetech.craft_ore.desc=Craft Synthetic Naquadah Ore
 advancements.wormholetech.raw.title=Unstable Harvest
