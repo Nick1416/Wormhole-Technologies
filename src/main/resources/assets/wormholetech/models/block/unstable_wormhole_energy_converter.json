@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "wormholetech:blocks/unstable_wormhole_energy_converter",
+    "down": "wormholetech:blocks/unstable_wormhole_energy_converter_top",
+    "up": "wormholetech:blocks/unstable_wormhole_energy_converter_top",
+    "north": "wormholetech:blocks/unstable_wormhole_energy_converter",
+    "south": "wormholetech:blocks/unstable_wormhole_energy_converter",
+    "west": "wormholetech:blocks/unstable_wormhole_energy_converter_side",
+    "east": "wormholetech:blocks/unstable_wormhole_energy_converter_side"
+  }
+}

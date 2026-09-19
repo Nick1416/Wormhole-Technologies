@@ -1,0 +1,30 @@
+{
+  "parent": "wormholetech:wormhole_duplicator",
+  "display": {
+    "icon": {
+      "item": "wormholetech:high_energy_refiner"
+    },
+    "title": {
+      "translate": "advancements.wormholetech.high_energy_refiner.title"
+    },
+    "description": {
+      "translate": "advancements.wormholetech.high_energy_refiner.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:high_energy_refiner"
+          }
+        ]
+      }
+    }
+  }
+}

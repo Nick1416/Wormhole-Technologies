@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:crafting_shaped",
-  "pattern": ["BBB","BRB","BBB"],
-  "key": {
-    "B": { "item": "minecraft:bedrock" },
-    "R": { "item": "rfgen:refined_naquadah" }
-  },
-  "result": { "item": "rfgen:compressed_naquadah" }
-}

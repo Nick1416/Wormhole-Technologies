@@ -1,0 +1,30 @@
+{
+  "parent": "wormholetech:high_energy_refiner",
+  "display": {
+    "icon": {
+      "item": "wormholetech:aetherius"
+    },
+    "title": {
+      "translate": "advancements.wormholetech.aetherius.title"
+    },
+    "description": {
+      "translate": "advancements.wormholetech.aetherius.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:aetherius"
+          }
+        ]
+      }
+    }
+  }
+}

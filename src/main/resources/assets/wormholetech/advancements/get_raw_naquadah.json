@@ -1,0 +1,20 @@
+{
+  "parent": "wormholetech:craft_synthetic_ore",
+  "display": {
+    "icon": { "item": "wormholetech:raw_naquadah" },
+    "title": { "translate": "advancements.wormholetech.raw.title" },
+    "description": { "translate": "advancements.wormholetech.raw.desc" },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "raw": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{ "item": "wormholetech:raw_naquadah" }]
+      }
+    }
+  }
+}

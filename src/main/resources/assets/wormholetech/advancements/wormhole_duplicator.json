@@ -1,0 +1,30 @@
+{
+  "parent": "wormholetech:wormhole_energy_converter",
+  "display": {
+    "icon": {
+      "item": "wormholetech:wormhole_duplicator"
+    },
+    "title": {
+      "translate": "advancements.wormholetech.wormhole_duplicator.title"
+    },
+    "description": {
+      "translate": "advancements.wormholetech.wormhole_duplicator.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:wormhole_duplicator"
+          }
+        ]
+      }
+    }
+  }
+}

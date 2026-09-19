@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["BBB","BRB","BBB"],
+  "key": {
+    "B": { "item": "minecraft:bedrock" },
+    "R": { "item": "wormholetech:refined_naquadah" }
+  },
+  "result": { "item": "wormholetech:compressed_naquadah" }
+}

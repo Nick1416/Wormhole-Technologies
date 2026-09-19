@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["QRQ","RER","QRQ"],
+  "key": {
+    "Q": { "item": "minecraft:quartz" },
+    "R": { "item": "wormholetech:refined_naquadah" },
+    "E": { "item": "minecraft:ender_eye" }
+  },
+  "result": { "item": "wormholetech:relativistic_computer" }
+}

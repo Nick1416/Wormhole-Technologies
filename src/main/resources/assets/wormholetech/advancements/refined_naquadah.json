@@ -1,0 +1,20 @@
+{
+  "parent": "wormholetech:get_raw_naquadah",
+  "display": {
+    "icon": { "item": "wormholetech:refined_naquadah" },
+    "title": { "translate": "advancements.wormholetech.refined.title" },
+    "description": { "translate": "advancements.wormholetech.refined.desc" },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "refined": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{ "item": "wormholetech:refined_naquadah" }]
+      }
+    }
+  }
+}

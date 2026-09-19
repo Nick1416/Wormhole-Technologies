@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " Q ",
+    "RBR",
+    " N "
+  ],
+  "key": {
+    "B": { "item": "minecraft:book" },
+    "R": { "item": "wormholetech:raw_naquadah" },
+    "N": { "item": "wormholetech:refined_naquadah" },
+    "Q": { "item": "minecraft:quartz" }
+  },
+  "result": { "item": "wormholetech:ancient_tablet" }
+}

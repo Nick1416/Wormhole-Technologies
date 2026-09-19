@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " N ",
+    " R ",
+    " S "
+  ],
+  "key": {
+    "N": { "item": "wormholetech:refined_naquadah" },
+    "R": { "item": "minecraft:redstone" },
+    "S": { "item": "minecraft:stick" }
+  },
+  "result": { "item": "wormholetech:wormhole_linker" }
+}

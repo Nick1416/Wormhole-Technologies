@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "MEM",
+    "SNS",
+    "CEC"
+  ],
+  "key": {
+    "M": { "item": "minecraft:milk_bucket" },
+    "S": { "item": "minecraft:slime_ball" },
+    "C": { "item": "minecraft:coal", "data": 0 },
+	"N": { "item": "wormholetech:refined_naquadah"},
+	"E": { "item": "minecraft:ender_eye"}
+  },
+  "result": { "item": "wormholetech:quantum_glue" }
+}
