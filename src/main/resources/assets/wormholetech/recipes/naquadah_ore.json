@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SGS",
+    "GOG",
+    "SGS"
+  ],
+  "key": {
+    "O": { "item": "minecraft:obsidian" },
+    "G": { "item": "minecraft:quartz" },
+    "S": { "item": "minecraft:stone", "data": 0 }
+  },
+  "result": { "item": "wormholetech:naquadah_ore" }
+}

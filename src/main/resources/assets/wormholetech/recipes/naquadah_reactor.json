@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NPN",
+    "SCS",
+    "SRS"
+  ],
+  "key": {
+    "P": { "item": "wormholetech:prysmian_block" },
+    "N": { "item": "wormholetech:refined_naquadah" },
+	"C": { "item": "minecraft:comparator"},
+	"R": { "item": "minecraft:repeater"},
+	"S": { "item": "minecraft:redstone"}
+  },
+  "result": { "item": "wormholetech:naquadah_reactor" }
+}

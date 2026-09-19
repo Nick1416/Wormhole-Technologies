@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PP",
+    "PP"
+  ],
+  "key": {
+    "P": { "item": "wormholetech:prysmian" }
+  },
+  "result": { "item": "wormholetech:unstable_prysmian_block" }
+}

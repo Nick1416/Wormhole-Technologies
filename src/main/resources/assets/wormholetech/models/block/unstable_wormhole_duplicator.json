@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "wormholetech:blocks/unstable_wormhole_duplicator",
+    "down": "wormholetech:blocks/unstable_wormhole_duplicator_top",
+    "up": "wormholetech:blocks/unstable_wormhole_duplicator_top",
+    "north": "wormholetech:blocks/unstable_wormhole_duplicator",
+    "south": "wormholetech:blocks/unstable_wormhole_duplicator",
+    "west": "wormholetech:blocks/unstable_wormhole_duplicator_side",
+    "east": "wormholetech:blocks/unstable_wormhole_duplicator_side"
+  }
+}

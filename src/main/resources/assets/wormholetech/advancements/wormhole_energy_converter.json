@@ -1,0 +1,30 @@
+{
+  "parent": "wormholetech:refined_naquadah",
+  "display": {
+    "icon": {
+      "item": "wormholetech:rf_generator"
+    },
+    "title": {
+      "translate": "advancements.wormholetech.wormhole_energy_converter.title"
+    },
+    "description": {
+      "translate": "advancements.wormholetech.wormhole_energy_converter.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:rf_generator"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,222 @@
+{
+  "parent": "wormholetech:refined_naquadah",
+  "display": {
+    "icon": {
+      "item": "wormholetech:mineral_tuner_iron"
+    },
+    "title": {
+      "translate": "advancements.wormholetech.mineral_tuner.title"
+    },
+    "description": {
+      "translate": "advancements.wormholetech.mineral_tuner.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "coal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:mineral_tuner_coal"
+          }
+        ]
+      }
+    },
+    "iron": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:mineral_tuner_iron"
+          }
+        ]
+      }
+    },
+    "magnetite": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:mineral_tuner_magnetite"
+          }
+        ]
+      }
+    },
+    "pyrite": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:mineral_tuner_pyrite"
+          }
+        ]
+      }
+    },
+    "bauxite": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:mineral_tuner_bauxite"
+          }
+        ]
+      }
+    },
+    "copper": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:mineral_tuner_copper"
+          }
+        ]
+      }
+    },
+    "cassiterite": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:mineral_tuner_cassiterite"
+          }
+        ]
+      }
+    },
+    "gold": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:mineral_tuner_gold"
+          }
+        ]
+      }
+    },
+    "nickel": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:mineral_tuner_nickel"
+          }
+        ]
+      }
+    },
+    "platinum": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:mineral_tuner_platinum"
+          }
+        ]
+      }
+    },
+    "uranium": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:mineral_tuner_uranium"
+          }
+        ]
+      }
+    },
+    "quartzite": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:mineral_tuner_quartzite"
+          }
+        ]
+      }
+    },
+    "galena": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:mineral_tuner_galena"
+          }
+        ]
+      }
+    },
+    "lead": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:mineral_tuner_lead"
+          }
+        ]
+      }
+    },
+    "silver": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:mineral_tuner_silver"
+          }
+        ]
+      }
+    },
+    "lapis": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:mineral_tuner_lapis"
+          }
+        ]
+      }
+    },
+    "cinnabar": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:mineral_tuner_cinnabar"
+          }
+        ]
+      }
+    },
+    "silt": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:mineral_tuner_silt"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "coal",
+      "iron",
+      "magnetite",
+      "pyrite",
+      "bauxite",
+      "copper",
+      "cassiterite",
+      "gold",
+      "nickel",
+      "platinum",
+      "uranium",
+      "quartzite",
+      "galena",
+      "lead",
+      "silver",
+      "lapis",
+      "cinnabar",
+      "silt"
+    ]
+  ]
+}

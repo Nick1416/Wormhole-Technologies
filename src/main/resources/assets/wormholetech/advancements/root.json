@@ -1,0 +1,22 @@
+{
+  "display": {
+    "icon": {
+      "item": "wormholetech:raw_naquadah"
+    },
+    "title": {
+      "translate": "advancements.wormholetech.root.title"
+    },
+    "description": {
+      "translate": "advancements.wormholetech.root.desc"
+    },
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "tick": {
+      "trigger": "minecraft:tick"
+    }
+  }
+}

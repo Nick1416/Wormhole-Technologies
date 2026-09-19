@@ -465,3 +465,11 @@ Build 2760:
 Build 2759:
 	LexManos: Remove BlamingTransformer (#5115)
 
+
+=== 0.1.0 ===
+- BREAKING: modid rfgen → wormholetech; package com.example.rfgen → com.nick1416.wormholetech; main class WormholeTech
+- Version 0.1.0; MIT LICENSE; README; GitHub Actions JDK8 build
+- Soft deps: after:immersiveengineering;after:jei; (mcmod.info lists IE + JEI)
+- Forge ModConfig for RF rates / lifetimes / pad & computer upkeep (defaults unchanged)
+- Duplication denies all wormholetech:* items; NBT rule unchanged
+- Advancement: craft any Mineral Tuner (after refined naquadah)
