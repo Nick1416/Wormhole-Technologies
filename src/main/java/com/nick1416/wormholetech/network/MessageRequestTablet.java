@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 /**
  * Client asks the server for an Ancient Tablet recovery (e.g. opened Advancements).
- * Server gives one if the player already unlocked the tablet advancement and has none.
+ * Server gives one if the player already unlocked the root advancement and has none.
  */
 public class MessageRequestTablet implements IMessage {
 
@@ -39,7 +39,7 @@ public class MessageRequestTablet implements IMessage {
 
         private static void giveIfMissing(EntityPlayerMP player) {
             Advancement adv = player.getServerWorld().getAdvancementManager()
-                    .getAdvancement(new ResourceLocation(WormholeTech.MODID, "ancient_tablet"));
+                    .getAdvancement(new ResourceLocation(WormholeTech.MODID, "root"));
             if (adv == null) return;
             if (!player.getAdvancements().getProgress(adv).isDone()) return;
 

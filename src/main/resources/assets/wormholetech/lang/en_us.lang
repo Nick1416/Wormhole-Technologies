@@ -133,7 +133,7 @@ jei.wormholetech.ore_drop.tooltip.raw=Craft Synthetic Naquadah Ore, place it, mi
 jei.wormholetech.ore_drop.tooltip.unstable=Mine Unstable Block of Naquadah (no Silk Touch).
 
 advancements.wormholetech.root.title=Wormhole Technologies
-advancements.wormholetech.root.desc=Strange matter and wormholes await
+advancements.wormholetech.root.desc=Strange matter and wormholes await. Grants the Ancient Tablet — open Advancements (L) anytime to restore it if lost.
 advancements.wormholetech.craft_ore.title=Synthetic Vein
 advancements.wormholetech.craft_ore.desc=Craft Synthetic Naquadah Ore
 advancements.wormholetech.raw.title=Unstable Harvest
@@ -265,6 +265,4 @@ advancements.wormholetech.wormhole_duplicator.desc=Craft a Wormhole Duplicator
 
 advancements.wormholetech.mineral_tuner.title=Seeking Veins
 advancements.wormholetech.mineral_tuner.desc=Craft any Mineral Tuner (Immersive Engineering excavator)
-advancements.wormholetech.ancient_tablet.title=Ancient Tablet
-advancements.wormholetech.ancient_tablet.desc=A translated fragment of ancient technology. Open Advancements anytime to restore it if lost.
 message.wormholetech.tablet_restored=Ancient Tablet restored

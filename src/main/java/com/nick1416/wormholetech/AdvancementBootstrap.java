@@ -15,38 +15,35 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Ensures the root advancement is visible, then (once) completes the
- * Ancient Tablet advancement so its loot reward delivers the item.
- * Delayed so pack starter kits (Custom Starting Gear) finish first.
- * The advancement itself is the one-time gate — losing the tablet does not grant another.
+ * Completes the root advancement shortly after join so its Ancient Tablet
+ * loot reward arrives after pack starter kits (Custom Starting Gear).
+ * Root is the one-time unlock; lost tablets are restored via Advancements UI.
  */
 @Mod.EventBusSubscriber(modid = WormholeTech.MODID)
 public class AdvancementBootstrap {
 
-    /** ~2s at 20 tps — after Custom Starting Gear / similar starter kits. */
     private static final int GRANT_DELAY_TICKS = 40;
 
-    private static final Map<UUID, Integer> PENDING_TABLET_ADV = new ConcurrentHashMap<UUID, Integer>();
+    private static final Map<UUID, Integer> PENDING_ROOT = new ConcurrentHashMap<UUID, Integer>();
 
     @SubscribeEvent
     public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (!(event.player instanceof EntityPlayerMP)) return;
         EntityPlayerMP player = (EntityPlayerMP) event.player;
-        grant(player, "root");
 
-        Advancement tablet = getAdv(player, "ancient_tablet");
-        if (tablet == null) return;
-        if (player.getAdvancements().getProgress(tablet).isDone()) return;
+        Advancement root = getAdv(player, "root");
+        if (root == null) return;
+        if (player.getAdvancements().getProgress(root).isDone()) return;
 
-        PENDING_TABLET_ADV.put(player.getUniqueID(), GRANT_DELAY_TICKS);
+        PENDING_ROOT.put(player.getUniqueID(), GRANT_DELAY_TICKS);
     }
 
     @SubscribeEvent
     public static void onServerTick(TickEvent.ServerTickEvent event) {
         if (event.phase != TickEvent.Phase.END) return;
-        if (PENDING_TABLET_ADV.isEmpty()) return;
+        if (PENDING_ROOT.isEmpty()) return;
 
-        Iterator<Map.Entry<UUID, Integer>> it = PENDING_TABLET_ADV.entrySet().iterator();
+        Iterator<Map.Entry<UUID, Integer>> it = PENDING_ROOT.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<UUID, Integer> e = it.next();
             int left = e.getValue() - 1;
@@ -57,7 +54,7 @@ public class AdvancementBootstrap {
             it.remove();
             EntityPlayerMP player = getPlayer(e.getKey());
             if (player == null) continue;
-            grant(player, "ancient_tablet");
+            grant(player, "root");
         }
     }
 
