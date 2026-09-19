@@ -133,7 +133,7 @@ jei.wormholetech.ore_drop.tooltip.raw=Craft Synthetic Naquadah Ore, place it, mi
 jei.wormholetech.ore_drop.tooltip.unstable=Mine Unstable Block of Naquadah (no Silk Touch).
 
 advancements.wormholetech.root.title=Discovery of the Ancient Tablet
-advancements.wormholetech.root.desc=Strange matter and wormholes await. (Lost the tablet? Craft paper + raw naquadah.)
+advancements.wormholetech.root.desc=Strange matter and wormholes await. (Lost the tablet? Craft a piece of paper.)
 advancements.wormholetech.craft_ore.title=Synthetic Vein
 advancements.wormholetech.craft_ore.desc=Craft Synthetic Naquadah Ore
 advancements.wormholetech.raw.title=Unstable Harvest
@@ -144,7 +144,7 @@ advancements.wormholetech.refined.desc=Obtain Refined Naquadah
 item.wormholetech.ancient_tablet.name=Ancient Tablet
 tooltip.wormholetech.ancient_tablet.summary=A translated fragment of ancient technology
 tooltip.wormholetech.ancient_tablet.detail.1=Right-click to read.
-tooltip.wormholetech.ancient_tablet.detail.2=Lost it? Craft with paper and raw naquadah.
+tooltip.wormholetech.ancient_tablet.detail.2=Lost it? Craft a piece of paper into a new tablet.
 
 gui.wormholetech.tablet.prev=Back
 gui.wormholetech.tablet.next=Next

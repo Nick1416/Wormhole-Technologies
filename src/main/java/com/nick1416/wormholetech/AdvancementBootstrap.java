@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * One-time Ancient Tablet at the start of a world (delayed so Custom Starting
  * Gear can finish). Having the tablet unlocks the root advancement. Extra
- * copies: craft paper + raw naquadah.
+ * copies: craft a piece of paper.
  */
 @Mod.EventBusSubscriber(modid = WormholeTech.MODID)
 public class AdvancementBootstrap {
