@@ -1,12 +1,8 @@
 package com.nick1416.wormholetech;
 
-import com.nick1416.wormholetech.registry.Registration;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementProgress;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -19,41 +15,35 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Grants the root advancement and a one-time Ancient Tablet on first join.
- * The tablet gift is delayed so pack mods (e.g. Custom Starting Gear) can
- * finish rewriting the inventory first; the persist flag is only set after
- * the tablet is actually present (or dropped into the world).
+ * Completes the root advancement shortly after join so its Ancient Tablet
+ * loot reward arrives after pack starter kits (Custom Starting Gear).
+ * Root is the one-time unlock; lost tablets are restored via Advancements UI.
  */
 @Mod.EventBusSubscriber(modid = WormholeTech.MODID)
 public class AdvancementBootstrap {
 
-    private static final String NBT_TABLET = "wormholetech_got_ancient_tablet_v2";
-    /** ~2s at 20 tps — after Custom Starting Gear / similar starter kits. */
-    private static final int GIFT_DELAY_TICKS = 40;
+    private static final int GRANT_DELAY_TICKS = 40;
 
-    private static final Map<UUID, Integer> PENDING_TABLET = new ConcurrentHashMap<UUID, Integer>();
+    private static final Map<UUID, Integer> PENDING_ROOT = new ConcurrentHashMap<UUID, Integer>();
 
     @SubscribeEvent
     public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (!(event.player instanceof EntityPlayerMP)) return;
         EntityPlayerMP player = (EntityPlayerMP) event.player;
-        grant(player, "root");
 
-        NBTTagCompound persist = getPersist(player);
-        if (persist.getBoolean(NBT_TABLET)) return;
-        if (hasTablet(player)) {
-            markGotTablet(player);
-            return;
-        }
-        PENDING_TABLET.put(player.getUniqueID(), GIFT_DELAY_TICKS);
+        Advancement root = getAdv(player, "root");
+        if (root == null) return;
+        if (player.getAdvancements().getProgress(root).isDone()) return;
+
+        PENDING_ROOT.put(player.getUniqueID(), GRANT_DELAY_TICKS);
     }
 
     @SubscribeEvent
     public static void onServerTick(TickEvent.ServerTickEvent event) {
         if (event.phase != TickEvent.Phase.END) return;
-        if (PENDING_TABLET.isEmpty()) return;
+        if (PENDING_ROOT.isEmpty()) return;
 
-        Iterator<Map.Entry<UUID, Integer>> it = PENDING_TABLET.entrySet().iterator();
+        Iterator<Map.Entry<UUID, Integer>> it = PENDING_ROOT.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<UUID, Integer> e = it.next();
             int left = e.getValue() - 1;
@@ -64,7 +54,7 @@ public class AdvancementBootstrap {
             it.remove();
             EntityPlayerMP player = getPlayer(e.getKey());
             if (player == null) continue;
-            giveTabletOnce(player);
+            grant(player, "root");
         }
     }
 
@@ -75,50 +65,13 @@ public class AdvancementBootstrap {
         return server.getPlayerList().getPlayerByUUID(id);
     }
 
-    private static void giveTabletOnce(EntityPlayerMP player) {
-        NBTTagCompound persist = getPersist(player);
-        if (persist.getBoolean(NBT_TABLET)) return;
-        if (hasTablet(player)) {
-            markGotTablet(player);
-            return;
-        }
-
-        ItemStack stack = new ItemStack(Registration.ANCIENT_TABLET);
-        if (stack.isEmpty()) return;
-
-        if (!player.inventory.addItemStackToInventory(stack.copy())) {
-            player.dropItem(stack.copy(), false);
-        }
-        // Only persist after we attempted delivery (inventory or drop).
-        markGotTablet(player);
-    }
-
-    private static boolean hasTablet(EntityPlayer player) {
-        for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
-            ItemStack s = player.inventory.getStackInSlot(i);
-            if (!s.isEmpty() && s.getItem() == Registration.ANCIENT_TABLET) return true;
-        }
-        return false;
-    }
-
-    private static NBTTagCompound getPersist(EntityPlayer player) {
-        NBTTagCompound data = player.getEntityData();
-        NBTTagCompound persist = data.getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG);
-        if (!data.hasKey(EntityPlayer.PERSISTED_NBT_TAG)) {
-            data.setTag(EntityPlayer.PERSISTED_NBT_TAG, persist);
-        }
-        return persist;
-    }
-
-    private static void markGotTablet(EntityPlayer player) {
-        NBTTagCompound persist = getPersist(player);
-        persist.setBoolean(NBT_TABLET, true);
-        player.getEntityData().setTag(EntityPlayer.PERSISTED_NBT_TAG, persist);
+    private static Advancement getAdv(EntityPlayerMP player, String path) {
+        return player.getServerWorld().getAdvancementManager()
+                .getAdvancement(new ResourceLocation(WormholeTech.MODID, path));
     }
 
     private static void grant(EntityPlayerMP player, String path) {
-        Advancement adv = player.getServerWorld().getAdvancementManager()
-                .getAdvancement(new ResourceLocation(WormholeTech.MODID, path));
+        Advancement adv = getAdv(player, path);
         if (adv == null) return;
         AdvancementProgress progress = player.getAdvancements().getProgress(adv);
         if (progress.isDone()) return;

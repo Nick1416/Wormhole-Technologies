@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "wormholetech:raw_naquadah"
+      "item": "wormholetech:ancient_tablet"
     },
     "title": {
       "translate": "advancements.wormholetech.root.title"
@@ -13,6 +13,11 @@
     "show_toast": true,
     "announce_to_chat": false,
     "hidden": false
+  },
+  "rewards": {
+    "loot": [
+      "wormholetech:advancements/ancient_tablet"
+    ]
   },
   "criteria": {
     "tick": {
