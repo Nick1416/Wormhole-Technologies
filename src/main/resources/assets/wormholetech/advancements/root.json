@@ -14,14 +14,16 @@
     "announce_to_chat": false,
     "hidden": false
   },
-  "rewards": {
-    "loot": [
-      "wormholetech:advancements/ancient_tablet"
-    ]
-  },
   "criteria": {
-    "tick": {
-      "trigger": "minecraft:tick"
+    "has_tablet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:ancient_tablet"
+          }
+        ]
+      }
     }
   }
 }
