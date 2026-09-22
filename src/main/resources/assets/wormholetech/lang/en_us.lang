@@ -58,10 +58,6 @@ tooltip.wormholetech.naquadah_generator.detail.2=Lifetime: 12,000 ticks (~10 min
 tooltip.wormholetech.naquadah_generator.detail.3=When time runs out, becomes Unstable Block of Naquadah.
 
 # --- World / drops ---
-tooltip.wormholetech.naquadah_ore.summary=25%% chance to drop Raw Naquadah when mined
-tooltip.wormholetech.naquadah_ore.detail.1=25%% chance to drop 1 Raw Naquadah when mined by a player.
-tooltip.wormholetech.naquadah_ore.detail.2=Silk Touch suppresses the special drop.
-tooltip.wormholetech.naquadah_ore.detail.3=Crafted from stone, quartz, and obsidian — then mine it for Raw Naquadah.
 
 tooltip.wormholetech.unstable_naquadah_block.summary=Mines into 4 Unstable Naquadah
 tooltip.wormholetech.unstable_naquadah_block.detail.1=Dropped by expired generators and the Unstable Duplicator.
