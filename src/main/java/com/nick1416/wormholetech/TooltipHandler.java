@@ -27,7 +27,6 @@ public class TooltipHandler {
             "rf_generator",
             "unstable_wormhole_energy_converter",
             "naquadah_generator",
-            "naquadah_ore",
             "unstable_naquadah_block",
             "raw_naquadah",
             "refined_naquadah",

@@ -58,19 +58,14 @@ tooltip.wormholetech.naquadah_generator.detail.2=Lifetime: 12,000 ticks (~10 min
 tooltip.wormholetech.naquadah_generator.detail.3=When time runs out, becomes Unstable Block of Naquadah.
 
 # --- World / drops ---
-tooltip.wormholetech.naquadah_ore.summary=25% chance to drop Raw Naquadah when mined
-tooltip.wormholetech.naquadah_ore.detail.1=25% chance to drop 1 Raw Naquadah when mined by a player.
-tooltip.wormholetech.naquadah_ore.detail.2=Silk Touch suppresses the special drop.
-tooltip.wormholetech.naquadah_ore.detail.3=Crafted from stone, quartz, and obsidian — then mine it for Raw Naquadah.
 
 tooltip.wormholetech.unstable_naquadah_block.summary=Mines into 4 Unstable Naquadah
 tooltip.wormholetech.unstable_naquadah_block.detail.1=Dropped by expired generators and the Unstable Duplicator.
 tooltip.wormholetech.unstable_naquadah_block.detail.2=Player harvest (no Silk Touch) yields 4 Unstable Naquadah.
 
-tooltip.wormholetech.raw_naquadah.summary=Mine Synthetic Naquadah Ore (25% drop), then blow it up to refine
-tooltip.wormholetech.raw_naquadah.detail.1=Obtain: craft Synthetic Naquadah Ore, place it, then mine it (25% chance per block).
-tooltip.wormholetech.raw_naquadah.detail.2=Silk Touch on the ore skips the Raw Naquadah drop.
-tooltip.wormholetech.raw_naquadah.detail.3=Refine: drop Raw Naquadah as an item and detonate nearby (TNT, etc.) → Refined 1:1.
+tooltip.wormholetech.raw_naquadah.summary=Unrefined wormhole matter
+tooltip.wormholetech.raw_naquadah.detail.1=Drop as an item and detonate nearby to refine (1:1).
+tooltip.wormholetech.raw_naquadah.detail.2=See JEI for how to obtain it.
 
 tooltip.wormholetech.refined_naquadah.summary=Core crafting material for Wormhole tech
 tooltip.wormholetech.refined_naquadah.detail.1=Also craftable from Unstable Naquadah + blaze powder.
@@ -127,7 +122,7 @@ tooltip.wormholetech.mineral_tuner.detail.3=Sneak + right-click: list registered
 tooltip.wormholetech.mineral_tuner.jei.1=Sets this chunk's IE excavator mineral (see item name for which).
 
 jei.wormholetech.ore_drop=Wormhole Drops
-jei.wormholetech.ore_drop.hint.chance=25% drop chance
+jei.wormholetech.ore_drop.hint.chance=25%% drop chance
 jei.wormholetech.ore_drop.hint.always=Always drops ×4 when mined
 jei.wormholetech.ore_drop.tooltip.raw=Craft Synthetic Naquadah Ore, place it, mine it (no Silk Touch).
 jei.wormholetech.ore_drop.tooltip.unstable=Mine Unstable Block of Naquadah (no Silk Touch).

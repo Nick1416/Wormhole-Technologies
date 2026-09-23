@@ -2,8 +2,8 @@
   "parent": "wormholetech:root",
   "display": {
     "icon": { "item": "wormholetech:naquadah_ore" },
-    "title": { "translate": "advancements.wormholetech.craft_ore.title" },
-    "description": { "translate": "advancements.wormholetech.craft_ore.desc" },
+    "title": { "translate": "advancements.wormholetech.craft_synthetic_ore.title" },
+    "description": { "translate": "advancements.wormholetech.craft_synthetic_ore.desc" },
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
@@ -13,7 +13,9 @@
     "ore": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
-        "items": [{ "item": "wormholetech:naquadah_ore" }]
+        "items": [
+          { "item": "wormholetech:naquadah_ore" }
+        ]
       }
     }
   }
