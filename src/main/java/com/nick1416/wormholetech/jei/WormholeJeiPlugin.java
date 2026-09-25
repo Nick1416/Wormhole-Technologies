@@ -22,6 +22,7 @@ public class WormholeJeiPlugin implements IModPlugin {
         registry.addRecipeCategories(new DuplicationRecipeCategory(guiHelper));
         registry.addRecipeCategories(new ExplosionRefineCategory(guiHelper));
         registry.addRecipeCategories(new OreDropCategory(guiHelper));
+        registry.addRecipeCategories(new HighEnergyRefineCategory(guiHelper));
     }
 
     @Override
@@ -40,6 +41,10 @@ public class WormholeJeiPlugin implements IModPlugin {
         registry.addRecipeCatalyst(new ItemStack(Registration.NAQUADAH_ORE), OreDropCategory.UID);
         registry.addRecipeCatalyst(new ItemStack(Registration.UNSTABLE_NAQUADAH_BLOCK), OreDropCategory.UID);
 
+        registry.handleRecipes(HighEnergyRefineRecipe.class, HighEnergyRefineWrapper::new, HighEnergyRefineCategory.UID);
+        registry.addRecipes(HighEnergyRefineRecipe.createRecipes(), HighEnergyRefineCategory.UID);
+        registry.addRecipeCatalyst(new ItemStack(Registration.HIGH_ENERGY_REFINER), HighEnergyRefineCategory.UID);
+
         info(registry, Registration.ITEM_WORMHOLE_DUPLICATOR, "wormhole_duplicator", 4);
         info(registry, Registration.ITEM_UNSTABLE_WORMHOLE_DUPLICATOR, "unstable_wormhole_duplicator", 4);
         info(registry, Registration.ITEM_RF_GENERATOR, "rf_generator", 3);
@@ -57,6 +62,9 @@ public class WormholeJeiPlugin implements IModPlugin {
         info(registry, Registration.NAQUADAH_REACTOR, "naquadah_reactor", 1);
         info(registry, Registration.UNSTABLE_NAQUADAH_REACTOR, "unstable_naquadah_reactor", 0);
         info(registry, Registration.SYNTHETIC_MINERAL, "synthetic_mineral", 1);
+        info(registry, Registration.AETHERIUS, "aetherius", 2);
+        info(registry, Registration.ITEM_COMPRESSED_NAQUADAH, "compressed_naquadah", 1);
+        info(registry, Registration.ITEM_HIGH_ENERGY_REFINER, "high_energy_refiner", 3);
         for (com.nick1416.wormholetech.item.ItemMineralTuner tuner : Registration.MINERAL_TUNERS) {
             registry.addIngredientInfo(
                     new ItemStack(tuner),
