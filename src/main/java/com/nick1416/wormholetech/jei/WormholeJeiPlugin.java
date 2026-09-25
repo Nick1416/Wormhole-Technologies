@@ -71,8 +71,7 @@ public class WormholeJeiPlugin implements IModPlugin {
                     VanillaTypes.ITEM,
                     "tooltip.wormholetech.mineral_tuner.jei.1",
                     "tooltip.wormholetech.mineral_tuner.detail.1",
-                    "tooltip.wormholetech.mineral_tuner.detail.2",
-                    "tooltip.wormholetech.mineral_tuner.detail.3");
+                    "tooltip.wormholetech.mineral_tuner.detail.2");
         }
     }
 

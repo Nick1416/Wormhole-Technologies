@@ -121,7 +121,6 @@ item.wormholetech.mineral_tuner_silt.name=Mineral Tuner (Silt)
 tooltip.wormholetech.mineral_tuner.summary=Sets this chunk's IE excavator mineral to %s
 tooltip.wormholetech.mineral_tuner.detail.1=Requires Immersive Engineering.
 tooltip.wormholetech.mineral_tuner.detail.2=Right-click: set the mineral vein here (consumes the tuner).
-tooltip.wormholetech.mineral_tuner.detail.3=Sneak + right-click: list registered IE minerals.
 tooltip.wormholetech.mineral_tuner.jei.1=Sets this chunk's IE excavator mineral (see item name for which).
 
 jei.wormholetech.ore_drop=Wormhole Drops
