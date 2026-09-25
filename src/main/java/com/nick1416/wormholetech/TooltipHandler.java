@@ -97,8 +97,6 @@ public class TooltipHandler {
                     "tooltip.wormholetech.mineral_tuner.detail.1"));
             event.getToolTip().add(TextFormatting.DARK_GRAY + net.minecraft.client.resources.I18n.format(
                     "tooltip.wormholetech.mineral_tuner.detail.2"));
-            event.getToolTip().add(TextFormatting.DARK_GRAY + net.minecraft.client.resources.I18n.format(
-                    "tooltip.wormholetech.mineral_tuner.detail.3"));
         } else {
             event.getToolTip().add(TextFormatting.DARK_GRAY
                     + net.minecraft.client.resources.I18n.format("tooltip.wormholetech.more"));
