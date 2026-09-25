@@ -36,6 +36,9 @@ public class AdvancementBootstrap {
         Advancement root = getAdv(player, "root");
         if (root != null && !player.getAdvancements().getProgress(root).isDone()) {
             PENDING_ROOT.put(player.getUniqueID(), GRANT_DELAY_TICKS);
+        } else {
+            // Existing worlds: root already done — still grant Discovery + tablet if missing
+            grant(player, "discovery");
         }
 
         // After a short delay root may complete; sync item advs now and again later via pending
@@ -75,6 +78,7 @@ public class AdvancementBootstrap {
             EntityPlayerMP player = getPlayer(e.getKey());
             if (player == null) continue;
             grant(player, "root");
+            grant(player, "discovery");
             syncItemAdvancements(player);
         }
     }

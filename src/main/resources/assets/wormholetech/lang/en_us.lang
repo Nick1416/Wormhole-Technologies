@@ -95,6 +95,9 @@ tooltip.wormholetech.synthetic_mineral.detail.1=Quartz, blaze powder, and Unstab
 jei.wormholetech.explosion_refine=Explosion Refining
 jei.wormholetech.explosion_refine.hint=Explosion (item entity)
 jei.wormholetech.explosion_refine.tooltip=Drop Raw Naquadah as an item, then detonate nearby.
+jei.wormholetech.high_energy_refine=High Energy Refining
+jei.wormholetech.high_energy_refine.hint=~100 RF/t · ~1 hour
+jei.wormholetech.high_energy_refine.tooltip=Process in a High Energy Refiner while powered.
 
 # Mineral Tuners
 item.wormholetech.mineral_tuner_coal.name=Mineral Tuner (Coal)
@@ -127,8 +130,10 @@ jei.wormholetech.ore_drop.hint.always=Always drops ×4 when mined
 jei.wormholetech.ore_drop.tooltip.raw=Craft Synthetic Naquadah Ore, place it, mine it (no Silk Touch).
 jei.wormholetech.ore_drop.tooltip.unstable=Mine Unstable Block of Naquadah (no Silk Touch).
 
-advancements.wormholetech.root.title=Discovery of the Ancient Tablet
-advancements.wormholetech.root.desc=Strange matter and wormholes await. (Re-open Advancements to recover the Ancient Tablet if lost.)
+advancements.wormholetech.root.title=Wormhole Technologies
+advancements.wormholetech.root.desc=Strange matter and wormholes await.
+advancements.wormholetech.discovery.title=Discovery of the Ancient Tablet
+advancements.wormholetech.discovery.desc=Receive the Ancient Tablet and begin translating its fragments.
 advancements.wormholetech.craft_ore.title=Synthetic Vein
 advancements.wormholetech.craft_ore.desc=Craft Synthetic Naquadah Ore
 advancements.wormholetech.raw.title=Unstable Harvest
@@ -201,7 +206,7 @@ message.wormholetech.linker.missing_first=Stored pad is missing — linker clear
 message.wormholetech.linker.failed=Link failed
 
 item.wormholetech.aetherius.name=Aetherius
-tooltip.wormholetech.aetherius.summary=Glass-like stellar matter — cannot be duplicated
+tooltip.wormholetech.aetherius.summary=Glass-like stellar matter
 tooltip.wormholetech.aetherius.detail.1=Catalyst for the Relativistic Computer (not consumed).
 tooltip.wormholetech.aetherius.detail.2=Refine from Compressed Naquadah in a High Energy Refiner (~1 hour).
 
@@ -236,12 +241,12 @@ advancements.wormholetech.wormhole_pad.desc=Craft a Wormhole Teleport Pad (late-
 advancements.wormholetech.high_energy_refiner.title=High Energy
 advancements.wormholetech.high_energy_refiner.desc=Craft a High Energy Refiner (late-game Aetherius path)
 tile.wormholetech.high_energy_refiner.name=High Energy Refiner
-tooltip.wormholetech.high_energy_refiner.summary=Slowly refines Compressed Naquadah into Aetherius
-tooltip.wormholetech.high_energy_refiner.detail.1=GUI: insert Compressed Naquadah. Needs RF (~100 RF/t).
-tooltip.wormholetech.high_energy_refiner.detail.2=Takes one hour (72000 ticks). Open the GUI to manage slots.
+tooltip.wormholetech.high_energy_refiner.summary=Slow high-power refining machine
+tooltip.wormholetech.high_energy_refiner.detail.1=Needs a large RF supply (~100 RF/t while running).
+tooltip.wormholetech.high_energy_refiner.detail.2=Open the GUI for slots. Recipes and times are in JEI.
 gui.wormholetech.tablet.p6.title=Fragment VI — Trajectories
 gui.wormholetech.tablet.p6.l1=[Translation] Compress refined matter beneath bedrock pressure, then hold it in a High Energy Refiner for one hour.
-gui.wormholetech.tablet.p6.l2=[Translation] Aetherius cannot be duplicated. Seat it in a Relativistic Computer (50k RF/t) beside a pad to calculate paths between worlds.
+gui.wormholetech.tablet.p6.l2=[Translation] Seat Aetherius in a Relativistic Computer (50k RF/t) beside a pad to calculate paths between worlds.
 tooltip.wormholetech.naquadah_generator.detail.4=Breaking the block keeps remaining lifetime.
 tooltip.wormholetech.unstable_wormhole_energy_converter.detail.4=Breaking the block keeps remaining lifetime.
 tooltip.wormholetech.high_energy_refiner.detail.3=Breaking the block keeps refine progress and contents.
