@@ -1,13 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "   ",
-    " N ",
-    "NBN"
+    "DND"
   ],
   "key": {
-    "B": { "item": "minecraft:blaze_powder" },
-	"N": { "item": "wormholetech:unstable_naquadah"}
+    "D": {
+      "type": "forge:ore_dict",
+      "ore": "nuggetDiamond"
+    },
+    "N": {
+      "item": "wormholetech:unstable_naquadah"
+    }
   },
-  "result": { "item": "wormholetech:refined_naquadah" }
+  "result": {
+    "item": "wormholetech:refined_naquadah"
+  }
 }
