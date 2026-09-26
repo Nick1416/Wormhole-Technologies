@@ -86,11 +86,6 @@ public class ClientProxy extends com.nick1416.wormholetech.common.CommonProxy {
 	    ModelLoader.setCustomModelResourceLocation(
 	    		reactorNaquadahUnstable, 0, new ModelResourceLocation(reactorNaquadahUnstable.getRegistryName(), "inventory"));
 	    
-	    // synthetic mineral
-	    Item syntheticMineral = Registration.SYNTHETIC_MINERAL;
-	    ModelLoader.setCustomModelResourceLocation(
-	    		syntheticMineral, 0, new ModelResourceLocation(syntheticMineral.getRegistryName(), "inventory"));
-	   
 	    // unstable wormhole duplicator
 	    Item udup = Item.getItemFromBlock(Registration.UNSTABLE_WORMHOLE_DUPLICATOR);
 	    ModelLoader.setCustomModelResourceLocation(udup, 0,

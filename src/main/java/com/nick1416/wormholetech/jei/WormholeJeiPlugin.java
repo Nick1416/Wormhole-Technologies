@@ -61,7 +61,6 @@ public class WormholeJeiPlugin implements IModPlugin {
         info(registry, Registration.QUANTUM_GLUE, "quantum_glue", 1);
         info(registry, Registration.NAQUADAH_REACTOR, "naquadah_reactor", 1);
         info(registry, Registration.UNSTABLE_NAQUADAH_REACTOR, "unstable_naquadah_reactor", 0);
-        info(registry, Registration.SYNTHETIC_MINERAL, "synthetic_mineral", 1);
         info(registry, Registration.AETHERIUS, "aetherius", 2);
         info(registry, Registration.ITEM_COMPRESSED_NAQUADAH, "compressed_naquadah", 1);
         info(registry, Registration.ITEM_HIGH_ENERGY_REFINER, "high_energy_refiner", 3);

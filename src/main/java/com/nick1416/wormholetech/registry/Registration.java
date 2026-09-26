@@ -162,13 +162,9 @@ public class Registration {
     		.setRegistryName(WormholeTech.MODID, "unstable_naquadah_reactor")
     		.setUnlocalizedName(WormholeTech.MODID + ".unstable_naquadah_reactor");
     
-    // -- Synthetic Mineral --
+    // -- Ancient Tablet --
     public static final Item ANCIENT_TABLET = new ItemAncientTablet();
 
-    public static final Item SYNTHETIC_MINERAL = new Item()
-    		.setRegistryName(WormholeTech.MODID, "synthetic_mineral")
-    		.setUnlocalizedName(WormholeTech.MODID + ".synthetic_mineral");
-    
     // -- Wormhole Teleport Pad --
     public static final Block WORMHOLE_PAD = new WormholePadBlock()
             .setRegistryName(WormholeTech.MODID, "wormhole_pad")
@@ -243,7 +239,6 @@ public class Registration {
                 UNSTABLE_NAQUADAH,
                 ITEM_UNSTABLE_PRYSMIAN_BLOCK,
                 ITEM_UNSTABLE_WORMHOLE_ENERGY_CONVERTER,
-                SYNTHETIC_MINERAL,
                 ITEM_UNSTABLE_NAQUADAH_BLOCK,
                 ITEM_WORMHOLE_DUPLICATOR,
                 ITEM_UNSTABLE_WORMHOLE_DUPLICATOR,

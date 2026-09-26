@@ -10,7 +10,6 @@ item.wormholetech.naquadah_reactor.name=Naquadah Reactor
 item.wormholetech.unstable_naquadah_reactor.name=Unstable Naquadah Reactor
 tile.wormholetech.unstable_prysmian_block.name=Unstable Block of Prysmian
 tile.wormholetech.unstable_wormhole_energy_converter.name=Unstable Wormhole Energy Converter
-item.wormholetech.synthetic_mineral.name=Synthetic Mineral
 tile.wormholetech.unstable_naquadah_block.name=Unstable Block of Naquadah
 tile.wormholetech.wormhole_duplicator.name=Wormhole Duplicator
 container.wormholetech.wormhole_duplicator=Wormhole Duplicator
@@ -72,7 +71,7 @@ tooltip.wormholetech.refined_naquadah.detail.1=Also craftable: diamond nugget, U
 tooltip.wormholetech.refined_naquadah.detail.2=Used in Quantum Glue, reactors, and machines.
 
 tooltip.wormholetech.unstable_naquadah.summary=Byproduct of unstable machines and blocks
-tooltip.wormholetech.unstable_naquadah.detail.1=Craft into Refined Naquadah or Synthetic Mineral.
+tooltip.wormholetech.unstable_naquadah.detail.1=Craft into Refined Naquadah.
 tooltip.wormholetech.unstable_naquadah.detail.2=Comes from mining Unstable Block of Naquadah (×4).
 
 # --- Materials ---
@@ -88,8 +87,6 @@ tooltip.wormholetech.naquadah_reactor.detail.1=Built from refined naquadah, Prys
 
 tooltip.wormholetech.unstable_naquadah_reactor.summary=Unstable crafting part for end-tier machines
 
-tooltip.wormholetech.synthetic_mineral.summary=Crafted mineral used in further recipes
-tooltip.wormholetech.synthetic_mineral.detail.1=Quartz, blaze powder, and Unstable Naquadah.
 
 
 jei.wormholetech.explosion_refine=Explosion Refining

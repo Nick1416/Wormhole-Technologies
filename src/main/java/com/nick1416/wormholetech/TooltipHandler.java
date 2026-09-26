@@ -37,7 +37,6 @@ public class TooltipHandler {
             "quantum_glue",
             "naquadah_reactor",
             "unstable_naquadah_reactor",
-            "synthetic_mineral",
             "ancient_tablet",
             "high_energy_refiner",
             "relativistic_computer",
