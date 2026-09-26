@@ -68,7 +68,7 @@ tooltip.wormholetech.raw_naquadah.detail.1=Drop as an item and detonate nearby t
 tooltip.wormholetech.raw_naquadah.detail.2=See JEI for how to obtain it.
 
 tooltip.wormholetech.refined_naquadah.summary=Core crafting material for Wormhole tech
-tooltip.wormholetech.refined_naquadah.detail.1=Also craftable from Unstable Naquadah + blaze powder.
+tooltip.wormholetech.refined_naquadah.detail.1=Also craftable: diamond nugget, Unstable Naquadah, diamond nugget (middle row).
 tooltip.wormholetech.refined_naquadah.detail.2=Used in Quantum Glue, reactors, and machines.
 
 tooltip.wormholetech.unstable_naquadah.summary=Byproduct of unstable machines and blocks
@@ -138,7 +138,7 @@ advancements.wormholetech.craft_ore.title=Synthetic Vein
 advancements.wormholetech.craft_ore.desc=Craft Synthetic Naquadah Ore
 advancements.wormholetech.raw.title=Unstable Harvest
 advancements.wormholetech.raw.desc=Obtain Raw Naquadah from Synthetic Ore
-advancements.wormholetech.refined.title=Refined by Fire
+advancements.wormholetech.refined.title=Precision Refined
 advancements.wormholetech.refined.desc=Obtain Refined Naquadah
 
 item.wormholetech.ancient_tablet.name=Ancient Tablet
@@ -177,7 +177,7 @@ advancements.wormholetech.craft_synthetic_ore.title=Synthetic Vein
 advancements.wormholetech.craft_synthetic_ore.desc=Craft Synthetic Naquadah Ore
 advancements.wormholetech.get_raw_naquadah.title=Unstable Harvest
 advancements.wormholetech.get_raw_naquadah.desc=Obtain Raw Naquadah from Synthetic Ore
-advancements.wormholetech.refined_naquadah.title=Refined by Fire
+advancements.wormholetech.refined_naquadah.title=Precision Refined
 advancements.wormholetech.refined_naquadah.desc=Obtain Refined Naquadah
 
 # --- Wormhole Teleport Pads ---
