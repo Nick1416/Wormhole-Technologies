@@ -80,7 +80,7 @@ tooltip.wormholetech.unstable_naquadah.detail.2=Comes from mining Unstable Block
 # --- Materials ---
 tooltip.wormholetech.prysmian.summary=Crafting component for Prysmian blocks
 tooltip.wormholetech.prysmian_block.summary=Structural block for unstable reactors
-tooltip.wormholetech.unstable_prysmian_block.summary=Unstable variant of the Prysmian Block
+tooltip.wormholetech.unstable_prysmian_block.summary=Legacy block, no longer craftable
 tooltip.wormholetech.prysmian_logic_frame.summary=Advanced structural frame for reactors and machines
 
 tooltip.wormholetech.quantum_glue.summary=Crafting binder for high-tier Wormhole recipes

@@ -1,13 +1,11 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "QPQ",
-    "PQP",
-    "QPQ"
+    "PP",
+    "PP"
   ],
   "key": {
-    "P": { "item": "wormholetech:prysmian" },
-    "Q": { "item": "wormholetech:quantum_glue" }
+    "P": { "item": "wormholetech:prysmian" }
   },
   "result": { "item": "wormholetech:prysmian_block" }
 }

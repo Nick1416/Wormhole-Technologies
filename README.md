@@ -35,9 +35,10 @@ Repository: https://github.com/Nick1416/Wormhole-Technologies
 
 | Tier | Block | Recipe | Used by |
 |---|---|---|---|
-| Base | Unstable Block of Prysmian | 4 Prysmian (2x2) | no recipes (kept registered for existing worlds) |
-| Mid | Block of Prysmian | 4 Prysmian + 5 Quantum Glue | Unstable Naquadah Reactor |
+| Base | Block of Prysmian | 4 Prysmian (2x2) | Unstable Naquadah Reactor |
 | Advanced | Prysmian Logic Frame | 4 Prysmian + 5 Quantum Circuit | Naquadah Reactor |
+
+The Unstable Block of Prysmian is no longer craftable or used by any recipe; it stays registered so existing blocks don't vanish from worlds. Quantum Glue is still craftable but no longer used by the Prysmian recipes.
 
 ### Quantum Circuit (Compact Machines 3 miniaturization)
 
