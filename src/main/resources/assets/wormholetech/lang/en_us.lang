@@ -9,6 +9,8 @@ item.wormholetech.unstable_naquadah.name=Unstable Naquadah
 item.wormholetech.naquadah_reactor.name=Naquadah Reactor
 item.wormholetech.unstable_naquadah_reactor.name=Unstable Naquadah Reactor
 tile.wormholetech.unstable_prysmian_block.name=Unstable Block of Prysmian
+tile.wormholetech.prysmian_logic_frame.name=Prysmian Logic Frame
+item.wormholetech.quantum_circuit.name=Quantum Circuit
 tile.wormholetech.unstable_wormhole_energy_converter.name=Unstable Wormhole Energy Converter
 item.wormholetech.synthetic_mineral.name=Synthetic Mineral
 tile.wormholetech.unstable_naquadah_block.name=Unstable Block of Naquadah
@@ -76,15 +78,18 @@ tooltip.wormholetech.unstable_naquadah.detail.1=Craft into Refined Naquadah or S
 tooltip.wormholetech.unstable_naquadah.detail.2=Comes from mining Unstable Block of Naquadah (×4).
 
 # --- Materials ---
-tooltip.wormholetech.prysmian.summary=Crafting component for Prysmian Block
-tooltip.wormholetech.prysmian_block.summary=Structural block for reactors and machines
-tooltip.wormholetech.unstable_prysmian_block.summary=Unstable variant used in advanced crafts
+tooltip.wormholetech.prysmian.summary=Crafting component for Prysmian blocks
+tooltip.wormholetech.prysmian_block.summary=Structural block for unstable reactors
+tooltip.wormholetech.unstable_prysmian_block.summary=Unstable variant of the Prysmian Block
+tooltip.wormholetech.prysmian_logic_frame.summary=Advanced structural frame for reactors and machines
 
 tooltip.wormholetech.quantum_glue.summary=Crafting binder for high-tier Wormhole recipes
 tooltip.wormholetech.quantum_glue.detail.1=Made with refined naquadah, slime, coal, milk, and eyes of ender.
 
+tooltip.wormholetech.quantum_circuit.summary=Miniaturized redstone logic for Prysmian Logic Frames
+
 tooltip.wormholetech.naquadah_reactor.summary=Crafting part for Wormhole machines
-tooltip.wormholetech.naquadah_reactor.detail.1=Built from refined naquadah, Prysmian Block, and redstone logic.
+tooltip.wormholetech.naquadah_reactor.detail.1=Built from refined naquadah, Prysmian Logic Frame, and redstone logic.
 
 tooltip.wormholetech.unstable_naquadah_reactor.summary=Unstable crafting part for end-tier machines
 

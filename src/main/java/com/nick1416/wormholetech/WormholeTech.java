@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import com.nick1416.wormholetech.network.ModNetwork;
@@ -25,7 +26,7 @@ import java.util.List;
         modid = WormholeTech.MODID,
         name = "Wormhole Technologies",
         version = WormholeTech.VERSION,
-        dependencies = "after:immersiveengineering;after:jei;"
+        dependencies = "after:immersiveengineering;after:jei;after:compactmachines3;"
 )
 public class WormholeTech {
     public static final String MODID = "wormholetech";
@@ -100,6 +101,12 @@ public class WormholeTech {
         }
 
         PROXY.init();
+    }
+
+    @Mod.EventHandler
+    public void postInit(FMLPostInitializationEvent e) {
+        // After Compact Machines 3 has loaded its own recipes (its init), before JEI starts.
+        com.nick1416.wormholetech.compat.CompactMachinesCompat.registerMiniaturizationRecipes();
     }
 
     public static final int GUI_WORMHOLE_DUPLICATOR = 1;

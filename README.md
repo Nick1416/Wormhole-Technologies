@@ -21,14 +21,37 @@ Repository: https://github.com/Nick1416/Wormhole-Technologies
 | Minecraft Forge 1.12.2 | **Required** | Built against 14.23.5.2847 |
 | Immersive Engineering | Soft / recommended | Mineral tuners no-op without IE; rest of the mod loads |
 | JEI | Soft | Recipe/info integration when present |
+| Compact Machines 3 | Soft / recommended | Quantum Circuit miniaturization recipe (shown in CM3's JEI category); without CM3 a crafting-table fallback recipe is enabled |
 
-`@Mod` declares `after:immersiveengineering;after:jei;` so those mods initialize first when present. They are **not** hard requirements.
+`@Mod` declares `after:immersiveengineering;after:jei;after:compactmachines3;` so those mods initialize first when present. They are **not** hard requirements.
 
 ## Version 0.1.0 — breaking rename
 
 **0.1.0 renames the modid from `rfgen` to `wormholetech`.** Registry names, assets, lang keys, and the Java package (`com.nick1416.wormholetech`) all changed.
 
 **Existing worlds need a migration or a fresh start.** Items/blocks saved under `rfgen:*` will not map automatically.
+
+## Prysmian tiers
+
+| Tier | Block | Recipe | Used by |
+|---|---|---|---|
+| Base | Unstable Block of Prysmian | 4 Prysmian (2x2) | no recipes (kept registered for existing worlds) |
+| Mid | Block of Prysmian | 4 Prysmian + 5 Quantum Glue | Unstable Naquadah Reactor |
+| Advanced | Prysmian Logic Frame | 4 Prysmian + 5 Quantum Circuit | Naquadah Reactor |
+
+### Quantum Circuit (Compact Machines 3 miniaturization)
+
+Build a 5x5x5 structure inside a Compact Machines field projector and throw in **Refined Naquadah** as the catalyst → **2 Quantum Circuits**. Every block is smooth stone except the inner 3x3 of the middle layer:
+
+```
+C T D      C = redstone comparator   T = redstone torch
+T R T      R = redstone repeater     D = redstone dust
+D T D      (any facing / delay / mode; the comparator may sit in any corner)
+```
+
+The recipe ships inside the Wormhole jar (`assets/wormholetech/compactmachines3/recipes/quantum_circuit.json`) and is registered into Compact Machines 3 at startup, so it appears in CM3's JEI miniaturization category. Pack makers can override it by placing a recipe with the same `"name"` (`wormholetech:quantum_circuit`) in `config/compactmachines3/recipes/`.
+
+Without Compact Machines 3 installed, a crafting-table fallback is enabled instead (stone, comparator, torches, repeater, Refined Naquadah → 2 Quantum Circuits).
 
 ## Install
 

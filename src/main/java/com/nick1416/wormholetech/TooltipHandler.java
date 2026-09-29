@@ -35,6 +35,8 @@ public class TooltipHandler {
             "prysmian_block",
             "unstable_prysmian_block",
             "quantum_glue",
+            "quantum_circuit",
+            "prysmian_logic_frame",
             "naquadah_reactor",
             "unstable_naquadah_reactor",
             "synthetic_mineral",

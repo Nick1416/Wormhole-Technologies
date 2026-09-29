@@ -51,6 +51,10 @@ public class ClientProxy extends com.nick1416.wormholetech.common.CommonProxy {
 	    ModelLoader.setCustomModelResourceLocation(
 	    		prysBlockItemUnstable, 0, new ModelResourceLocation(prysBlockItemUnstable.getRegistryName(), "inventory"));
 
+	    Item logicFrame = Item.getItemFromBlock(Registration.PRYSMIAN_LOGIC_FRAME);
+	    ModelLoader.setCustomModelResourceLocation(
+	    		logicFrame, 0, new ModelResourceLocation(logicFrame.getRegistryName(), "inventory"));
+
 	    Item raw = Registration.RAW_NAQUADAH;
 	    ModelLoader.setCustomModelResourceLocation(
 	        raw, 0, new ModelResourceLocation(raw.getRegistryName(), "inventory"));
@@ -65,6 +69,11 @@ public class ClientProxy extends com.nick1416.wormholetech.common.CommonProxy {
 	    ModelLoader.setCustomModelResourceLocation(
 	    		glue, 0, new ModelResourceLocation(glue.getRegistryName(), "inventory"));
 	    
+	    // quantum circuit
+	    Item circuit = Registration.QUANTUM_CIRCUIT;
+	    ModelLoader.setCustomModelResourceLocation(
+	    		circuit, 0, new ModelResourceLocation(circuit.getRegistryName(), "inventory"));
+
 	    // unstable naquadah
 	    Item unstableNaquada = Registration.UNSTABLE_NAQUADAH;
 	    ModelLoader.setCustomModelResourceLocation(

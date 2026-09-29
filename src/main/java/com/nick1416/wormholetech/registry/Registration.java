@@ -2,6 +2,7 @@ package com.nick1416.wormholetech.registry;
 
 import com.nick1416.wormholetech.block.NaquadahOreBlock;
 import com.nick1416.wormholetech.block.PrysmianBlock;
+import com.nick1416.wormholetech.block.PrysmianLogicFrameBlock;
 import com.nick1416.wormholetech.block.UnstablePrysmianBlock;
 import com.nick1416.wormholetech.block.UnstableWormholeEnergyConverter;
 import com.nick1416.wormholetech.block.UnstableNaquadahBlock;
@@ -37,6 +38,14 @@ public class Registration {
 	public static final Item ITEM_PRYSMIAN_BLOCK = 
 			new ItemBlock(PRYSMIAN_BLOCK).setRegistryName(PRYSMIAN_BLOCK.getRegistryName());
 	
+	// -- Prysmian Logic Frame (advanced tier) --
+	public static final Block PRYSMIAN_LOGIC_FRAME = new PrysmianLogicFrameBlock()
+			.setRegistryName(WormholeTech.MODID, "prysmian_logic_frame")
+			.setUnlocalizedName(WormholeTech.MODID + ".prysmian_logic_frame");
+
+	public static final Item ITEM_PRYSMIAN_LOGIC_FRAME =
+			new ItemBlock(PRYSMIAN_LOGIC_FRAME).setRegistryName(PRYSMIAN_LOGIC_FRAME.getRegistryName());
+
 	// -- Unstable Block of Prysmian --
 	public static final Block UNSTABLE_PRYSMIAN_BLOCK = new UnstablePrysmianBlock()
 			.setRegistryName(WormholeTech.MODID, "unstable_prysmian_block")
@@ -126,6 +135,12 @@ public class Registration {
     		.setRegistryName(WormholeTech.MODID, "quantum_glue")
     		.setUnlocalizedName(WormholeTech.MODID + ".quantum_glue");
     
+    // --- Quantum Circuit (Compact Machines miniaturization) ---
+    public static final Item QUANTUM_CIRCUIT = new Item()
+    		.setRegistryName(WormholeTech.MODID, "quantum_circuit")
+    		.setUnlocalizedName(WormholeTech.MODID + ".quantum_circuit")
+    		.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MATERIALS);
+
     // --- Naquadah Reactor
     public static final Item NAQUADAH_REACTOR = new Item()
     		.setRegistryName(WormholeTech.MODID, "naquadah_reactor")
@@ -216,6 +231,7 @@ public class Registration {
                 NAQUADAH_ORE,
                 PRYSMIAN_BLOCK,
                 UNSTABLE_PRYSMIAN_BLOCK,
+                PRYSMIAN_LOGIC_FRAME,
                 UNSTABLE_WORMHOLE_ENERGY_CONVERTER,
                 UNSTABLE_NAQUADAH_BLOCK,
                 WORMHOLE_DUPLICATOR,
@@ -238,6 +254,8 @@ public class Registration {
                 PRYSMIAN,
                 ITEM_PRYSMIAN_BLOCK,
                 QUANTUM_GLUE,
+                QUANTUM_CIRCUIT,
+                ITEM_PRYSMIAN_LOGIC_FRAME,
                 NAQUADAH_REACTOR,
                 UNSTABLE_NAQUADAH_REACTOR,
                 UNSTABLE_NAQUADAH,

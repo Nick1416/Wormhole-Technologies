@@ -14,7 +14,8 @@
     "screenshots": [],
     "dependencies": [
       "immersiveengineering",
-      "jei"
+      "jei",
+      "compactmachines3"
     ]
   }
 ]
