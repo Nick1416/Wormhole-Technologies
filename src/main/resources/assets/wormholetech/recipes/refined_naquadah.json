@@ -1,7 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "DND"
+    "   ",
+    "DND",
+    "NBN"
   ],
   "key": {
     "D": {
@@ -10,6 +12,9 @@
     },
     "N": {
       "item": "wormholetech:unstable_naquadah"
+    },
+    "B": {
+      "item": "minecraft:blaze_powder"
     }
   },
   "result": {
