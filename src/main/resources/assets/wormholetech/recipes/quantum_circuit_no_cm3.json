@@ -1,0 +1,22 @@
+{
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": { "type": "forge:mod_loaded", "modid": "compactmachines3" }
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SCS",
+    "TRT",
+    "SNS"
+  ],
+  "key": {
+    "S": { "item": "minecraft:stone", "data": 0 },
+    "C": { "item": "minecraft:comparator" },
+    "T": { "item": "minecraft:redstone_torch" },
+    "R": { "item": "minecraft:repeater" },
+    "N": { "item": "wormholetech:refined_naquadah" }
+  },
+  "result": { "item": "wormholetech:quantum_circuit", "count": 2 }
+}

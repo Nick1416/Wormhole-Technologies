@@ -59,6 +59,8 @@ public class WormholeJeiPlugin implements IModPlugin {
         info(registry, Registration.ITEM_PRYSMIAN_BLOCK, "prysmian_block", 0);
         info(registry, Registration.ITEM_UNSTABLE_PRYSMIAN_BLOCK, "unstable_prysmian_block", 0);
         info(registry, Registration.QUANTUM_GLUE, "quantum_glue", 1);
+        info(registry, Registration.QUANTUM_CIRCUIT, "quantum_circuit", 0);
+        info(registry, Registration.ITEM_PRYSMIAN_LOGIC_FRAME, "prysmian_logic_frame", 0);
         info(registry, Registration.NAQUADAH_REACTOR, "naquadah_reactor", 1);
         info(registry, Registration.UNSTABLE_NAQUADAH_REACTOR, "unstable_naquadah_reactor", 0);
         info(registry, Registration.SYNTHETIC_MINERAL, "synthetic_mineral", 1);

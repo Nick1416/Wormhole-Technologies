@@ -1,0 +1,73 @@
+{
+  "name": "wormholetech:quantum_circuit",
+  "target-item": "wormholetech:quantum_circuit",
+  "target-count": 2,
+  "duration": 400,
+  "catalyst": "wormholetech:refined_naquadah",
+  "input-types": {
+    "s": {
+      "id": "minecraft:stone",
+      "meta": 0
+    },
+    "d": {
+      "id": "minecraft:redstone_wire",
+      "ignore-meta": true
+    },
+    "t": {
+      "id": "minecraft:redstone_torch",
+      "ignore-meta": true
+    },
+    "r": {
+      "id": "minecraft:powered_repeater",
+      "ignore-meta": true,
+      "item": {
+        "id": "minecraft:repeater"
+      }
+    },
+    "c": {
+      "id": "minecraft:unpowered_comparator",
+      "ignore-meta": true,
+      "item": {
+        "id": "minecraft:comparator"
+      }
+    }
+  },
+  "symmetrical": false,
+  "shape": [
+    [
+      ["s", "s", "s", "s", "s"],
+      ["s", "s", "s", "s", "s"],
+      ["s", "s", "s", "s", "s"],
+      ["s", "s", "s", "s", "s"],
+      ["s", "s", "s", "s", "s"]
+    ],
+    [
+      ["s", "s", "s", "s", "s"],
+      ["s", "s", "s", "s", "s"],
+      ["s", "s", "s", "s", "s"],
+      ["s", "s", "s", "s", "s"],
+      ["s", "s", "s", "s", "s"]
+    ],
+    [
+      ["s", "s", "s", "s", "s"],
+      ["s", "c", "t", "d", "s"],
+      ["s", "t", "r", "t", "s"],
+      ["s", "d", "t", "d", "s"],
+      ["s", "s", "s", "s", "s"]
+    ],
+    [
+      ["s", "s", "s", "s", "s"],
+      ["s", "s", "s", "s", "s"],
+      ["s", "s", "s", "s", "s"],
+      ["s", "s", "s", "s", "s"],
+      ["s", "s", "s", "s", "s"]
+    ],
+    [
+      ["s", "s", "s", "s", "s"],
+      ["s", "s", "s", "s", "s"],
+      ["s", "s", "s", "s", "s"],
+      ["s", "s", "s", "s", "s"],
+      ["s", "s", "s", "s", "s"]
+    ]
+  ]
+}
