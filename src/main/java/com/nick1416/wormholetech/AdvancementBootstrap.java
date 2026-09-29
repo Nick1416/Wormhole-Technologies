@@ -21,6 +21,11 @@ import java.util.concurrent.ConcurrentHashMap;
  * Root grant (delayed for pack starter kits) plus reliable unlocks for
  * inventory/craft item advancements (JSON inventory_changed alone can miss
  * JEI/creative picks and already-held stacks).
+ *
+ * The Ancient Tablet is given exactly once: it is the loot reward of the
+ * "discovery" advancement, which is only completed here (40 ticks after the
+ * first join, so Custom Starting Gear cannot wipe it). Lost tablets are
+ * recovered by crafting a piece of paper, not by re-granting.
  */
 @Mod.EventBusSubscriber(modid = WormholeTech.MODID)
 public class AdvancementBootstrap {

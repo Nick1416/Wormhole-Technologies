@@ -145,7 +145,7 @@ advancements.wormholetech.refined.desc=Obtain Refined Naquadah
 item.wormholetech.ancient_tablet.name=Ancient Tablet
 tooltip.wormholetech.ancient_tablet.summary=A translated fragment of ancient technology
 tooltip.wormholetech.ancient_tablet.detail.1=Right-click to read.
-tooltip.wormholetech.ancient_tablet.detail.2=Not craftable. Lost it? Open Advancements (L) to restore it.
+tooltip.wormholetech.ancient_tablet.detail.2=Lost it? Craft a piece of paper into a new tablet.
 
 gui.wormholetech.tablet.prev=Back
 gui.wormholetech.tablet.next=Next
@@ -266,4 +266,3 @@ advancements.wormholetech.wormhole_duplicator.desc=Craft a Wormhole Duplicator
 
 advancements.wormholetech.mineral_tuner.title=Seeking Veins
 advancements.wormholetech.mineral_tuner.desc=Craft any Mineral Tuner (Immersive Engineering excavator)
-message.wormholetech.tablet_restored=Ancient Tablet restored
