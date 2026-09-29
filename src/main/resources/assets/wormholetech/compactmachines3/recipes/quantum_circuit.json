@@ -18,10 +18,11 @@
       "ignore-meta": true
     },
     "r": {
-      "id": "minecraft:powered_repeater",
+      "id": "minecraft:unpowered_repeater",
       "ignore-meta": true,
       "item": {
-        "id": "minecraft:repeater"
+        "id": "minecraft:repeater",
+        "count": 2
       }
     },
     "c": {
@@ -31,6 +32,12 @@
         "id": "minecraft:comparator"
       }
     }
+  },
+  "wormholetech:state-variants": {
+    "r": [
+      "minecraft:unpowered_repeater",
+      "minecraft:powered_repeater"
+    ]
   },
   "symmetrical": false,
   "shape": [
@@ -50,8 +57,8 @@
     ],
     [
       ["s", "s", "s", "s", "s"],
-      ["s", "c", "t", "d", "s"],
-      ["s", "t", "r", "t", "s"],
+      ["s", "d", "c", "d", "s"],
+      ["s", "r", "d", "r", "s"],
       ["s", "d", "t", "d", "s"],
       ["s", "s", "s", "s", "s"]
     ],
