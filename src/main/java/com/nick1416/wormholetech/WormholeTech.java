@@ -15,7 +15,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import com.nick1416.wormholetech.network.ModNetwork;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
@@ -46,7 +45,6 @@ public class WormholeTech {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent e) {
         ModConfig.load(e.getSuggestedConfigurationFile());
-        ModNetwork.register();
 
         GameRegistry.registerTileEntity(GeneratorTileEntity.class,
                 new ResourceLocation(MODID, "rf_generator"));
