@@ -39,7 +39,6 @@ public class TooltipHandler {
             "prysmian_logic_frame",
             "naquadah_reactor",
             "unstable_naquadah_reactor",
-            "synthetic_mineral",
             "ancient_tablet",
             "high_energy_refiner",
             "relativistic_computer",
