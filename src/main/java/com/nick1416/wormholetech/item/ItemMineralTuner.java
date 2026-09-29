@@ -65,20 +65,6 @@ public class ItemMineralTuner extends Item {
 
         ensureIESaveData(world); // make sure IE save is initialized
 
-        // Sneak: list minerals
-        if (player.isSneaking()) {
-            List<String> names = getAllMineralNames();
-            if (names.isEmpty()) {
-                msg(player, "No IE minerals registered (disabled by config/scripts?).");
-            } else {
-                Collections.sort(names, String.CASE_INSENSITIVE_ORDER);
-                msg(player, "Minerals (" + names.size() + "):");
-                for (int i = 0; i < Math.min(12, names.size()); i++) msg(player, " - " + names.get(i));
-                if (names.size() > 12) msg(player, " ...and " + (names.size() - 12) + " more");
-            }
-            return new ActionResult<>(EnumActionResult.SUCCESS, stack);
-        }
-
         if (isRegistryEmpty()) {
             msg(player, "No IE minerals registered.");
             return new ActionResult<>(EnumActionResult.FAIL, stack);
@@ -193,7 +179,7 @@ public class ItemMineralTuner extends Item {
             if (n.toLowerCase(Locale.ROOT).contains(wl)) hits.add(n);
             if (hits.size() >= 5) break;
         }
-        if (hits.isEmpty()) msg(p, "Try Sneak-Right-Click to list minerals.");
+        if (hits.isEmpty()) msg(p, "No similar IE minerals found.");
         else msg(p, "Did you mean: " + joinComma(hits));
     }
 
