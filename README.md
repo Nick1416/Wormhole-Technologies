@@ -42,17 +42,25 @@ The Unstable Block of Prysmian is no longer craftable or used by any recipe; it 
 
 ### Quantum Circuit (Compact Machines 3 miniaturization)
 
-Build a 5x5x5 structure inside a Compact Machines field projector and throw in **Refined Naquadah** as the catalyst → **2 Quantum Circuits**. Every block is smooth stone except the inner 3x3 of the middle layer:
+Build a 5x5x5 structure inside a Compact Machines field projector and throw in **Refined Naquadah** as the catalyst → **2 Quantum Circuits**. Every block is stone (it looks like a solid stone cube) except the inner 3x3 of the middle layer:
 
 ```
-C T D      C = redstone comparator   T = redstone torch
-T R T      R = redstone repeater     D = redstone dust
-D T D      (any facing / delay / mode; the comparator may sit in any corner)
+D C D      C = redstone comparator   T = redstone torch
+R D R      R = redstone repeater     D = redstone dust
+D T D
 ```
 
-The recipe ships inside the Wormhole jar (`assets/wormholetech/compactmachines3/recipes/quantum_circuit.json`) and is registered into Compact Machines 3 at startup, so it appears in CM3's JEI miniaturization category. Pack makers can override it by placing a recipe with the same `"name"` (`wormholetech:quantum_circuit`) in `config/compactmachines3/recipes/`.
+That is 5 redstone dust, 2 repeaters, 1 comparator and 1 torch. Repeater/comparator facing, delay and mode don't matter, and the layout works in any of the 4 horizontal orientations. Repeaters change block (powered/unpowered) depending on their input, so hidden power-state variants of the recipe are registered alongside the main one; JEI only shows the single main recipe.
 
-Without Compact Machines 3 installed, a crafting-table fallback is enabled instead (stone, comparator, torches, repeater, Refined Naquadah → 2 Quantum Circuits).
+The recipe ships inside the Wormhole jar (`assets/wormholetech/compactmachines3/recipes/quantum_circuit.json`) and is registered into Compact Machines 3 at startup, so it appears in CM3's JEI miniaturization category. Pack makers can override it by placing a recipe with the same `"name"` (`wormholetech:quantum_circuit`) in `config/compactmachines3/recipes/` (this also disables the hidden power-state variants).
+
+Without Compact Machines 3 installed, a shaped crafting-table fallback is enabled instead → 2 Quantum Circuits:
+
+```
+D C D      D = redstone   C = comparator   R = repeater
+R N R      T = redstone torch   N = Refined Naquadah
+D T D
+```
 
 ## Install
 

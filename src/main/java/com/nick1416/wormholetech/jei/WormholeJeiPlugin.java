@@ -4,6 +4,10 @@ import com.nick1416.wormholetech.WormholeTech;
 import com.nick1416.wormholetech.registry.Registration;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IJeiHelpers;
+import mezz.jei.api.IJeiRuntime;
+import mezz.jei.api.IRecipeRegistry;
+import mezz.jei.api.recipe.IRecipeWrapper;
+import com.nick1416.wormholetech.compat.CompactMachinesCompat;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIPlugin;
@@ -75,6 +79,18 @@ public class WormholeJeiPlugin implements IModPlugin {
                     "tooltip.wormholetech.mineral_tuner.detail.1",
                     "tooltip.wormholetech.mineral_tuner.detail.2",
                     "tooltip.wormholetech.mineral_tuner.detail.3");
+        }
+    }
+
+    @Override
+    public void onRuntimeAvailable(IJeiRuntime runtime) {
+        // Hide the power-state variants of our CM3 miniaturization recipes so only one entry shows.
+        IRecipeRegistry recipes = runtime.getRecipeRegistry();
+        for (Object variant : CompactMachinesCompat.getHiddenVariants()) {
+            IRecipeWrapper wrapper = recipes.getRecipeWrapper(variant, CompactMachinesCompat.JEI_CATEGORY);
+            if (wrapper != null) {
+                recipes.hideRecipe(wrapper, CompactMachinesCompat.JEI_CATEGORY);
+            }
         }
     }
 
