@@ -4,26 +4,29 @@ import com.nick1416.wormholetech.registry.Registration;
 import com.nick1416.wormholetech.tile.AetheriusRefinerTileEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class ContainerHighEnergyRefiner extends Container {
+public class ContainerHighEnergyRefiner extends SyncedIntsContainer {
 
-    private static final int INPUT_X = 56, INPUT_Y = 35;
-    private static final int OUTPUT_X = 116, OUTPUT_Y = 35;
+    /** Background height; the player inventory is laid out from it (vanilla offsets). */
+    public static final int GUI_HEIGHT = 180;
+
+    // Item positions (the drawn 18x18 boxes in high_energy_refiner.png sit at x-1, y-1)
+    public static final int INPUT_X = 56, INPUT_Y = 36;
+    public static final int OUTPUT_X = 116, OUTPUT_Y = 36;
+    public static final int PLAYER_INV_Y = GUI_HEIGHT - 82;   // 98
+    public static final int HOTBAR_Y = PLAYER_INV_Y + 58;      // 156
+
+    private static final int ENERGY = 0, COOK = 1, COOK_TOTAL = 2, STATUS = 3;
 
     private final AetheriusRefinerTileEntity te;
-    private int clientEnergy;
-    private int clientProgress;
 
     public ContainerHighEnergyRefiner(InventoryPlayer playerInv, AetheriusRefinerTileEntity te) {
+        super(4);
         this.te = te;
         IItemHandlerModifiable inv = te.items();
 
@@ -32,54 +35,33 @@ public class ContainerHighEnergyRefiner extends Container {
             @Override public boolean isItemValid(ItemStack stack) { return false; }
         });
 
-        int startY = 84;
         for (int r = 0; r < 3; r++)
             for (int c = 0; c < 9; c++)
-                addSlotToContainer(new Slot(playerInv, c + r * 9 + 9, 8 + c * 18, startY + r * 18));
+                addSlotToContainer(new Slot(playerInv, c + r * 9 + 9, 8 + c * 18, PLAYER_INV_Y + r * 18));
         for (int c = 0; c < 9; c++)
-            addSlotToContainer(new Slot(playerInv, c, 8 + c * 18, startY + 58));
+            addSlotToContainer(new Slot(playerInv, c, 8 + c * 18, HOTBAR_Y));
     }
 
     public AetheriusRefinerTileEntity getTe() { return te; }
 
-    public int getClientEnergy() { return clientEnergy; }
-
-    public int getClientProgress() { return clientProgress; }
-
     @Override
-    public void addListener(IContainerListener listener) {
-        super.addListener(listener);
-        listener.sendWindowProperty(this, 0, te.getEnergyStored() & 0xFFFF);
-        listener.sendWindowProperty(this, 1, (te.getEnergyStored() >> 16) & 0xFFFF);
-        listener.sendWindowProperty(this, 2, te.getProgressPercent());
+    protected int[] readServerValues() {
+        return new int[] { te.getEnergyStored(), te.getCookTime(), te.getCookTimeTotal(), te.getStatus() };
     }
 
-    @Override
-    public void detectAndSendChanges() {
-        super.detectAndSendChanges();
-        int energy = te.getEnergyStored();
-        int progress = te.getProgressPercent();
-        for (IContainerListener listener : listeners) {
-            if ((clientEnergy & 0xFFFF) != (energy & 0xFFFF)) {
-                listener.sendWindowProperty(this, 0, energy & 0xFFFF);
-            }
-            if (((clientEnergy >> 16) & 0xFFFF) != ((energy >> 16) & 0xFFFF)) {
-                listener.sendWindowProperty(this, 1, (energy >> 16) & 0xFFFF);
-            }
-            if (clientProgress != progress) {
-                listener.sendWindowProperty(this, 2, progress);
-            }
-        }
-        clientEnergy = energy;
-        clientProgress = progress;
-    }
+    public int getClientEnergy() { return synced(ENERGY); }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void updateProgressBar(int id, int data) {
-        if (id == 0) clientEnergy = (clientEnergy & ~0xFFFF) | (data & 0xFFFF);
-        else if (id == 1) clientEnergy = (clientEnergy & 0xFFFF) | ((data & 0xFFFF) << 16);
-        else if (id == 2) clientProgress = data;
+    public int getClientCook() { return synced(COOK); }
+
+    public int getClientCookTotal() { return synced(COOK_TOTAL); }
+
+    public int getClientStatus() { return synced(STATUS); }
+
+    /** Progress 0..1 at full tick precision. */
+    public double getClientProgress() {
+        int total = getClientCookTotal();
+        if (total <= 0) return 0;
+        return Math.max(0, Math.min(1.0, getClientCook() / (double) total));
     }
 
     @Override

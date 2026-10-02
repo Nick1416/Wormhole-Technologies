@@ -57,6 +57,12 @@ public class RelativisticComputerTileEntity extends TileEntity implements ITicka
 
     public boolean isActive() { return active; }
 
+    /** True if an Aetherius is seated (the computer can calculate once powered). */
+    public boolean hasAetherius() {
+        ItemStack s = inv.getStackInSlot(0);
+        return !s.isEmpty() && s.getItem() == Registration.AETHERIUS;
+    }
+
     public int getEnergyStored() { return energy.getEnergyStored(); }
 
     public IItemHandlerModifiable items() { return inv; }

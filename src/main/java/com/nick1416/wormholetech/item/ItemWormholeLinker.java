@@ -2,6 +2,8 @@ package com.nick1416.wormholetech.item;
 
 import com.nick1416.wormholetech.WormholeTech;
 import com.nick1416.wormholetech.tile.WormholePadTileEntity;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -15,6 +17,12 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemWormholeLinker extends Item {
 
@@ -78,64 +86,87 @@ public class ItemWormholeLinker extends Item {
             stack.setTagCompound(nbt);
         }
 
+        int here = world.provider.getDimension();
+        String hereName = WormholePadTileEntity.dimName(here);
+
         if (!hasStoredLink(nbt)) {
             nbt.setInteger(KEY_X, pos.getX());
             nbt.setInteger(KEY_Y, pos.getY());
             nbt.setInteger(KEY_Z, pos.getZ());
-            nbt.setInteger(KEY_DIM, world.provider.getDimension());
+            nbt.setInteger(KEY_DIM, here);
             player.sendStatusMessage(new TextComponentTranslation(
-                    "message.wormholetech.linker.stored", pos.getX(), pos.getY(), pos.getZ()), true);
+                    "message.wormholetech.linker.stored", pos.getX(), pos.getY(), pos.getZ(), hereName), true);
             return EnumActionResult.SUCCESS;
         }
 
         int dim = nbt.getInteger(KEY_DIM);
+        String dimName = WormholePadTileEntity.dimName(dim);
         BlockPos first = new BlockPos(nbt.getInteger(KEY_X), nbt.getInteger(KEY_Y), nbt.getInteger(KEY_Z));
 
-        if (dim == world.provider.getDimension() && first.equals(pos)) {
-            player.sendStatusMessage(new TextComponentTranslation("message.wormholetech.linker.same_pad"), true);
+        // Same position AND same dimension = the stored pad itself. This also fires when the use
+        // repeats while right-click is held, so say so instead of reporting an error.
+        if (dim == here && first.equals(pos)) {
+            player.sendStatusMessage(new TextComponentTranslation("message.wormholetech.linker.already_stored",
+                    pos.getX(), pos.getY(), pos.getZ(), hereName), true);
+            return EnumActionResult.SUCCESS;
+        }
+
+        boolean cross = dim != here;
+        // Was the stored pad's area loaded (ticking) before we touch it? Decides whether its
+        // computer must be active or only needs Aetherius (see hasActiveComputer).
+        World loadedA = dim == here ? world : DimensionManager.getWorld(dim);
+        boolean firstWasLoaded = WormholePadTileEntity.isAreaLoaded(loadedA, first);
+        World worldA = WormholePadTileEntity.getWorldForDim(world, dim);
+        WormholePadTileEntity padA = WormholePadTileEntity.getPadLoading(worldA, first);
+        if (padA == null) {
+            clearStored(stack);
+            player.sendStatusMessage(new TextComponentTranslation("message.wormholetech.linker.missing_first",
+                    first.getX(), first.getY(), first.getZ(), dimName), true);
             return EnumActionResult.FAIL;
         }
 
-        World worldA = world;
-        if (dim != world.provider.getDimension()) {
-            if (world.getMinecraftServer() == null) return EnumActionResult.FAIL;
-            worldA = world.getMinecraftServer().getWorld(dim);
-            if (worldA == null) {
-                player.sendStatusMessage(new TextComponentTranslation("message.wormholetech.linker.missing_first"), true);
+        if (cross) {
+            // Each pad's computer is checked in that pad's own world.
+            if (!WormholePadTileEntity.hasActiveComputer(world, pos)) {
+                player.sendStatusMessage(new TextComponentTranslation("message.wormholetech.linker.need_computer_here"), true);
                 return EnumActionResult.FAIL;
             }
-        }
-
-        TileEntity teA = worldA.getTileEntity(first);
-        if (!(teA instanceof WormholePadTileEntity)) {
-            clearStored(stack);
-            player.sendStatusMessage(new TextComponentTranslation("message.wormholetech.linker.missing_first"), true);
-            return EnumActionResult.FAIL;
-        }
-
-        WormholePadTileEntity padA = (WormholePadTileEntity) teA;
-        boolean cross = dim != world.provider.getDimension();
-        if (cross) {
-            if (!WormholePadTileEntity.hasActiveComputer(worldA, first)
-                    || !WormholePadTileEntity.hasActiveComputer(world, pos)) {
-                player.sendStatusMessage(new TextComponentTranslation("message.wormholetech.linker.need_computers"), true);
+            if (!WormholePadTileEntity.hasActiveComputer(worldA, first, firstWasLoaded)) {
+                player.sendStatusMessage(new TextComponentTranslation("message.wormholetech.linker.need_computer_remote",
+                        first.getX(), first.getY(), first.getZ(), dimName), true);
                 return EnumActionResult.FAIL;
             }
         }
 
         boolean ok = WormholePadTileEntity.linkPads(padA, pad);
-        clearStored(stack);
         if (ok) {
-            player.sendStatusMessage(new TextComponentTranslation(
-                    cross ? "message.wormholetech.linker.linked_cross" : "message.wormholetech.linker.linked",
-                    first.getX(), first.getY(), first.getZ(),
-                    pos.getX(), pos.getY(), pos.getZ()), true);
+            clearStored(stack);
+            if (cross) {
+                player.sendStatusMessage(new TextComponentTranslation("message.wormholetech.linker.linked_cross",
+                        dimName, first.getX(), first.getY(), first.getZ(),
+                        hereName, pos.getX(), pos.getY(), pos.getZ()), true);
+            } else {
+                player.sendStatusMessage(new TextComponentTranslation("message.wormholetech.linker.linked",
+                        first.getX(), first.getY(), first.getZ(),
+                        pos.getX(), pos.getY(), pos.getZ(), hereName), true);
+            }
             return EnumActionResult.SUCCESS;
         }
 
         player.sendStatusMessage(new TextComponentTranslation(
                 cross ? "message.wormholetech.linker.need_computers" : "message.wormholetech.linker.failed"), true);
         return EnumActionResult.FAIL;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
+        NBTTagCompound nbt = stack.getTagCompound();
+        if (hasStoredLink(nbt)) {
+            tooltip.add(I18n.format("tooltip.wormholetech.wormhole_linker.stored",
+                    nbt.getInteger(KEY_X), nbt.getInteger(KEY_Y), nbt.getInteger(KEY_Z),
+                    WormholePadTileEntity.dimName(nbt.getInteger(KEY_DIM))));
+        }
     }
 
     private static boolean hasStoredLink(NBTTagCompound nbt) {
