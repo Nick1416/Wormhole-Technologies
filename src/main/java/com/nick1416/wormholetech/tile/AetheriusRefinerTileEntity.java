@@ -2,9 +2,12 @@ package com.nick1416.wormholetech.tile;
 
 import com.nick1416.wormholetech.ModConfig;
 import com.nick1416.wormholetech.registry.Registration;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
@@ -46,9 +49,19 @@ public class AetheriusRefinerTileEntity extends TileEntity implements ITickable 
     };
     private int cook;
 
+    public static final int STATUS_IDLE = 0;        // no input
+    public static final int STATUS_REFINING = 1;
+    public static final int STATUS_NEED_RF = 2;
+    public static final int STATUS_OUTPUT_FULL = 3;
+
+    private int status = STATUS_IDLE;
+    /** Whether the machine is refining; synced to clients for the block's particles. */
+    private boolean active;
+
     @Override
     public void update() {
         if (world == null || world.isRemote) return;
+        updateStatus();
 
         ItemStack input = inv.getStackInSlot(0);
         ItemStack output = inv.getStackInSlot(1);
@@ -77,6 +90,37 @@ public class AetheriusRefinerTileEntity extends TileEntity implements ITickable 
             markDirty();
         }
     }
+
+    private void updateStatus() {
+        ItemStack input = inv.getStackInSlot(0);
+        ItemStack output = inv.getStackInSlot(1);
+        int next;
+        if (input.isEmpty() || input.getItem() != Item.getItemFromBlock(Registration.COMPRESSED_NAQUADAH)) {
+            next = STATUS_IDLE;
+        } else if (!output.isEmpty() && (output.getItem() != Registration.AETHERIUS
+                || output.getCount() >= output.getMaxStackSize())) {
+            next = STATUS_OUTPUT_FULL;
+        } else if (energy.getEnergyStored() < ModConfig.highEnergyRefinerRfPerTick) {
+            next = STATUS_NEED_RF;
+        } else {
+            next = STATUS_REFINING;
+        }
+        status = next;
+        boolean nowActive = next == STATUS_REFINING;
+        if (nowActive != active) {
+            active = nowActive;
+            IBlockState state = world.getBlockState(pos);
+            world.notifyBlockUpdate(pos, state, state, 3);
+        }
+    }
+
+    /** One of the STATUS_* constants (server side). */
+    public int getStatus() { return status; }
+
+    /** Client and server: true while refining (client value arrives via the update packet). */
+    public boolean isActive() { return active; }
+
+    public int getCookTimeTotal() { return ModConfig.highEnergyRefinerCookTimeTicks; }
 
     public int getCookTime() { return cook; }
 
@@ -143,6 +187,30 @@ public class AetheriusRefinerTileEntity extends TileEntity implements ITickable 
             if (tag.hasKey("Input")) inv.setStackInSlot(0, new ItemStack(tag.getCompoundTag("Input")));
             if (tag.hasKey("Output")) inv.setStackInSlot(1, new ItemStack(tag.getCompoundTag("Output")));
         }
+    }
+
+    @Override
+    public NBTTagCompound getUpdateTag() {
+        NBTTagCompound tag = super.getUpdateTag();
+        tag.setBoolean("Active", active);
+        return tag;
+    }
+
+    @Override
+    public void handleUpdateTag(NBTTagCompound tag) {
+        active = tag.getBoolean("Active");
+    }
+
+    @Override
+    public SPacketUpdateTileEntity getUpdatePacket() {
+        NBTTagCompound tag = new NBTTagCompound();
+        tag.setBoolean("Active", active);
+        return new SPacketUpdateTileEntity(pos, 0, tag);
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+        active = pkt.getNbtCompound().getBoolean("Active");
     }
 
     @Override
