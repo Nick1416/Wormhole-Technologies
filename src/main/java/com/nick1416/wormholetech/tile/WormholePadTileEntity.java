@@ -15,6 +15,13 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.gen.ChunkProviderServer;
+import net.minecraftforge.common.DimensionManager;
+
+import javax.annotation.Nullable;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class WormholePadTileEntity extends TileEntity implements ITickable {
@@ -82,31 +89,105 @@ public class WormholePadTileEntity extends TileEntity implements ITickable {
         markDirty();
     }
 
-    /** True if an adjacent Relativistic Computer is actively calculating. */
-    public static boolean hasActiveComputer(net.minecraft.world.World world, BlockPos pos) {
-        if (world == null || pos == null) return false;
+    /** Readable dimension name for chat/tooltips (Overworld, Nether, The End, else the provider name). */
+    public static String dimName(int dim) {
+        switch (dim) {
+            case 0: return "Overworld";
+            case -1: return "Nether";
+            case 1: return "The End";
+            default:
+                try {
+                    if (DimensionManager.isDimensionRegistered(dim)) {
+                        return DimensionManager.getProviderType(dim).getName() + " (" + dim + ")";
+                    }
+                } catch (RuntimeException ignored) {
+                }
+                return "Dim " + dim;
+        }
+    }
+
+    /**
+     * Server world for {@code dim}, initialising it if it is registered but currently unloaded
+     * (e.g. the Nether while nobody is in it). Returns null for unknown dimensions or on the client.
+     */
+    public static World getWorldForDim(World hint, int dim) {
+        if (hint != null && hint.provider.getDimension() == dim) return hint;
+        if (hint != null && hint.isRemote) return null;
+        if (!DimensionManager.isDimensionRegistered(dim)) return null;
+        WorldServer w = DimensionManager.getWorld(dim);
+        if (w == null) {
+            DimensionManager.initDimension(dim);
+            w = DimensionManager.getWorld(dim);
+        }
+        return w;
+    }
+
+    /**
+     * Makes sure the chunk holding {@code p} is loaded (from disk; never generates new terrain).
+     * Returns true if it was already loaded before this call. Chunks loaded here are queued for
+     * unload again, so a check never pins a chunk in memory.
+     */
+    private static boolean ensureLoaded(World w, BlockPos p) {
+        if (w.isBlockLoaded(p)) return true;
+        if (w instanceof WorldServer) {
+            ChunkProviderServer cps = ((WorldServer) w).getChunkProvider();
+            Chunk chunk = cps.loadChunk(p.getX() >> 4, p.getZ() >> 4);
+            if (chunk != null) cps.queueUnload(chunk);
+        }
+        return false;
+    }
+
+    /**
+     * True if the area around {@code p} is loaded right now (so its machines are ticking).
+     * Call this BEFORE loading anything there with {@link #getPadLoading}.
+     */
+    public static boolean isAreaLoaded(@Nullable World w, BlockPos p) {
+        return w != null && p != null && w.isBlockLoaded(p);
+    }
+
+    /** {@link #hasActiveComputer(World, BlockPos, boolean)} for an area that is loaded and ticking. */
+    public static boolean hasActiveComputer(World world, BlockPos pos) {
+        return hasActiveComputer(world, pos, true);
+    }
+
+    /**
+     * True if a Relativistic Computer beside {@code pos} can calculate cross-dimension paths.
+     * If the area was loaded (ticking) the computer must be active (Aetherius + power).
+     * If it was NOT loaded (typically the far end of a cross-dimension link while you stand at
+     * the other end) the computer has not been ticking, so its saved active flag is stale; then
+     * it only needs Aetherius seated. Works in any dimension and loads the chunks if needed.
+     */
+    public static boolean hasActiveComputer(World world, BlockPos pos, boolean areaWasLoaded) {
+        if (world == null || pos == null || world.isRemote) return false;
         for (EnumFacing face : EnumFacing.VALUES) {
-            TileEntity te = world.getTileEntity(pos.offset(face));
-            if (te instanceof RelativisticComputerTileEntity
-                    && ((RelativisticComputerTileEntity) te).isActive()) {
-                return true;
+            BlockPos cp = pos.offset(face);
+            ensureLoaded(world, cp);
+            if (!world.isBlockLoaded(cp)) continue;
+            TileEntity te = world.getTileEntity(cp);
+            if (te instanceof RelativisticComputerTileEntity) {
+                RelativisticComputerTileEntity c = (RelativisticComputerTileEntity) te;
+                if (c.isActive()) return true;
+                if (!areaWasLoaded && c.hasAetherius()) return true;
             }
         }
         return false;
     }
 
-    private static WormholePadTileEntity getPad(net.minecraft.world.World w, BlockPos p) {
-        if (w == null || p == null || !w.isBlockLoaded(p)) return null;
+    /** Pad at {@code p} in {@code w}, loading its chunk from disk if necessary. */
+    public static WormholePadTileEntity getPadLoading(World w, BlockPos p) {
+        if (w == null || p == null || w.isRemote) return null;
+        ensureLoaded(w, p);
+        if (!w.isBlockLoaded(p)) return null;
         TileEntity te = w.getTileEntity(p);
         return te instanceof WormholePadTileEntity ? (WormholePadTileEntity) te : null;
     }
 
-    private static net.minecraft.world.World resolveWorld(net.minecraft.world.World hint, int dim) {
-        if (hint != null && hint.provider.getDimension() == dim) return hint;
-        if (hint != null && hint.getMinecraftServer() != null) {
-            return hint.getMinecraftServer().getWorld(dim);
-        }
-        return null;
+    private static WormholePadTileEntity getPad(World w, BlockPos p) {
+        return getPadLoading(w, p);
+    }
+
+    private static World resolveWorld(World hint, int dim) {
+        return getWorldForDim(hint, dim);
     }
 
     /** Unlink and clear partner if it still points here (supports cross-dim). */
@@ -132,20 +213,14 @@ public class WormholePadTileEntity extends TileEntity implements ITickable {
     }
 
     /**
-     * Bidirectional link. Same-dimension always OK.
-     * Cross-dimension requires an active Relativistic Computer adjacent to both pads.
+     * Bidirectional link; refuses only a pad linked to itself (same position AND dimension).
+     * Callers check the cross-dimension computer requirement first, each pad in its own world
+     * (see ItemWormholeLinker), because only they know whether the far pad's area was loaded.
      */
     public static boolean linkPads(WormholePadTileEntity a, WormholePadTileEntity b) {
         if (a == null || b == null || a.world == null || b.world == null) return false;
         if (a.world.provider.getDimension() == b.world.provider.getDimension() && a.pos.equals(b.pos)) {
             return false;
-        }
-
-        boolean cross = a.world.provider.getDimension() != b.world.provider.getDimension();
-        if (cross) {
-            if (!hasActiveComputer(a.world, a.pos) || !hasActiveComputer(b.world, b.pos)) {
-                return false;
-            }
         }
 
         a.unlinkAndNotifyPartner();
@@ -188,18 +263,21 @@ public class WormholePadTileEntity extends TileEntity implements ITickable {
             }
         }
 
-        net.minecraft.world.World destWorld = resolveWorld(world, partnerDim);
+        World destWorld = resolveWorld(world, partnerDim);
         BlockPos destPad = new BlockPos(partnerX, partnerY, partnerZ);
+        // A destination in an unloaded area is not ticking, so its upkeep/powered flag is stale;
+        // only require power from a destination that is actually loaded.
+        boolean destWasLoaded = destWorld != null && destWorld.isBlockLoaded(destPad);
         WormholePadTileEntity partner = getPad(destWorld, destPad);
-        if (partner == null || !partner.linked || !partner.powered) return false;
+        if (partner == null || !partner.linked || (destWasLoaded && !partner.powered)) return false;
         if (partner.partnerX != pos.getX() || partner.partnerY != pos.getY() || partner.partnerZ != pos.getZ()
                 || partner.partnerDim != world.provider.getDimension()) {
             return false;
         }
-        if (cross && !hasActiveComputer(destWorld, destPad)) {
+        if (cross && !hasActiveComputer(destWorld, destPad, destWasLoaded)) {
             if (entity instanceof EntityPlayer) {
                 ((EntityPlayer) entity).sendStatusMessage(
-                        new TextComponentTranslation("message.wormholetech.pad.need_computer_dest"), true);
+                        new TextComponentTranslation("message.wormholetech.pad.need_computer_dest", dimName(partnerDim)), true);
             }
             return false;
         }

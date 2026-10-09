@@ -17,11 +17,12 @@ public class GuiRelativisticComputer extends GuiContainer {
         super(new ContainerRelativisticComputer(inv, te));
         this.container = (ContainerRelativisticComputer) this.inventorySlots;
         this.xSize = 176;
-        this.ySize = 166;
+        this.ySize = ContainerRelativisticComputer.GUI_HEIGHT;
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+        net.minecraft.client.renderer.GlStateManager.color(1f, 1f, 1f, 1f);
         mc.getTextureManager().bindTexture(BG);
         drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
     }
@@ -30,7 +31,7 @@ public class GuiRelativisticComputer extends GuiContainer {
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         String title = I18n.format("container.wormholetech.relativistic_computer");
         fontRenderer.drawString(title, 8, 6, 0x404040);
-        fontRenderer.drawString(I18n.format("container.inventory"), 8, ySize - 96 + 2, 0x404040);
+        fontRenderer.drawString(I18n.format("container.inventory"), 8, ySize - 94, 0x404040);
 
         String rf = I18n.format("gui.wormholetech.rf_stored", container.getClientEnergy());
         fontRenderer.drawString(rf, 8, 20, 0x404040);
@@ -38,7 +39,7 @@ public class GuiRelativisticComputer extends GuiContainer {
         String status = I18n.format(container.isClientActive()
                 ? "gui.wormholetech.status.active"
                 : "gui.wormholetech.status.idle");
-        fontRenderer.drawString(status, 8, 52, container.isClientActive() ? 0x206020 : 0x604020);
+        fontRenderer.drawString(status, 8, 58, container.isClientActive() ? 0x206020 : 0x604020);
     }
 
     @Override
