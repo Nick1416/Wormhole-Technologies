@@ -60,10 +60,6 @@ public class WormholeTech {
                 new ResourceLocation(MODID, "unstable_wormhole_duplicator"));
 
         GameRegistry.registerTileEntity(
-                com.nick1416.wormholetech.tile.UnstableGeneratorTileEntity.class,
-                new ResourceLocation(MODID, "unstable_wormhole_energy_converter"));
-
-        GameRegistry.registerTileEntity(
                 com.nick1416.wormholetech.tile.NaquadahGeneratorTileEntity.class,
                 new ResourceLocation(MODID, "naquadah_generator"));
 

@@ -25,7 +25,6 @@ public class TooltipHandler {
             "wormhole_duplicator",
             "unstable_wormhole_duplicator",
             "rf_generator",
-            "unstable_wormhole_energy_converter",
             "naquadah_generator",
             "unstable_naquadah_block",
             "raw_naquadah",
@@ -34,7 +33,6 @@ public class TooltipHandler {
             "prysmian",
             "prysmian_block",
             "unstable_prysmian_block",
-            "quantum_glue",
             "quantum_circuit",
             "prysmian_logic_frame",
             "naquadah_reactor",
@@ -72,8 +70,6 @@ public class TooltipHandler {
     private static void addPersistedStateTooltips(ItemTooltipEvent event, ItemStack stack, String path) {
         if ("naquadah_generator".equals(path)) {
             TimedBlockItems.addRemainingTooltip(event.getToolTip(), stack, ModConfig.naquadahGeneratorLifetimeTicks);
-        } else if ("unstable_wormhole_energy_converter".equals(path)) {
-            TimedBlockItems.addRemainingTooltip(event.getToolTip(), stack, ModConfig.unstableConverterLifetimeTicks);
         } else if ("high_energy_refiner".equals(path) && stack.hasTagCompound()) {
             int cook = stack.getTagCompound().getInteger("Cook");
             if (cook > 0) {

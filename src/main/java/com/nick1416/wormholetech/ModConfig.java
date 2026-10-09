@@ -17,12 +17,6 @@ public final class ModConfig {
     public static int naquadahGeneratorMaxExtract = 5000;
     public static int naquadahGeneratorLifetimeTicks = 12_000;
 
-    // Unstable Wormhole Energy Converter
-    public static int unstableConverterRfPerTick = 10_000;
-    public static int unstableConverterBuffer = 1_000_000;
-    public static int unstableConverterMaxExtract = 10_000;
-    public static int unstableConverterLifetimeTicks = 72_000;
-
     // Stable Wormhole Energy Converter (GeneratorTileEntity)
     public static int stableConverterRfPerTick = 100_000;
     public static int stableConverterBuffer = 10_000_000;
@@ -58,15 +52,6 @@ public final class ModConfig {
                 "Naquadah Generator max RF extract per tick");
         naquadahGeneratorLifetimeTicks = cfg.getInt("naquadahGeneratorLifetimeTicks", gen, 12_000, 1, Integer.MAX_VALUE,
                 "Naquadah Generator lifetime in ticks (~10 min at 20 TPS)");
-
-        unstableConverterRfPerTick = cfg.getInt("unstableConverterRfPerTick", gen, 10_000, 0, Integer.MAX_VALUE,
-                "Unstable Wormhole Energy Converter RF per tick");
-        unstableConverterBuffer = cfg.getInt("unstableConverterBuffer", gen, 1_000_000, 1, Integer.MAX_VALUE,
-                "Unstable Converter internal RF buffer");
-        unstableConverterMaxExtract = cfg.getInt("unstableConverterMaxExtract", gen, 10_000, 0, Integer.MAX_VALUE,
-                "Unstable Converter max RF extract per tick");
-        unstableConverterLifetimeTicks = cfg.getInt("unstableConverterLifetimeTicks", gen, 72_000, 1, Integer.MAX_VALUE,
-                "Unstable Converter lifetime in ticks (~60 min at 20 TPS)");
 
         stableConverterRfPerTick = cfg.getInt("stableConverterRfPerTick", gen, 100_000, 0, Integer.MAX_VALUE,
                 "Wormhole Energy Converter (stable) RF per tick");

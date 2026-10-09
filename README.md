@@ -8,7 +8,7 @@ Repository: https://github.com/Nick1416/Wormhole-Technologies
 
 ## Features
 
-- **Power**: Naquadah Generator → Unstable Wormhole Energy Converter → Wormhole Energy Converter (stable)
+- **Power**: Naquadah Generator → Wormhole Energy Converter (stable)
 - **Duplication**: Wormhole Duplicator / Unstable Wormhole Duplicator (templates without NBT; this mod’s own items cannot be duplicated)
 - **Mineral Tuners**: set Immersive Engineering excavator minerals in a chunk (soft dependency on IE)
 - **Pads**: linked Wormhole Teleport Pads with RF upkeep; cross-dimension links via Relativistic Computer + Aetherius
@@ -38,7 +38,7 @@ Repository: https://github.com/Nick1416/Wormhole-Technologies
 | Base | Block of Prysmian | 4 Prysmian (2x2) | Unstable Naquadah Reactor |
 | Advanced | Prysmian Logic Frame | 4 Prysmian + 5 Quantum Circuit | Naquadah Reactor |
 
-The Unstable Block of Prysmian is no longer craftable or used by any recipe; it stays registered so existing blocks don't vanish from worlds. Quantum Glue is still craftable but no longer used by the Prysmian recipes.
+The Unstable Block of Prysmian is no longer craftable or used by any recipe; it stays registered so existing blocks don't vanish from worlds.
 
 ### Quantum Circuit (Compact Machines 3 miniaturization)
 

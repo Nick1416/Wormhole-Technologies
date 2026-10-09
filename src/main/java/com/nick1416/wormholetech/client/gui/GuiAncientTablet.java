@@ -54,7 +54,6 @@ public class GuiAncientTablet extends GuiScreen {
                 },
                 new ItemStack[] {
                         new ItemStack(Registration.ITEM_NAQUADAH_GENERATOR),
-                        new ItemStack(Registration.ITEM_UNSTABLE_WORMHOLE_ENERGY_CONVERTER),
                         new ItemStack(Registration.ITEM_RF_GENERATOR)
                 }));
         pages.add(new Page(

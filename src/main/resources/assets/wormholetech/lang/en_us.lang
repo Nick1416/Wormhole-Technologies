@@ -4,14 +4,12 @@ item.wormholetech.raw_naquadah.name=Raw Naquadah
 item.wormholetech.refined_naquadah.name=Refined Naquadah
 item.wormholetech.prysmian.name=Prysmian
 tile.wormholetech.prysmian_block.name=Block of Prysmian
-item.wormholetech.quantum_glue.name=Quantum Glue
 item.wormholetech.unstable_naquadah.name=Unstable Naquadah
 item.wormholetech.naquadah_reactor.name=Naquadah Reactor
 item.wormholetech.unstable_naquadah_reactor.name=Unstable Naquadah Reactor
 tile.wormholetech.unstable_prysmian_block.name=Unstable Block of Prysmian
 tile.wormholetech.prysmian_logic_frame.name=Prysmian Logic Frame
 item.wormholetech.quantum_circuit.name=Quantum Circuit
-tile.wormholetech.unstable_wormhole_energy_converter.name=Unstable Wormhole Energy Converter
 tile.wormholetech.unstable_naquadah_block.name=Unstable Block of Naquadah
 tile.wormholetech.wormhole_duplicator.name=Wormhole Duplicator
 container.wormholetech.wormhole_duplicator=Wormhole Duplicator
@@ -48,10 +46,6 @@ tooltip.wormholetech.rf_generator.detail.1=Buffer 10,000,000 RF. Extract up to 1
 tooltip.wormholetech.rf_generator.detail.2=No fuel. Pushes Forge Energy to adjacent machines.
 tooltip.wormholetech.rf_generator.detail.3=Permanent — does not expire or convert.
 
-tooltip.wormholetech.unstable_wormhole_energy_converter.summary=10,000 RF/t for 1 hour, then Unstable Naquadah
-tooltip.wormholetech.unstable_wormhole_energy_converter.detail.1=Buffer 1,000,000 RF. Extract up to 10,000 RF/t.
-tooltip.wormholetech.unstable_wormhole_energy_converter.detail.2=Lifetime: 72,000 ticks (~60 minutes at 20 TPS).
-tooltip.wormholetech.unstable_wormhole_energy_converter.detail.3=When time runs out, becomes Unstable Block of Naquadah.
 
 tooltip.wormholetech.naquadah_generator.summary=5,000 RF/t for 10 minutes, then Unstable Naquadah
 tooltip.wormholetech.naquadah_generator.detail.1=Buffer 500,000 RF. Extract up to 5,000 RF/t.
@@ -70,7 +64,6 @@ tooltip.wormholetech.raw_naquadah.detail.2=See JEI for how to obtain it.
 
 tooltip.wormholetech.refined_naquadah.summary=Core crafting material for Wormhole tech
 tooltip.wormholetech.refined_naquadah.detail.1=Also craftable from Unstable Naquadah + blaze powder, with diamond nuggets beside the center.
-tooltip.wormholetech.refined_naquadah.detail.2=Used in Quantum Glue, reactors, and machines.
 
 tooltip.wormholetech.unstable_naquadah.summary=Byproduct of unstable machines and blocks
 tooltip.wormholetech.unstable_naquadah.detail.1=Craft into Refined Naquadah.
@@ -82,8 +75,6 @@ tooltip.wormholetech.prysmian_block.summary=Structural block for unstable reacto
 tooltip.wormholetech.unstable_prysmian_block.summary=Legacy block, no longer craftable
 tooltip.wormholetech.prysmian_logic_frame.summary=Advanced structural frame for reactors and machines
 
-tooltip.wormholetech.quantum_glue.summary=Crafting binder for high-tier Wormhole recipes
-tooltip.wormholetech.quantum_glue.detail.1=Made with refined naquadah, slime, coal, milk, and eyes of ender.
 
 tooltip.wormholetech.quantum_circuit.summary=Miniaturized redstone logic for Prysmian Logic Frames
 
@@ -164,7 +155,7 @@ gui.wormholetech.tablet.p2.l2=[Translation] Synthetic Ore -> Raw Naquadah (25%%)
 
 gui.wormholetech.tablet.p3.title=Fragment III — Power
 gui.wormholetech.tablet.p3.l1=[Translation] Power path — each step borrows more of the wormhole:
-gui.wormholetech.tablet.p3.l2=[Translation] Naquadah Generator (brief) -> Unstable Converter (longer) -> Wormhole Energy Converter (steady).
+gui.wormholetech.tablet.p3.l2=[Translation] Naquadah Generator (brief) -> Wormhole Energy Converter (steady).
 
 gui.wormholetech.tablet.p4.title=Fragment V — Echoes
 gui.wormholetech.tablet.p4.l1=[Translation] An item is remembered across a throat of space. Making use of the rematerialization past the event horizon.
@@ -186,11 +177,6 @@ tile.wormholetech.wormhole_pad.name=Wormhole Teleport Pad
 item.wormholetech.wormhole_linker.name=Wormhole Linker
 
 tooltip.wormholetech.wormhole_pad.summary=Linked pad teleport — 50,000 RF/t upkeep each while linked
-tooltip.wormholetech.wormhole_pad.detail.1=Receives Forge Energy (buffer 2,000,000 RF). No extract to cables.
-tooltip.wormholetech.wormhole_pad.detail.2=Must stay powered (≥50k RF/t) on BOTH ends to teleport.
-tooltip.wormholetech.wormhole_pad.detail.3=Same-dimension by default. With a Relativistic Computer beside both pads, links can cross dimensions.
-tooltip.wormholetech.wormhole_pad.detail.4=Vs generators: Naquadah 5k/t · Unstable 10k/t · Wormhole Converter 100k/t.
-tooltip.wormholetech.wormhole_pad.detail.5=Link with the Wormhole Linker. Unpowered or unlinked pads do nothing.
 
 tooltip.wormholetech.wormhole_linker.summary=Right-click pads to create a bidirectional link
 tooltip.wormholetech.wormhole_linker.detail.1=First right-click stores pad A; second links A↔B (clears old links).
@@ -211,11 +197,9 @@ message.wormholetech.linker.failed=Link failed
 item.wormholetech.aetherius.name=Aetherius
 tooltip.wormholetech.aetherius.summary=Glass-like stellar matter
 tooltip.wormholetech.aetherius.detail.1=Catalyst for the Relativistic Computer (not consumed).
-tooltip.wormholetech.aetherius.detail.2=Refine from Compressed Naquadah in a High Energy Refiner (~1 hour).
 
 tile.wormholetech.compressed_naquadah.name=Compressed Naquadah
-tooltip.wormholetech.compressed_naquadah.summary=Bedrock-bound refined naquadah, awaiting slow refinement
-tooltip.wormholetech.compressed_naquadah.detail.1=Process in a High Energy Refiner for one hour to obtain Aetherius.
+tooltip.wormholetech.compressed_naquadah.summary=Bedrock-bound refined naquadah
 
 
 tile.wormholetech.relativistic_computer.name=Relativistic Computer
@@ -246,16 +230,11 @@ advancements.wormholetech.wormhole_pad.desc=Craft a Wormhole Teleport Pad (late-
 advancements.wormholetech.high_energy_refiner.title=High Energy
 advancements.wormholetech.high_energy_refiner.desc=Craft a High Energy Refiner (late-game Aetherius path)
 tile.wormholetech.high_energy_refiner.name=High Energy Refiner
-tooltip.wormholetech.high_energy_refiner.summary=Slow high-power refining machine
-tooltip.wormholetech.high_energy_refiner.detail.1=Needs a large RF supply (~100 RF/t while running).
-tooltip.wormholetech.high_energy_refiner.detail.2=Open the GUI for slots. Recipes and times are in JEI.
+tooltip.wormholetech.high_energy_refiner.summary=Slow high-energy refining machine
 gui.wormholetech.tablet.p6.title=Fragment VI — Trajectories
 gui.wormholetech.tablet.p6.l1=[Translation] Compress refined matter beneath bedrock pressure, then hold it in a High Energy Refiner for one hour.
 gui.wormholetech.tablet.p6.l2=[Translation] Seat Aetherius in a Relativistic Computer (50k RF/t) beside a pad to calculate paths between worlds.
 tooltip.wormholetech.naquadah_generator.detail.4=Breaking the block keeps remaining lifetime.
-tooltip.wormholetech.unstable_wormhole_energy_converter.detail.4=Breaking the block keeps remaining lifetime.
-tooltip.wormholetech.high_energy_refiner.detail.3=Breaking the block keeps refine progress and contents.
-tooltip.wormholetech.relativistic_computer.detail.3=Breaking the block keeps Aetherius and buffered RF.
 
 container.wormholetech.relativistic_computer=Relativistic Computer
 container.wormholetech.high_energy_refiner=High Energy Refiner
