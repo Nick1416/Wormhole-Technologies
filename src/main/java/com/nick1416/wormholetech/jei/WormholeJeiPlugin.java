@@ -52,24 +52,22 @@ public class WormholeJeiPlugin implements IModPlugin {
         info(registry, Registration.ITEM_WORMHOLE_DUPLICATOR, "wormhole_duplicator", 4);
         info(registry, Registration.ITEM_UNSTABLE_WORMHOLE_DUPLICATOR, "unstable_wormhole_duplicator", 4);
         info(registry, Registration.ITEM_RF_GENERATOR, "rf_generator", 3);
-        info(registry, Registration.ITEM_UNSTABLE_WORMHOLE_ENERGY_CONVERTER, "unstable_wormhole_energy_converter", 3);
         info(registry, Registration.ITEM_NAQUADAH_GENERATOR, "naquadah_generator", 3);
         info(registry, Registration.ITEM_NAQUADAH_ORE, "naquadah_ore", 3);
         info(registry, Registration.ITEM_UNSTABLE_NAQUADAH_BLOCK, "unstable_naquadah_block", 2);
         info(registry, Registration.RAW_NAQUADAH, "raw_naquadah", 3);
-        info(registry, Registration.REFINED_NAQUADAH, "refined_naquadah", 2);
+        info(registry, Registration.REFINED_NAQUADAH, "refined_naquadah", 1);
         info(registry, Registration.UNSTABLE_NAQUADAH, "unstable_naquadah", 2);
         info(registry, Registration.PRYSMIAN, "prysmian", 0);
         info(registry, Registration.ITEM_PRYSMIAN_BLOCK, "prysmian_block", 0);
         info(registry, Registration.ITEM_UNSTABLE_PRYSMIAN_BLOCK, "unstable_prysmian_block", 0);
-        info(registry, Registration.QUANTUM_GLUE, "quantum_glue", 1);
         info(registry, Registration.QUANTUM_CIRCUIT, "quantum_circuit", 0);
         info(registry, Registration.ITEM_PRYSMIAN_LOGIC_FRAME, "prysmian_logic_frame", 0);
         info(registry, Registration.NAQUADAH_REACTOR, "naquadah_reactor", 1);
         info(registry, Registration.UNSTABLE_NAQUADAH_REACTOR, "unstable_naquadah_reactor", 0);
-        info(registry, Registration.AETHERIUS, "aetherius", 2);
-        info(registry, Registration.ITEM_COMPRESSED_NAQUADAH, "compressed_naquadah", 1);
-        info(registry, Registration.ITEM_HIGH_ENERGY_REFINER, "high_energy_refiner", 3);
+        info(registry, Registration.AETHERIUS, "aetherius", 1);
+        info(registry, Registration.ITEM_COMPRESSED_NAQUADAH, "compressed_naquadah", 0);
+        info(registry, Registration.ITEM_HIGH_ENERGY_REFINER, "high_energy_refiner", 0);
         for (com.nick1416.wormholetech.item.ItemMineralTuner tuner : Registration.MINERAL_TUNERS) {
             registry.addIngredientInfo(
                     new ItemStack(tuner),

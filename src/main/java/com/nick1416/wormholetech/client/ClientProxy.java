@@ -22,10 +22,6 @@ public class ClientProxy extends com.nick1416.wormholetech.common.CommonProxy {
 	    ModelLoader.setCustomModelResourceLocation(
 	        genItem, 0, new ModelResourceLocation(genItem.getRegistryName(), "inventory"));
 	    
-	    Item unstableGenItem = Item.getItemFromBlock(Registration.UNSTABLE_WORMHOLE_ENERGY_CONVERTER);
-	    ModelLoader.setCustomModelResourceLocation(
-	    		unstableGenItem, 0, new ModelResourceLocation(unstableGenItem.getRegistryName(), "inventory"));
-	    
 	    Item naquadahGen = Item.getItemFromBlock(Registration.NAQUADAH_GENERATOR);
 	    ModelLoader.setCustomModelResourceLocation(
 	    		naquadahGen, 0, new ModelResourceLocation(naquadahGen.getRegistryName(), "inventory"));
@@ -63,11 +59,6 @@ public class ClientProxy extends com.nick1416.wormholetech.common.CommonProxy {
 	    Item refined = Registration.REFINED_NAQUADAH;
 	    ModelLoader.setCustomModelResourceLocation(
 	        refined, 0, new ModelResourceLocation(refined.getRegistryName(), "inventory"));
-	    
-	    // quantum glue
-	    Item glue = Registration.QUANTUM_GLUE;
-	    ModelLoader.setCustomModelResourceLocation(
-	    		glue, 0, new ModelResourceLocation(glue.getRegistryName(), "inventory"));
 	    
 	    // quantum circuit
 	    Item circuit = Registration.QUANTUM_CIRCUIT;
