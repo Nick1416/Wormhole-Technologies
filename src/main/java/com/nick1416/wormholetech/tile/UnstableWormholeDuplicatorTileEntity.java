@@ -7,9 +7,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 /**
- * Like the stable duplicator but fuelled by full diamonds, with a single Block of Refined Naquadah
- * slot and no Unstable output: it works while connected and, when that block has decayed, drops its
- * remaining contents and collapses into an Unstable Block of Naquadah.
+ * Single-use duplicator: fuelled by a full diamond, with a single Block of Refined Naquadah slot and
+ * no Unstable output. Once connected it performs exactly ONE duplication, then immediately drops its
+ * contents (output included) and collapses into an Unstable Block of Naquadah; the Refined Naquadah
+ * block is consumed. It also collapses if that block finishes decaying before any duplication.
  */
 public class UnstableWormholeDuplicatorTileEntity extends LinkedMachineTileEntity {
 
@@ -65,9 +66,11 @@ public class UnstableWormholeDuplicatorTileEntity extends LinkedMachineTileEntit
         if (output.isEmpty()) inv.setStackInSlot(SLOT_OUTPUT, product);
         else output.grow(2);
         markDirty();
+        collapse(); // single use
     }
 
-    /** The Refined Naquadah block is spent: drop everything else and become an Unstable Block of Naquadah. */
+    /** After its one duplication (or when the block decays first): drop everything except the consumed
+     *  Refined Naquadah block and become an Unstable Block of Naquadah. */
     private void collapse() {
         double x = pos.getX() + 0.5, y = pos.getY() + 0.5, z = pos.getZ() + 0.5;
         for (int i = 0; i < inv.getSlots(); i++) {

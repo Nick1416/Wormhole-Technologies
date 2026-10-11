@@ -43,7 +43,7 @@ The Wormhole Duplicator, Unstable Wormhole Duplicator and Wormhole Energy Conver
 - While connected, the first block decays over `refinedNaquadahBlockDecayTicks` game ticks (config `wormhole_connection`, default 12000 = ~10 minutes). It then becomes an Unstable Block of Naquadah in the output slot and the next block starts. The connection ends when the last block is used up.
 - If the Unstable output slot is full, the finished block waits there and the machine pauses until there is room.
 - Taking the decaying block out ends the connection; the block keeps its progress in NBT (shown in its tooltip, it does not stack) and continues where it left off when put back into an empty wormhole slot.
-- **Unstable Wormhole Duplicator**: holds a single block and has no Unstable output. It works (1 diamond per operation) until that block has decayed, then drops its contents and collapses into an Unstable Block of Naquadah.
+- **Unstable Wormhole Duplicator**: single use. It holds a single block and has no Unstable output. Once connected it performs exactly one duplication (1 diamond + 1 template → 2), then immediately drops its contents (including the output) and collapses into an Unstable Block of Naquadah; the Refined Naquadah block is consumed. If the block decays before a duplication happens, it collapses the same way.
 - Breaking a machine keeps its inventory and connection state in the dropped item.
 
 ## Stargate and P3X-1416

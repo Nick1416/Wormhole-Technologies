@@ -20,7 +20,7 @@ tile.wormholetech.naquadah_generator.name=Naquadah Generator
 # Duplicator player-facing copy
 tooltip.wormholetech.more=Hold Shift for details
 tooltip.wormholetech.wormhole_duplicator.summary=Runs while connected to a wormhole (Blocks of Refined Naquadah)
-tooltip.wormholetech.unstable_wormhole_duplicator.summary=Runs on one Block of Refined Naquadah, then collapses
+tooltip.wormholetech.unstable_wormhole_duplicator.summary=Duplicates once while connected, then collapses
 
 gui.wormholetech.slot.fuel_nugget=Fuel — diamond nugget
 gui.wormholetech.slot.fuel_diamond=Fuel — diamond
@@ -32,7 +32,7 @@ gui.wormholetech.slot.unstable_out=Output — Unstable Block of Naquadah
 
 jei.wormholetech.duplication=Wormhole Duplication
 jei.wormholetech.duplication.stable=Stable · needs a wormhole link
-jei.wormholetech.duplication.unstable=Unstable · collapses after 1 block
+jei.wormholetech.duplication.unstable=Unstable · single use, then collapses
 jei.wormholetech.duplication.catalyst_note=Accepts most items without NBT.
 
 # --- Generators / converters ---
@@ -154,7 +154,7 @@ gui.wormholetech.tablet.p3.l2=[Translation] Naquadah Generator (brief) -> Wormho
 
 gui.wormholetech.tablet.p4.title=Fragment V — Echoes
 gui.wormholetech.tablet.p4.l1=[Translation] An item is remembered across a throat of space. Making use of the rematerialization past the event horizon.
-gui.wormholetech.tablet.p4.l2=[Translation] A wormhole stays open while a Block of Refined Naquadah decays (ten minutes each). The Unstable Duplicator collapses with its block.
+gui.wormholetech.tablet.p4.l2=[Translation] A wormhole stays open while a Block of Refined Naquadah decays (ten minutes each). The Unstable Duplicator echoes only once, then collapses.
 
 gui.wormholetech.tablet.p5.title=Fragment IV — Seeking Veins
 gui.wormholetech.tablet.p5.l1=[Translation] Tells your machinery what veins to look for.
