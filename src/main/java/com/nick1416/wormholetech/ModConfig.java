@@ -46,10 +46,22 @@ public final class ModConfig {
     public static int dialingComputerRfPerTickSetting = -1; // -1: half the Relativistic Computer upkeep
     public static int dialingComputerBuffer = 1_000_000;
     public static int dialingComputerMaxReceive = 100_000;
-    public static int p3xNaquadahOreVeinsPerChunk = 8;
-    public static int p3xNaquadahOreVeinSize = 6;
+    public static int p3xNaquadahOreVeinsPerChunk = 11;
+    public static int p3xNaquadahOreVeinSizeMin = 4;
+    public static int p3xNaquadahOreVeinSize = 8;   // max vein size
     public static int p3xNaquadahOreMinY = 5;
-    public static int p3xNaquadahOreMaxY = 64;
+    public static int p3xNaquadahOreMaxY = 80;
+    public static int p3xSurfaceOreClusterChance = 3; // 1 in N chunks, 0 = off
+    public static int p3xCrystalsPerChunk = 3;
+    public static int p3xSpireChance = 6;            // 1 in N chunks, 0 = off
+    public static int p3xObeliskChance = 40;         // 1 in N chunks, 0 = off
+
+    /** Reads an int; if it still holds the previous default, moves it to the new default. */
+    private static int migrated(Configuration cfg, String cat, String key, int def, int oldDef, int min, int max, String comment) {
+        net.minecraftforge.common.config.Property p = cfg.get(cat, key, def, comment, min, max);
+        if (p.getInt() == oldDef) p.set(def);
+        return Math.max(min, Math.min(max, p.getInt()));
+    }
 
     /** Dialing Computer upkeep per tick while the wormhole is open. */
     public static int dialingComputerRfPerTick() {
@@ -114,11 +126,22 @@ public final class ModConfig {
         dialingComputerBuffer = cfg.getInt("dialingComputerBuffer", sg, 1_000_000, 1, Integer.MAX_VALUE, "Dialing Computer RF buffer");
         dialingComputerMaxReceive = cfg.getInt("dialingComputerMaxReceive", sg, 100_000, 0, Integer.MAX_VALUE,
                 "Dialing Computer max RF receive per tick");
-        p3xNaquadahOreVeinsPerChunk = cfg.getInt("p3xNaquadahOreVeinsPerChunk", sg, 8, 0, 64,
-                "Naquadah ore veins per chunk on P3X-1416 (no ore is added to any other dimension)");
-        p3xNaquadahOreVeinSize = cfg.getInt("p3xNaquadahOreVeinSize", sg, 6, 1, 32, "Blocks per Naquadah ore vein on P3X-1416");
+        // Ore defaults changed with the natural Naquadah Ore (PR "P3X exotic"): migrate untouched old defaults.
+        p3xNaquadahOreVeinsPerChunk = migrated(cfg, sg, "p3xNaquadahOreVeinsPerChunk", 11, 8, 0, 64,
+                "Natural Naquadah Ore veins per chunk on P3X-1416 (no ore is added to any other dimension)");
+        p3xNaquadahOreVeinSizeMin = cfg.getInt("p3xNaquadahOreVeinSizeMin", sg, 4, 1, 32,
+                "Smallest Natural Naquadah Ore vein on P3X-1416 (blocks)");
+        p3xNaquadahOreVeinSize = migrated(cfg, sg, "p3xNaquadahOreVeinSize", 8, 6, 1, 32,
+                "Largest Natural Naquadah Ore vein on P3X-1416 (blocks)");
         p3xNaquadahOreMinY = cfg.getInt("p3xNaquadahOreMinY", sg, 5, 1, 255, "Lowest Y for Naquadah ore on P3X-1416");
-        p3xNaquadahOreMaxY = cfg.getInt("p3xNaquadahOreMaxY", sg, 64, 1, 255, "Highest Y for Naquadah ore on P3X-1416");
+        p3xNaquadahOreMaxY = migrated(cfg, sg, "p3xNaquadahOreMaxY", 80, 64, 1, 255, "Highest Y for Naquadah ore on P3X-1416");
+        p3xSurfaceOreClusterChance = cfg.getInt("p3xSurfaceOreClusterChance", sg, 3, 0, 1000,
+                "1 in N chunks on P3X-1416 get a small exposed Naquadah Ore cluster on the surface (0 = off)");
+        p3xCrystalsPerChunk = cfg.getInt("p3xCrystalsPerChunk", sg, 3, 0, 64,
+                "Naquadah Crystal placement attempts per chunk on P3X-1416 (surface + caves; decorative only)");
+        p3xSpireChance = cfg.getInt("p3xSpireChance", sg, 6, 0, 1000, "1 in N chunks on P3X-1416 get a rock spire (0 = off)");
+        p3xObeliskChance = cfg.getInt("p3xObeliskChance", sg, 40, 0, 10000,
+                "1 in N chunks on P3X-1416 get an Ancient Stone obelisk/ruin (0 = off)");
 
         final String pads = "wormhole_pads";
         wormholePadUpkeepRfPerTick = cfg.getInt("wormholePadUpkeepRfPerTick", pads, 50_000, 0, Integer.MAX_VALUE,

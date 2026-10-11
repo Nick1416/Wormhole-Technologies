@@ -27,6 +27,11 @@ public final class OreDropRecipe {
                         "jei.wormholetech.ore_drop.hint.chance",
                         "jei.wormholetech.ore_drop.tooltip.raw"),
                 new OreDropRecipe(
+                        new ItemStack(Registration.NATURAL_NAQUADAH_ORE),
+                        new ItemStack(Registration.RAW_NAQUADAH),
+                        "jei.wormholetech.ore_drop.hint.natural",
+                        "jei.wormholetech.ore_drop.tooltip.natural"),
+                new OreDropRecipe(
                         new ItemStack(Registration.UNSTABLE_NAQUADAH_BLOCK),
                         new ItemStack(Registration.UNSTABLE_NAQUADAH, 4),
                         "jei.wormholetech.ore_drop.hint.always",
