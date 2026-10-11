@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * The Ancient Tablet is given exactly once: it is the loot reward of the
  * "discovery" advancement, which is only completed here (40 ticks after the
  * first join, so Custom Starting Gear cannot wipe it). Lost tablets are
- * recovered by crafting a piece of paper, not by re-granting.
+ * recovered by crafting paper + Refined Naquadah, not by re-granting.
  */
 @Mod.EventBusSubscriber(modid = WormholeTech.MODID)
 public class AdvancementBootstrap {

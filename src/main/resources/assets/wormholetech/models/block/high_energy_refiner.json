@@ -1,1 +1,1 @@
-{ "parent": "block/cube_all", "textures": { "all": "wormholetech:blocks/high_energy_refiner" } }
+{ "parent": "block/cube", "textures": { "particle": "wormholetech:blocks/high_energy_refiner", "up": "wormholetech:blocks/high_energy_refiner_top", "down": "wormholetech:blocks/high_energy_refiner_top", "north": "wormholetech:blocks/high_energy_refiner", "south": "wormholetech:blocks/high_energy_refiner", "east": "wormholetech:blocks/high_energy_refiner", "west": "wormholetech:blocks/high_energy_refiner" } }

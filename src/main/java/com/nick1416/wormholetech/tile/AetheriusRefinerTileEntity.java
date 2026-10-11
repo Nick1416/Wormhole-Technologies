@@ -20,7 +20,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 
-/** Furnace-like long refine: Compressed Naquadah → Aetherius in 1 hour (72000 ticks). */
+/** Furnace-like long refine: Compressed Naquadah → Aetherius in 30 minutes (36000 ticks, configurable). */
 public class AetheriusRefinerTileEntity extends TileEntity implements ITickable {
 
     private final RefEnergy energy = new RefEnergy(

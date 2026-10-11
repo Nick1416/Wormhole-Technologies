@@ -1,1 +1,1 @@
-{ "parent": "block/cube_all", "textures": { "all": "wormholetech:blocks/relativistic_computer" } }
+{ "parent": "block/cube", "textures": { "particle": "wormholetech:blocks/relativistic_computer", "up": "wormholetech:blocks/relativistic_computer_top", "down": "wormholetech:blocks/relativistic_computer_top", "north": "wormholetech:blocks/relativistic_computer", "south": "wormholetech:blocks/relativistic_computer", "east": "wormholetech:blocks/relativistic_computer", "west": "wormholetech:blocks/relativistic_computer" } }

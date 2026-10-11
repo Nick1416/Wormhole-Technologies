@@ -1,9 +1,8 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    { "item": "minecraft:paper" }
+    { "item": "minecraft:paper" },
+    { "item": "wormholetech:refined_naquadah" }
   ],
-  "result": {
-    "item": "wormholetech:ancient_tablet"
-  }
+  "result": { "item": "wormholetech:ancient_tablet" }
 }

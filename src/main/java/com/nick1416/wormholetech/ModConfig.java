@@ -29,7 +29,7 @@ public final class ModConfig {
 
     // High Energy Refiner (Aetherius)
     public static int highEnergyRefinerRfPerTick = 100;
-    public static int highEnergyRefinerCookTimeTicks = 72_000;
+    public static int highEnergyRefinerCookTimeTicks = 36_000;
     public static int highEnergyRefinerBuffer = 1_000_000;
     public static int highEnergyRefinerMaxReceive = 10_000;
 
@@ -70,8 +70,13 @@ public final class ModConfig {
 
         highEnergyRefinerRfPerTick = cfg.getInt("highEnergyRefinerRfPerTick", late, 100, 0, Integer.MAX_VALUE,
                 "High Energy Refiner RF consumed per tick while refining");
-        highEnergyRefinerCookTimeTicks = cfg.getInt("highEnergyRefinerCookTimeTicks", late, 72_000, 1, Integer.MAX_VALUE,
-                "High Energy Refiner cook time in ticks (~1 hour at 20 TPS)");
+        net.minecraftforge.common.config.Property refineTime = cfg.get(late, "highEnergyRefinerCookTimeTicks", 36_000,
+                "High Energy Refiner cook time in ticks (~30 minutes at 20 TPS)", 1, Integer.MAX_VALUE);
+        if (refineTime.getInt() == 72_000) {
+            // Migrate the old 1-hour default; custom values are left alone.
+            refineTime.set(36_000);
+        }
+        highEnergyRefinerCookTimeTicks = refineTime.getInt();
         highEnergyRefinerBuffer = cfg.getInt("highEnergyRefinerBuffer", late, 1_000_000, 1, Integer.MAX_VALUE,
                 "High Energy Refiner RF buffer");
         highEnergyRefinerMaxReceive = cfg.getInt("highEnergyRefinerMaxReceive", late, 10_000, 0, Integer.MAX_VALUE,

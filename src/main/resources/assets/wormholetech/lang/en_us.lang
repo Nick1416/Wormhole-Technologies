@@ -63,7 +63,6 @@ tooltip.wormholetech.raw_naquadah.detail.1=Drop as an item and detonate nearby t
 tooltip.wormholetech.raw_naquadah.detail.2=See JEI for how to obtain it.
 
 tooltip.wormholetech.refined_naquadah.summary=Core crafting material for Wormhole tech
-tooltip.wormholetech.refined_naquadah.detail.1=Also craftable from Unstable Naquadah + blaze powder, with diamond nuggets beside the center.
 
 tooltip.wormholetech.unstable_naquadah.summary=Byproduct of unstable machines and blocks
 tooltip.wormholetech.unstable_naquadah.detail.1=Craft into Refined Naquadah.
@@ -89,8 +88,12 @@ jei.wormholetech.explosion_refine=Explosion Refining
 jei.wormholetech.explosion_refine.hint=Explosion (item entity)
 jei.wormholetech.explosion_refine.tooltip=Drop Raw Naquadah as an item, then detonate nearby.
 jei.wormholetech.high_energy_refine=High Energy Refining
-jei.wormholetech.high_energy_refine.hint=~100 RF/t · ~1 hour
+jei.wormholetech.high_energy_refine.hint=%s RF/t · %s
 jei.wormholetech.high_energy_refine.tooltip=Process in a High Energy Refiner while powered.
+jei.wormholetech.high_energy_refine.time=Refine time: %s ticks (%s)
+jei.wormholetech.high_energy_refine.energy=Total energy: %s RF
+jei.wormholetech.time.minutes=~%s min
+jei.wormholetech.time.seconds=~%s s
 
 # Mineral Tuners
 item.wormholetech.mineral_tuner_coal.name=Mineral Tuner (Coal)
@@ -136,7 +139,7 @@ advancements.wormholetech.refined.desc=Obtain Refined Naquadah
 item.wormholetech.ancient_tablet.name=Ancient Tablet
 tooltip.wormholetech.ancient_tablet.summary=A translated fragment of ancient technology
 tooltip.wormholetech.ancient_tablet.detail.1=Right-click to read.
-tooltip.wormholetech.ancient_tablet.detail.2=Lost it? Craft a piece of paper into a new tablet.
+tooltip.wormholetech.ancient_tablet.detail.2=Lost it? Craft paper with Refined Naquadah.
 
 gui.wormholetech.tablet.prev=Back
 gui.wormholetech.tablet.next=Next
@@ -228,11 +231,11 @@ advancements.wormholetech.relativistic_computer.desc=Craft a Relativistic Comput
 advancements.wormholetech.wormhole_pad.title=Folded Path
 advancements.wormholetech.wormhole_pad.desc=Craft a Wormhole Teleport Pad (late-game travel)
 advancements.wormholetech.high_energy_refiner.title=High Energy
-advancements.wormholetech.high_energy_refiner.desc=Craft a High Energy Refiner (late-game Aetherius path)
+advancements.wormholetech.high_energy_refiner.desc=Craft a High Energy Refiner
 tile.wormholetech.high_energy_refiner.name=High Energy Refiner
 tooltip.wormholetech.high_energy_refiner.summary=Slow high-energy refining machine
 gui.wormholetech.tablet.p6.title=Fragment VI — Trajectories
-gui.wormholetech.tablet.p6.l1=[Translation] Compress refined matter beneath bedrock pressure, then hold it in a High Energy Refiner for one hour.
+gui.wormholetech.tablet.p6.l1=[Translation] Compress refined matter beneath bedrock pressure, then hold it in a High Energy Refiner for thirty minutes.
 gui.wormholetech.tablet.p6.l2=[Translation] Seat Aetherius in a Relativistic Computer (50k RF/t) beside a pad to calculate paths between worlds.
 tooltip.wormholetech.naquadah_generator.detail.4=Breaking the block keeps remaining lifetime.
 
