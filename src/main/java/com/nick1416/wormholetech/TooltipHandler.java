@@ -47,7 +47,13 @@ public class TooltipHandler {
             "wormhole_pad",
             "wormhole_linker",
             "dialing_computer",
-            "ancient_gate_frame"
+            "ancient_gate_frame",
+            "gate_locator",
+            "naquadah_ore_natural",
+            "naquadric_stone",
+            "ashen_regolith",
+            "naquadah_crystal",
+            "ancient_stone"
     ));
 
     @SubscribeEvent

@@ -97,13 +97,15 @@ public class GuiAncientTablet extends GuiScreen {
                 new String[] {
                         "gui.wormholetech.tablet.p7.l1",
                         "gui.wormholetech.tablet.p7.l2",
-                        "gui.wormholetech.tablet.p7.l3"
+                        "gui.wormholetech.tablet.p7.l3",
+                        "gui.wormholetech.tablet.p7.l4"
                 },
                 new ItemStack[] {
                         titaniumIcon(),
                         new ItemStack(Registration.DIALING_COMPUTER),
                         new ItemStack(Registration.RELATIVISTIC_COMPUTER),
-                        new ItemStack(Registration.ANCIENT_TABLET)
+                        new ItemStack(Registration.ANCIENT_TABLET),
+                        new ItemStack(Registration.GATE_LOCATOR)
                 }));
     }
 

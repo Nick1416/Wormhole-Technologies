@@ -106,6 +106,7 @@ public class WormholeTech {
         }
 
         com.nick1416.wormholetech.world.BiomeNaquadahWastes.addTypes();
+        OreDictionary.registerOre("oreNaquadah", com.nick1416.wormholetech.registry.Registration.NATURAL_NAQUADAH_ORE);
         PROXY.init();
     }
 

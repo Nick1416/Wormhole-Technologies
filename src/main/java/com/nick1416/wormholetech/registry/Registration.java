@@ -177,6 +177,8 @@ public class Registration {
     // -- Ancient Tablet --
     public static final Item ANCIENT_TABLET = new ItemAncientTablet();
 
+    public static final Item GATE_LOCATOR = new com.nick1416.wormholetech.item.ItemGateLocator();
+
     // -- Wormhole Teleport Pad --
     public static final Block WORMHOLE_PAD = new WormholePadBlock()
             .setRegistryName(WormholeTech.MODID, "wormhole_pad")
@@ -230,11 +232,44 @@ public class Registration {
 
     public static final Block ANCIENT_GATE_FRAME = new com.nick1416.wormholetech.block.AncientGateFrameBlock()
             .setRegistryName(WormholeTech.MODID, "ancient_gate_frame")
-            .setUnlocalizedName(WormholeTech.MODID + ".ancient_gate_frame")
-            .setCreativeTab(net.minecraft.creativetab.CreativeTabs.BUILDING_BLOCKS);
+            .setUnlocalizedName(WormholeTech.MODID + ".ancient_gate_frame");
 
     public static final Item ITEM_ANCIENT_GATE_FRAME =
             new ItemBlock(ANCIENT_GATE_FRAME).setRegistryName(ANCIENT_GATE_FRAME.getRegistryName());
+
+    // -- P3X-1416 blocks --
+    public static final Block NATURAL_NAQUADAH_ORE = new com.nick1416.wormholetech.block.NaturalNaquadahOreBlock()
+            .setRegistryName(WormholeTech.MODID, "naquadah_ore_natural")
+            .setUnlocalizedName(WormholeTech.MODID + ".naquadah_ore_natural")
+            .setCreativeTab(net.minecraft.creativetab.CreativeTabs.BUILDING_BLOCKS);
+    public static final Item ITEM_NATURAL_NAQUADAH_ORE =
+            new ItemBlock(NATURAL_NAQUADAH_ORE).setRegistryName(NATURAL_NAQUADAH_ORE.getRegistryName());
+
+    public static final Block NAQUADRIC_STONE = new com.nick1416.wormholetech.block.NaquadricStoneBlock(1.5F,
+            net.minecraft.block.material.MapColor.BLUE_STAINED_HARDENED_CLAY)
+            .setRegistryName(WormholeTech.MODID, "naquadric_stone")
+            .setUnlocalizedName(WormholeTech.MODID + ".naquadric_stone");
+    public static final Item ITEM_NAQUADRIC_STONE =
+            new ItemBlock(NAQUADRIC_STONE).setRegistryName(NAQUADRIC_STONE.getRegistryName());
+
+    public static final Block ASHEN_REGOLITH = new com.nick1416.wormholetech.block.AshenRegolithBlock()
+            .setRegistryName(WormholeTech.MODID, "ashen_regolith")
+            .setUnlocalizedName(WormholeTech.MODID + ".ashen_regolith");
+    public static final Item ITEM_ASHEN_REGOLITH =
+            new ItemBlock(ASHEN_REGOLITH).setRegistryName(ASHEN_REGOLITH.getRegistryName());
+
+    public static final Block NAQUADAH_CRYSTAL = new com.nick1416.wormholetech.block.NaquadahCrystalBlock()
+            .setRegistryName(WormholeTech.MODID, "naquadah_crystal")
+            .setUnlocalizedName(WormholeTech.MODID + ".naquadah_crystal");
+    public static final Item ITEM_NAQUADAH_CRYSTAL =
+            new ItemBlock(NAQUADAH_CRYSTAL).setRegistryName(NAQUADAH_CRYSTAL.getRegistryName());
+
+    public static final Block ANCIENT_STONE = new com.nick1416.wormholetech.block.NaquadricStoneBlock(2.0F,
+            net.minecraft.block.material.MapColor.CYAN)
+            .setRegistryName(WormholeTech.MODID, "ancient_stone")
+            .setUnlocalizedName(WormholeTech.MODID + ".ancient_stone");
+    public static final Item ITEM_ANCIENT_STONE =
+            new ItemBlock(ANCIENT_STONE).setRegistryName(ANCIENT_STONE.getRegistryName());
 
     public static final net.minecraft.world.biome.Biome NAQUADAH_WASTES =
             new com.nick1416.wormholetech.world.BiomeNaquadahWastes()
@@ -265,7 +300,12 @@ public class Registration {
                 HIGH_ENERGY_REFINER,
                 DIALING_COMPUTER,
                 STARGATE_PORTAL,
-                ANCIENT_GATE_FRAME
+                ANCIENT_GATE_FRAME,
+                NATURAL_NAQUADAH_ORE,
+                NAQUADRIC_STONE,
+                ASHEN_REGOLITH,
+                NAQUADAH_CRYSTAL,
+                ANCIENT_STONE
         );
     }
 
@@ -315,7 +355,13 @@ public class Registration {
                 ITEM_RELATIVISTIC_COMPUTER,
                 ITEM_HIGH_ENERGY_REFINER,
                 ITEM_DIALING_COMPUTER,
-                ITEM_ANCIENT_GATE_FRAME
+                ITEM_ANCIENT_GATE_FRAME,
+                GATE_LOCATOR,
+                ITEM_NATURAL_NAQUADAH_ORE,
+                ITEM_NAQUADRIC_STONE,
+                ITEM_ASHEN_REGOLITH,
+                ITEM_NAQUADAH_CRYSTAL,
+                ITEM_ANCIENT_STONE
         );
     }
 }

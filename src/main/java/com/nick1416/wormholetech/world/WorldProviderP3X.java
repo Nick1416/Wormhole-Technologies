@@ -5,7 +5,11 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.BiomeProviderSingle;
-import net.minecraft.world.gen.ChunkGeneratorOverworld;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.world.gen.IChunkGenerator;
 
 /** Overworld-style terrain made entirely of the Naquadah Wastes biome. */
@@ -23,7 +27,30 @@ public class WorldProviderP3X extends WorldProvider {
     @Override
     public IChunkGenerator createChunkGenerator() {
         // Different seed than the overworld so the terrain is not a copy; no structures.
-        return new ChunkGeneratorOverworld(world, world.getSeed() ^ 0x5033581416L, false, "");
+        return new ChunkGeneratorP3X(world, world.getSeed() ^ 0x5033581416L);
+    }
+
+    /** Teal-violet sky, darkening at night like the overworld's. */
+    public static final float[] SKY = { 0.44F, 0.62F, 0.86F };
+    /** Warm rose-amber haze. */
+    public static final float[] FOG = { 0.86F, 0.62F, 0.66F };
+
+    private static float daylight(float celestialAngle) {
+        return MathHelper.clamp(MathHelper.cos(celestialAngle * (float) Math.PI * 2.0F) * 2.0F + 0.5F, 0.0F, 1.0F);
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public Vec3d getSkyColor(Entity camera, float partialTicks) {
+        float b = daylight(world.getCelestialAngle(partialTicks));
+        return new Vec3d(SKY[0] * b, SKY[1] * b, SKY[2] * b);
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public Vec3d getFogColor(float celestialAngle, float partialTicks) {
+        float b = daylight(celestialAngle);
+        return new Vec3d(FOG[0] * (b * 0.94F + 0.06F), FOG[1] * (b * 0.94F + 0.06F), FOG[2] * (b * 0.91F + 0.09F));
     }
 
     @Override public boolean isSurfaceWorld() { return true; }
