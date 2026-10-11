@@ -35,6 +35,9 @@ public class GuiHandler implements IGuiHandler {
         if (te instanceof UnstableWormholeDuplicatorTileEntity) {
             return new ContainerWormholeDuplicator(player.inventory, (UnstableWormholeDuplicatorTileEntity) te);
         }
+        if (te instanceof com.nick1416.wormholetech.tile.DialingComputerTileEntity) {
+            return new ContainerDialingComputer(player.inventory, (com.nick1416.wormholetech.tile.DialingComputerTileEntity) te);
+        }
         if (te instanceof GeneratorTileEntity) {
             return new ContainerEnergyConverter(player.inventory, (GeneratorTileEntity) te);
         }
@@ -64,6 +67,9 @@ public class GuiHandler implements IGuiHandler {
         }
         if (te instanceof UnstableWormholeDuplicatorTileEntity) {
             return new GuiWormholeDuplicator(player.inventory, (UnstableWormholeDuplicatorTileEntity) te);
+        }
+        if (te instanceof com.nick1416.wormholetech.tile.DialingComputerTileEntity) {
+            return new GuiDialingComputer(player.inventory, (com.nick1416.wormholetech.tile.DialingComputerTileEntity) te);
         }
         if (te instanceof GeneratorTileEntity) {
             return new GuiEnergyConverter(player.inventory, (GeneratorTileEntity) te);

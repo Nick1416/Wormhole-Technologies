@@ -1,0 +1,57 @@
+package com.nick1416.wormholetech.block;
+
+import com.nick1416.wormholetech.WormholeTech;
+import com.nick1416.wormholetech.tile.DialingComputerTileEntity;
+import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+
+public class DialingComputerBlock extends Block {
+    public DialingComputerBlock() {
+        super(Material.IRON);
+        setHardness(3.5F);
+        setResistance(10.0F);
+        setSoundType(SoundType.METAL);
+        setCreativeTab(CreativeTabs.REDSTONE);
+    }
+
+    @Override public boolean hasTileEntity(IBlockState state) { return true; }
+    @Override public TileEntity createTileEntity(World world, IBlockState state) { return new DialingComputerTileEntity(); }
+
+    @Override
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
+                                    EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+        if (world.isRemote) return true;
+        if (!(world.getTileEntity(pos) instanceof DialingComputerTileEntity)) return false;
+        player.openGui(WormholeTech.INSTANCE, WormholeTech.GUI_DIALING_COMPUTER, world, pos.getX(), pos.getY(), pos.getZ());
+        return true;
+    }
+
+    @Override
+    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos from) {
+        TileEntity te = world.getTileEntity(pos);
+        if (te instanceof DialingComputerTileEntity) ((DialingComputerTileEntity) te).requestCheck();
+    }
+
+    @Override
+    public void breakBlock(World world, BlockPos pos, IBlockState state) {
+        TileEntity te = world.getTileEntity(pos);
+        if (te instanceof DialingComputerTileEntity) {
+            DialingComputerTileEntity dc = (DialingComputerTileEntity) te;
+            dc.close(false);
+            ItemStack s = dc.items().getStackInSlot(0);
+            if (!s.isEmpty()) InventoryHelper.spawnItemStack(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, s.copy());
+        }
+        super.breakBlock(world, pos, state);
+    }
+}

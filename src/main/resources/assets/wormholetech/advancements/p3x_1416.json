@@ -1,0 +1,15 @@
+{
+  "parent": "wormholetech:relativistic_computer",
+  "display": {
+    "icon": { "item": "wormholetech:dialing_computer" },
+    "title": { "translate": "advancements.wormholetech.p3x_1416.title" },
+    "description": { "translate": "advancements.wormholetech.p3x_1416.desc" },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "arrived": { "trigger": "minecraft:impossible" }
+  }
+}

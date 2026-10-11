@@ -3,7 +3,7 @@ slot coordinates exactly (box at item_x-1, item_y-1, vanilla 18x18 style).
 
 Run from the repo root with Pillow installed:  python tools/gen_machine_guis.py
 Keep the coordinates here in sync with ContainerHighEnergyRefiner / ContainerRelativisticComputer /
-ContainerLinkedMachine + ContainerWormholeDuplicator + ContainerEnergyConverter.
+ContainerLinkedMachine + ContainerWormholeDuplicator + ContainerEnergyConverter + ContainerDialingComputer.
 """
 from PIL import Image
 
@@ -163,9 +163,18 @@ def converter():
     im.save(OUT + "wormhole_energy_converter.png")
 
 
+def dialing_computer():
+    h = 184
+    im = panel(h)
+    slot(im, 80, 30)       # address (Ancient Tablet)
+    player_inv(im, h - 82)
+    im.save(OUT + "dialing_computer.png")
+
+
 if __name__ == "__main__":
     refiner()
     computer()
     duplicator(False)
     duplicator(True)
     converter()
+    dialing_computer()

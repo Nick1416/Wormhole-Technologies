@@ -40,6 +40,23 @@ public final class ModConfig {
     public static int wormholePadMaxReceive = 100_000;
     public static int wormholePadTeleportCooldownTicks = 60;
 
+    // stargate / P3X-1416
+    public static boolean stargateEnabled = true;
+    public static int p3xDimensionId = -1416;
+    public static int dialingComputerRfPerTickSetting = -1; // -1: half the Relativistic Computer upkeep
+    public static int dialingComputerBuffer = 1_000_000;
+    public static int dialingComputerMaxReceive = 100_000;
+    public static int p3xNaquadahOreVeinsPerChunk = 8;
+    public static int p3xNaquadahOreVeinSize = 6;
+    public static int p3xNaquadahOreMinY = 5;
+    public static int p3xNaquadahOreMaxY = 64;
+
+    /** Dialing Computer upkeep per tick while the wormhole is open. */
+    public static int dialingComputerRfPerTick() {
+        return dialingComputerRfPerTickSetting >= 0 ? dialingComputerRfPerTickSetting
+                : Math.max(0, relativisticComputerUpkeepRfPerTick / 2);
+    }
+
     public static void load(File file) {
         Configuration cfg = new Configuration(file);
         cfg.load();
@@ -86,6 +103,22 @@ public final class ModConfig {
         refinedNaquadahBlockDecayTicks = cfg.getInt("refinedNaquadahBlockDecayTicks", "wormhole_connection", 12_000, 1,
                 Integer.MAX_VALUE, "Game ticks one Block of Refined Naquadah keeps a wormhole connection open "
                         + "(Duplicators, Energy Converter) before it becomes an Unstable Block of Naquadah (~10 minutes at 20 TPS)");
+
+        final String sg = "stargate";
+        stargateEnabled = cfg.getBoolean("stargateEnabled", sg, true,
+                "Titanium gate + Dialing Computer + the P3X-1416 dimension. Needs Galacticraft Titanium Blocks or any oredict blockTitanium");
+        p3xDimensionId = cfg.getInt("p3xDimensionId", sg, -1416, Integer.MIN_VALUE, Integer.MAX_VALUE,
+                "Dimension ID of P3X-1416. Keep it stable once a world uses it; must not clash with another mod");
+        dialingComputerRfPerTickSetting = cfg.getInt("dialingComputerRfPerTick", sg, -1, -1, Integer.MAX_VALUE,
+                "Dialing Computer RF per tick while the wormhole is open (-1 = half of relativisticComputerUpkeepRfPerTick)");
+        dialingComputerBuffer = cfg.getInt("dialingComputerBuffer", sg, 1_000_000, 1, Integer.MAX_VALUE, "Dialing Computer RF buffer");
+        dialingComputerMaxReceive = cfg.getInt("dialingComputerMaxReceive", sg, 100_000, 0, Integer.MAX_VALUE,
+                "Dialing Computer max RF receive per tick");
+        p3xNaquadahOreVeinsPerChunk = cfg.getInt("p3xNaquadahOreVeinsPerChunk", sg, 8, 0, 64,
+                "Naquadah ore veins per chunk on P3X-1416 (no ore is added to any other dimension)");
+        p3xNaquadahOreVeinSize = cfg.getInt("p3xNaquadahOreVeinSize", sg, 6, 1, 32, "Blocks per Naquadah ore vein on P3X-1416");
+        p3xNaquadahOreMinY = cfg.getInt("p3xNaquadahOreMinY", sg, 5, 1, 255, "Lowest Y for Naquadah ore on P3X-1416");
+        p3xNaquadahOreMaxY = cfg.getInt("p3xNaquadahOreMaxY", sg, 64, 1, 255, "Highest Y for Naquadah ore on P3X-1416");
 
         final String pads = "wormhole_pads";
         wormholePadUpkeepRfPerTick = cfg.getInt("wormholePadUpkeepRfPerTick", pads, 50_000, 0, Integer.MAX_VALUE,
