@@ -10,7 +10,9 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeCategory;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nullable;
 
@@ -20,10 +22,22 @@ public class HighEnergyRefineCategory implements IRecipeCategory<HighEnergyRefin
 
     private final IDrawable background;
     private final IDrawable icon;
+    private final IDrawable slot;
+    private final IDrawable arrow;
 
     public HighEnergyRefineCategory(IGuiHelper guiHelper) {
         this.background = guiHelper.createBlankDrawable(120, 40);
         this.icon = guiHelper.createDrawableIngredient(new ItemStack(Registration.HIGH_ENERGY_REFINER));
+        this.slot = guiHelper.getSlotDrawable();
+        this.arrow = guiHelper.createDrawable(
+                new ResourceLocation("minecraft", "textures/gui/container/furnace.png"), 79, 35, 24, 17);
+    }
+
+    @Override
+    public void drawExtras(Minecraft minecraft) {
+        slot.draw(minecraft, 20, 16);
+        slot.draw(minecraft, 84, 16);
+        arrow.draw(minecraft, 48, 17);
     }
 
     @Override public String getUid() { return UID; }

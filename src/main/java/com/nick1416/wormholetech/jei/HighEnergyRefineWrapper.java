@@ -6,6 +6,9 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 
+import com.nick1416.wormholetech.ModConfig;
+
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,13 +27,29 @@ public class HighEnergyRefineWrapper implements IRecipeWrapper {
 
     @Override
     public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
-        minecraft.fontRenderer.drawString(I18n.format("jei.wormholetech.high_energy_refine.hint"), 2, 2, 0x444444);
+        minecraft.fontRenderer.drawString(I18n.format("jei.wormholetech.high_energy_refine.hint",
+                String.format("%,d", ModConfig.highEnergyRefinerRfPerTick), formatTime(ModConfig.highEnergyRefinerCookTimeTicks)),
+                2, 2, 0x444444);
+    }
+
+    /** Ticks to a short human-readable duration at 20 TPS ("~30 min", "~45 s"). */
+    static String formatTime(int ticks) {
+        int seconds = Math.round(ticks / 20f);
+        if (seconds >= 60) {
+            return I18n.format("jei.wormholetech.time.minutes", Math.round(seconds / 60f));
+        }
+        return I18n.format("jei.wormholetech.time.seconds", seconds);
     }
 
     @Override
     public List<String> getTooltipStrings(int mouseX, int mouseY) {
         if (mouseY < 14) {
-            return Collections.singletonList(I18n.format("jei.wormholetech.high_energy_refine.tooltip"));
+            int ticks = ModConfig.highEnergyRefinerCookTimeTicks;
+            return Arrays.asList(
+                    I18n.format("jei.wormholetech.high_energy_refine.tooltip"),
+                    I18n.format("jei.wormholetech.high_energy_refine.time", String.format("%,d", ticks), formatTime(ticks)),
+                    I18n.format("jei.wormholetech.high_energy_refine.energy",
+                            String.format("%,d", (long) ticks * ModConfig.highEnergyRefinerRfPerTick)));
         }
         return Collections.emptyList();
     }
