@@ -1,29 +1,46 @@
 package com.nick1416.wormholetech.tile;
 
 import com.nick1416.wormholetech.ModConfig;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;                    // <-- add
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 
-public class GeneratorTileEntity extends TileEntity implements ITickable {   // <-- implements ITickable
+/** Wormhole Energy Converter: produces RF only while connected to a wormhole. */
+public class GeneratorTileEntity extends LinkedMachineTileEntity {
+
+    // 0: Block of Refined Naquadah, 1: Unstable Block of Naquadah
+    public static final int SLOT_FUEL = 0, SLOT_UNSTABLE = 1;
 
     private final GeneratorEnergyStorage energy = new GeneratorEnergyStorage(
             ModConfig.stableConverterBuffer, ModConfig.stableConverterMaxExtract);
+
+    public GeneratorTileEntity() {
+        super(2, SLOT_FUEL, 64, SLOT_UNSTABLE);
+    }
+
+    @Override
+    protected boolean isValid(int slot, ItemStack stack) {
+        return false; // the only other slot is an output
+    }
+
+    public int getEnergyStored() { return energy.getEnergyStored(); }
 
     @Override
     public void update() {
         if (world == null || world.isRemote) return;
 
-        // generate
-        energy.generate(ModConfig.stableConverterRfPerTick);
+        if (link.tick() == WormholeLink.State.RUNNING) {
+            energy.generate(ModConfig.stableConverterRfPerTick);
+        }
 
         // push to neighbors
         for (EnumFacing face : EnumFacing.values()) {
+            if (energy.getEnergyStored() <= 0) break;
             TileEntity te = world.getTileEntity(pos.offset(face));
             if (te == null) continue;
             IEnergyStorage target = te.getCapability(CapabilityEnergy.ENERGY, face.getOpposite());
@@ -51,6 +68,9 @@ public class GeneratorTileEntity extends TileEntity implements ITickable {   // 
         energy.setEnergy(tag.getInteger("Energy"));
     }
 
+    @Override
+    protected boolean hasExtraItemState() { return energy.getEnergyStored() > 0; }
+
     // ---- Capability ----
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
@@ -66,13 +86,11 @@ public class GeneratorTileEntity extends TileEntity implements ITickable {   // 
 
     // energy store that only outputs
     private static class GeneratorEnergyStorage extends EnergyStorage {
-        public GeneratorEnergyStorage(int capacity, int maxExtract) {
+        GeneratorEnergyStorage(int capacity, int maxExtract) {
             super(capacity, 0, maxExtract);
         }
-        public void setEnergy(int value) { this.energy = Math.min(value, getMaxEnergyStored()); }
-        public void generate(int amount) { this.energy = Math.min(this.energy + amount, getMaxEnergyStored()); }
+        void setEnergy(int value) { this.energy = Math.max(0, Math.min(value, getMaxEnergyStored())); }
+        void generate(int amount) { this.energy = Math.min(this.energy + amount, getMaxEnergyStored()); }
         @Override public boolean canReceive() { return false; }
-        // (optional) if you want a getter:
-        // public int getMaxExtractRate() { return this.maxExtract; }
     }
 }

@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["NNN", "NNN", "NNN"],
+  "key": { "N": { "item": "wormholetech:refined_naquadah" } },
+  "result": { "item": "wormholetech:refined_naquadah_block" }
+}

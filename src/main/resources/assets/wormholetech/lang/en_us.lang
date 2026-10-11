@@ -19,32 +19,24 @@ tile.wormholetech.naquadah_generator.name=Naquadah Generator
 
 # Duplicator player-facing copy
 tooltip.wormholetech.more=Hold Shift for details
-tooltip.wormholetech.wormhole_duplicator.summary=1 diamond nugget + 1 item → 2 of that item
-tooltip.wormholetech.wormhole_duplicator.detail.1=Consumes the template each craft.
-tooltip.wormholetech.wormhole_duplicator.detail.2=Fuel: diamond nugget (Thermal Foundation or nuggetDiamond).
-tooltip.wormholetech.wormhole_duplicator.detail.3=Template items must have no NBT.
-tooltip.wormholetech.wormhole_duplicator.detail.4=Reusable — keeps crafting while fuel, template, and output space remain.
-tooltip.wormholetech.unstable_wormhole_duplicator.summary=1 diamond + 1 item → 2 of that item (once)
-tooltip.wormholetech.unstable_wormhole_duplicator.detail.1=Single use only.
-tooltip.wormholetech.unstable_wormhole_duplicator.detail.2=Fuel: one full diamond.
-tooltip.wormholetech.unstable_wormhole_duplicator.detail.3=After crafting, contents drop and the block becomes Unstable Naquadah.
-tooltip.wormholetech.unstable_wormhole_duplicator.detail.4=Same template rules as the stable duplicator (no NBT).
+tooltip.wormholetech.wormhole_duplicator.summary=Runs while connected to a wormhole (Blocks of Refined Naquadah)
+tooltip.wormholetech.unstable_wormhole_duplicator.summary=Runs on one Block of Refined Naquadah, then collapses
 
 gui.wormholetech.slot.fuel_nugget=Fuel — diamond nugget
 gui.wormholetech.slot.fuel_diamond=Fuel — diamond
 gui.wormholetech.slot.template.hint=Most items work — no NBT
 gui.wormholetech.slot.output=Output — receive x2
+gui.wormholetech.slot.link_fuel=Block of Refined Naquadah — wormhole fuel
+gui.wormholetech.slot.link_fuel_single=One Block of Refined Naquadah — the machine's lifetime
+gui.wormholetech.slot.unstable_out=Output — Unstable Block of Naquadah
 
 jei.wormholetech.duplication=Wormhole Duplication
-jei.wormholetech.duplication.stable=Stable · reusable
-jei.wormholetech.duplication.unstable=Unstable · one shot → Unstable Naquadah
+jei.wormholetech.duplication.stable=Stable · needs a wormhole link
+jei.wormholetech.duplication.unstable=Unstable · collapses after 1 block
 jei.wormholetech.duplication.catalyst_note=Accepts most items without NBT.
 
 # --- Generators / converters ---
-tooltip.wormholetech.rf_generator.summary=Free energy: 100,000 RF/t into neighbors
-tooltip.wormholetech.rf_generator.detail.1=Buffer 10,000,000 RF. Extract up to 100,000 RF/t.
-tooltip.wormholetech.rf_generator.detail.2=No fuel. Pushes Forge Energy to adjacent machines.
-tooltip.wormholetech.rf_generator.detail.3=Permanent — does not expire or convert.
+tooltip.wormholetech.rf_generator.summary=100,000 RF/t into neighbors while connected to a wormhole
 
 
 tooltip.wormholetech.naquadah_generator.summary=5,000 RF/t for 10 minutes, then Unstable Naquadah
@@ -55,7 +47,7 @@ tooltip.wormholetech.naquadah_generator.detail.3=When time runs out, becomes Uns
 # --- World / drops ---
 
 tooltip.wormholetech.unstable_naquadah_block.summary=Mines into 4 Unstable Naquadah
-tooltip.wormholetech.unstable_naquadah_block.detail.1=Dropped by expired generators and the Unstable Duplicator.
+tooltip.wormholetech.unstable_naquadah_block.detail.1=Left by expired generators, decayed Refined Naquadah blocks and collapsed Unstable Duplicators.
 tooltip.wormholetech.unstable_naquadah_block.detail.2=Player harvest (no Silk Touch) yields 4 Unstable Naquadah.
 
 tooltip.wormholetech.raw_naquadah.summary=Unrefined wormhole matter
@@ -158,11 +150,11 @@ gui.wormholetech.tablet.p2.l2=[Translation] Synthetic Ore -> Raw Naquadah (25%%)
 
 gui.wormholetech.tablet.p3.title=Fragment III — Power
 gui.wormholetech.tablet.p3.l1=[Translation] Power path — each step borrows more of the wormhole:
-gui.wormholetech.tablet.p3.l2=[Translation] Naquadah Generator (brief) -> Wormhole Energy Converter (steady).
+gui.wormholetech.tablet.p3.l2=[Translation] Naquadah Generator (brief) -> Wormhole Energy Converter (steady while a wormhole is open).
 
 gui.wormholetech.tablet.p4.title=Fragment V — Echoes
 gui.wormholetech.tablet.p4.l1=[Translation] An item is remembered across a throat of space. Making use of the rematerialization past the event horizon.
-gui.wormholetech.tablet.p4.l2=[Translation] Wormhole Duplicator (reusable) / Unstable Duplicator (once, then collapse).
+gui.wormholetech.tablet.p4.l2=[Translation] A wormhole stays open while a Block of Refined Naquadah decays (ten minutes each). The Unstable Duplicator collapses with its block.
 
 gui.wormholetech.tablet.p5.title=Fragment IV — Seeking Veins
 gui.wormholetech.tablet.p5.l1=[Translation] Tells your machinery what veins to look for.
@@ -255,3 +247,21 @@ advancements.wormholetech.wormhole_duplicator.desc=Craft a Wormhole Duplicator
 
 advancements.wormholetech.mineral_tuner.title=Seeking Veins
 advancements.wormholetech.mineral_tuner.desc=Craft any Mineral Tuner (Immersive Engineering excavator)
+
+# Wormhole connection
+tile.wormholetech.refined_naquadah_block.name=Block of Refined Naquadah
+tooltip.wormholetech.refined_naquadah_block.summary=Wormhole fuel: decays over ~10 minutes while connected
+tooltip.wormholetech.refined_naquadah_block.remaining=Decay remaining: %s
+tooltip.wormholetech.linked_machine.saved=Holds %s Refined Naquadah block(s), %s left on the current one
+container.wormholetech.rf_generator=Wormhole Energy Converter
+gui.wormholetech.link.establish=Establish connection to a wormhole
+gui.wormholetech.link.connected=Connected to a wormhole
+gui.wormholetech.link.not_connected=Not connected
+gui.wormholetech.link.paused=Paused: output full
+gui.wormholetech.link.remaining=%s left
+gui.wormholetech.link.label=Wormhole
+gui.wormholetech.link.collapse=Collapse
+gui.wormholetech.link.decay=Decay: %s%%
+gui.wormholetech.link.rate=+%s RF/t
+gui.wormholetech.link.need_fuel=Needs a Block of Refined Naquadah in the wormhole slot
+gui.wormholetech.link.already=Already connected

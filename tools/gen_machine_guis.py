@@ -2,7 +2,8 @@
 slot coordinates exactly (box at item_x-1, item_y-1, vanilla 18x18 style).
 
 Run from the repo root with Pillow installed:  python tools/gen_machine_guis.py
-Keep the coordinates here in sync with ContainerHighEnergyRefiner / ContainerRelativisticComputer.
+Keep the coordinates here in sync with ContainerHighEnergyRefiner / ContainerRelativisticComputer /
+ContainerLinkedMachine + ContainerWormholeDuplicator + ContainerEnergyConverter.
 """
 from PIL import Image
 
@@ -16,7 +17,9 @@ SHADE = (85, 85, 85, 255)
 W = 176
 
 
-def panel(h):
+def panel(h, w=None):
+    global W
+    W = w or 176
     im = Image.new("RGBA", (256, 256), (0, 0, 0, 0))
     px = im.load()
     for y in range(h):
@@ -68,12 +71,12 @@ def slot(im, item_x, item_y):
         px[bx + 17, by + 1 + i] = WHITE
 
 
-def player_inv(im, top):
+def player_inv(im, top, left=8):
     for r in range(3):
         for c in range(9):
-            slot(im, 8 + c * 18, top + r * 18)
+            slot(im, left + c * 18, top + r * 18)
     for c in range(9):
-        slot(im, 8 + c * 18, top + 58)
+        slot(im, left + c * 18, top + 58)
 
 
 def arrow_mask():
@@ -118,6 +121,51 @@ def computer():
     im.save(OUT + "relativistic_computer.png")
 
 
+# Wormhole-connection machines (ContainerLinkedMachine): 204x190, two machine rows,
+# status line + connect button area, player inventory at x=22.
+LINK_W, LINK_H = 204, 190
+ROW_A, ROW_B = 18, 42
+INV_X, INV_Y = 22, 110
+DECAY_FILL = ((150, 120, 255, 255), (86, 60, 190, 255))  # Refined Naquadah violet
+
+
+def linked_base():
+    im = panel(LINK_H, LINK_W)
+    player_inv(im, INV_Y, INV_X)
+    draw_arrow(im, 208, 0, *DECAY_FILL)  # decay fill sprite
+    W_reset()
+    return im
+
+
+def W_reset():
+    global W
+    W = 176
+
+
+def duplicator(unstable):
+    im = linked_base()
+    slot(im, 48, ROW_A)        # fuel (nugget / diamond)
+    slot(im, 84, ROW_A)        # template
+    draw_arrow(im, 106, ROW_A, MID)
+    slot(im, 138, ROW_A)       # output
+    slot(im, 84, ROW_B)        # Block of Refined Naquadah
+    draw_arrow(im, 106, ROW_B, MID)
+    if not unstable:
+        slot(im, 138, ROW_B)   # Unstable Block of Naquadah
+    im.save(OUT + ("unstable_wormhole_duplicator.png" if unstable else "wormhole_duplicator.png"))
+
+
+def converter():
+    im = linked_base()
+    slot(im, 84, ROW_B)
+    draw_arrow(im, 106, ROW_B, MID)
+    slot(im, 138, ROW_B)
+    im.save(OUT + "wormhole_energy_converter.png")
+
+
 if __name__ == "__main__":
     refiner()
     computer()
+    duplicator(False)
+    duplicator(True)
+    converter()

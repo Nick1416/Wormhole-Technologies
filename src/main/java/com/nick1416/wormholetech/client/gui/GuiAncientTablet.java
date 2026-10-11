@@ -74,6 +74,7 @@ public class GuiAncientTablet extends GuiScreen {
                         "gui.wormholetech.tablet.p4.l2"
                 },
                 new ItemStack[] {
+                        new ItemStack(Registration.ITEM_REFINED_NAQUADAH_BLOCK),
                         new ItemStack(Registration.ITEM_WORMHOLE_DUPLICATOR),
                         new ItemStack(Registration.ITEM_UNSTABLE_WORMHOLE_DUPLICATOR)
                 }));

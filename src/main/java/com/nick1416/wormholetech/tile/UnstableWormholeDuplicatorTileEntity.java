@@ -1,61 +1,59 @@
 package com.nick1416.wormholetech.tile;
-import com.nick1416.wormholetech.duplication.DuplicationRules;
 
+import com.nick1416.wormholetech.duplication.DuplicationRules;
 import com.nick1416.wormholetech.registry.Registration;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemStackHandler;
 
-public class UnstableWormholeDuplicatorTileEntity extends TileEntity implements ITickable {
+/**
+ * Like the stable duplicator but fuelled by full diamonds, with a single Block of Refined Naquadah
+ * slot and no Unstable output: it works while connected and, when that block has decayed, drops its
+ * remaining contents and collapses into an Unstable Block of Naquadah.
+ */
+public class UnstableWormholeDuplicatorTileEntity extends LinkedMachineTileEntity {
 
-    // 0: diamonds, 1: template, 2: output
-    private final ItemStackHandler inv = new ItemStackHandler(3) {
-        @Override protected void onContentsChanged(int slot) { markDirty(); }
-        @Override public boolean isItemValid(int slot, ItemStack s) {
-            if (s.isEmpty()) return false;
-            if (slot == 0) return s.getItem() == net.minecraft.init.Items.DIAMOND;
-            if (slot == 1) return isAllowedTemplate(s);
-            return false; // output is machine-only
-        }
-    };
-
+    // 0: diamond, 1: template, 2: output, 3: Block of Refined Naquadah (max 1)
+    public static final int SLOT_DIAMOND = 0, SLOT_TEMPLATE = 1, SLOT_OUTPUT = 2, SLOT_FUEL = 3;
     private static final int COST_DIAMONDS = 1;
-    private boolean used = false; // single-shot
+
+    public UnstableWormholeDuplicatorTileEntity() {
+        super(4, SLOT_FUEL, 1, -1);
+    }
+
+    @Override
+    protected boolean isValid(int slot, ItemStack s) {
+        if (slot == SLOT_DIAMOND) return s.getItem() == net.minecraft.init.Items.DIAMOND;
+        if (slot == SLOT_TEMPLATE) return isAllowedTemplate(s);
+        return false;
+    }
 
     private boolean isAllowedTemplate(ItemStack s) {
         Item it = s.getItem();
         if (it == net.minecraft.init.Items.DIAMOND) return false;
-        
-        // duplication rules (this mod namespace denied)
         if (DuplicationRules.isBlacklisted(s)) return false;
-        
-        //if (s.getMaxStackSize() <= 1) return false;   // block tools/armor/containers
-        if (s.hasTagCompound()) return false;         // skip NBT items for now
+        if (s.hasTagCompound()) return false;
         return true;
     }
 
     @Override
     public void update() {
-        if (world == null || world.isRemote || used) return;
+        if (world == null || world.isRemote) return;
+        WormholeLink.State state = link.tick();
+        if (state == WormholeLink.State.EXPIRED) {
+            collapse();
+            return;
+        }
+        if (state != WormholeLink.State.RUNNING) return;
 
-        ItemStack diamonds = inv.getStackInSlot(0);
-        ItemStack template = inv.getStackInSlot(1);
-        ItemStack output   = inv.getStackInSlot(2);
-
+        ItemStack diamonds = inv.getStackInSlot(SLOT_DIAMOND);
+        ItemStack template = inv.getStackInSlot(SLOT_TEMPLATE);
+        ItemStack output   = inv.getStackInSlot(SLOT_OUTPUT);
         if (diamonds.getCount() < COST_DIAMONDS) return;
         if (template.isEmpty() || !isAllowedTemplate(template)) return;
 
-        // produce 2x of the template, consume the template
-        ItemStack product = template.copy(); product.setCount(2);
-
+        ItemStack product = template.copy();
+        product.setCount(2);
         boolean canOutput = output.isEmpty()
                 || (ItemStack.areItemsEqual(output, product)
                     && ItemStack.areItemStackTagsEqual(output, product)
@@ -64,55 +62,20 @@ public class UnstableWormholeDuplicatorTileEntity extends TileEntity implements 
 
         diamonds.shrink(COST_DIAMONDS);
         template.shrink(1);
-
-        if (output.isEmpty()) inv.setStackInSlot(2, product);
-        else { output.grow(2); inv.setStackInSlot(2, output); }
-
+        if (output.isEmpty()) inv.setStackInSlot(SLOT_OUTPUT, product);
+        else output.grow(2);
         markDirty();
-        used = true;
-
-        // drop everything still inside
-        dropAll();
-
-        // morph into your chosen block (placeholder: UNSTABLE_NAQUADAH_BLOCK)
-        world.setBlockState(pos, Registration.UNSTABLE_NAQUADAH_BLOCK.getDefaultState(), 3);
-        world.removeTileEntity(pos);
     }
 
-    private void dropAll() {
+    /** The Refined Naquadah block is spent: drop everything else and become an Unstable Block of Naquadah. */
+    private void collapse() {
         double x = pos.getX() + 0.5, y = pos.getY() + 0.5, z = pos.getZ() + 0.5;
         for (int i = 0; i < inv.getSlots(); i++) {
+            if (i == SLOT_FUEL) continue; // consumed by the collapse
             ItemStack s = inv.getStackInSlot(i);
-            if (!s.isEmpty()) {
-                InventoryHelper.spawnItemStack(world, x, y, z, s);
-                inv.setStackInSlot(i, ItemStack.EMPTY);
-            }
+            if (!s.isEmpty()) InventoryHelper.spawnItemStack(world, x, y, z, s.copy());
         }
+        world.removeTileEntity(pos);
+        world.setBlockState(pos, Registration.UNSTABLE_NAQUADAH_BLOCK.getDefaultState(), 3);
     }
-
-    // NBT
-    @Override public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-        super.writeToNBT(tag);
-        tag.setTag("Items", inv.serializeNBT());
-        tag.setBoolean("Used", used);
-        return tag;
-    }
-    @Override public void readFromNBT(NBTTagCompound tag) {
-        super.readFromNBT(tag);
-        if (tag.hasKey("Items")) inv.deserializeNBT(tag.getCompoundTag("Items"));
-        used = tag.getBoolean("Used");
-    }
-
-    // caps
-    private final IItemHandlerModifiable cap = inv;
-    @Override public boolean hasCapability(Capability<?> c, EnumFacing f) {
-        return c == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(c, f);
-    }
-    @Override @SuppressWarnings("unchecked")
-    public <T> T getCapability(Capability<T> c, EnumFacing f) {
-        if (c == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return (T) cap;
-        return super.getCapability(c, f);
-    }
-
-    public IItemHandlerModifiable items() { return inv; }
 }

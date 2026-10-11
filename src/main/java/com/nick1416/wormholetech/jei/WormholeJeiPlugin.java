@@ -52,9 +52,10 @@ public class WormholeJeiPlugin implements IModPlugin {
         registry.addRecipeClickArea(com.nick1416.wormholetech.gui.GuiHighEnergyRefiner.class, 79, 36, 24, 16,
                 HighEnergyRefineCategory.UID);
 
-        info(registry, Registration.ITEM_WORMHOLE_DUPLICATOR, "wormhole_duplicator", 4);
-        info(registry, Registration.ITEM_UNSTABLE_WORMHOLE_DUPLICATOR, "unstable_wormhole_duplicator", 4);
-        info(registry, Registration.ITEM_RF_GENERATOR, "rf_generator", 3);
+        info(registry, Registration.ITEM_WORMHOLE_DUPLICATOR, "wormhole_duplicator", 0);
+        info(registry, Registration.ITEM_UNSTABLE_WORMHOLE_DUPLICATOR, "unstable_wormhole_duplicator", 0);
+        info(registry, Registration.ITEM_RF_GENERATOR, "rf_generator", 0);
+        info(registry, Registration.ITEM_REFINED_NAQUADAH_BLOCK, "refined_naquadah_block", 0);
         info(registry, Registration.ITEM_NAQUADAH_GENERATOR, "naquadah_generator", 4);
         info(registry, Registration.ITEM_UNSTABLE_NAQUADAH_BLOCK, "unstable_naquadah_block", 2);
         info(registry, Registration.RAW_NAQUADAH, "raw_naquadah", 2);

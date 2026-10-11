@@ -30,6 +30,7 @@ public final class ModConfig {
     // High Energy Refiner (Aetherius)
     public static int highEnergyRefinerRfPerTick = 100;
     public static int highEnergyRefinerCookTimeTicks = 36_000;
+    public static int refinedNaquadahBlockDecayTicks = 12_000;
     public static int highEnergyRefinerBuffer = 1_000_000;
     public static int highEnergyRefinerMaxReceive = 10_000;
 
@@ -54,7 +55,7 @@ public final class ModConfig {
                 "Naquadah Generator lifetime in ticks (~10 min at 20 TPS)");
 
         stableConverterRfPerTick = cfg.getInt("stableConverterRfPerTick", gen, 100_000, 0, Integer.MAX_VALUE,
-                "Wormhole Energy Converter (stable) RF per tick");
+                "Wormhole Energy Converter RF per tick while connected to a wormhole");
         stableConverterBuffer = cfg.getInt("stableConverterBuffer", gen, 10_000_000, 1, Integer.MAX_VALUE,
                 "Stable Converter internal RF buffer");
         stableConverterMaxExtract = cfg.getInt("stableConverterMaxExtract", gen, 100_000, 0, Integer.MAX_VALUE,
@@ -81,6 +82,10 @@ public final class ModConfig {
                 "High Energy Refiner RF buffer");
         highEnergyRefinerMaxReceive = cfg.getInt("highEnergyRefinerMaxReceive", late, 10_000, 0, Integer.MAX_VALUE,
                 "High Energy Refiner max RF receive per tick");
+
+        refinedNaquadahBlockDecayTicks = cfg.getInt("refinedNaquadahBlockDecayTicks", "wormhole_connection", 12_000, 1,
+                Integer.MAX_VALUE, "Game ticks one Block of Refined Naquadah keeps a wormhole connection open "
+                        + "(Duplicators, Energy Converter) before it becomes an Unstable Block of Naquadah (~10 minutes at 20 TPS)");
 
         final String pads = "wormhole_pads";
         wormholePadUpkeepRfPerTick = cfg.getInt("wormholePadUpkeepRfPerTick", pads, 50_000, 0, Integer.MAX_VALUE,

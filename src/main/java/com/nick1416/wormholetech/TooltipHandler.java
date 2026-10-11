@@ -1,5 +1,6 @@
 package com.nick1416.wormholetech;
 
+import com.nick1416.wormholetech.util.WormholeFuel;
 import com.nick1416.wormholetech.ModConfig;
 
 import net.minecraft.client.gui.GuiScreen;
@@ -27,6 +28,7 @@ public class TooltipHandler {
             "rf_generator",
             "naquadah_generator",
             "unstable_naquadah_block",
+            "refined_naquadah_block",
             "raw_naquadah",
             "refined_naquadah",
             "unstable_naquadah",
@@ -70,6 +72,13 @@ public class TooltipHandler {
     private static void addPersistedStateTooltips(ItemTooltipEvent event, ItemStack stack, String path) {
         if ("naquadah_generator".equals(path)) {
             TimedBlockItems.addRemainingTooltip(event.getToolTip(), stack, ModConfig.naquadahGeneratorLifetimeTicks);
+        } else if ("refined_naquadah_block".equals(path) && WormholeFuel.isPartial(stack)) {
+            int left = Math.max(0, WormholeFuel.lifetime() - WormholeFuel.decayOf(stack));
+            event.getToolTip().add(TextFormatting.GRAY + net.minecraft.client.resources.I18n.format(
+                    "tooltip.wormholetech.refined_naquadah_block.remaining", WormholeFuel.formatTicks(left)));
+        } else if (("wormhole_duplicator".equals(path) || "unstable_wormhole_duplicator".equals(path)
+                || "rf_generator".equals(path)) && stack.hasTagCompound()) {
+            addLinkedMachineTooltip(event, stack);
         } else if ("high_energy_refiner".equals(path) && stack.hasTagCompound()) {
             int cook = stack.getTagCompound().getInteger("Cook");
             if (cook > 0) {
@@ -80,6 +89,23 @@ public class TooltipHandler {
                 && stack.getTagCompound().hasKey("Aetherius")) {
             event.getToolTip().add(net.minecraft.util.text.TextFormatting.GRAY + "Contains Aetherius");
         }
+    }
+
+    /** Saved machine: Refined Naquadah blocks inside and the time left on the current one. */
+    @SideOnly(Side.CLIENT)
+    private static void addLinkedMachineTooltip(ItemTooltipEvent event, ItemStack stack) {
+        net.minecraft.nbt.NBTTagCompound tag = stack.getTagCompound();
+        net.minecraftforge.items.ItemStackHandler items = new net.minecraftforge.items.ItemStackHandler();
+        if (tag.hasKey("Items")) items.deserializeNBT(tag.getCompoundTag("Items"));
+        int blocks = 0;
+        for (int i = 0; i < items.getSlots(); i++) {
+            if (WormholeFuel.isFuel(items.getStackInSlot(i))) blocks += items.getStackInSlot(i).getCount();
+        }
+        if (blocks <= 0) return;
+        int decay = tag.getCompoundTag("Link").getInteger("Decay");
+        int left = Math.max(0, WormholeFuel.lifetime() - decay);
+        event.getToolTip().add(TextFormatting.GRAY + net.minecraft.client.resources.I18n.format(
+                "tooltip.wormholetech.linked_machine.saved", blocks, WormholeFuel.formatTicks(left)));
     }
 
     private static void addMineralTunerTooltips(ItemTooltipEvent event, ItemStack stack) {

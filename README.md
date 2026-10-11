@@ -8,8 +8,9 @@ Repository: https://github.com/Nick1416/Wormhole-Technologies
 
 ## Features
 
-- **Power**: Naquadah Generator → Wormhole Energy Converter (stable)
+- **Power**: Naquadah Generator → Wormhole Energy Converter (stable, needs a wormhole connection)
 - **Duplication**: Wormhole Duplicator / Unstable Wormhole Duplicator (templates without NBT; this mod’s own items cannot be duplicated)
+- **Wormhole connection**: the Duplicators and the Energy Converter only run while connected (see below)
 - **Mineral Tuners**: set Immersive Engineering excavator minerals in a chunk (soft dependency on IE)
 - **Pads**: linked Wormhole Teleport Pads with RF upkeep; cross-dimension links via Relativistic Computer + Aetherius
 - **Late game**: Compressed Naquadah → High Energy Refiner → Aetherius → Relativistic Computer
@@ -30,6 +31,18 @@ Repository: https://github.com/Nick1416/Wormhole-Technologies
 **0.1.0 renames the modid from `rfgen` to `wormholetech`.** Registry names, assets, lang keys, and the Java package (`com.nick1416.wormholetech`) all changed.
 
 **Existing worlds need a migration or a fresh start.** Items/blocks saved under `rfgen:*` will not map automatically.
+
+## Wormhole connection
+
+The Wormhole Duplicator, Unstable Wormhole Duplicator and Wormhole Energy Converter only work while connected to a wormhole.
+
+- **Fuel**: Block of Refined Naquadah (`wormholetech:refined_naquadah_block`, 9 Refined Naquadah in a 3x3).
+- Put blocks in the machine's wormhole slot and press **Establish connection to a wormhole** in its GUI (the button is grayed out without a block).
+- While connected, the first block decays over `refinedNaquadahBlockDecayTicks` game ticks (config `wormhole_connection`, default 12000 = ~10 minutes). It then becomes an Unstable Block of Naquadah in the output slot and the next block starts. The connection ends when the last block is used up.
+- If the Unstable output slot is full, the finished block waits there and the machine pauses until there is room.
+- Taking the decaying block out ends the connection; the block keeps its progress in NBT (shown in its tooltip, it does not stack) and continues where it left off when put back into an empty wormhole slot.
+- **Unstable Wormhole Duplicator**: holds a single block and has no Unstable output. It works (1 diamond per operation) until that block has decayed, then drops its contents and collapses into an Unstable Block of Naquadah.
+- Breaking a machine keeps its inventory and connection state in the dropped item.
 
 ## Prysmian tiers
 

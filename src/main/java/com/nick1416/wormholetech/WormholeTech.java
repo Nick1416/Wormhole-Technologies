@@ -106,4 +106,5 @@ public class WormholeTech {
     public static final int GUI_WORMHOLE_DUPLICATOR = 1;
     public static final int GUI_RELATIVISTIC_COMPUTER = 2;
     public static final int GUI_HIGH_ENERGY_REFINER = 3;
+    public static final int GUI_ENERGY_CONVERTER = 4;
 }
