@@ -92,6 +92,31 @@ public class GuiAncientTablet extends GuiScreen {
                         new ItemStack(Registration.RELATIVISTIC_COMPUTER),
                         new ItemStack(Registration.WORMHOLE_PAD)
                 }));
+        pages.add(new Page(
+                "gui.wormholetech.tablet.p7.title",
+                new String[] {
+                        "gui.wormholetech.tablet.p7.l1",
+                        "gui.wormholetech.tablet.p7.l2",
+                        "gui.wormholetech.tablet.p7.l3"
+                },
+                new ItemStack[] {
+                        titaniumIcon(),
+                        new ItemStack(Registration.DIALING_COMPUTER),
+                        new ItemStack(Registration.RELATIVISTIC_COMPUTER),
+                        new ItemStack(Registration.ANCIENT_TABLET)
+                }));
+    }
+
+    /** Galacticraft Titanium Block if present, else any oredict blockTitanium, else the Ancient Gate Frame. */
+    private static ItemStack titaniumIcon() {
+        net.minecraft.item.Item gc = net.minecraft.item.Item.getByNameOrId("galacticraftplanets:asteroids_block");
+        if (gc != null) return new ItemStack(gc, 1, 7);
+        for (ItemStack s : net.minecraftforge.oredict.OreDictionary.getOres("blockTitanium", false)) {
+            ItemStack c = s.copy();
+            if (c.getMetadata() == net.minecraftforge.oredict.OreDictionary.WILDCARD_VALUE) c.setItemDamage(0);
+            return c;
+        }
+        return new ItemStack(Registration.ANCIENT_GATE_FRAME);
     }
 
     @Override

@@ -216,6 +216,35 @@ public class Registration {
             new ItemBlock(HIGH_ENERGY_REFINER).setRegistryName(HIGH_ENERGY_REFINER.getRegistryName());
 
 
+    // -- Stargate --
+    public static final Block DIALING_COMPUTER = new com.nick1416.wormholetech.block.DialingComputerBlock()
+            .setRegistryName(WormholeTech.MODID, "dialing_computer")
+            .setUnlocalizedName(WormholeTech.MODID + ".dialing_computer");
+
+    public static final Item ITEM_DIALING_COMPUTER =
+            new ItemBlock(DIALING_COMPUTER).setRegistryName(DIALING_COMPUTER.getRegistryName());
+
+    public static final Block STARGATE_PORTAL = new com.nick1416.wormholetech.block.StargatePortalBlock()
+            .setRegistryName(WormholeTech.MODID, "stargate_portal")
+            .setUnlocalizedName(WormholeTech.MODID + ".stargate_portal");
+
+    public static final Block ANCIENT_GATE_FRAME = new com.nick1416.wormholetech.block.AncientGateFrameBlock()
+            .setRegistryName(WormholeTech.MODID, "ancient_gate_frame")
+            .setUnlocalizedName(WormholeTech.MODID + ".ancient_gate_frame")
+            .setCreativeTab(net.minecraft.creativetab.CreativeTabs.BUILDING_BLOCKS);
+
+    public static final Item ITEM_ANCIENT_GATE_FRAME =
+            new ItemBlock(ANCIENT_GATE_FRAME).setRegistryName(ANCIENT_GATE_FRAME.getRegistryName());
+
+    public static final net.minecraft.world.biome.Biome NAQUADAH_WASTES =
+            new com.nick1416.wormholetech.world.BiomeNaquadahWastes()
+                    .setRegistryName(WormholeTech.MODID, "naquadah_wastes");
+
+    @SubscribeEvent
+    public static void onRegisterBiomes(RegistryEvent.Register<net.minecraft.world.biome.Biome> e) {
+        e.getRegistry().register(NAQUADAH_WASTES);
+    }
+
     // --- Registry events ---
     @SubscribeEvent
     public static void onRegisterBlocks(RegistryEvent.Register<Block> e) {
@@ -233,7 +262,10 @@ public class Registration {
                 WORMHOLE_PAD,
                 COMPRESSED_NAQUADAH,
                 RELATIVISTIC_COMPUTER,
-                HIGH_ENERGY_REFINER
+                HIGH_ENERGY_REFINER,
+                DIALING_COMPUTER,
+                STARGATE_PORTAL,
+                ANCIENT_GATE_FRAME
         );
     }
 
@@ -281,7 +313,9 @@ public class Registration {
                 AETHERIUS,
                 ITEM_COMPRESSED_NAQUADAH,
                 ITEM_RELATIVISTIC_COMPUTER,
-                ITEM_HIGH_ENERGY_REFINER
+                ITEM_HIGH_ENERGY_REFINER,
+                ITEM_DIALING_COMPUTER,
+                ITEM_ANCIENT_GATE_FRAME
         );
     }
 }

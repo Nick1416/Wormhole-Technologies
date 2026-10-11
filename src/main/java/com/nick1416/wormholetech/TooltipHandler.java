@@ -45,7 +45,9 @@ public class TooltipHandler {
             "compressed_naquadah",
             "aetherius",
             "wormhole_pad",
-            "wormhole_linker"
+            "wormhole_linker",
+            "dialing_computer",
+            "ancient_gate_frame"
     ));
 
     @SubscribeEvent

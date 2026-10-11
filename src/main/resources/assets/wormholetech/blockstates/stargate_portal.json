@@ -1,0 +1,1 @@
+{ "variants": { "axis=x": { "model": "wormholetech:stargate_portal_ns" }, "axis=z": { "model": "wormholetech:stargate_portal_ew" } } }

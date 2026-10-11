@@ -71,6 +71,8 @@ public class WormholeJeiPlugin implements IModPlugin {
         info(registry, Registration.AETHERIUS, "aetherius", 1);
         info(registry, Registration.ITEM_COMPRESSED_NAQUADAH, "compressed_naquadah", 0);
         info(registry, Registration.ITEM_HIGH_ENERGY_REFINER, "high_energy_refiner", 0);
+        info(registry, Registration.ITEM_DIALING_COMPUTER, "dialing_computer", 0);
+        info(registry, Registration.ITEM_ANCIENT_GATE_FRAME, "ancient_gate_frame", 0);
         for (com.nick1416.wormholetech.item.ItemMineralTuner tuner : Registration.MINERAL_TUNERS) {
             registry.addIngredientInfo(
                     new ItemStack(tuner),

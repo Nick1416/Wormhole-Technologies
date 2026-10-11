@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["IQI","QFQ","IRI"],
+  "key": {
+    "I": { "type": "forge:ore_dict", "ore": "ingotIron" },
+    "Q": { "item": "wormholetech:quantum_circuit" },
+    "F": { "item": "wormholetech:prysmian_logic_frame" },
+    "R": { "item": "minecraft:redstone_block" }
+  },
+  "result": { "item": "wormholetech:dialing_computer" }
+}

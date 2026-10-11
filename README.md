@@ -14,6 +14,7 @@ Repository: https://github.com/Nick1416/Wormhole-Technologies
 - **Mineral Tuners**: set Immersive Engineering excavator minerals in a chunk (soft dependency on IE)
 - **Pads**: linked Wormhole Teleport Pads with RF upkeep; cross-dimension links via Relativistic Computer + Aetherius
 - **Late game**: Compressed Naquadah → High Energy Refiner → Aetherius → Relativistic Computer
+- **Stargate**: titanium gate + Dialing Computer → the P3X-1416 dimension (see below)
 
 ## Dependencies
 
@@ -22,9 +23,10 @@ Repository: https://github.com/Nick1416/Wormhole-Technologies
 | Minecraft Forge 1.12.2 | **Required** | Built against 14.23.5.2847 |
 | Immersive Engineering | Soft / recommended | Mineral tuners no-op without IE; rest of the mod loads |
 | JEI | Soft | Recipe/info integration when present |
+| Galacticraft (Planets) | Soft / recommended | Its Titanium Block (`galacticraftplanets:asteroids_block` meta 7) builds the gate frame; without it any oredict `blockTitanium` works, and with neither the gate is disabled |
 | Compact Machines 3 | Soft / recommended | Quantum Circuit miniaturization recipe (shown in CM3's JEI category); without CM3 a crafting-table fallback recipe is enabled |
 
-`@Mod` declares `after:immersiveengineering;after:jei;after:compactmachines3;` so those mods initialize first when present. They are **not** hard requirements.
+`@Mod` declares `after:immersiveengineering;after:jei;after:compactmachines3;after:galacticraftplanets;` so those mods initialize first when present. They are **not** hard requirements.
 
 ## Version 0.1.0 — breaking rename
 
@@ -43,6 +45,15 @@ The Wormhole Duplicator, Unstable Wormhole Duplicator and Wormhole Energy Conver
 - Taking the decaying block out ends the connection; the block keeps its progress in NBT (shown in its tooltip, it does not stack) and continues where it left off when put back into an empty wormhole slot.
 - **Unstable Wormhole Duplicator**: holds a single block and has no Unstable output. It works (1 diamond per operation) until that block has decayed, then drops its contents and collapses into an Unstable Block of Naquadah.
 - Breaking a machine keeps its inventory and connection state in the dropped item.
+
+## Stargate and P3X-1416
+
+- **Frame**: a Nether-portal-style rectangle of titanium blocks, at least 4 wide and 5 tall (outer), up to 23x23. Corners are optional, the inside must be empty. Accepted blocks: Galacticraft's Titanium Block when Galacticraft Planets is installed, plus anything registered as oredict `blockTitanium`. Galacticraft is never required at compile or run time.
+- **Dialing Computer**: place it touching a frame block and next to an **active** Relativistic Computer, give it RF (default half the computer's upkeep, 25,000 RF/t while open) and put an Ancient Tablet (the address) in its slot. Press **Dial**. The status line explains what is missing.
+- The wormhole collapses when the tablet is removed, the power runs out, the frame breaks or the computer stops. Conditions are checked every second and on neighbour changes; after a collapse you have to dial again.
+- **Travel**: walk into the wormhole (players only). On P3X-1416 you arrive on a small platform in front of a return gate built from Ancient Gate Frame blocks. The return gate is always open and takes you back to the gate you came from. It is built once, near (0, 0), and reused (and repaired) on later trips.
+- **P3X-1416** (`p3xDimensionId`, default -1416): overworld-style terrain made of one biome, Naquadah Wastes (sand, gravel and stone, few plants), with extra Naquadah Ore veins. No ore generation changes anywhere else.
+- Config category `stargate`: `stargateEnabled`, `p3xDimensionId`, `dialingComputerRfPerTick` (-1 = half the Relativistic Computer upkeep), buffer/receive, and the P3X ore vein count/size/height.
 
 ## Prysmian tiers
 

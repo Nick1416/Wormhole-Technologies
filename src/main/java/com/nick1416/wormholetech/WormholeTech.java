@@ -19,17 +19,21 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.List;
 
 @Mod(
         modid = WormholeTech.MODID,
         name = "Wormhole Technologies",
         version = WormholeTech.VERSION,
-        dependencies = "after:immersiveengineering;after:jei;after:compactmachines3;"
+        dependencies = "after:immersiveengineering;after:jei;after:compactmachines3;after:galacticraftplanets;"
 )
 public class WormholeTech {
     public static final String MODID = "wormholetech";
     public static final String VERSION = "0.1.0";
+    public static final Logger LOGGER = LogManager.getLogger(MODID);
 
     @SidedProxy(
             clientSide = "com.nick1416.wormholetech.client.ClientProxy",
@@ -75,6 +79,13 @@ public class WormholeTech {
                 com.nick1416.wormholetech.tile.AetheriusRefinerTileEntity.class,
                 new ResourceLocation(MODID, "high_energy_refiner"));
 
+        GameRegistry.registerTileEntity(
+                com.nick1416.wormholetech.tile.DialingComputerTileEntity.class,
+                new ResourceLocation(MODID, "dialing_computer"));
+
+        com.nick1416.wormholetech.world.ModDimensions.register();
+        GameRegistry.registerWorldGenerator(new com.nick1416.wormholetech.world.P3XOreGenerator(), 10);
+
         PROXY.preInit();
     }
 
@@ -94,6 +105,7 @@ public class WormholeTech {
             }
         }
 
+        com.nick1416.wormholetech.world.BiomeNaquadahWastes.addTypes();
         PROXY.init();
     }
 
@@ -107,4 +119,11 @@ public class WormholeTech {
     public static final int GUI_RELATIVISTIC_COMPUTER = 2;
     public static final int GUI_HIGH_ENERGY_REFINER = 3;
     public static final int GUI_ENERGY_CONVERTER = 4;
+    public static final int GUI_DIALING_COMPUTER = 5;
+
+    @Mod.EventHandler
+    public void serverStarting(net.minecraftforge.fml.common.event.FMLServerStartingEvent e) {
+        // oredict is final by now (CraftTweaker etc.)
+        com.nick1416.wormholetech.stargate.TitaniumFrame.refresh();
+    }
 }
