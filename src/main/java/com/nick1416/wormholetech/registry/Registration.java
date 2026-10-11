@@ -102,6 +102,15 @@ public class Registration {
     public static final Item ITEM_UNSTABLE_NAQUADAH_BLOCK =
             new ItemBlock(UNSTABLE_NAQUADAH_BLOCK).setRegistryName(UNSTABLE_NAQUADAH_BLOCK.getRegistryName());
     
+    // -- Block of Refined Naquadah (wormhole connection fuel) --
+    public static final Block REFINED_NAQUADAH_BLOCK = new com.nick1416.wormholetech.block.RefinedNaquadahBlock()
+            .setRegistryName(WormholeTech.MODID, "refined_naquadah_block")
+            .setUnlocalizedName(WormholeTech.MODID + ".refined_naquadah_block");
+
+    public static final Item ITEM_REFINED_NAQUADAH_BLOCK =
+            new com.nick1416.wormholetech.item.ItemRefinedNaquadahBlock(REFINED_NAQUADAH_BLOCK)
+                    .setRegistryName(REFINED_NAQUADAH_BLOCK.getRegistryName());
+
     // --- Raw Naquadah ---
     public static final Item RAW_NAQUADAH = new Item()
     		.setRegistryName(WormholeTech.MODID, "raw_naquadah")
@@ -217,6 +226,7 @@ public class Registration {
                 UNSTABLE_PRYSMIAN_BLOCK,
                 PRYSMIAN_LOGIC_FRAME,
                 UNSTABLE_NAQUADAH_BLOCK,
+                REFINED_NAQUADAH_BLOCK,
                 WORMHOLE_DUPLICATOR,
                 UNSTABLE_WORMHOLE_DUPLICATOR,
                 NAQUADAH_GENERATOR,
@@ -243,6 +253,7 @@ public class Registration {
                 UNSTABLE_NAQUADAH,
                 ITEM_UNSTABLE_PRYSMIAN_BLOCK,
                 ITEM_UNSTABLE_NAQUADAH_BLOCK,
+                ITEM_REFINED_NAQUADAH_BLOCK,
                 ITEM_WORMHOLE_DUPLICATOR,
                 ITEM_UNSTABLE_WORMHOLE_DUPLICATOR,
                 MINERAL_TUNER_COAL,

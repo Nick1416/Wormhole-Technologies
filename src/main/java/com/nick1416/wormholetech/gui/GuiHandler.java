@@ -2,6 +2,7 @@ package com.nick1416.wormholetech.gui;
 
 import com.nick1416.wormholetech.WormholeTech;
 import com.nick1416.wormholetech.tile.AetheriusRefinerTileEntity;
+import com.nick1416.wormholetech.tile.GeneratorTileEntity;
 import com.nick1416.wormholetech.tile.RelativisticComputerTileEntity;
 import com.nick1416.wormholetech.tile.UnstableWormholeDuplicatorTileEntity;
 import com.nick1416.wormholetech.tile.WormholeDuplicatorTileEntity;
@@ -34,6 +35,9 @@ public class GuiHandler implements IGuiHandler {
         if (te instanceof UnstableWormholeDuplicatorTileEntity) {
             return new ContainerWormholeDuplicator(player.inventory, (UnstableWormholeDuplicatorTileEntity) te);
         }
+        if (te instanceof GeneratorTileEntity) {
+            return new ContainerEnergyConverter(player.inventory, (GeneratorTileEntity) te);
+        }
         return null;
     }
 
@@ -60,6 +64,9 @@ public class GuiHandler implements IGuiHandler {
         }
         if (te instanceof UnstableWormholeDuplicatorTileEntity) {
             return new GuiWormholeDuplicator(player.inventory, (UnstableWormholeDuplicatorTileEntity) te);
+        }
+        if (te instanceof GeneratorTileEntity) {
+            return new GuiEnergyConverter(player.inventory, (GeneratorTileEntity) te);
         }
         return null;
     }

@@ -35,6 +35,10 @@ public class ClientProxy extends com.nick1416.wormholetech.common.CommonProxy {
 	    ModelLoader.setCustomModelResourceLocation(
 	        naqOreItem, 0, new ModelResourceLocation(naqOreItem.getRegistryName(), "inventory"));
 	    
+	    Item refinedBlock = Registration.ITEM_REFINED_NAQUADAH_BLOCK;
+	    ModelLoader.setCustomModelResourceLocation(
+	    		refinedBlock, 0, new ModelResourceLocation(refinedBlock.getRegistryName(), "inventory"));
+
 	    Item naqBlockUnstable = Item.getItemFromBlock(Registration.UNSTABLE_NAQUADAH_BLOCK);
 	    ModelLoader.setCustomModelResourceLocation(
 	    		naqBlockUnstable, 0, new ModelResourceLocation(naqBlockUnstable.getRegistryName(), "inventory"));

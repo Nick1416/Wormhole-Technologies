@@ -1,47 +1,14 @@
 package com.nick1416.wormholetech.block;
 
+import com.nick1416.wormholetech.WormholeTech;
 import com.nick1416.wormholetech.tile.GeneratorTileEntity;
-import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-public class GeneratorBlock extends Block {
+/** Wormhole Energy Converter. */
+public class GeneratorBlock extends LinkedMachineBlock {
+    public GeneratorBlock() { super(WormholeTech.GUI_ENERGY_CONVERTER); }
 
-    public GeneratorBlock() {
-        super(Material.IRON);
-        setHardness(3.5F);
-        setResistance(10.0F);
-        setSoundType(SoundType.METAL);
-    }
-
-    // It has a tile entity
-    @Override
-    public boolean hasTileEntity(IBlockState state) { return true; }
-
-    @Override
-    public TileEntity createTileEntity(World world, IBlockState state) {
-        return new GeneratorTileEntity();
-    }
-
-    // No GUI / no item input: ignore right-clicks
-    @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state,
-                                    EntityPlayer player, EnumHand hand, EnumFacing side,
-                                    float hitX, float hitY, float hitZ) {
-        return false; // PASS (do nothing)
-    }
-
-    // Standard model
-    @Override
-    public EnumBlockRenderType getRenderType(IBlockState state) {
-        return EnumBlockRenderType.MODEL;
-    }
+    @Override public TileEntity createTileEntity(World world, IBlockState state) { return new GeneratorTileEntity(); }
 }
