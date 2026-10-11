@@ -177,6 +177,8 @@ public class Registration {
     // -- Ancient Tablet --
     public static final Item ANCIENT_TABLET = new ItemAncientTablet();
 
+    public static final Item GATE_LOCATOR = new com.nick1416.wormholetech.item.ItemGateLocator();
+
     // -- Wormhole Teleport Pad --
     public static final Block WORMHOLE_PAD = new WormholePadBlock()
             .setRegistryName(WormholeTech.MODID, "wormhole_pad")
@@ -230,8 +232,7 @@ public class Registration {
 
     public static final Block ANCIENT_GATE_FRAME = new com.nick1416.wormholetech.block.AncientGateFrameBlock()
             .setRegistryName(WormholeTech.MODID, "ancient_gate_frame")
-            .setUnlocalizedName(WormholeTech.MODID + ".ancient_gate_frame")
-            .setCreativeTab(net.minecraft.creativetab.CreativeTabs.BUILDING_BLOCKS);
+            .setUnlocalizedName(WormholeTech.MODID + ".ancient_gate_frame");
 
     public static final Item ITEM_ANCIENT_GATE_FRAME =
             new ItemBlock(ANCIENT_GATE_FRAME).setRegistryName(ANCIENT_GATE_FRAME.getRegistryName());
@@ -315,7 +316,8 @@ public class Registration {
                 ITEM_RELATIVISTIC_COMPUTER,
                 ITEM_HIGH_ENERGY_REFINER,
                 ITEM_DIALING_COMPUTER,
-                ITEM_ANCIENT_GATE_FRAME
+                ITEM_ANCIENT_GATE_FRAME,
+                GATE_LOCATOR
         );
     }
 }

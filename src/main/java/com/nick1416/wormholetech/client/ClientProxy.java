@@ -129,7 +129,7 @@ public class ClientProxy extends com.nick1416.wormholetech.common.CommonProxy {
 	    ModelLoader.setCustomModelResourceLocation(
 	    		refiner, 0, new ModelResourceLocation(refiner.getRegistryName(), "inventory"));
 
-	    for (Item it : new Item[] { Registration.ITEM_DIALING_COMPUTER, Registration.ITEM_ANCIENT_GATE_FRAME }) {
+	    for (Item it : new Item[] { Registration.ITEM_DIALING_COMPUTER, Registration.ITEM_ANCIENT_GATE_FRAME, Registration.GATE_LOCATOR }) {
 	        ModelLoader.setCustomModelResourceLocation(it, 0, new ModelResourceLocation(it.getRegistryName(), "inventory"));
 	    }
 

@@ -59,6 +59,13 @@ public class StargatePortalBlock extends Block {
         return NULL_AABB;
     }
 
+    @Override public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity) { return false; }
+    @Override public void onBlockExploded(World world, BlockPos pos, net.minecraft.world.Explosion explosion) { /* indestructible */ }
+    @Override public net.minecraft.block.material.EnumPushReaction getMobilityFlag(IBlockState state) { return net.minecraft.block.material.EnumPushReaction.BLOCK; }
+    @Override public ItemStack getPickBlock(IBlockState s, net.minecraft.util.math.RayTraceResult t, World w, BlockPos p, net.minecraft.entity.player.EntityPlayer pl) { return ItemStack.EMPTY; }
+    @Override public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, net.minecraft.entity.player.EntityPlayer player, boolean willHarvest) {
+        return player.capabilities.isCreativeMode && super.removedByPlayer(state, world, pos, player, willHarvest);
+    }
     @Override public boolean isOpaqueCube(IBlockState state) { return false; }
     @Override public boolean isFullCube(IBlockState state) { return false; }
     @Override public int quantityDropped(Random random) { return 0; }
