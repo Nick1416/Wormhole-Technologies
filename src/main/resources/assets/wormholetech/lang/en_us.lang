@@ -198,7 +198,7 @@ tooltip.wormholetech.compressed_naquadah.summary=Bedrock-bound refined naquadah
 
 tile.wormholetech.relativistic_computer.name=Relativistic Computer
 tooltip.wormholetech.relativistic_computer.summary=Runs a quantum clock that bends local time
-tooltip.wormholetech.relativistic_computer.detail.1=Needs Aetherius and 50k RF/t. Clock +1: the Stargate can dial, Aetherius wears (30 min). Clock -1: Aetherius recovers.
+tooltip.wormholetech.relativistic_computer.detail.1=Needs Aetherius and 50k RF/t. Clock +1: the gate can dial, Aetherius wears (30 min). Clock -1: Aetherius recovers.
 
 message.wormholetech.computer.inserted=Aetherius seated in the Relativistic Computer
 message.wormholetech.computer.ejected=Aetherius removed
@@ -258,7 +258,7 @@ gui.wormholetech.link.rate=+%s RF/t
 gui.wormholetech.link.need_fuel=Needs a Block of Refined Naquadah in the wormhole slot
 gui.wormholetech.link.already=Already connected
 
-# Stargate
+# Gate
 tile.wormholetech.dialing_computer.name=Dialing Computer
 tooltip.wormholetech.dialing_computer.summary=Opens a wormhole in an adjacent titanium gate frame
 tile.wormholetech.ancient_gate_frame.name=Ancient Gate Frame
@@ -309,5 +309,5 @@ gui.wormholetech.tablet.p8.l2=[Translation] Set a crystal into each pad; linked 
 message.wormholetech.linker.same_dim_only=Pads only link within one dimension (stored pad is in %s)
 message.wormholetech.pad.same_dim_only=This pad is linked to another dimension; pads only work within one dimension now
 gui.wormholetech.dialing.status.need_clock=Set computer clock to +1
-gui.wormholetech.computer.clock.forward=Quantum clock +1: time runs fast. The Stargate can dial; Aetherius wears down.
+gui.wormholetech.computer.clock.forward=Quantum clock +1: time runs fast. The gate can dial; Aetherius wears down.
 gui.wormholetech.computer.clock.back=Quantum clock -1: time runs slow. Aetherius recovers.

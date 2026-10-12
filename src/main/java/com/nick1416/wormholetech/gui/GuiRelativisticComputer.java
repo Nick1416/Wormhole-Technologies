@@ -20,6 +20,8 @@ public class GuiRelativisticComputer extends GuiContainer {
         this.ySize = ContainerRelativisticComputer.GUI_HEIGHT;
     }
 
+    private static final ResourceLocation CLOCK_ICON =
+            new ResourceLocation("wormholetech", "textures/gui/redstone_clock.png");
     private static final int CLOCK_X = 132, CLOCK_Y = 34, CLOCK_W = 24, CLOCK_H = 20;
     private net.minecraft.client.gui.GuiButton clockButton;
 
@@ -63,9 +65,12 @@ public class GuiRelativisticComputer extends GuiContainer {
                 : "gui.wormholetech.status.idle");
         fontRenderer.drawString(status, 8, 58, container.isClientActive() ? 0x206020 : 0x604020);
         // tiny redstone clock icon beside the toggle
-        net.minecraft.client.renderer.RenderHelper.enableGUIStandardItemLighting();
-        itemRender.renderItemIntoGUI(new net.minecraft.item.ItemStack(net.minecraft.init.Items.CLOCK), CLOCK_X - 18, CLOCK_Y + 2);
-        net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
+        // -1: unlit loop, repeater pointing left; +1: lit loop, repeater pointing right
+        net.minecraft.client.renderer.GlStateManager.color(1F, 1F, 1F, 1F);
+        net.minecraft.client.renderer.GlStateManager.enableBlend();
+        mc.getTextureManager().bindTexture(CLOCK_ICON);
+        drawModalRectWithCustomSizedTexture(CLOCK_X - 18, CLOCK_Y + 2, container.isClientClockForward() ? 16 : 0, 0, 16, 16, 32, 16);
+        net.minecraft.client.renderer.GlStateManager.disableBlend();
     }
 
     @Override

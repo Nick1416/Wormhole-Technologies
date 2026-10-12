@@ -48,7 +48,7 @@ public final class TitaniumFrame {
             }
         }
         accepted = m;
-        WormholeTech.LOGGER.info("Stargate frame blocks: {}", m.isEmpty() ? "none found (gate disabled)" : m.keySet());
+        WormholeTech.LOGGER.info("Gate frame blocks: {}", m.isEmpty() ? "none found (gate disabled)" : m.keySet());
     }
 
     private static void add(Map<Block, Set<Integer>> m, Block b, int meta) {
