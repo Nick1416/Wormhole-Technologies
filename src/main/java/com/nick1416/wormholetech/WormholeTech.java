@@ -106,7 +106,14 @@ public class WormholeTech {
         }
 
         com.nick1416.wormholetech.world.BiomeNaquadahWastes.addTypes();
+        if (ModConfig.emeraldDroneSpawnWeight > 0) {
+            net.minecraftforge.fml.common.registry.EntityRegistry.addSpawn(com.nick1416.wormholetech.entity.EntityEmeraldDrone.class,
+                    ModConfig.emeraldDroneSpawnWeight, 1, 2, net.minecraft.entity.EnumCreatureType.MONSTER,
+                    com.nick1416.wormholetech.registry.Registration.NAQUADAH_WASTES);
+        }
         OreDictionary.registerOre("oreNaquadah", com.nick1416.wormholetech.registry.Registration.NATURAL_NAQUADAH_ORE);
+        net.minecraftforge.fml.common.registry.GameRegistry.addSmelting(com.nick1416.wormholetech.registry.Registration.ITEM_NATURAL_NAQUADAH_ORE,
+                new ItemStack(com.nick1416.wormholetech.registry.Registration.REFINED_NAQUADAH), 1.0F);
         PROXY.init();
     }
 

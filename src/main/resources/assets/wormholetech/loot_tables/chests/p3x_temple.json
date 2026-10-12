@@ -1,0 +1,19 @@
+{
+  "pools": [
+    {
+      "name": "main",
+      "rolls": { "min": 3, "max": 6 },
+      "entries": [
+        { "type": "item", "name": "minecraft:iron_ingot", "weight": 15, "functions": [ { "function": "set_count", "count": { "min": 1, "max": 4 } } ] },
+        { "type": "item", "name": "minecraft:gold_nugget", "weight": 15, "functions": [ { "function": "set_count", "count": { "min": 2, "max": 8 } } ] },
+        { "type": "item", "name": "minecraft:emerald", "weight": 8, "functions": [ { "function": "set_count", "count": { "min": 1, "max": 3 } } ] },
+        { "type": "item", "name": "minecraft:bread", "weight": 10, "functions": [ { "function": "set_count", "count": { "min": 1, "max": 3 } } ] },
+        { "type": "item", "name": "minecraft:redstone", "weight": 10, "functions": [ { "function": "set_count", "count": { "min": 2, "max": 6 } } ] },
+        { "type": "item", "name": "minecraft:ender_pearl", "weight": 4 },
+        { "type": "item", "name": "wormholetech:naquadah_ore_natural", "weight": 10, "functions": [ { "function": "set_count", "count": { "min": 1, "max": 3 } } ] },
+        { "type": "item", "name": "wormholetech:refined_naquadah", "weight": 4, "functions": [ { "function": "set_count", "count": { "min": 1, "max": 2 } } ] },
+        { "type": "item", "name": "minecraft:book", "weight": 5, "functions": [ { "function": "enchant_with_levels", "levels": { "min": 5, "max": 15 } } ] }
+      ]
+    }
+  ]
+}

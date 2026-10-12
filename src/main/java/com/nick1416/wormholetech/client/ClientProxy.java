@@ -138,6 +138,13 @@ public class ClientProxy extends com.nick1416.wormholetech.common.CommonProxy {
 	}
 
 	@Override
+	public void preInit() {
+		net.minecraftforge.fml.client.registry.RenderingRegistry.registerEntityRenderingHandler(
+				com.nick1416.wormholetech.entity.EntityEmeraldDrone.class,
+				com.nick1416.wormholetech.client.render.RenderEmeraldDrone::new);
+	}
+
+	@Override
 	public void openAncientTabletGui() {
 	    Minecraft.getMinecraft().displayGuiScreen(new GuiAncientTablet());
 	}

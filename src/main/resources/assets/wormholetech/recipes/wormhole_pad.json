@@ -9,7 +9,7 @@
     "E": { "item": "minecraft:ender_pearl" },
     "O": { "item": "minecraft:obsidian" },
     "N": { "item": "wormholetech:refined_naquadah" },
-    "R": { "item": "minecraft:redstone_block" }
+    "R": { "item": "wormholetech:naquadah_crystal" }
   },
   "result": { "item": "wormholetech:wormhole_pad", "count": 2 }
 }

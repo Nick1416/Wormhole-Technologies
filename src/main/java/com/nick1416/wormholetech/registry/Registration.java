@@ -280,6 +280,17 @@ public class Registration {
         e.getRegistry().register(NAQUADAH_WASTES);
     }
 
+    @SubscribeEvent
+    public static void onRegisterEntities(RegistryEvent.Register<net.minecraftforge.fml.common.registry.EntityEntry> e) {
+        e.getRegistry().register(net.minecraftforge.fml.common.registry.EntityEntryBuilder.create()
+                .entity(com.nick1416.wormholetech.entity.EntityEmeraldDrone.class)
+                .id(new net.minecraft.util.ResourceLocation(WormholeTech.MODID, "emerald_drone"), 0)
+                .name(WormholeTech.MODID + ".emerald_drone")
+                .tracker(64, 3, true)
+                .egg(0x2E3A36, 0x3FD27A)
+                .build());
+    }
+
     // --- Registry events ---
     @SubscribeEvent
     public static void onRegisterBlocks(RegistryEvent.Register<Block> e) {
