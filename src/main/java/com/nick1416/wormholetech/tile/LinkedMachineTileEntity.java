@@ -114,13 +114,20 @@ public abstract class LinkedMachineTileEntity extends TileEntity implements ITic
 
     @Override
     public boolean hasCapability(Capability<?> c, EnumFacing f) {
-        return c == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(c, f);
+        if (c == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return f == null || !isModeDisabled();
+        return super.hasCapability(c, f);
     }
+
+    /** Machines switched off by the configured mode expose no sided automation. */
+    protected boolean isModeDisabled() { return false; }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T> T getCapability(Capability<T> c, EnumFacing f) {
-        if (c == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return (T) (f == null ? inv : automation);
+        if (c == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            if (f == null) return (T) inv;
+            return isModeDisabled() ? null : (T) automation;
+        }
         return super.getCapability(c, f);
     }
 }

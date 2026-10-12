@@ -49,6 +49,7 @@ public class WormholeTech {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent e) {
         ModConfig.load(e.getSuggestedConfigurationFile());
+        com.nick1416.wormholetech.mode.ModeNetwork.register();
 
         GameRegistry.registerTileEntity(GeneratorTileEntity.class,
                 new ResourceLocation(MODID, "rf_generator"));
@@ -135,5 +136,6 @@ public class WormholeTech {
     public void serverStarting(net.minecraftforge.fml.common.event.FMLServerStartingEvent e) {
         // oredict is final by now (CraftTweaker etc.)
         com.nick1416.wormholetech.stargate.TitaniumFrame.refresh();
+        com.nick1416.wormholetech.mode.NormalModeAdvancements.apply();
     }
 }

@@ -67,17 +67,20 @@ public class GuiAncientTablet extends GuiScreen {
                         new ItemStack(Registration.MINERAL_TUNER_IRON),
                         new ItemStack(Registration.MINERAL_TUNER_GOLD)
                 }));
-        pages.add(new Page(
-                "gui.wormholetech.tablet.p4.title",
-                new String[] {
-                        "gui.wormholetech.tablet.p4.l1",
-                        "gui.wormholetech.tablet.p4.l2"
-                },
-                new ItemStack[] {
-                        new ItemStack(Registration.ITEM_REFINED_NAQUADAH_BLOCK),
-                        new ItemStack(Registration.ITEM_WORMHOLE_DUPLICATOR),
-                        new ItemStack(Registration.ITEM_UNSTABLE_WORMHOLE_DUPLICATOR)
-                }));
+        // Fragment on the duplicators: mode=cc only
+        if (com.nick1416.wormholetech.ModConfig.isCC()) {
+            pages.add(new Page(
+                    "gui.wormholetech.tablet.p4.title",
+                    new String[] {
+                            "gui.wormholetech.tablet.p4.l1",
+                            "gui.wormholetech.tablet.p4.l2"
+                    },
+                    new ItemStack[] {
+                            new ItemStack(Registration.ITEM_REFINED_NAQUADAH_BLOCK),
+                            new ItemStack(Registration.ITEM_WORMHOLE_DUPLICATOR),
+                            new ItemStack(Registration.ITEM_UNSTABLE_WORMHOLE_DUPLICATOR)
+                    }));
+        }
         pages.add(new Page(
                 "gui.wormholetech.tablet.p6.title",
                 new String[] {
@@ -166,7 +169,7 @@ public class GuiAncientTablet extends GuiScreen {
         drawRect(left + 3, top + 3, left + 237, top + 167, 0x66FFFFFF);
 
         Page p = pages.get(page);
-        fontRenderer.drawString(I18n.format(p.titleKey), left + 12, top + 10, 0x3A2A1A);
+        fontRenderer.drawString(title(p, page), left + 12, top + 10, 0x3A2A1A);
         int y = top + 28;
         for (String line : p.lines) {
             String text = line.startsWith("gui.wormholetech.") ? I18n.format(line) : line;
@@ -211,6 +214,16 @@ public class GuiAncientTablet extends GuiScreen {
         if (keyCode == Keyboard.KEY_LEFT && page > 0) { page--; updateButtons(); return; }
         if (keyCode == Keyboard.KEY_RIGHT && page < pages.size() - 1) { page++; updateButtons(); return; }
         super.keyTyped(typedChar, keyCode);
+    }
+
+    private static final String[] ROMAN = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"};
+
+    /** "Fragment N — Name", numbered by position so pages hidden by the mode leave no gap. */
+    private static String title(Page p, int index) {
+        String t = I18n.format(p.titleKey);
+        int dash = t.indexOf(" \u2014 ");
+        if (!t.startsWith("Fragment ") || dash < 0 || index >= ROMAN.length) return t;
+        return "Fragment " + ROMAN[index] + t.substring(dash);
     }
 
     private static final class Page {

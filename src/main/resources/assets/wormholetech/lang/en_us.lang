@@ -48,6 +48,7 @@ tooltip.wormholetech.naquadah_generator.detail.3=When time runs out, becomes Uns
 
 tooltip.wormholetech.unstable_naquadah_block.summary=Mines into 4 Unstable Naquadah
 tooltip.wormholetech.unstable_naquadah_block.detail.1=Left by expired generators, decayed Refined Naquadah blocks and collapsed Unstable Duplicators.
+tooltip.wormholetech.unstable_naquadah_block.detail.1.normal=Left by expired generators and decayed Refined Naquadah blocks.
 tooltip.wormholetech.unstable_naquadah_block.detail.2=Player harvest (no Silk Touch) yields 4 Unstable Naquadah.
 
 tooltip.wormholetech.raw_naquadah.summary=Unrefined wormhole matter
@@ -311,3 +312,5 @@ message.wormholetech.pad.same_dim_only=This pad is linked to another dimension; 
 gui.wormholetech.dialing.status.need_clock=Set computer clock to +1
 gui.wormholetech.computer.clock.forward=Quantum clock +1: time runs fast. The gate can dial; Aetherius wears down.
 gui.wormholetech.computer.clock.back=Quantum clock -1: time runs slow. Aetherius recovers.
+
+message.wormholetech.disabled_normal_mode=This machine is disabled (mode=normal in wormholetech.cfg)

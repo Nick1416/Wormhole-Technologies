@@ -35,6 +35,7 @@ public class WormholeDuplicatorTileEntity extends LinkedMachineTileEntity {
     @Override
     public void update() {
         if (world == null || world.isRemote) return;
+        if (!com.nick1416.wormholetech.ModConfig.isCC()) return; // inert in normal mode
         if (link.tick() != WormholeLink.State.RUNNING) return; // only works while connected
 
         ItemStack diamonds = inv.getStackInSlot(SLOT_NUGGET);
@@ -59,4 +60,7 @@ public class WormholeDuplicatorTileEntity extends LinkedMachineTileEntity {
         }
         markDirty();
     }
+
+    /** Duplicators only exist in mode=cc. */
+    @Override protected boolean isModeDisabled() { return !com.nick1416.wormholetech.ModConfig.isCC(); }
 }
