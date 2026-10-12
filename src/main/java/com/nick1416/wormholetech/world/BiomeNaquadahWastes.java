@@ -200,7 +200,7 @@ public class BiomeNaquadahWastes extends Biome {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public int getSkyColorByTemp(float temp) { return 0x70A0DB; }
+    public int getSkyColorByTemp(float temp) { return 0x9466CC; }
 
     @SideOnly(Side.CLIENT)
     @Override
