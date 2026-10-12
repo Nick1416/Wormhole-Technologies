@@ -19,12 +19,12 @@ public class ContainerRelativisticComputer extends SyncedIntsContainer {
     public static final int PLAYER_INV_Y = GUI_HEIGHT - 82;   // 84
     public static final int HOTBAR_Y = PLAYER_INV_Y + 58;      // 142
 
-    private static final int ENERGY = 0, ACTIVE = 1;
+    private static final int ENERGY = 0, ACTIVE = 1, CLOCK = 2;
 
     private final RelativisticComputerTileEntity te;
 
     public ContainerRelativisticComputer(InventoryPlayer playerInv, RelativisticComputerTileEntity te) {
-        super(2);
+        super(3);
         this.te = te;
         IItemHandlerModifiable inv = te.items();
 
@@ -41,13 +41,25 @@ public class ContainerRelativisticComputer extends SyncedIntsContainer {
 
     @Override
     protected int[] readServerValues() {
-        return new int[] { te.getEnergyStored(), te.isActive() ? 1 : 0 };
+        return new int[] { te.getEnergyStored(), te.isActive() ? 1 : 0, te.isClockForward() ? 1 : 0 };
     }
 
     /** Client-synced energy (full int). */
     public int getClientEnergy() { return synced(ENERGY); }
 
     public boolean isClientActive() { return synced(ACTIVE) != 0; }
+
+    public boolean isClientClockForward() { return synced(CLOCK) != 0; }
+
+    /** Button 0 toggles the quantum clock (sent with the vanilla enchant-item packet). */
+    @Override
+    public boolean enchantItem(EntityPlayer player, int id) {
+        if (id == 0) {
+            te.toggleClock();
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public boolean canInteractWith(EntityPlayer playerIn) {

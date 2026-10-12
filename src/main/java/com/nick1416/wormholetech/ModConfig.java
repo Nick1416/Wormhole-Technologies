@@ -30,6 +30,8 @@ public final class ModConfig {
     // High Energy Refiner (Aetherius)
     public static int highEnergyRefinerRfPerTick = 100;
     public static int highEnergyRefinerCookTimeTicks = 36_000;
+    /** Ticks a full Aetherius lasts at quantum clock +1 (and takes to recover fully at -1). */
+    public static int aetheriusDecayTicks = 36_000;
     public static int refinedNaquadahBlockDecayTicks = 12_000;
     public static int highEnergyRefinerBuffer = 1_000_000;
     public static int highEnergyRefinerMaxReceive = 10_000;
@@ -115,6 +117,8 @@ public final class ModConfig {
             refineTime.set(36_000);
         }
         highEnergyRefinerCookTimeTicks = refineTime.getInt();
+        aetheriusDecayTicks = cfg.getInt("aetheriusDecayTicks", late, 36_000, 20, Integer.MAX_VALUE,
+                "Ticks a full Aetherius lasts in a Relativistic Computer at quantum clock +1 (lost at zero); it recovers at the same rate at -1");
         highEnergyRefinerBuffer = cfg.getInt("highEnergyRefinerBuffer", late, 1_000_000, 1, Integer.MAX_VALUE,
                 "High Energy Refiner RF buffer");
         highEnergyRefinerMaxReceive = cfg.getInt("highEnergyRefinerMaxReceive", late, 10_000, 0, Integer.MAX_VALUE,

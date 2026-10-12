@@ -23,6 +23,9 @@ public class UnstableWormholeDuplicatorTileEntity extends LinkedMachineTileEntit
     }
 
     @Override
+    protected int[] outputSlots() { return new int[] { SLOT_OUTPUT }; }
+
+    @Override
     protected boolean isValid(int slot, ItemStack s) {
         if (slot == SLOT_DIAMOND) return s.getItem() == net.minecraft.init.Items.DIAMOND;
         if (slot == SLOT_TEMPLATE) return isAllowedTemplate(s);

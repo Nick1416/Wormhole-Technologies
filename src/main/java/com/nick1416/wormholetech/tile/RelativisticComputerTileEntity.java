@@ -32,12 +32,17 @@ public class RelativisticComputerTileEntity extends TileEntity implements ITicka
         }
 
         @Override
+        public int getSlotLimit(int slot) { return 1; }
+
+        @Override
         public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
             if (!isItemValid(slot, stack)) return stack;
             return super.insertItem(slot, stack, simulate);
         }
     };
     private boolean active;
+    /** Quantum clock: true = +1 (time runs fast: the Stargate can dial, Aetherius wears), false = -1 (Aetherius recovers). */
+    private boolean clockForward;
 
     @Override
     public void update() {
@@ -48,6 +53,20 @@ public class RelativisticComputerTileEntity extends TileEntity implements ITicka
                 && energy.getEnergyStored() >= ModConfig.relativisticComputerUpkeepRfPerTick) {
             energy.consume(ModConfig.relativisticComputerUpkeepRfPerTick);
             active = true;
+            // The quantum clock only runs while the computer is powered with Aetherius seated.
+            int wear = com.nick1416.wormholetech.item.ItemAetherius.getWear(aetherius);
+            if (clockForward) {
+                if (wear + 1 >= com.nick1416.wormholetech.item.ItemAetherius.maxWear()) {
+                    inv.setStackInSlot(0, ItemStack.EMPTY); // worn out: lost
+                    active = false;
+                    world.playSound(null, pos, net.minecraft.init.SoundEvents.BLOCK_GLASS_BREAK,
+                            net.minecraft.util.SoundCategory.BLOCKS, 0.8F, 0.6F);
+                } else {
+                    com.nick1416.wormholetech.item.ItemAetherius.setWear(aetherius, wear + 1);
+                }
+            } else if (wear > 0) {
+                com.nick1416.wormholetech.item.ItemAetherius.setWear(aetherius, wear - 1);
+            }
         } else {
             active = false;
         }
@@ -56,6 +75,26 @@ public class RelativisticComputerTileEntity extends TileEntity implements ITicka
     }
 
     public boolean isActive() { return active; }
+
+    public boolean isClockForward() { return clockForward; }
+
+    /** Active and running the quantum clock at +1 (what the Stargate needs). */
+    public boolean isClockActiveForward() { return active && clockForward; }
+
+    public void toggleClock() {
+        clockForward = !clockForward;
+        markDirty();
+        if (world != null) {
+            net.minecraft.block.state.IBlockState st = world.getBlockState(pos);
+            world.notifyBlockUpdate(pos, st, st, 3);
+        }
+    }
+
+    /** Aetherius wear in the slot, 0 = full, maxWear = gone; -1 if empty. */
+    public int getAetheriusWear() {
+        ItemStack s = inv.getStackInSlot(0);
+        return s.isEmpty() ? -1 : com.nick1416.wormholetech.item.ItemAetherius.getWear(s);
+    }
 
     /** True if an Aetherius is seated (the computer can calculate once powered). */
     public boolean hasAetherius() {
@@ -94,6 +133,7 @@ public class RelativisticComputerTileEntity extends TileEntity implements ITicka
         super.writeToNBT(tag);
         tag.setInteger("Energy", energy.getEnergyStored());
         tag.setBoolean("Active", active);
+        tag.setBoolean("ClockForward", clockForward);
         tag.setTag("Items", inv.serializeNBT());
         return tag;
     }
@@ -103,6 +143,7 @@ public class RelativisticComputerTileEntity extends TileEntity implements ITicka
         super.readFromNBT(tag);
         energy.setEnergy(tag.getInteger("Energy"));
         active = tag.getBoolean("Active");
+        clockForward = tag.getBoolean("ClockForward");
         if (tag.hasKey("Items")) {
             inv.deserializeNBT(tag.getCompoundTag("Items"));
         } else if (tag.hasKey("Aetherius")) {

@@ -20,6 +20,28 @@ public class GuiRelativisticComputer extends GuiContainer {
         this.ySize = ContainerRelativisticComputer.GUI_HEIGHT;
     }
 
+    private static final int CLOCK_X = 132, CLOCK_Y = 34, CLOCK_W = 24, CLOCK_H = 20;
+    private net.minecraft.client.gui.GuiButton clockButton;
+
+    @Override
+    public void initGui() {
+        super.initGui();
+        buttonList.clear();
+        clockButton = new net.minecraft.client.gui.GuiButton(0, guiLeft + CLOCK_X, guiTop + CLOCK_Y, CLOCK_W, CLOCK_H, "-1");
+        buttonList.add(clockButton);
+    }
+
+    @Override
+    protected void actionPerformed(net.minecraft.client.gui.GuiButton b) {
+        if (b.id == 0) mc.playerController.sendEnchantPacket(container.windowId, 0);
+    }
+
+    @Override
+    public void updateScreen() {
+        super.updateScreen();
+        if (clockButton != null) clockButton.displayString = container.isClientClockForward() ? "+1" : "-1";
+    }
+
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         net.minecraft.client.renderer.GlStateManager.color(1f, 1f, 1f, 1f);
@@ -40,6 +62,10 @@ public class GuiRelativisticComputer extends GuiContainer {
                 ? "gui.wormholetech.status.active"
                 : "gui.wormholetech.status.idle");
         fontRenderer.drawString(status, 8, 58, container.isClientActive() ? 0x206020 : 0x604020);
+        // tiny redstone clock icon beside the toggle
+        net.minecraft.client.renderer.RenderHelper.enableGUIStandardItemLighting();
+        itemRender.renderItemIntoGUI(new net.minecraft.item.ItemStack(net.minecraft.init.Items.CLOCK), CLOCK_X - 18, CLOCK_Y + 2);
+        net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
     }
 
     @Override
@@ -47,5 +73,10 @@ public class GuiRelativisticComputer extends GuiContainer {
         this.drawDefaultBackground();
         super.drawScreen(mouseX, mouseY, partialTicks);
         this.renderHoveredToolTip(mouseX, mouseY);
+        int rx = mouseX - guiLeft, ry = mouseY - guiTop;
+        if (rx >= CLOCK_X - 18 && rx < CLOCK_X + CLOCK_W && ry >= CLOCK_Y && ry < CLOCK_Y + CLOCK_H) {
+            drawHoveringText(java.util.Collections.singletonList(I18n.format(container.isClientClockForward()
+                    ? "gui.wormholetech.computer.clock.forward" : "gui.wormholetech.computer.clock.back")), mouseX, mouseY);
+        }
     }
 }
