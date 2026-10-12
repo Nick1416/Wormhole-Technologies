@@ -59,8 +59,10 @@ public class EntityEmeraldDrone extends EntityMob {
         if (!ModDimensions.isRegistered() || world.provider.getDimension() != ModDimensions.id()) return false;
         BlockPos pos = new BlockPos(posX, getEntityBoundingBox().minY, posZ);
         if (!world.canSeeSky(pos)) return false;
-        Block below = world.getBlockState(pos.down()).getBlock();
-        boolean ground = below == Registration.ASHEN_REGOLITH || below == Registration.NAQUADRIC_STONE || below == Blocks.GRAVEL;
+        // any solid top surface (also works in P3X chunks generated before Naquadric Stone existed)
+        BlockPos down = pos.down();
+        IBlockState below = world.getBlockState(down);
+        boolean ground = below.isSideSolid(world, down, net.minecraft.util.EnumFacing.UP) && below.getBlock() != Blocks.BEDROCK;
         return ground && world.getCollisionBoxes(this, getEntityBoundingBox()).isEmpty() && !world.containsAnyLiquid(getEntityBoundingBox());
     }
 
