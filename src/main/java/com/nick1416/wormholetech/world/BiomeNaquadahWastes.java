@@ -95,6 +95,13 @@ public class BiomeNaquadahWastes extends Biome {
                 else spire(world, rand, base);
             }
         }
+        if (ModConfig.p3xTempleChance > 0 && rand.nextInt(ModConfig.p3xTempleChance) == 0) {
+            BlockPos base = surface(world, cx + 12 + rand.nextInt(8), cz + 12 + rand.nextInt(8));
+            if (!nearGate(base) && base.getY() > world.getSeaLevel() && !world.getBlockState(base.down()).getMaterial().isLiquid()) {
+                P3XTemples.generate(world, rand, base);
+                return; // no obelisk on top of a temple
+            }
+        }
         if (ModConfig.p3xObeliskChance > 0 && rand.nextInt(ModConfig.p3xObeliskChance) == 0) {
             BlockPos base = surface(world, cx + 12 + rand.nextInt(8), cz + 12 + rand.nextInt(8));
             boolean ob = rand.nextBoolean();

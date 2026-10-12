@@ -1,0 +1,30 @@
+{
+  "parent": "wormholetech:p3x_1416",
+  "display": {
+    "icon": {
+      "item": "wormholetech:naquadah_crystal"
+    },
+    "title": {
+      "translate": "advancements.wormholetech.naquadah_crystal.title"
+    },
+    "description": {
+      "translate": "advancements.wormholetech.naquadah_crystal.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "crystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:naquadah_crystal"
+          }
+        ]
+      }
+    }
+  }
+}

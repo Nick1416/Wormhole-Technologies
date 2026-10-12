@@ -55,6 +55,9 @@ public final class ModConfig {
     public static int p3xCrystalsPerChunk = 3;
     public static int p3xSpireChance = 6;            // 1 in N chunks, 0 = off
     public static int p3xObeliskChance = 40;         // 1 in N chunks, 0 = off
+    public static int p3xTempleChance = 150;         // 1 in N chunks, 0 = off
+    public static int p3xTempleChestChance = 2;      // 1 in N temples get a chest
+    public static int emeraldDroneSpawnWeight = 6;     // 0 = off
 
     /** Reads an int; if it still holds the previous default, moves it to the new default. */
     private static int migrated(Configuration cfg, String cat, String key, int def, int oldDef, int min, int max, String comment) {
@@ -138,10 +141,16 @@ public final class ModConfig {
         p3xSurfaceOreClusterChance = cfg.getInt("p3xSurfaceOreClusterChance", sg, 3, 0, 1000,
                 "1 in N chunks on P3X-1416 get a small exposed Naquadah Ore cluster on the surface (0 = off)");
         p3xCrystalsPerChunk = cfg.getInt("p3xCrystalsPerChunk", sg, 3, 0, 64,
-                "Naquadah Crystal placement attempts per chunk on P3X-1416 (surface + caves; decorative only)");
+                "Naquadah Crystal placement attempts per chunk on P3X-1416 (surface + caves)");
         p3xSpireChance = cfg.getInt("p3xSpireChance", sg, 6, 0, 1000, "1 in N chunks on P3X-1416 get a rock spire (0 = off)");
         p3xObeliskChance = cfg.getInt("p3xObeliskChance", sg, 40, 0, 10000,
                 "1 in N chunks on P3X-1416 get an Ancient Stone obelisk/ruin (0 = off)");
+        p3xTempleChance = cfg.getInt("p3xTempleChance", sg, 150, 0, 100000,
+                "1 in N chunks on P3X-1416 get a small ancient temple (0 = off)");
+        p3xTempleChestChance = cfg.getInt("p3xTempleChestChance", sg, 2, 0, 1000,
+                "1 in N temples contain a loot chest (0 = never)");
+        emeraldDroneSpawnWeight = cfg.getInt("emeraldDroneSpawnWeight", sg, 6, 0, 1000,
+                "Spawn weight of Emerald Drones on the P3X-1416 surface (vanilla zombies are 100; 0 = off). Needs a restart");
 
         final String pads = "wormhole_pads";
         wormholePadUpkeepRfPerTick = cfg.getInt("wormholePadUpkeepRfPerTick", pads, 50_000, 0, Integer.MAX_VALUE,

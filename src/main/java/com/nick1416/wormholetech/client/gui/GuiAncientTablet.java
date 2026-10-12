@@ -89,8 +89,7 @@ public class GuiAncientTablet extends GuiScreen {
                 new ItemStack[] {
                         new ItemStack(Registration.HIGH_ENERGY_REFINER),
                         new ItemStack(Registration.AETHERIUS),
-                        new ItemStack(Registration.RELATIVISTIC_COMPUTER),
-                        new ItemStack(Registration.WORMHOLE_PAD)
+                        new ItemStack(Registration.RELATIVISTIC_COMPUTER)
                 }));
         pages.add(new Page(
                 "gui.wormholetech.tablet.p7.title",
@@ -106,6 +105,17 @@ public class GuiAncientTablet extends GuiScreen {
                         new ItemStack(Registration.RELATIVISTIC_COMPUTER),
                         new ItemStack(Registration.ANCIENT_TABLET),
                         new ItemStack(Registration.GATE_LOCATOR)
+                }));
+        pages.add(new Page(
+                "gui.wormholetech.tablet.p8.title",
+                new String[] {
+                        "gui.wormholetech.tablet.p8.l1",
+                        "gui.wormholetech.tablet.p8.l2"
+                },
+                new ItemStack[] {
+                        new ItemStack(Registration.NAQUADAH_CRYSTAL),
+                        new ItemStack(Registration.WORMHOLE_PAD),
+                        new ItemStack(Registration.RELATIVISTIC_COMPUTER)
                 }));
     }
 

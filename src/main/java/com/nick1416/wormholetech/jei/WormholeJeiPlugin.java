@@ -43,7 +43,6 @@ public class WormholeJeiPlugin implements IModPlugin {
         registry.handleRecipes(OreDropRecipe.class, OreDropWrapper::new, OreDropCategory.UID);
         registry.addRecipes(OreDropRecipe.createRecipes(), OreDropCategory.UID);
         registry.addRecipeCatalyst(new ItemStack(Registration.NAQUADAH_ORE), OreDropCategory.UID);
-        registry.addRecipeCatalyst(new ItemStack(Registration.NATURAL_NAQUADAH_ORE), OreDropCategory.UID);
         registry.addRecipeCatalyst(new ItemStack(Registration.UNSTABLE_NAQUADAH_BLOCK), OreDropCategory.UID);
 
         registry.handleRecipes(HighEnergyRefineRecipe.class, HighEnergyRefineWrapper::new, HighEnergyRefineCategory.UID);

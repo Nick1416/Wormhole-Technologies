@@ -1,5 +1,5 @@
 {
-  "parent": "wormholetech:wormhole_duplicator",
+  "parent": "wormholetech:naquadah_crystal",
   "display": {
     "icon": {
       "item": "wormholetech:wormhole_pad"
