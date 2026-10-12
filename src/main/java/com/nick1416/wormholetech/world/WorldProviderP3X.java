@@ -30,10 +30,12 @@ public class WorldProviderP3X extends WorldProvider {
         return new ChunkGeneratorP3X(world, world.getSeed() ^ 0x5033581416L);
     }
 
-    /** Teal-violet sky, darkening at night like the overworld's. */
-    public static final float[] SKY = { 0.44F, 0.62F, 0.86F };
-    /** Warm rose-amber haze. */
-    public static final float[] FOG = { 0.86F, 0.62F, 0.66F };
+    /** Violet sky (#9466CC), darkening at night like the overworld's. Must stay clearly non-blue. */
+    public static final float[] SKY = { 0.58F, 0.40F, 0.80F };
+    /** Warm rose-amber haze (#E09985). */
+    public static final float[] FOG = { 0.88F, 0.60F, 0.52F };
+    /** Lavender clouds. */
+    public static final float[] CLOUD = { 0.88F, 0.80F, 0.96F };
 
     private static float daylight(float celestialAngle) {
         return MathHelper.clamp(MathHelper.cos(celestialAngle * (float) Math.PI * 2.0F) * 2.0F + 0.5F, 0.0F, 1.0F);
@@ -51,6 +53,23 @@ public class WorldProviderP3X extends WorldProvider {
     public Vec3d getFogColor(float celestialAngle, float partialTicks) {
         float b = daylight(celestialAngle);
         return new Vec3d(FOG[0] * (b * 0.94F + 0.06F), FOG[1] * (b * 0.94F + 0.06F), FOG[2] * (b * 0.91F + 0.09F));
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public Vec3d getCloudColor(float partialTicks) {
+        float b = daylight(world.getCelestialAngle(partialTicks)) * 0.9F + 0.1F;
+        return new Vec3d(CLOUD[0] * b, CLOUD[1] * b, CLOUD[2] * b);
+    }
+
+    /** Teal-green sunrise/sunset glow instead of the vanilla orange. */
+    @SideOnly(Side.CLIENT)
+    @Override
+    public float[] calcSunriseSunsetColors(float celestialAngle, float partialTicks) {
+        float[] c = super.calcSunriseSunsetColors(celestialAngle, partialTicks);
+        if (c == null) return null;
+        float a = c[3];
+        return new float[] { 0.25F, 0.85F, 0.70F, a };
     }
 
     @Override public boolean isSurfaceWorld() { return true; }
