@@ -15,6 +15,9 @@ public class WormholeDuplicatorTileEntity extends LinkedMachineTileEntity {
     }
 
     @Override
+    protected int[] outputSlots() { return new int[] { SLOT_OUTPUT, SLOT_UNSTABLE }; }
+
+    @Override
     protected boolean isValid(int slot, ItemStack stack) {
         if (slot == SLOT_NUGGET) return ItemStack.areItemsEqual(stack, WormholeTech.DIAMOND_NUGGET);
         if (slot == SLOT_TEMPLATE) return isAllowedTemplate(stack);

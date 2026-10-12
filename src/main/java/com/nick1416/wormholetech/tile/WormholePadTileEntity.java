@@ -251,17 +251,15 @@ public class WormholePadTileEntity extends TileEntity implements ITickable {
         long now = world.getTotalWorldTime();
         if (data.getLong(CD_KEY) > now) return false;
 
-        boolean cross = partnerDim != world.provider.getDimension();
-        if (cross) {
-            if (!(entity instanceof EntityPlayerMP)) return false;
-            if (!hasActiveComputer(world, pos)) {
-                if (entity instanceof EntityPlayer) {
-                    ((EntityPlayer) entity).sendStatusMessage(
-                            new TextComponentTranslation("message.wormholetech.pad.need_computer"), true);
-                }
-                return false;
+        // Same-dimension links only (older saves may still hold a cross-dimension partner).
+        if (partnerDim != world.provider.getDimension()) {
+            if (entity instanceof EntityPlayer) {
+                ((EntityPlayer) entity).sendStatusMessage(
+                        new TextComponentTranslation("message.wormholetech.pad.same_dim_only"), true);
             }
+            return false;
         }
+        final boolean cross = false;
 
         World destWorld = resolveWorld(world, partnerDim);
         BlockPos destPad = new BlockPos(partnerX, partnerY, partnerZ);

@@ -31,6 +31,42 @@ public abstract class LinkedMachineTileEntity extends TileEntity implements ITic
     /** Validity for the non-fuel slots. */
     protected abstract boolean isValid(int slot, ItemStack stack);
 
+    /** Slots automation may extract from (products and decayed Unstable Blocks). */
+    protected abstract int[] outputSlots();
+
+    /**
+     * What hoppers, pipes and itemducts see on any side: they can insert Block of Refined Naquadah
+     * (fuel only) into the fuel slot, still feed the machine's own input slots with valid items,
+     * and extract only from the output slots. The GUI and null-side access use the full inventory.
+     */
+    private final net.minecraftforge.items.IItemHandler automation = new net.minecraftforge.items.IItemHandler() {
+        @Override public int getSlots() { return inv.getSlots(); }
+        @Override public ItemStack getStackInSlot(int slot) { return inv.getStackInSlot(slot); }
+        @Override public int getSlotLimit(int slot) { return inv.getSlotLimit(slot); }
+
+        @Override
+        public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+            if (stack.isEmpty() || isOutput(slot)) return stack;
+            if (slot == inv.getFuelSlot()) {
+                if (!com.nick1416.wormholetech.util.WormholeFuel.isFuel(stack)) return stack;
+            } else if (!isValid(slot, stack)) {
+                return stack;
+            }
+            return inv.insertItem(slot, stack, simulate);
+        }
+
+        @Override
+        public ItemStack extractItem(int slot, int amount, boolean simulate) {
+            if (!isOutput(slot)) return ItemStack.EMPTY;
+            return inv.extractItem(slot, amount, simulate);
+        }
+    };
+
+    private boolean isOutput(int slot) {
+        for (int o : outputSlots()) if (o == slot) return true;
+        return false;
+    }
+
     public LinkedInventory items() { return inv; }
     public WormholeLink getLink() { return link; }
 
@@ -84,7 +120,7 @@ public abstract class LinkedMachineTileEntity extends TileEntity implements ITic
     @Override
     @SuppressWarnings("unchecked")
     public <T> T getCapability(Capability<T> c, EnumFacing f) {
-        if (c == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return (T) inv;
+        if (c == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return (T) (f == null ? inv : automation);
         return super.getCapability(c, f);
     }
 }

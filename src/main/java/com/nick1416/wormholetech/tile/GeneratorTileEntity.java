@@ -24,6 +24,9 @@ public class GeneratorTileEntity extends LinkedMachineTileEntity {
     }
 
     @Override
+    protected int[] outputSlots() { return new int[] { SLOT_UNSTABLE }; }
+
+    @Override
     protected boolean isValid(int slot, ItemStack stack) {
         return false; // the only other slot is an output
     }

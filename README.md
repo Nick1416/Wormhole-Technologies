@@ -12,8 +12,10 @@ Repository: https://github.com/Nick1416/Wormhole-Technologies
 - **Duplication**: Wormhole Duplicator / Unstable Wormhole Duplicator (templates without NBT; this mod’s own items cannot be duplicated)
 - **Wormhole connection**: the Duplicators and the Energy Converter only run while connected (see below)
 - **Mineral Tuners**: set Immersive Engineering excavator minerals in a chunk (soft dependency on IE)
-- **Pads**: linked Wormhole Teleport Pads with RF upkeep; cross-dimension links via Relativistic Computer + Aetherius. The recipe needs a Naquadah Crystal from P3X-1416 (Silk Touch), so pads come after the Stargate
-- **Late game**: Compressed Naquadah → High Energy Refiner → Aetherius → Relativistic Computer
+- **Pads**: linked Wormhole Teleport Pads with RF upkeep. Pads only link within the same dimension (the Stargate is the way between worlds); old cross-dimension links stop working. The recipe needs a Naquadah Crystal from P3X-1416 (Silk Touch), so pads come after the Stargate
+- **Late game**: Compressed Naquadah → High Energy Refiner (30 min) → Aetherius → Relativistic Computer
+- **Quantum clock**: the Relativistic Computer GUI has a clock toggle. **+1** makes local time race: it is required for the Dialing Computer/Stargate, and the seated Aetherius wears down (durability bar) over 30 minutes (`aetheriusDecayTicks`, 36,000 ticks); at zero it shatters and is lost. **-1** slows time: Aetherius recovers at the same rate (a nearly spent one takes 30 minutes, less if it is less worn). The clock only runs while the computer is powered with Aetherius seated, and only Aetherius **in the computer's slot** is affected; Aetherius anywhere else (inventories, chests, a refiner) never changes. New computers start at -1, so existing gates need the clock switched to +1.
+- **Automation**: Wormhole Duplicator, Unstable Wormhole Duplicator and Wormhole Energy Converter accept Block of Refined Naquadah from hoppers/pipes/itemducts on any side (fuel slot takes only valid fuel; the duplicators' nugget/template slots still accept their own items) and only let products and decayed Unstable Blocks of Naquadah be extracted.
 - **Stargate**: titanium gate + Dialing Computer → the P3X-1416 dimension (see below)
 
 ## Dependencies
@@ -49,7 +51,7 @@ The Wormhole Duplicator, Unstable Wormhole Duplicator and Wormhole Energy Conver
 ## Stargate and P3X-1416
 
 - **Frame**: a Nether-portal-style rectangle of titanium blocks, at least 4 wide and 5 tall (outer), up to 23x23. Corners are optional, the inside must be empty. Accepted blocks: Galacticraft's Titanium Block when Galacticraft Planets is installed, plus anything registered as oredict `blockTitanium`. Galacticraft is never required at compile or run time.
-- **Dialing Computer**: place it touching a frame block and next to an **active** Relativistic Computer, give it RF (default half the computer's upkeep, 25,000 RF/t while open) and put an Ancient Tablet (the address) in its slot. Press **Dial**. The status line explains what is missing.
+- **Dialing Computer**: place it touching a frame block and next to an **active** Relativistic Computer with its quantum clock at **+1**, give it RF (default half the computer's upkeep, 25,000 RF/t while open) and put an Ancient Tablet (the address) in its slot. Press **Dial**. The status line explains what is missing.
 - The wormhole collapses when the tablet is removed, the power runs out, the frame breaks or the computer stops. Conditions are checked every second and on neighbour changes; after a collapse you have to dial again.
 - **Travel**: walk into the wormhole (players only). On P3X-1416 you arrive on a small platform in front of a return gate built from Ancient Gate Frame blocks. The return gate is always open and takes you back to the gate you came from. It is built once, near (0, 0), and reused (and repaired) on later trips.
 - **Getting home**: the return gate (Ancient Gate Frame and its portal) is unbreakable like bedrock: it survives explosions, pistons, withers and dragons, and it never drops an item, so the frame block can't be obtained in survival. It still repairs itself on every arrival as a safety net. Dying on P3X-1416 respawns you in the Overworld, at your bed/spawn point if it is valid there, otherwise at world spawn.

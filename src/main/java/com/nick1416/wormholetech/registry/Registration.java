@@ -191,7 +191,7 @@ public class Registration {
     public static final Item WORMHOLE_LINKER = new ItemWormholeLinker();
 
     // -- Aetherius path --
-    public static final Item AETHERIUS = new Item()
+    public static final Item AETHERIUS = new com.nick1416.wormholetech.item.ItemAetherius()
             .setRegistryName(WormholeTech.MODID, "aetherius")
             .setUnlocalizedName(WormholeTech.MODID + ".aetherius")
             .setCreativeTab(net.minecraft.creativetab.CreativeTabs.MATERIALS);

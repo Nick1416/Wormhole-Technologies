@@ -31,9 +31,9 @@ import net.minecraftforge.items.ItemStackHandler;
 public class DialingComputerTileEntity extends TileEntity implements ITickable {
 
     public static final int STATUS_DISABLED = 0, STATUS_NO_ADDRESS = 1, STATUS_NEED_COMPUTER = 2,
-            STATUS_NO_FRAME = 3, STATUS_NEED_POWER = 4, STATUS_READY = 5, STATUS_OPEN = 6;
+            STATUS_NO_FRAME = 3, STATUS_NEED_POWER = 4, STATUS_READY = 5, STATUS_OPEN = 6, STATUS_NEED_CLOCK = 7;
     public static final String[] STATUS_KEYS = {
-            "disabled", "no_address", "need_computer", "no_frame", "need_power", "ready", "open" };
+            "disabled", "no_address", "need_computer", "no_frame", "need_power", "ready", "open", "need_clock" };
 
     private final Energy energy = new Energy(ModConfig.dialingComputerBuffer, ModConfig.dialingComputerMaxReceive);
     private final ItemStackHandler inv = new ItemStackHandler(1) {
@@ -85,6 +85,7 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
         if (!TitaniumFrame.available() || !ModDimensions.isRegistered()) s = STATUS_DISABLED;
         else if (!isAddress(inv.getStackInSlot(0))) s = STATUS_NO_ADDRESS;
         else if (!adjacentActiveComputer()) s = STATUS_NEED_COMPUTER;
+        else if (!adjacentForwardClock()) s = STATUS_NEED_CLOCK;
         else if ((found = findGate()) == null) s = STATUS_NO_FRAME;
         else if (!open && energy.getEnergyStored() < ModConfig.dialingComputerRfPerTick()) s = STATUS_NEED_POWER;
         else s = open ? STATUS_OPEN : STATUS_READY;
@@ -158,6 +159,15 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
             if (g != null) return g;
         }
         return null;
+    }
+
+    /** An adjacent active Relativistic Computer with its quantum clock at +1. */
+    private boolean adjacentForwardClock() {
+        for (EnumFacing f : EnumFacing.VALUES) {
+            TileEntity te = world.getTileEntity(pos.offset(f));
+            if (te instanceof RelativisticComputerTileEntity && ((RelativisticComputerTileEntity) te).isClockActiveForward()) return true;
+        }
+        return false;
     }
 
     private boolean adjacentActiveComputer() {
