@@ -114,19 +114,6 @@ public final class StargateTravel {
         final float yaw = target == null ? p.rotationYaw : ReturnGates.arrivalYaw();
         teleport(p, dest, arrival, yaw);
         grantAdvancement(p);
-        giveLocatorOnce(p);
-    }
-
-    public static final String LOCATOR_GIVEN_TAG = WormholeTech.MODID + ":got_gate_locator";
-
-    /** First arrival only: hand the player a Gate Locator so they can find the way home. */
-    private static void giveLocatorOnce(EntityPlayerMP p) {
-        NBTTagCompound tag = persisted(p);
-        if (tag.getBoolean(LOCATOR_GIVEN_TAG)) return;
-        tag.setBoolean(LOCATOR_GIVEN_TAG, true);
-        net.minecraft.item.ItemStack s = new net.minecraft.item.ItemStack(Registration.GATE_LOCATOR);
-        if (!p.inventory.addItemStackToInventory(s)) p.dropItem(s, false);
-        p.sendMessage(new TextComponentTranslation("message.wormholetech.gate_locator.given"));
     }
 
     private static int sideOf(GateShape g, EntityPlayer p) {

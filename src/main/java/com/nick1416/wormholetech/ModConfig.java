@@ -57,7 +57,7 @@ public final class ModConfig {
     public static int p3xObeliskChance = 40;         // 1 in N chunks, 0 = off
     public static int p3xTempleChance = 150;         // 1 in N chunks, 0 = off
     public static int p3xTempleChestChance = 2;      // 1 in N temples get a chest
-    public static int emeraldDroneSpawnWeight = 6;     // 0 = off
+    public static int emeraldDroneSpawnWeight = 20;     // 0 = off
 
     /** Reads an int; if it still holds the previous default, moves it to the new default. */
     private static int migrated(Configuration cfg, String cat, String key, int def, int oldDef, int min, int max, String comment) {
@@ -149,8 +149,8 @@ public final class ModConfig {
                 "1 in N chunks on P3X-1416 get a small ancient temple (0 = off)");
         p3xTempleChestChance = cfg.getInt("p3xTempleChestChance", sg, 2, 0, 1000,
                 "1 in N temples contain a loot chest (0 = never)");
-        emeraldDroneSpawnWeight = cfg.getInt("emeraldDroneSpawnWeight", sg, 6, 0, 1000,
-                "Spawn weight of Emerald Drones on the P3X-1416 surface (vanilla zombies are 100; 0 = off). Needs a restart");
+        emeraldDroneSpawnWeight = migrated(cfg, sg, "emeraldDroneSpawnWeight", 20, 6, 0, 1000,
+                "Spawn weight of Emerald Drones on the P3X-1416 surface (vanilla zombies are 100; 0 = off). Groups of 1-2. Needs a restart");
 
         final String pads = "wormhole_pads";
         wormholePadUpkeepRfPerTick = cfg.getInt("wormholePadUpkeepRfPerTick", pads, 50_000, 0, Integer.MAX_VALUE,

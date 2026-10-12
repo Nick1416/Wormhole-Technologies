@@ -106,6 +106,8 @@ public class WormholeTech {
         }
 
         com.nick1416.wormholetech.world.BiomeNaquadahWastes.addTypes();
+        net.minecraft.entity.EntitySpawnPlacementRegistry.setPlacementType(com.nick1416.wormholetech.entity.EntityEmeraldDrone.class,
+                net.minecraft.entity.EntityLiving.SpawnPlacementType.ON_GROUND);
         if (ModConfig.emeraldDroneSpawnWeight > 0) {
             net.minecraftforge.fml.common.registry.EntityRegistry.addSpawn(com.nick1416.wormholetech.entity.EntityEmeraldDrone.class,
                     ModConfig.emeraldDroneSpawnWeight, 1, 2, net.minecraft.entity.EnumCreatureType.MONSTER,
