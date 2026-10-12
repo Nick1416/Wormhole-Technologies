@@ -11,6 +11,12 @@ import java.io.File;
 public final class ModConfig {
     private ModConfig() {}
 
+    public static final String MODE_CC = "cc", MODE_NORMAL = "normal";
+    /** Game mode, read once at startup: "cc" (Compact Claustrophobia, duplicators enabled) or "normal". */
+    public static String mode = MODE_NORMAL;
+
+    public static boolean isCC() { return MODE_CC.equals(mode); }
+
     // Naquadah Generator
     public static int naquadahGeneratorRfPerTick = 5000;
     public static int naquadahGeneratorBuffer = 500_000;
@@ -82,6 +88,17 @@ public final class ModConfig {
     public static void load(File file) {
         Configuration cfg = new Configuration(file);
         cfg.load();
+
+        String m = cfg.getString("mode", Configuration.CATEGORY_GENERAL, MODE_NORMAL,
+                "Game mode: 'cc' (Compact Claustrophobia: Wormhole Duplicators enabled) or 'normal' (duplicators removed "
+                        + "from gameplay). Read once at startup; clients must use the same mode as the server.",
+                new String[] {MODE_CC, MODE_NORMAL}).trim().toLowerCase(java.util.Locale.ROOT);
+        if (!MODE_CC.equals(m) && !MODE_NORMAL.equals(m)) {
+            WormholeTech.LOGGER.error("Invalid mode '{}' in wormholetech.cfg (allowed: cc, normal); using normal", m);
+            m = MODE_NORMAL;
+        }
+        mode = m;
+        WormholeTech.LOGGER.info("Wormhole Technologies mode: {}", mode);
 
         final String gen = "generators";
         naquadahGeneratorRfPerTick = cfg.getInt("naquadahGeneratorRfPerTick", gen, 5000, 0, Integer.MAX_VALUE,

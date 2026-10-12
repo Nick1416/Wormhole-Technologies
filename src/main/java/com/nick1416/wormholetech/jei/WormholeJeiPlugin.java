@@ -23,7 +23,7 @@ public class WormholeJeiPlugin implements IModPlugin {
     public void registerCategories(IRecipeCategoryRegistration registry) {
         IJeiHelpers helpers = registry.getJeiHelpers();
         IGuiHelper guiHelper = helpers.getGuiHelper();
-        registry.addRecipeCategories(new DuplicationRecipeCategory(guiHelper));
+        if (com.nick1416.wormholetech.ModConfig.isCC()) registry.addRecipeCategories(new DuplicationRecipeCategory(guiHelper));
         registry.addRecipeCategories(new ExplosionRefineCategory(guiHelper));
         registry.addRecipeCategories(new OreDropCategory(guiHelper));
         registry.addRecipeCategories(new HighEnergyRefineCategory(guiHelper));
@@ -31,10 +31,18 @@ public class WormholeJeiPlugin implements IModPlugin {
 
     @Override
     public void register(IModRegistry registry) {
-        registry.handleRecipes(DuplicationRecipe.class, DuplicationRecipeWrapper::new, DuplicationRecipeCategory.UID);
-        registry.addRecipes(DuplicationRecipe.createRecipes(), DuplicationRecipeCategory.UID);
-        registry.addRecipeCatalyst(new ItemStack(Registration.WORMHOLE_DUPLICATOR), DuplicationRecipeCategory.UID);
-        registry.addRecipeCatalyst(new ItemStack(Registration.UNSTABLE_WORMHOLE_DUPLICATOR), DuplicationRecipeCategory.UID);
+        if (com.nick1416.wormholetech.ModConfig.isCC()) {
+            registry.handleRecipes(DuplicationRecipe.class, DuplicationRecipeWrapper::new, DuplicationRecipeCategory.UID);
+            registry.addRecipes(DuplicationRecipe.createRecipes(), DuplicationRecipeCategory.UID);
+            registry.addRecipeCatalyst(new ItemStack(Registration.WORMHOLE_DUPLICATOR), DuplicationRecipeCategory.UID);
+            registry.addRecipeCatalyst(new ItemStack(Registration.UNSTABLE_WORMHOLE_DUPLICATOR), DuplicationRecipeCategory.UID);
+            info(registry, Registration.ITEM_WORMHOLE_DUPLICATOR, "wormhole_duplicator", 0);
+            info(registry, Registration.ITEM_UNSTABLE_WORMHOLE_DUPLICATOR, "unstable_wormhole_duplicator", 0);
+        } else {
+            // mode=normal: duplicators are not part of the game
+            registry.getJeiHelpers().getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(Registration.ITEM_WORMHOLE_DUPLICATOR));
+            registry.getJeiHelpers().getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(Registration.ITEM_UNSTABLE_WORMHOLE_DUPLICATOR));
+        }
 
         registry.handleRecipes(ExplosionRefineRecipe.class, ExplosionRefineWrapper::new, ExplosionRefineCategory.UID);
         registry.addRecipes(ExplosionRefineRecipe.createRecipes(), ExplosionRefineCategory.UID);
@@ -52,12 +60,17 @@ public class WormholeJeiPlugin implements IModPlugin {
         registry.addRecipeClickArea(com.nick1416.wormholetech.gui.GuiHighEnergyRefiner.class, 79, 36, 24, 16,
                 HighEnergyRefineCategory.UID);
 
-        info(registry, Registration.ITEM_WORMHOLE_DUPLICATOR, "wormhole_duplicator", 0);
-        info(registry, Registration.ITEM_UNSTABLE_WORMHOLE_DUPLICATOR, "unstable_wormhole_duplicator", 0);
         info(registry, Registration.ITEM_RF_GENERATOR, "rf_generator", 0);
         info(registry, Registration.ITEM_REFINED_NAQUADAH_BLOCK, "refined_naquadah_block", 0);
         info(registry, Registration.ITEM_NAQUADAH_GENERATOR, "naquadah_generator", 4);
-        info(registry, Registration.ITEM_UNSTABLE_NAQUADAH_BLOCK, "unstable_naquadah_block", 2);
+        if (com.nick1416.wormholetech.ModConfig.isCC()) {
+            info(registry, Registration.ITEM_UNSTABLE_NAQUADAH_BLOCK, "unstable_naquadah_block", 2);
+        } else {
+            registry.addIngredientInfo(new ItemStack(Registration.ITEM_UNSTABLE_NAQUADAH_BLOCK), VanillaTypes.ITEM,
+                    "tooltip.wormholetech.unstable_naquadah_block.summary",
+                    "tooltip.wormholetech.unstable_naquadah_block.detail.1.normal",
+                    "tooltip.wormholetech.unstable_naquadah_block.detail.2");
+        }
         info(registry, Registration.RAW_NAQUADAH, "raw_naquadah", 2);
         info(registry, Registration.REFINED_NAQUADAH, "refined_naquadah", 0);
         info(registry, Registration.UNSTABLE_NAQUADAH, "unstable_naquadah", 2);

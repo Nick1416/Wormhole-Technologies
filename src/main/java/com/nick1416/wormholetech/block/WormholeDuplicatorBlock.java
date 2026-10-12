@@ -10,4 +10,7 @@ public class WormholeDuplicatorBlock extends LinkedMachineBlock {
     public WormholeDuplicatorBlock() { super(WormholeTech.GUI_WORMHOLE_DUPLICATOR); }
 
     @Override public TileEntity createTileEntity(World w, IBlockState s) { return new WormholeDuplicatorTileEntity(); }
+
+    /** Duplicators only exist in mode=cc. */
+    @Override public boolean isDisabled() { return !com.nick1416.wormholetech.ModConfig.isCC(); }
 }

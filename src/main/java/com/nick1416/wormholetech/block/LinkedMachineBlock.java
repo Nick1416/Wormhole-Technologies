@@ -45,9 +45,16 @@ public abstract class LinkedMachineBlock extends Block {
                                     EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (world.isRemote) return true;
         if (!(world.getTileEntity(pos) instanceof LinkedMachineTileEntity)) return false;
+        if (isDisabled()) {
+            player.sendStatusMessage(new net.minecraft.util.text.TextComponentTranslation("message.wormholetech.disabled_normal_mode"), true);
+            return true;
+        }
         player.openGui(WormholeTech.INSTANCE, guiId, world, pos.getX(), pos.getY(), pos.getZ());
         return true;
     }
+
+    /** True when this machine is switched off by the configured mode (placed blocks stay but do nothing). */
+    public boolean isDisabled() { return false; }
 
     private ItemStack dropFor(@Nullable TileEntity te) {
         ItemStack stack = new ItemStack(Item.getItemFromBlock(this));
@@ -55,9 +62,19 @@ public abstract class LinkedMachineBlock extends Block {
         return stack;
     }
 
+    /** Disabled machines give their contents back as loose items instead of storing them in the block item. */
+    private void dropAll(NonNullList<ItemStack> drops, @Nullable TileEntity te) {
+        drops.add(new ItemStack(Item.getItemFromBlock(this)));
+        if (te instanceof LinkedMachineTileEntity) {
+            net.minecraftforge.items.IItemHandler inv = ((LinkedMachineTileEntity) te).items();
+            for (int i = 0; i < inv.getSlots(); i++) if (!inv.getStackInSlot(i).isEmpty()) drops.add(inv.getStackInSlot(i).copy());
+        }
+    }
+
     /** Explosions and other non-player breaks (the tile still exists here). */
     @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+        if (isDisabled()) { dropAll(drops, world.getTileEntity(pos)); return; }
         drops.add(dropFor(world.getTileEntity(pos)));
     }
 
@@ -67,7 +84,14 @@ public abstract class LinkedMachineBlock extends Block {
                              @Nullable TileEntity te, ItemStack tool) {
         player.addStat(StatList.getBlockStats(this));
         player.addExhaustion(0.005F);
-        if (!world.isRemote) spawnAsEntity(world, pos, dropFor(te));
+        if (world.isRemote) return;
+        if (isDisabled()) {
+            NonNullList<ItemStack> drops = NonNullList.create();
+            dropAll(drops, te);
+            for (ItemStack s : drops) spawnAsEntity(world, pos, s);
+            return;
+        }
+        spawnAsEntity(world, pos, dropFor(te));
     }
 
     @Override

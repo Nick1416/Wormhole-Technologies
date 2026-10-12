@@ -43,6 +43,7 @@ public class UnstableWormholeDuplicatorTileEntity extends LinkedMachineTileEntit
     @Override
     public void update() {
         if (world == null || world.isRemote) return;
+        if (!com.nick1416.wormholetech.ModConfig.isCC()) return; // inert in normal mode
         WormholeLink.State state = link.tick();
         if (state == WormholeLink.State.EXPIRED) {
             collapse();
@@ -84,4 +85,7 @@ public class UnstableWormholeDuplicatorTileEntity extends LinkedMachineTileEntit
         world.removeTileEntity(pos);
         world.setBlockState(pos, Registration.UNSTABLE_NAQUADAH_BLOCK.getDefaultState(), 3);
     }
+
+    /** Duplicators only exist in mode=cc. */
+    @Override protected boolean isModeDisabled() { return !com.nick1416.wormholetech.ModConfig.isCC(); }
 }

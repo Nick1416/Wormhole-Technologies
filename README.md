@@ -9,7 +9,7 @@ Repository: https://github.com/Nick1416/Wormhole-Technologies
 ## Features
 
 - **Power**: Naquadah Generator → Wormhole Energy Converter (stable, needs a wormhole connection)
-- **Duplication**: Wormhole Duplicator / Unstable Wormhole Duplicator (templates without NBT; this mod’s own items cannot be duplicated)
+- **Duplication** (`mode=cc` only): Wormhole Duplicator / Unstable Wormhole Duplicator (templates without NBT; this mod’s own items cannot be duplicated)
 - **Wormhole connection**: the Duplicators and the Energy Converter only run while connected (see below)
 - **Mineral Tuners**: set Immersive Engineering excavator minerals in a chunk (soft dependency on IE)
 - **Pads**: linked Wormhole Teleport Pads with RF upkeep. Pads only link within the same dimension (the Stargate is the way between worlds); old cross-dimension links stop working. The recipe needs a Naquadah Crystal from P3X-1416 (Silk Touch), so pads come after the Stargate
@@ -104,6 +104,19 @@ Intended for Compact Claustrophobia–style and similar 1.12.2 modpacks:
 Forge config file (suggested path from FML): `config/wormholetech.cfg` (exact name follows Forge’s suggested file for the mod).
 
 Configurable RF rates, lifetimes, buffers, and pad/computer upkeep — defaults match the previous hardcoded values.
+
+### Mode (`general` → `mode`)
+
+`S:mode=normal` (default) or `S:mode=cc`. There is no auto mode. It is read once at startup, so changing it needs a restart.
+
+- **cc** (Compact Claustrophobia): everything, including the Wormhole Duplicator and Unstable Wormhole Duplicator.
+- **normal**: the two duplicators are taken out of gameplay. Their blocks stay registered so existing worlds load safely, but:
+  - their crafting recipes are not loaded, and JEI hides them along with the Wormhole Duplication category;
+  - the tablet fragment about them is skipped (later fragments are renumbered);
+  - the "Echo Chamber" advancement is removed and "High Energy Refiner" follows the Energy Converter instead;
+  - placed duplicators are inert: no ticking, no GUI (right-click shows a notice), no hopper/pipe access; breaking one drops the block plus its contents as loose items.
+
+Nothing else in the progression needs a duplicator. The server sends its mode to each client on login; a client with a different mode is disconnected with a message saying which mode to set.
 
 ## Building
 
