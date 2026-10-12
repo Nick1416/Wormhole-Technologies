@@ -74,7 +74,7 @@ public class WormholeJeiPlugin implements IModPlugin {
         info(registry, Registration.ITEM_DIALING_COMPUTER, "dialing_computer", 0);
         info(registry, Registration.ITEM_ANCIENT_GATE_FRAME, "ancient_gate_frame", 0);
         info(registry, Registration.GATE_LOCATOR, "gate_locator", 0);
-        info(registry, Registration.ITEM_NATURAL_NAQUADAH_ORE, "naquadah_ore_natural", 1);
+        info(registry, Registration.ITEM_NATURAL_NAQUADAH_ORE, "naquadah_ore_natural", 0);
         info(registry, Registration.ITEM_NAQUADAH_CRYSTAL, "naquadah_crystal", 1);
         for (com.nick1416.wormholetech.item.ItemMineralTuner tuner : Registration.MINERAL_TUNERS) {
             registry.addIngredientInfo(

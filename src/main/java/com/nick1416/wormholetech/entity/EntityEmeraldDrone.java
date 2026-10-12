@@ -58,7 +58,8 @@ public class EntityEmeraldDrone extends EntityMob {
         if (world.getDifficulty() == EnumDifficulty.PEACEFUL) return false;
         if (!ModDimensions.isRegistered() || world.provider.getDimension() != ModDimensions.id()) return false;
         BlockPos pos = new BlockPos(posX, getEntityBoundingBox().minY, posZ);
-        if (!world.canSeeSky(pos)) return false;
+        // open sky, or bright skylight (under a thin overhang, spire or floating rock) - never in caves
+        if (!world.canSeeSky(pos) && world.getLightFor(net.minecraft.world.EnumSkyBlock.SKY, pos) < 10) return false;
         // any solid top surface (also works in P3X chunks generated before Naquadric Stone existed)
         BlockPos down = pos.down();
         IBlockState below = world.getBlockState(down);

@@ -77,6 +77,9 @@ public final class P3XTemples {
             if (Math.abs(dx) == 3 || Math.abs(dz) == 3 || (dx == 0 && dz == 0)) set(w, c.add(dx, 4, dz), ANC);
         set(w, c, ANC);
         crystal(w, c.up());
+        IBlockState books = Blocks.BOOKSHELF.getDefaultState();
+        for (int dx : new int[] { -1, 1 }) { set(w, c.add(dx, 0, 0), books); }
+        for (int[] q : new int[][] { { -2, -2 }, { 2, -2 } }) { set(w, c.add(q[0], 0, q[1]), books); set(w, c.add(q[0], 1, q[1]), books); }
         chest(w, rand, c.add(0, 0, 2), EnumFacing.NORTH);
     }
 
@@ -93,6 +96,8 @@ public final class P3XTemples {
         set(w, c.add(0, 0, -3), AIR);
         set(w, c.add(0, 1, -3), AIR);
         for (int[] q : new int[][] { { -2, -2 }, { 2, -2 }, { -2, 2 }, { 2, 2 } }) crystal(w, c.add(q[0], 0, q[1]));
+        IBlockState books = Blocks.BOOKSHELF.getDefaultState();
+        for (int dx : new int[] { -2, 2 }) for (int dz = -1; dz <= 1; dz++) for (int y = 0; y < 2; y++) set(w, c.add(dx, y, dz), books);
         set(w, c.add(0, 0, 2), ANC);
         chest(w, rand, c.add(0, 1, 2), EnumFacing.NORTH);
     }
@@ -109,6 +114,9 @@ public final class P3XTemples {
         for (int dx = -1; dx <= 1; dx++) for (int dz = -1; dz <= 1; dz++) for (int y = 0; y < 2; y++) set(w, c.add(dx, y, dz), AIR);
         for (int dz = -4; dz <= -2; dz++) { set(w, c.add(0, 0, dz), AIR); set(w, c.add(0, 1, dz), AIR); }
         crystal(w, c.add(-1, 0, -1));
+        IBlockState books = Blocks.BOOKSHELF.getDefaultState();
+        for (int dz = -1; dz <= 0; dz++) for (int y = 0; y < 2; y++) set(w, c.add(1, y, dz), books);
+        set(w, c.add(-1, 0, 0), books);
         chest(w, rand, c.add(0, 0, 1), EnumFacing.NORTH);
     }
 }

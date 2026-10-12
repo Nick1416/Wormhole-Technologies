@@ -55,14 +55,19 @@ public final class ModConfig {
     public static int p3xCrystalsPerChunk = 3;
     public static int p3xSpireChance = 6;            // 1 in N chunks, 0 = off
     public static int p3xObeliskChance = 40;         // 1 in N chunks, 0 = off
-    public static int p3xTempleChance = 150;         // 1 in N chunks, 0 = off
+    public static int p3xTempleChance = 60;          // 1 in N chunks, 0 = off
     public static int p3xTempleChestChance = 2;      // 1 in N temples get a chest
-    public static int emeraldDroneSpawnWeight = 20;     // 0 = off
+    public static int emeraldDroneSpawnWeight = 50;     // 0 = off
 
     /** Reads an int; if it still holds the previous default, moves it to the new default. */
     private static int migrated(Configuration cfg, String cat, String key, int def, int oldDef, int min, int max, String comment) {
+        return migrated(cfg, cat, key, def, new int[] { oldDef }, min, max, comment);
+    }
+
+    /** Same, for a setting whose default has changed more than once. */
+    private static int migrated(Configuration cfg, String cat, String key, int def, int[] oldDefs, int min, int max, String comment) {
         net.minecraftforge.common.config.Property p = cfg.get(cat, key, def, comment, min, max);
-        if (p.getInt() == oldDef) p.set(def);
+        for (int old : oldDefs) if (p.getInt() == old) p.set(def);
         return Math.max(min, Math.min(max, p.getInt()));
     }
 
@@ -145,11 +150,11 @@ public final class ModConfig {
         p3xSpireChance = cfg.getInt("p3xSpireChance", sg, 6, 0, 1000, "1 in N chunks on P3X-1416 get a rock spire (0 = off)");
         p3xObeliskChance = cfg.getInt("p3xObeliskChance", sg, 40, 0, 10000,
                 "1 in N chunks on P3X-1416 get an Ancient Stone obelisk/ruin (0 = off)");
-        p3xTempleChance = cfg.getInt("p3xTempleChance", sg, 150, 0, 100000,
+        p3xTempleChance = migrated(cfg, sg, "p3xTempleChance", 60, 150, 0, 100000,
                 "1 in N chunks on P3X-1416 get a small ancient temple (0 = off)");
         p3xTempleChestChance = cfg.getInt("p3xTempleChestChance", sg, 2, 0, 1000,
                 "1 in N temples contain a loot chest (0 = never)");
-        emeraldDroneSpawnWeight = migrated(cfg, sg, "emeraldDroneSpawnWeight", 20, 6, 0, 1000,
+        emeraldDroneSpawnWeight = migrated(cfg, sg, "emeraldDroneSpawnWeight", 50, new int[] { 6, 20 }, 0, 1000,
                 "Spawn weight of Emerald Drones on the P3X-1416 surface (vanilla zombies are 100; 0 = off). Groups of 1-2. Needs a restart");
 
         final String pads = "wormhole_pads";
