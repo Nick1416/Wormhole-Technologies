@@ -1,1 +1,4 @@
-{ "conditions": { "mode": "com.nick1416.wormholetech.mode.ModeConditionFactory" } }
+{ "conditions": {
+    "mode": "com.nick1416.wormholetech.mode.ModeConditionFactory",
+    "fallback": "com.nick1416.wormholetech.mode.FallbackConditionFactory"
+} }

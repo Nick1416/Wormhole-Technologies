@@ -1,0 +1,6 @@
+{
+  "conditions": [ { "type": "wormholetech:fallback", "fallback": "nugget" } ],
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [ { "item": "minecraft:diamond" } ],
+  "result": { "item": "wormholetech:diamond_nugget", "count": 9 }
+}

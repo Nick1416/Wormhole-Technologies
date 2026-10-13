@@ -47,6 +47,8 @@ public final class TitaniumFrame {
                 add(m, ((ItemBlock) it).getBlock(), meta);
             }
         }
+        // this mod's fallback frame always counts, so frames built with it keep working if titanium arrives later
+        add(m, Registration.REINFORCED_GATE_FRAME, ANY);
         accepted = m;
         WormholeTech.LOGGER.info("Gate frame blocks: {}", m.isEmpty() ? "none found (gate disabled)" : m.keySet());
     }
@@ -63,7 +65,7 @@ public final class TitaniumFrame {
     }
 
     public static boolean available() {
-        return ModConfig.stargateEnabled && !map().isEmpty();
+        return ModConfig.stargateEnabled && !map().isEmpty(); // never empty now: the Reinforced Gate Frame always counts
     }
 
     /** Frame block of a dialable (origin) gate. */

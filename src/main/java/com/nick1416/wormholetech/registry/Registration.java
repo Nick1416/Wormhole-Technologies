@@ -126,6 +126,11 @@ public class Registration {
     		.setRegistryName(WormholeTech.MODID, "prysmian")
     		.setUnlocalizedName(WormholeTech.MODID + ".prysmian");
     
+    /** Fallback nuggetDiamond when no other mod provides one (see Fallbacks). */
+    public static final Item DIAMOND_NUGGET = new Item()
+            .setRegistryName(WormholeTech.MODID, "diamond_nugget")
+            .setUnlocalizedName(WormholeTech.MODID + ".diamond_nugget");
+
     // --- Unstable Naquadah ---
     public static final Item UNSTABLE_NAQUADAH = new Item()
     		.setRegistryName(WormholeTech.MODID, "unstable_naquadah")
@@ -237,6 +242,14 @@ public class Registration {
     public static final Item ITEM_ANCIENT_GATE_FRAME =
             new ItemBlock(ANCIENT_GATE_FRAME).setRegistryName(ANCIENT_GATE_FRAME.getRegistryName());
 
+    /** Fallback gate frame when neither Galacticraft nor any blockTitanium exists (see Fallbacks). */
+    public static final Block REINFORCED_GATE_FRAME = new Block(net.minecraft.block.material.Material.IRON)
+            .setHardness(5.0F).setResistance(30.0F)
+            .setRegistryName(WormholeTech.MODID, "reinforced_gate_frame")
+            .setUnlocalizedName(WormholeTech.MODID + ".reinforced_gate_frame");
+    public static final Item ITEM_REINFORCED_GATE_FRAME =
+            new ItemBlock(REINFORCED_GATE_FRAME).setRegistryName(REINFORCED_GATE_FRAME.getRegistryName());
+
     // -- P3X-1416 blocks --
     public static final Block NATURAL_NAQUADAH_ORE = new com.nick1416.wormholetech.block.NaturalNaquadahOreBlock()
             .setRegistryName(WormholeTech.MODID, "naquadah_ore_natural")
@@ -326,6 +339,7 @@ public class Registration {
                 DIALING_COMPUTER,
                 STARGATE_PORTAL,
                 ANCIENT_GATE_FRAME,
+                REINFORCED_GATE_FRAME,
                 NATURAL_NAQUADAH_ORE,
                 PRYSMIAN_ORE,
                 NAQUADRIC_STONE,
@@ -343,6 +357,7 @@ public class Registration {
                 RAW_NAQUADAH,
                 REFINED_NAQUADAH,
                 PRYSMIAN,
+                DIAMOND_NUGGET,
                 ITEM_PRYSMIAN_BLOCK,
                 QUANTUM_CIRCUIT,
                 ITEM_PRYSMIAN_LOGIC_FRAME,
@@ -382,6 +397,7 @@ public class Registration {
                 ITEM_HIGH_ENERGY_REFINER,
                 ITEM_DIALING_COMPUTER,
                 ITEM_ANCIENT_GATE_FRAME,
+                ITEM_REINFORCED_GATE_FRAME,
                 GATE_LOCATOR,
                 ITEM_NATURAL_NAQUADAH_ORE,
                 ITEM_PRYSMIAN_ORE,

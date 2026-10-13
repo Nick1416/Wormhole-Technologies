@@ -31,6 +31,8 @@ public class WormholeJeiPlugin implements IModPlugin {
 
     @Override
     public void register(IModRegistry registry) {
+        for (Item hide : com.nick1416.wormholetech.mode.Fallbacks.hidden())
+            registry.getJeiHelpers().getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(hide));
         if (com.nick1416.wormholetech.ModConfig.isCC()) {
             registry.handleRecipes(DuplicationRecipe.class, DuplicationRecipeWrapper::new, DuplicationRecipeCategory.UID);
             registry.addRecipes(DuplicationRecipe.createRecipes(), DuplicationRecipeCategory.UID);
