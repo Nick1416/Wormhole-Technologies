@@ -319,3 +319,7 @@ gui.wormholetech.computer.clock.back=Quantum clock -1: time runs slow. Aetherius
 message.wormholetech.disabled_normal_mode=This machine is disabled (mode=normal in wormholetech.cfg)
 tile.wormholetech.prysmian_ore.name=Prysmian Ore
 tooltip.wormholetech.prysmian_ore.summary=Deep P3X-1416 ore; drops Prysmian
+item.wormholetech.diamond_nugget.name=Diamond Nugget
+tooltip.wormholetech.diamond_nugget.summary=Nine make a diamond
+tile.wormholetech.reinforced_gate_frame.name=Reinforced Gate Frame
+tooltip.wormholetech.reinforced_gate_frame.summary=Gate frame block where no titanium exists
