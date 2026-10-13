@@ -245,6 +245,13 @@ public class Registration {
     public static final Item ITEM_NATURAL_NAQUADAH_ORE =
             new ItemBlock(NATURAL_NAQUADAH_ORE).setRegistryName(NATURAL_NAQUADAH_ORE.getRegistryName());
 
+    public static final Block PRYSMIAN_ORE = new com.nick1416.wormholetech.block.PrysmianOreBlock()
+            .setRegistryName(WormholeTech.MODID, "prysmian_ore")
+            .setUnlocalizedName(WormholeTech.MODID + ".prysmian_ore")
+            .setCreativeTab(net.minecraft.creativetab.CreativeTabs.BUILDING_BLOCKS);
+    public static final Item ITEM_PRYSMIAN_ORE =
+            new ItemBlock(PRYSMIAN_ORE).setRegistryName(PRYSMIAN_ORE.getRegistryName());
+
     public static final Block NAQUADRIC_STONE = new com.nick1416.wormholetech.block.NaquadricStoneBlock(1.5F,
             net.minecraft.block.material.MapColor.BLUE_STAINED_HARDENED_CLAY)
             .setRegistryName(WormholeTech.MODID, "naquadric_stone")
@@ -320,6 +327,7 @@ public class Registration {
                 STARGATE_PORTAL,
                 ANCIENT_GATE_FRAME,
                 NATURAL_NAQUADAH_ORE,
+                PRYSMIAN_ORE,
                 NAQUADRIC_STONE,
                 ASHEN_REGOLITH,
                 NAQUADAH_CRYSTAL,
@@ -376,6 +384,7 @@ public class Registration {
                 ITEM_ANCIENT_GATE_FRAME,
                 GATE_LOCATOR,
                 ITEM_NATURAL_NAQUADAH_ORE,
+                ITEM_PRYSMIAN_ORE,
                 ITEM_NAQUADRIC_STONE,
                 ITEM_ASHEN_REGOLITH,
                 ITEM_NAQUADAH_CRYSTAL,

@@ -154,7 +154,9 @@ public final class P3XTemples {
         set(w, c.add(0, 1, 5), Blocks.CHEST.getDefaultState().withProperty(BlockChest.FACING, EnumFacing.NORTH));
         TileEntity te = w.getTileEntity(c.add(0, 1, 5));
         if (te instanceof TileEntityChest) ((TileEntityChest) te).setLootTable(GUARDIAN_LOOT, rand.nextLong());
-        // the guardian
+        // the guardian: exactly one per temple, even if this spot is ever generated again
+        if (!w.getEntitiesWithinAABB(com.nick1416.wormholetech.entity.EntityEmeraldSentinel.class,
+                new net.minecraft.util.math.AxisAlignedBB(c).grow(r + 2, h + 4, r + 2)).isEmpty()) return;
         com.nick1416.wormholetech.entity.EntityEmeraldSentinel guard = new com.nick1416.wormholetech.entity.EntityEmeraldSentinel(w);
         guard.setLocationAndAngles(c.getX() + 0.5, c.getY(), c.getZ() + 0.5, 180F, 0F);
         guard.onInitialSpawn(w.getDifficultyForLocation(c), null);

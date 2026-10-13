@@ -115,6 +115,8 @@ public class WormholeTech {
                     com.nick1416.wormholetech.registry.Registration.NAQUADAH_WASTES);
         }
         OreDictionary.registerOre("oreNaquadah", com.nick1416.wormholetech.registry.Registration.NATURAL_NAQUADAH_ORE);
+        OreDictionary.registerOre("orePrysmian", com.nick1416.wormholetech.registry.Registration.PRYSMIAN_ORE);
+        OreDictionary.registerOre("gemPrysmian", com.nick1416.wormholetech.registry.Registration.PRYSMIAN);
         net.minecraftforge.fml.common.registry.GameRegistry.addSmelting(com.nick1416.wormholetech.registry.Registration.ITEM_NATURAL_NAQUADAH_ORE,
                 new ItemStack(com.nick1416.wormholetech.registry.Registration.REFINED_NAQUADAH), 1.0F);
         PROXY.init();

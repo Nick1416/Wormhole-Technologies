@@ -72,6 +72,9 @@ public final class ModConfig {
     public static int p3xCrystalCaveChance = 80;         // 1 in N chunks, 0 = off
     public static int p3xNightPatrolIntervalTicks = 1_200; // 0 = off
     public static int p3xGuardianTempleChance = 400;     // 1 in N chunks, 0 = off
+    public static int p3xPrysmianOreVeinsPerChunk = 1;
+    public static int p3xPrysmianOreVeinSize = 8;
+    public static int p3xPrysmianOreMaxY = 16;
 
     /** Reads an int; if it still holds the previous default, moves it to the new default. */
     private static int migrated(Configuration cfg, String cat, String key, int def, int oldDef, int min, int max, String comment) {
@@ -196,6 +199,10 @@ public final class ModConfig {
                         + "arriving 24-40 blocks away, capped at 6 drones nearby (0 = off)");
         p3xGuardianTempleChance = cfg.getInt("p3xGuardianTempleChance", sg, 400, 0, 1_000_000,
                 "1 in N chunks on P3X-1416 get a guardian temple with an Emerald Sentinel (0 = off)");
+        p3xPrysmianOreVeinsPerChunk = cfg.getInt("p3xPrysmianOreVeinsPerChunk", sg, 1, 0, 64,
+                "Prysmian Ore veins per chunk on P3X-1416 (vanilla diamond: 1; 0 = off)");
+        p3xPrysmianOreVeinSize = cfg.getInt("p3xPrysmianOreVeinSize", sg, 8, 1, 32, "Prysmian Ore vein size (vanilla diamond: 8)");
+        p3xPrysmianOreMaxY = cfg.getInt("p3xPrysmianOreMaxY", sg, 16, 1, 255, "Highest Y for Prysmian Ore (lowest is 1)");
 
         final String pads = "wormhole_pads";
         wormholePadUpkeepRfPerTick = cfg.getInt("wormholePadUpkeepRfPerTick", pads, 50_000, 0, Integer.MAX_VALUE,
