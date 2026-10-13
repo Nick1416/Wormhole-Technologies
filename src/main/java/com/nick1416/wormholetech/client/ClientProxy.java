@@ -139,6 +139,10 @@ public class ClientProxy extends com.nick1416.wormholetech.common.CommonProxy {
 
 	@Override
 	public void preInit() {
+		net.minecraftforge.common.MinecraftForge.EVENT_BUS.register(P3XStormClient.class);
+		net.minecraftforge.fml.client.registry.RenderingRegistry.registerEntityRenderingHandler(
+				com.nick1416.wormholetech.entity.EntityEmeraldSentinel.class,
+				com.nick1416.wormholetech.client.render.RenderEmeraldSentinel::new);
 		net.minecraftforge.fml.client.registry.RenderingRegistry.registerEntityRenderingHandler(
 				com.nick1416.wormholetech.entity.EntityEmeraldDrone.class,
 				com.nick1416.wormholetech.client.render.RenderEmeraldDrone::new);

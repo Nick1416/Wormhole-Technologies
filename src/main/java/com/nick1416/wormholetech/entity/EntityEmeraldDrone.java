@@ -70,6 +70,30 @@ public class EntityEmeraldDrone extends EntityMob {
     @Override
     public int getMaxSpawnedInChunk() { return 2; }
 
+    private static final java.util.UUID STORM_RANGE = java.util.UUID.fromString("6f1a3c52-2b8e-4f0e-9a51-3d1416e7a001");
+    private static final java.util.UUID STORM_SPEED = java.util.UUID.fromString("6f1a3c52-2b8e-4f0e-9a51-3d1416e7a002");
+
+    /** During a P3X dust storm drones see farther (+16 follow range) and move 20% faster. */
+    @Override
+    public void onLivingUpdate() {
+        super.onLivingUpdate();
+        if (world.isRemote || ticksExisted % 20 != 0) return;
+        boolean storm = com.nick1416.wormholetech.world.P3XWeather.isStorm(world);
+        toggle(SharedMonsterAttributes.FOLLOW_RANGE, STORM_RANGE, "Dust storm range", 16.0D, 0, storm);
+        toggle(SharedMonsterAttributes.MOVEMENT_SPEED, STORM_SPEED, "Dust storm speed", 0.2D, 1, storm);
+    }
+
+    public boolean isStormBoosted() {
+        return getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getModifier(STORM_SPEED) != null;
+    }
+
+    private void toggle(net.minecraft.entity.ai.attributes.IAttribute a, java.util.UUID id, String name, double amount, int op, boolean on) {
+        net.minecraft.entity.ai.attributes.IAttributeInstance inst = getEntityAttribute(a);
+        boolean has = inst.getModifier(id) != null;
+        if (on && !has) inst.applyModifier(new net.minecraft.entity.ai.attributes.AttributeModifier(id, name, amount, op).setSaved(false));
+        else if (!on && has) inst.removeModifier(id);
+    }
+
     @Override
     protected ResourceLocation getLootTable() { return LOOT; }
 

@@ -72,6 +72,22 @@ public class WorldProviderP3X extends WorldProvider {
         return new float[] { 0.25F, 0.85F, 0.70F, a };
     }
 
+    /** No rain or thunder here (overworld rain must not leak in); P3X has dust storms instead, see P3XWeather. */
+    @Override
+    public void updateWeather() {
+        try {
+            for (java.lang.reflect.Field f : WEATHER_FIELDS) f.setFloat(world, 0.0F);
+        } catch (IllegalAccessException ignored) {
+        }
+    }
+
+    // World.setRainStrength/setThunderStrength are client-only, so the fields are set directly
+    private static final java.lang.reflect.Field[] WEATHER_FIELDS = {
+            net.minecraftforge.fml.relauncher.ReflectionHelper.findField(net.minecraft.world.World.class, "prevRainingStrength", "field_73003_n"),
+            net.minecraftforge.fml.relauncher.ReflectionHelper.findField(net.minecraft.world.World.class, "rainingStrength", "field_73004_o"),
+            net.minecraftforge.fml.relauncher.ReflectionHelper.findField(net.minecraft.world.World.class, "prevThunderingStrength", "field_73018_p"),
+            net.minecraftforge.fml.relauncher.ReflectionHelper.findField(net.minecraft.world.World.class, "thunderingStrength", "field_73017_q") };
+
     @Override public boolean isSurfaceWorld() { return true; }
     @Override public boolean canRespawnHere() { return false; }
     @Override public int getRespawnDimension(EntityPlayerMP player) { return 0; }

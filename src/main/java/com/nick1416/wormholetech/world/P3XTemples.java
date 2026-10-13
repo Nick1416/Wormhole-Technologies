@@ -22,6 +22,7 @@ import java.util.Random;
  */
 public final class P3XTemples {
     public static final ResourceLocation LOOT = LootTableList.register(new ResourceLocation(WormholeTech.MODID, "chests/p3x_temple"));
+    public static final ResourceLocation GUARDIAN_LOOT = LootTableList.register(new ResourceLocation(WormholeTech.MODID, "chests/p3x_guardian_temple"));
 
     private P3XTemples() {}
 
@@ -119,4 +120,74 @@ public final class P3XTemples {
         set(w, c.add(-1, 0, 0), books);
         chest(w, rand, c.add(0, 0, 1), EnumFacing.NORTH);
     }
+
+    /**
+     * Guardian temple: a 13x13 Ancient Stone hall with pillars, crystal lights, a raised dais with a
+     * loot chest, and an Emerald Sentinel standing guard. Centred on the chunk corner (+16) so the
+     * radius-6 footprint stays inside the population area (no cascading).
+     */
+    public static void guardianTemple(World w, Random rand, BlockPos c) {
+        final int r = 6, h = 7;
+        prepare(w, c, r, h + 2);
+        IBlockState books = Blocks.BOOKSHELF.getDefaultState();
+        for (int dx = -r; dx <= r; dx++) for (int dz = -r; dz <= r; dz++) {
+            boolean wall = Math.abs(dx) == r || Math.abs(dz) == r;
+            set(w, c.add(dx, -1, dz), wall ? ANC : FLOOR);
+            if (wall) for (int y = 0; y < h; y++) set(w, c.add(dx, y, dz), ANC);
+            set(w, c.add(dx, h, dz), ANC);
+            if (Math.abs(dx) <= r - 2 && Math.abs(dz) <= r - 2) set(w, c.add(dx, h + 1, dz), ANC);
+        }
+        // entrance 3 wide, 4 tall on the north side
+        for (int dx = -1; dx <= 1; dx++) for (int y = 0; y < 4; y++) set(w, c.add(dx, y, -r), AIR);
+        // pillars with crystal lights on top of a step
+        for (int[] q : new int[][] { { -3, -3 }, { 3, -3 }, { -3, 3 }, { 3, 3 } }) {
+            for (int y = 0; y < h; y++) set(w, c.add(q[0], y, q[1]), ANC);
+            set(w, c.add(q[0] + Integer.signum(q[0]), 0, q[1]), ANC);
+            crystal(w, c.add(q[0] + Integer.signum(q[0]), 1, q[1]));
+        }
+        // bookshelves along the side walls
+        for (int dx : new int[] { -r + 1, r - 1 }) for (int dz = -1; dz <= 1; dz++) for (int y = 0; y < 3; y++) set(w, c.add(dx, y, dz), books);
+        // dais at the back with the chest and two crystals
+        for (int dx = -2; dx <= 2; dx++) for (int dz = 3; dz <= 5; dz++) set(w, c.add(dx, 0, dz), FLOOR);
+        crystal(w, c.add(-2, 1, 4));
+        crystal(w, c.add(2, 1, 4));
+        set(w, c.add(0, 1, 5), Blocks.CHEST.getDefaultState().withProperty(BlockChest.FACING, EnumFacing.NORTH));
+        TileEntity te = w.getTileEntity(c.add(0, 1, 5));
+        if (te instanceof TileEntityChest) ((TileEntityChest) te).setLootTable(GUARDIAN_LOOT, rand.nextLong());
+        // the guardian
+        com.nick1416.wormholetech.entity.EntityEmeraldSentinel guard = new com.nick1416.wormholetech.entity.EntityEmeraldSentinel(w);
+        guard.setLocationAndAngles(c.getX() + 0.5, c.getY(), c.getZ() + 0.5, 180F, 0F);
+        guard.onInitialSpawn(w.getDifficultyForLocation(c), null);
+        w.spawnEntity(guard);
+    }
+
+    /**
+     * Crystal cave: a sealed underground pocket (radius 4-6) lined with Naquadric Stone, with Naquadah
+     * Crystals on its floor. The centre is the chunk corner (+16), so it stays inside the population
+     * area. Skipped where it would break into liquid or come within 6 blocks of the surface.
+     */
+    public static boolean crystalCave(World w, Random rand, BlockPos c) {
+        int rx = 4 + rand.nextInt(3), ry = 3 + rand.nextInt(2), rz = 4 + rand.nextInt(3);
+        if (c.getY() + ry + 6 > w.getHeight(c).getY() || c.getY() - ry - 1 < 4) return false;
+        for (int dx = -rx - 1; dx <= rx + 1; dx++) for (int dy = -ry - 1; dy <= ry + 1; dy++) for (int dz = -rz - 1; dz <= rz + 1; dz++)
+            if (w.getBlockState(c.add(dx, dy, dz)).getMaterial().isLiquid()) return false;
+        IBlockState lining = Registration.NAQUADRIC_STONE.getDefaultState();
+        for (int dx = -rx - 1; dx <= rx + 1; dx++) for (int dy = -ry - 1; dy <= ry + 1; dy++) for (int dz = -rz - 1; dz <= rz + 1; dz++) {
+            double inner = sq(dx, rx) + sq(dy, ry) + sq(dz, rz);
+            double outer = sq(dx, rx + 1) + sq(dy, ry + 1) + sq(dz, rz + 1);
+            BlockPos p = c.add(dx, dy, dz);
+            if (inner < 1.0) set(w, p, AIR);
+            else if (outer < 1.0 && w.getBlockState(p).getMaterial().isSolid()) set(w, p, lining);
+        }
+        int crystals = 0;
+        for (int i = 0; i < 40 && crystals < 14; i++) {
+            BlockPos p = c.add(rand.nextInt(rx * 2 + 1) - rx, -ry, rand.nextInt(rz * 2 + 1) - rz);
+            while (p.getY() < c.getY() && !w.isAirBlock(p)) p = p.up();
+            while (p.getY() > c.getY() - ry - 1 && w.isAirBlock(p.down())) p = p.down();
+            if (w.isAirBlock(p) && com.nick1416.wormholetech.block.NaquadahCrystalBlock.canStay(w, p)) { crystal(w, p); crystals++; }
+        }
+        return true;
+    }
+
+    private static double sq(int d, int r) { double v = (double) d / r; return v * v; }
 }

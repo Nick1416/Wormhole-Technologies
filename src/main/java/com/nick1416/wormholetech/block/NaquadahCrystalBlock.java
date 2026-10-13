@@ -60,7 +60,9 @@ public class NaquadahCrystalBlock extends Block {
     @SideOnly(Side.CLIENT)
     @Override
     public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
-        if (rand.nextInt(4) == 0) {
+        // brighter sparkle at night on P3X-1416
+        boolean night = com.nick1416.wormholetech.world.P3XWeather.isP3X(world) && com.nick1416.wormholetech.world.P3XPatrols.isNight(world);
+        for (int i = night ? 3 : 0; i >= 0; i--) if (night ? rand.nextInt(2) == 0 : rand.nextInt(4) == 0) {
             world.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.2 + rand.nextDouble() * 0.6,
                     pos.getY() + 0.3 + rand.nextDouble() * 0.6, pos.getZ() + 0.2 + rand.nextDouble() * 0.6, 0.2D, 0.9D, 0.75D);
         }

@@ -95,6 +95,16 @@ public class BiomeNaquadahWastes extends Biome {
                 else spire(world, rand, base);
             }
         }
+        if (ModConfig.p3xCrystalCaveChance > 0 && rand.nextInt(ModConfig.p3xCrystalCaveChance) == 0) {
+            P3XTemples.crystalCave(world, rand, new BlockPos(cx + 16, 14 + rand.nextInt(24), cz + 16));
+        }
+        if (ModConfig.p3xGuardianTempleChance > 0 && rand.nextInt(ModConfig.p3xGuardianTempleChance) == 0) {
+            BlockPos base = surface(world, cx + 16, cz + 16);
+            if (!nearGate(base) && !world.getBlockState(base.down()).getMaterial().isLiquid()) {
+                P3XTemples.guardianTemple(world, rand, base);
+                return;
+            }
+        }
         if (ModConfig.p3xTempleChance > 0 && rand.nextInt(ModConfig.p3xTempleChance) == 0) {
             BlockPos base = surface(world, cx + 12 + rand.nextInt(8), cz + 12 + rand.nextInt(8));
             if (!nearGate(base) && !world.getBlockState(base.down()).getMaterial().isLiquid()) {
