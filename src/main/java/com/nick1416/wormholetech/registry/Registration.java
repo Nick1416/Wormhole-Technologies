@@ -294,7 +294,7 @@ public class Registration {
                 .id(new net.minecraft.util.ResourceLocation(WormholeTech.MODID, "emerald_sentinel"), 1)
                 .name(WormholeTech.MODID + ".emerald_sentinel")
                 .tracker(80, 3, true)
-                .egg(0x1C2421, 0xC8A640)
+                .egg(0x1A1D21, 0x3FD27A)
                 .build());
     }
 
