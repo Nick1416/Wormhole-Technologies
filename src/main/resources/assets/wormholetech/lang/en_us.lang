@@ -317,3 +317,5 @@ gui.wormholetech.computer.clock.forward=Quantum clock +1: time runs fast. The ga
 gui.wormholetech.computer.clock.back=Quantum clock -1: time runs slow. Aetherius recovers.
 
 message.wormholetech.disabled_normal_mode=This machine is disabled (mode=normal in wormholetech.cfg)
+tile.wormholetech.prysmian_ore.name=Prysmian Ore
+tooltip.wormholetech.prysmian_ore.summary=Deep P3X-1416 ore; drops Prysmian

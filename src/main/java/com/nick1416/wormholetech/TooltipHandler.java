@@ -33,6 +33,7 @@ public class TooltipHandler {
             "refined_naquadah",
             "unstable_naquadah",
             "prysmian",
+            "prysmian_ore",
             "prysmian_block",
             "unstable_prysmian_block",
             "quantum_circuit",

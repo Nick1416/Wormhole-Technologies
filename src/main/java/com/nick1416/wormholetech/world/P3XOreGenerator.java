@@ -17,6 +17,7 @@ public class P3XOreGenerator implements IWorldGenerator {
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator gen, IChunkProvider prov) {
         if (!ModDimensions.isRegistered() || world.provider.getDimension() != ModDimensions.id()) return;
+        prysmian(random, chunkX, chunkZ, world);
         int veins = ModConfig.p3xNaquadahOreVeinsPerChunk;
         int maxSize = ModConfig.p3xNaquadahOreVeinSize;
         int minSize = Math.min(maxSize, ModConfig.p3xNaquadahOreVeinSizeMin);
@@ -31,6 +32,20 @@ public class P3XOreGenerator implements IWorldGenerator {
             // no +8 here: WorldGenMinable already adds 8, so this keeps the vein inside the population area
             BlockPos p = new BlockPos(chunkX * 16 + random.nextInt(16), min + random.nextInt(max - min + 1),
                     chunkZ * 16 + random.nextInt(16));
+            vein.generate(world, random, p);
+        }
+    }
+
+    /** Prysmian Ore at vanilla diamond rarity: 1 vein of 8 per chunk, Y 1-16, in Naquadric Stone or stone. */
+    private static void prysmian(Random random, int chunkX, int chunkZ, World world) {
+        int veins = ModConfig.p3xPrysmianOreVeinsPerChunk, size = ModConfig.p3xPrysmianOreVeinSize;
+        if (veins <= 0 || size <= 0) return;
+        int max = Math.max(1, Math.min(250, ModConfig.p3xPrysmianOreMaxY));
+        com.google.common.base.Predicate<net.minecraft.block.state.IBlockState> host = s ->
+                s != null && (s.getBlock() == Registration.NAQUADRIC_STONE || s.getBlock() == Blocks.STONE);
+        WorldGenMinable vein = new WorldGenMinable(Registration.PRYSMIAN_ORE.getDefaultState(), size, host);
+        for (int i = 0; i < veins; i++) {
+            BlockPos p = new BlockPos(chunkX * 16 + random.nextInt(16), 1 + random.nextInt(max), chunkZ * 16 + random.nextInt(16));
             vein.generate(world, random, p);
         }
     }
