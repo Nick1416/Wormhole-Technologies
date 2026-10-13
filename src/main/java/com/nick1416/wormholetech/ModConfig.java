@@ -66,6 +66,12 @@ public final class ModConfig {
     public static int p3xTempleChance = 60;          // 1 in N chunks, 0 = off
     public static int p3xTempleChestChance = 2;      // 1 in N temples get a chest
     public static int emeraldDroneSpawnWeight = 50;     // 0 = off
+    public static boolean p3xDustStorms = true;
+    public static int p3xDustStormClearTicks = 36_000;   // average clear spell
+    public static int p3xDustStormDurationTicks = 6_000; // average storm length
+    public static int p3xCrystalCaveChance = 80;         // 1 in N chunks, 0 = off
+    public static int p3xNightPatrolIntervalTicks = 1_200; // 0 = off
+    public static int p3xGuardianTempleChance = 400;     // 1 in N chunks, 0 = off
 
     /** Reads an int; if it still holds the previous default, moves it to the new default. */
     private static int migrated(Configuration cfg, String cat, String key, int def, int oldDef, int min, int max, String comment) {
@@ -177,6 +183,19 @@ public final class ModConfig {
                 "1 in N temples contain a loot chest (0 = never)");
         emeraldDroneSpawnWeight = migrated(cfg, sg, "emeraldDroneSpawnWeight", 50, new int[] { 6, 20 }, 0, 1000,
                 "Spawn weight of Emerald Drones on the P3X-1416 surface (vanilla zombies are 100; 0 = off). Groups of 1-2. Needs a restart");
+        p3xDustStorms = cfg.getBoolean("p3xDustStorms", sg, true,
+                "Dust storms on P3X-1416 (its own weather cycle; dense haze, drones more aggressive). Off = always clear");
+        p3xDustStormClearTicks = cfg.getInt("p3xDustStormClearTicks", sg, 36_000, 200, 10_000_000,
+                "Average ticks between P3X-1416 dust storms (actual: 50%-150% of this)");
+        p3xDustStormDurationTicks = cfg.getInt("p3xDustStormDurationTicks", sg, 6_000, 200, 10_000_000,
+                "Average length of a P3X-1416 dust storm in ticks (actual: 50%-150% of this)");
+        p3xCrystalCaveChance = cfg.getInt("p3xCrystalCaveChance", sg, 80, 0, 100000,
+                "1 in N chunks on P3X-1416 get an underground crystal cave (0 = off)");
+        p3xNightPatrolIntervalTicks = cfg.getInt("p3xNightPatrolIntervalTicks", sg, 1_200, 0, 1_000_000,
+                "At night, every N ticks each player on P3X-1416 has a 1 in 2 chance of an Emerald Drone patrol (2-4 drones) "
+                        + "arriving 24-40 blocks away, capped at 6 drones nearby (0 = off)");
+        p3xGuardianTempleChance = cfg.getInt("p3xGuardianTempleChance", sg, 400, 0, 1_000_000,
+                "1 in N chunks on P3X-1416 get a guardian temple with an Emerald Sentinel (0 = off)");
 
         final String pads = "wormhole_pads";
         wormholePadUpkeepRfPerTick = cfg.getInt("wormholePadUpkeepRfPerTick", pads, 50_000, 0, Integer.MAX_VALUE,

@@ -29,6 +29,8 @@ public final class ModeNetwork {
     public static void register() {
         CHANNEL.registerMessage(SyncHandler.class, ModeMessage.class, 0, Side.CLIENT);
         CHANNEL.registerMessage(MismatchHandler.class, ModeMessage.class, 1, Side.SERVER);
+        CHANNEL.registerMessage(com.nick1416.wormholetech.world.P3XWeather.StormHandler.class,
+                com.nick1416.wormholetech.world.P3XWeather.StormMessage.class, 2, Side.CLIENT);
     }
 
     public static String kickText(String serverMode, String clientMode) {

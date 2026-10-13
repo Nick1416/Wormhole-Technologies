@@ -289,6 +289,13 @@ public class Registration {
                 .tracker(64, 3, true)
                 .egg(0x2E3A36, 0x3FD27A)
                 .build());
+        e.getRegistry().register(net.minecraftforge.fml.common.registry.EntityEntryBuilder.create()
+                .entity(com.nick1416.wormholetech.entity.EntityEmeraldSentinel.class)
+                .id(new net.minecraft.util.ResourceLocation(WormholeTech.MODID, "emerald_sentinel"), 1)
+                .name(WormholeTech.MODID + ".emerald_sentinel")
+                .tracker(80, 3, true)
+                .egg(0x1C2421, 0xC8A640)
+                .build());
     }
 
     // --- Registry events ---

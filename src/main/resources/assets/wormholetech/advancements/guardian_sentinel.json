@@ -1,0 +1,18 @@
+{
+  "parent": "wormholetech:p3x_1416",
+  "display": {
+    "icon": { "item": "minecraft:emerald" },
+    "title": { "translate": "advancements.wormholetech.guardian_sentinel.title" },
+    "description": { "translate": "advancements.wormholetech.guardian_sentinel.desc" },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "killed": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": { "entity": { "type": "wormholetech:emerald_sentinel" } }
+    }
+  }
+}
