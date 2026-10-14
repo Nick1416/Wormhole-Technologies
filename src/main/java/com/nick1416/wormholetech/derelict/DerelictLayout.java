@@ -25,8 +25,9 @@ import java.util.Random;
  * Everything is decided per chunk from hashes of global coordinates, so a chunk never needs its
  * neighbours (no cascading generation).
  *
- * Grid: 4-block cells; walls on every x%4==0 / z%4==0 line, 3-wide corridors. Each wall segment
- * between two cells is open or closed by a hash of the segment. Some chunks are open rooms (walls
+ * Grid: 4-block cells; walls on every x%4==0 / z%4==0 line, 3-wide corridors. Maze chunks carve a
+ * spanning tree over their 16 cells and every chunk edge has fixed doorways (see segmentOpen), so
+ * the whole deck is connected. Some chunks are open rooms (walls
  * inside removed, doorways forced in the middle of each side): plain rooms with a chest, modulator
  * rooms (Quantum Field Modulator in its cradle + Giant Emerald Sentinel), and the hub at chunk 0,0
  * with the return gate.
@@ -61,22 +62,51 @@ public final class DerelictLayout {
     private static boolean isRoom(int cx, int cz) { return chunkType(cx, cz) != TYPE_MAZE; }
 
     /**
-     * Is the wall segment on line {@code lineX} (a multiple of 4) between cells (lineX/4-1, cellZ) and
-     * (lineX/4, cellZ) open? Same rule used for z lines with coordinates swapped (axis 1).
+     * Connectivity guarantee. Every chunk is a 4x4 grid of cells. Inside a maze chunk the open wall
+     * segments always contain a spanning tree of all 16 cells (randomised Kruskal seeded by the chunk
+     * coordinates), plus a few extra openings for loops. Room chunks are fully open inside. On every
+     * chunk edge, the segments at cell positions 1 and 2 along the edge are ALWAYS open (fixed
+     * doorways), for every chunk type. So each chunk is internally connected and joined to all 4
+     * neighbours: the whole deck is one connected region and nothing can be sealed off.
      */
+    private static final ThreadLocal<long[]> TREE_CACHE = new ThreadLocal<>();
+
+    /** Bits 0..11: segment between cell (i, j) and (i+1, j), index j*3+i. Bits 12..23: between (i, j) and (i, j+1), index 12+i*3+j. */
+    static long mazeMask(int cx, int cz) {
+        long[] c = TREE_CACHE.get();
+        if (c != null && c[0] == cx && c[1] == cz) return c[2];
+        int[] parent = new int[16];
+        for (int i = 0; i < 16; i++) parent[i] = i;
+        int[] order = new int[24];
+        for (int i = 0; i < 24; i++) order[i] = i;
+        Random r = new Random(mix(cx, cz, 99));
+        for (int i = 23; i > 0; i--) { int k = r.nextInt(i + 1); int t = order[i]; order[i] = order[k]; order[k] = t; }
+        long mask = 0;
+        for (int e : order) {
+            int a, b;
+            if (e < 12) { int j = e / 3, i = e % 3; a = j * 4 + i; b = a + 1; }
+            else { int i = (e - 12) / 3, j = (e - 12) % 3; a = j * 4 + i; b = a + 4; }
+            int ra = find(parent, a), rb = find(parent, b);
+            if (ra != rb) { parent[ra] = rb; mask |= 1L << e; }
+            else if (r.nextInt(100) < 25) mask |= 1L << e; // extra loops
+        }
+        TREE_CACHE.set(new long[] { cx, cz, mask });
+        return mask;
+    }
+
+    private static int find(int[] p, int x) { while (p[x] != x) { p[x] = p[p[x]]; x = p[x]; } return x; }
+
+    /** Is the wall segment on {@code line} (a multiple of 4) at {@code cell} open? axis 0 = x line, 1 = z line. */
     private static boolean segmentOpen(int line, int cell, int axis) {
         int cellA = (line >> 2) - 1, cellB = line >> 2;
         int chA = cellA >> 2, chB = cellB >> 2, chO = cell >> 2;
-        int[] a = axis == 0 ? new int[] { chA, chO } : new int[] { chO, chA };
-        int[] b = axis == 0 ? new int[] { chB, chO } : new int[] { chO, chB };
-        if (chA == chB) {
-            if (isRoom(a[0], a[1])) return true;
-        } else {
-            int along = cell & 3;
-            if ((isRoom(a[0], a[1]) || isRoom(b[0], b[1])) && (along == 1 || along == 2)) return true;
-            if (isRoom(a[0], a[1]) || isRoom(b[0], b[1])) return false; // room borders are solid apart from doorways
-        }
-        return bucket(mix(line, cell, 11 + axis), 100) < 58;
+        int along = cell & 3;
+        if (chA != chB) return along == 1 || along == 2;   // fixed doorways on every chunk edge
+        int cx = axis == 0 ? chA : chO, cz = axis == 0 ? chO : chA;
+        if (isRoom(cx, cz)) return true;
+        int i = cellA & 3;                                   // cell index across the line (0..2)
+        int bit = axis == 0 ? along * 3 + i : 12 + along * 3 + i;
+        return (mazeMask(cx, cz) >> bit & 1) != 0;
     }
 
     /** Post at the corner (x, z), both multiples of 4: solid unless all four cells are inside one room chunk. */
@@ -86,7 +116,8 @@ public final class DerelictLayout {
         return isRoom(cx, cz);
     }
 
-    private static boolean wallAt(int x, int z) {
+    /** Bulkhead column at (x, z)? Package-visible for the connectivity check. */
+    static boolean wallAt(int x, int z) {
         boolean lx = (x & 3) == 0, lz = (z & 3) == 0;
         if (lx && lz) return !postOpen(x, z);
         if (lx) return !segmentOpen(x, z >> 2, 0);

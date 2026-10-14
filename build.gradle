@@ -89,3 +89,9 @@ processResources {
         exclude 'mcmod.info'
     }
 }
+
+task derelictConnectivity(type: JavaExec, dependsOn: testClasses) {
+    description = 'Flood-fills a 30x30-chunk Derelict Vessel area from the hub; fails unless 100% is reachable'
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'com.nick1416.wormholetech.derelict.DerelictConnectivityCheck'
+}
