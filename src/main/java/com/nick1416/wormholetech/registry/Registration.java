@@ -157,6 +157,9 @@ public class Registration {
     public static final Block HULL_LAMP = new com.nick1416.wormholetech.derelict.HullBlock(net.minecraft.block.material.MapColor.SNOW, 1.0F)
             .setRegistryName(WormholeTech.MODID, "hull_lamp").setUnlocalizedName(WormholeTech.MODID + ".hull_lamp");
     public static final Item ITEM_HULL_LAMP = new ItemBlock(HULL_LAMP).setRegistryName(HULL_LAMP.getRegistryName());
+    public static final Block HULL_LAMP_GOLD = new com.nick1416.wormholetech.derelict.HullBlock(net.minecraft.block.material.MapColor.GOLD, 1.0F)
+            .setRegistryName(WormholeTech.MODID, "hull_lamp_gold").setUnlocalizedName(WormholeTech.MODID + ".hull_lamp_gold");
+    public static final Item ITEM_HULL_LAMP_GOLD = new ItemBlock(HULL_LAMP_GOLD).setRegistryName(HULL_LAMP_GOLD.getRegistryName());
     public static final Block HULL_WINDOW = new com.nick1416.wormholetech.derelict.HullWindowBlock()
             .setRegistryName(WormholeTech.MODID, "hull_window").setUnlocalizedName(WormholeTech.MODID + ".hull_window");
     public static final Item ITEM_HULL_WINDOW = new ItemBlock(HULL_WINDOW).setRegistryName(HULL_WINDOW.getRegistryName());
@@ -392,7 +395,7 @@ public class Registration {
         UNSTABLE_PRYSMIAN_BLOCK.setCreativeTab(b);
         ANCIENT_GATE_FRAME.setCreativeTab(b);
         TITANIUM_BLOCK.setCreativeTab(b);
-        for (Block blk : new Block[]{HULL_PLATING, HULL_BULKHEAD, HULL_LAMP, HULL_WINDOW, MODULATOR_CRADLE}) blk.setCreativeTab(b);
+        for (Block blk : new Block[]{HULL_PLATING, HULL_BULKHEAD, HULL_LAMP, HULL_LAMP_GOLD, HULL_WINDOW, MODULATOR_CRADLE}) blk.setCreativeTab(b);
         QUANTUM_FIELD_MODULATOR.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
         DERELICT_COORDINATES.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
         TITANIUM_INGOT.setCreativeTab(m);
@@ -422,7 +425,7 @@ public class Registration {
                 STARGATE_PORTAL,
                 ANCIENT_GATE_FRAME,
                 REINFORCED_GATE_FRAME,
-                HULL_PLATING, HULL_BULKHEAD, HULL_LAMP, HULL_WINDOW, MODULATOR_CRADLE, QUANTUM_FIELD_MODULATOR,
+                HULL_PLATING, HULL_BULKHEAD, HULL_LAMP, HULL_LAMP_GOLD, HULL_WINDOW, MODULATOR_CRADLE, QUANTUM_FIELD_MODULATOR,
                 TITANIUM_BLOCK,
                 NATURAL_NAQUADAH_ORE,
                 PRYSMIAN_ORE,
@@ -483,7 +486,7 @@ public class Registration {
                 ITEM_DIALING_COMPUTER,
                 ITEM_ANCIENT_GATE_FRAME,
                 ITEM_REINFORCED_GATE_FRAME,
-                ITEM_HULL_PLATING, ITEM_HULL_BULKHEAD, ITEM_HULL_LAMP, ITEM_HULL_WINDOW, ITEM_MODULATOR_CRADLE, ITEM_QUANTUM_FIELD_MODULATOR,
+                ITEM_HULL_PLATING, ITEM_HULL_BULKHEAD, ITEM_HULL_LAMP, ITEM_HULL_LAMP_GOLD, ITEM_HULL_WINDOW, ITEM_MODULATOR_CRADLE, ITEM_QUANTUM_FIELD_MODULATOR,
                 DERELICT_COORDINATES,
                 ITEM_TITANIUM_BLOCK,
                 TITANIUM_INGOT,

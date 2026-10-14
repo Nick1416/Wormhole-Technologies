@@ -151,6 +151,7 @@ public final class DerelictLayout {
         if (type == TYPE_ROOM || type == TYPE_MODULATOR || type == TYPE_HUB) {
             for (int[] c : new int[][] { { 3, 3 }, { 12, 3 }, { 3, 12 }, { 12, 12 } }) p.setBlockState(c[0], CEIL, c[1], lamp);
         }
+        placeGuideLamps(p, cx, cz, type);
         if (type == TYPE_MODULATOR) {
             IBlockState cradle = Registration.MODULATOR_CRADLE.getDefaultState();
             for (int dx = -1; dx <= 1; dx++)
@@ -172,6 +173,27 @@ public final class DerelictLayout {
                     BlockPos q = GATE.interior(x, y);
                     boolean edge = y == -1 || y == GATE.height || x == -1 || x == GATE.width;
                     p.setBlockState(q.getX(), q.getY(), q.getZ(), edge ? frame : portal);
+                }
+        }
+    }
+
+    /**
+     * Gold Hull Lamps in the ceiling over the cells leading to each modulator room doorway: three cells
+     * deep into each neighbouring chunk plus the doorway cells inside the room. Ceiling only, so no
+     * path is ever blocked. Decided from chunk types alone (no neighbour generation needed).
+     */
+    private static void placeGuideLamps(ChunkPrimer p, int cx, int cz, int type) {
+        IBlockState gold = Registration.HULL_LAMP_GOLD.getDefaultState();
+        int[][] dirs = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
+        for (int[] d : dirs) {
+            boolean towardRoom = chunkType(cx + d[0], cz + d[1]) == TYPE_MODULATOR;
+            int depthMax = towardRoom ? 3 : (type == TYPE_MODULATOR ? 1 : 0);
+            for (int depth = 0; depth < depthMax; depth++)
+                for (int along = 1; along <= 2; along++) {
+                    // cell index across: 0 is the cell touching the edge in direction d
+                    int across = d[0] + d[1] < 0 ? depth : 3 - depth;
+                    int cellX = d[0] != 0 ? across : along, cellZ = d[0] != 0 ? along : across;
+                    p.setBlockState(cellX * 4 + 2, CEIL, cellZ * 4 + 2, gold);
                 }
         }
     }
