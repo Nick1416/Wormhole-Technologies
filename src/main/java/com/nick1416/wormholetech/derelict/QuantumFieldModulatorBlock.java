@@ -82,6 +82,21 @@ public class QuantumFieldModulatorBlock extends Block {
             player.sendStatusMessage(new TextComponentTranslation("message.wormholetech.modulator.locked"), true);
     }
 
+    /** Low hum and a few sparks so the room can be found: client only, within 24 blocks, rate-limited by display ticks. */
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void randomDisplayTick(IBlockState state, World w, BlockPos pos, Random rand) {
+        EntityPlayer pl = net.minecraft.client.Minecraft.getMinecraft().player;
+        if (pl == null || pl.getDistanceSqToCenter(pos) > 24 * 24) return;
+        for (int i = 0; i < 3; i++)
+            w.spawnParticle(net.minecraft.util.EnumParticleTypes.END_ROD, pos.getX() + 0.5 + (rand.nextDouble() - 0.5) * 0.8,
+                    pos.getY() + 0.3 + rand.nextDouble() * 0.6, pos.getZ() + 0.5 + (rand.nextDouble() - 0.5) * 0.8,
+                    (rand.nextDouble() - 0.5) * 0.02, 0.02, (rand.nextDouble() - 0.5) * 0.02);
+        if (rand.nextInt(4) == 0)
+            w.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, net.minecraft.init.SoundEvents.BLOCK_PORTAL_AMBIENT,
+                    net.minecraft.util.SoundCategory.BLOCKS, 1.5F, 0.5F, false);
+    }
+
     @Override public boolean isOpaqueCube(IBlockState s) { return false; }
     @Override public boolean isFullCube(IBlockState s) { return false; }
     @Override public AxisAlignedBB getBoundingBox(IBlockState s, IBlockAccess w, BlockPos p) { return BOX; }

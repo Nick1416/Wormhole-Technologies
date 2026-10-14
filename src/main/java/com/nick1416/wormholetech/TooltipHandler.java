@@ -33,7 +33,7 @@ public class TooltipHandler {
             "refined_naquadah",
             "unstable_naquadah",
             "prysmian",
-            "diamond_nugget", "quantum_field_modulator", "derelict_coordinates", "hull_plating", "hull_bulkhead", "hull_lamp", "hull_window", "modulator_cradle", "titanium_ingot", "titanium_block",
+            "diamond_nugget", "quantum_field_modulator", "derelict_coordinates", "hull_plating", "hull_bulkhead", "hull_lamp", "hull_lamp_gold", "hull_window", "modulator_cradle", "titanium_ingot", "titanium_block",
             "reinforced_gate_frame",
             "prysmian_ore",
             "prysmian_block",
