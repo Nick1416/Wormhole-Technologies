@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "wormholetech:inactive_xenolith_drone"
+    },
+    {
+      "item": "wormholetech:xenolith_chip",
+      "data": 4
+    }
+  ],
+  "result": {
+    "item": "wormholetech:miner_drone",
+    "data": 4
+  }
+}

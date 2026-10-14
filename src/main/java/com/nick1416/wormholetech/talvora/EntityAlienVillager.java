@@ -23,6 +23,8 @@ import javax.annotation.Nullable;
 
 /** Tall, passive Tal'Vora native that trades exotic goods for emeralds. */
 public class EntityAlienVillager extends EntityCreature implements IMerchant, INpc {
+    private static final net.minecraft.network.datasync.DataParameter<Boolean> MEDITATING =
+            net.minecraft.network.datasync.EntityDataManager.createKey(EntityAlienVillager.class, net.minecraft.network.datasync.DataSerializers.BOOLEAN);
     private EntityPlayer customer;
     private MerchantRecipeList trades;
 
@@ -31,11 +33,25 @@ public class EntityAlienVillager extends EntityCreature implements IMerchant, IN
         setSize(0.6F, 2.3F);
     }
 
+    @Override protected void entityInit() { super.entityInit(); dataManager.register(MEDITATING, false); }
+    public boolean isMeditating() { return dataManager.get(MEDITATING); }
+    public void setMeditating(boolean m) { dataManager.set(MEDITATING, m); }
+
+    @Override public void writeEntityToNBT(net.minecraft.nbt.NBTTagCompound c) { super.writeEntityToNBT(c); c.setBoolean("Meditating", isMeditating()); }
+    @Override public void readEntityFromNBT(net.minecraft.nbt.NBTTagCompound c) { super.readEntityFromNBT(c); setMeditating(c.getBoolean("Meditating")); }
+
+    /** Meditating Vorani stay put (no wandering, no pushing). */
+    @Override public boolean canBePushed() { return !isMeditating() && super.canBePushed(); }
+
     @Override
     protected void initEntityAI() {
         tasks.addTask(0, new EntityAISwimming(this));
-        tasks.addTask(1, new EntityAIPanic(this, 0.7D));
-        tasks.addTask(5, new EntityAIWanderAvoidWater(this, 0.5D));
+        tasks.addTask(1, new EntityAIPanic(this, 0.7D) {
+            @Override public boolean shouldExecute() { return !isMeditating() && super.shouldExecute(); }
+        });
+        tasks.addTask(5, new EntityAIWanderAvoidWater(this, 0.5D) {
+            @Override public boolean shouldExecute() { return !isMeditating() && super.shouldExecute(); }
+        });
         tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         tasks.addTask(7, new EntityAILookIdle(this));
     }
@@ -62,6 +78,14 @@ public class EntityAlienVillager extends EntityCreature implements IMerchant, IN
     @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
+        if (isMeditating()) {
+            motionX = 0; motionZ = 0; getNavigator().clearPath();
+            if (world.isRemote && rand.nextInt(8) == 0)
+                world.spawnParticle(net.minecraft.util.EnumParticleTypes.ENCHANTMENT_TABLE, posX + (rand.nextDouble() - 0.5) * 1.2,
+                        posY + 1.6 + rand.nextDouble() * 0.6, posZ + (rand.nextDouble() - 0.5) * 1.2, 0, 0.1, 0);
+            if (world.isRemote && rand.nextInt(40) == 0)
+                world.spawnParticle(net.minecraft.util.EnumParticleTypes.END_ROD, posX, posY + 2.0, posZ, 0, 0.02, 0);
+        }
         if (customer != null) {
             getNavigator().clearPath();
             if (!customer.isEntityAlive() || customer.openContainer == customer.inventoryContainer || customer.getDistanceSq(this) > 64) customer = null;
@@ -78,9 +102,9 @@ public class EntityAlienVillager extends EntityCreature implements IMerchant, IN
         l.add(new MerchantRecipe(s(Items.EMERALD, 4), ItemStack.EMPTY, s(Registration.XENOLITH_TILES, 16), 0, 9999));
         l.add(new MerchantRecipe(s(Items.EMERALD, 5), ItemStack.EMPTY, s(Registration.XENO_LAMP, 4), 0, 9999));
         l.add(new MerchantRecipe(redSand, ItemStack.EMPTY, s(Items.EMERALD, 1), 0, 9999));
-        l.add(new MerchantRecipe(s(Items.EMERALD, 8), ItemStack.EMPTY, s(Registration.PRYSMIAN, 1), 0, 9999));
-        l.add(new MerchantRecipe(s(Registration.PRYSMIAN, 1), ItemStack.EMPTY, s(Items.EMERALD, 4), 0, 9999));
+        l.add(new MerchantRecipe(s(Registration.RAW_XENOLITH, 8), ItemStack.EMPTY, s(Items.EMERALD, 2), 0, 9999));
         l.add(new MerchantRecipe(s(Items.GOLD_INGOT, 4), ItemStack.EMPTY, s(Items.EMERALD, 1), 0, 9999));
+        l.add(new MerchantRecipe(s(Items.EMERALD, 56), s(Registration.RAW_XENOLITH, 16), s(Registration.NANITE_CORE, 1), 0, 9999));
         return l;
     }
 

@@ -51,6 +51,8 @@ public class WormholeTech {
         ModConfig.load(e.getSuggestedConfigurationFile());
         com.nick1416.wormholetech.mode.ModeNetwork.register();
 
+        GameRegistry.registerTileEntity(com.nick1416.wormholetech.drone.MinerDroneTileEntity.class,
+                new net.minecraft.util.ResourceLocation(MODID, "miner_drone"));
         GameRegistry.registerTileEntity(GeneratorTileEntity.class,
                 new ResourceLocation(MODID, "rf_generator"));
 
@@ -126,6 +128,8 @@ public class WormholeTech {
             com.nick1416.wormholetech.registry.Registration.TAL_VORA_BIOME.getSpawnableList(net.minecraft.entity.EnumCreatureType.AMBIENT).add(
                     new net.minecraft.world.biome.Biome.SpawnListEntry(com.nick1416.wormholetech.talvora.EntityXenolithDrone.class,
                             ModConfig.xenolithDroneSpawnWeight, 1, 1));
+        GameRegistry.addSmelting(com.nick1416.wormholetech.registry.Registration.RAW_XENOLITH,
+                new ItemStack(com.nick1416.wormholetech.registry.Registration.XENOLITH), 0.2F);
         OreDictionary.registerOre("oreNaquadah", com.nick1416.wormholetech.registry.Registration.NATURAL_NAQUADAH_ORE);
         OreDictionary.registerOre("orePrysmian", com.nick1416.wormholetech.registry.Registration.PRYSMIAN_ORE);
         OreDictionary.registerOre("gemPrysmian", com.nick1416.wormholetech.registry.Registration.PRYSMIAN);

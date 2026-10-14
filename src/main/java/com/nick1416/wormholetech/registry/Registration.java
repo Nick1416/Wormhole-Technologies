@@ -177,6 +177,19 @@ public class Registration {
             .setRegistryName(WormholeTech.MODID, "quantum_field_modulator").setUnlocalizedName(WormholeTech.MODID + ".quantum_field_modulator");
     public static final Block VORANI_MODULATOR = new com.nick1416.wormholetech.talvora.VoraniModulatorBlock()
             .setRegistryName(WormholeTech.MODID, "vorani_modulator").setUnlocalizedName(WormholeTech.MODID + ".vorani_modulator");
+    public static final Block XENOLITH_ORE = new com.nick1416.wormholetech.drone.XenolithOreBlock()
+            .setRegistryName(WormholeTech.MODID, "xenolith_ore").setUnlocalizedName(WormholeTech.MODID + ".xenolith_ore");
+    public static final Item ITEM_XENOLITH_ORE = new ItemBlock(XENOLITH_ORE).setRegistryName(XENOLITH_ORE.getRegistryName());
+    public static final Item RAW_XENOLITH = new Item().setRegistryName(WormholeTech.MODID, "raw_xenolith").setUnlocalizedName(WormholeTech.MODID + ".raw_xenolith");
+    public static final Item INACTIVE_DRONE = new Item().setMaxStackSize(16)
+            .setRegistryName(WormholeTech.MODID, "inactive_xenolith_drone").setUnlocalizedName(WormholeTech.MODID + ".inactive_xenolith_drone");
+    public static final Item XENOLITH_CHIP = new com.nick1416.wormholetech.drone.ItemXenolithChip()
+            .setRegistryName(WormholeTech.MODID, "xenolith_chip").setUnlocalizedName(WormholeTech.MODID + ".xenolith_chip");
+    public static final Block MINER_DRONE = new com.nick1416.wormholetech.drone.MinerDroneBlock()
+            .setRegistryName(WormholeTech.MODID, "miner_drone").setUnlocalizedName(WormholeTech.MODID + ".miner_drone");
+    public static final Item ITEM_MINER_DRONE = new com.nick1416.wormholetech.drone.ItemMinerDrone(MINER_DRONE).setRegistryName(MINER_DRONE.getRegistryName());
+    public static final Item COMPANION_DRONE = new com.nick1416.wormholetech.drone.ItemCompanionDrone()
+            .setRegistryName(WormholeTech.MODID, "companion_drone").setUnlocalizedName(WormholeTech.MODID + ".companion_drone");
     public static final Item ITEM_QUANTUM_FIELD_MODULATOR = new ItemBlock(QUANTUM_FIELD_MODULATOR).setMaxStackSize(1)
             .setRegistryName(QUANTUM_FIELD_MODULATOR.getRegistryName());
 
@@ -418,6 +431,12 @@ public class Registration {
                 .tracker(80, 2, true)
                 .egg(0x1F4A55, 0x46C8BE)
                 .build());
+        e.getRegistry().register(net.minecraftforge.fml.common.registry.EntityEntryBuilder.create()
+                .entity(com.nick1416.wormholetech.drone.EntityCompanionDrone.class)
+                .id(new net.minecraft.util.ResourceLocation(WormholeTech.MODID, "companion_drone"), 6)
+                .name(WormholeTech.MODID + ".companion_drone")
+                .tracker(80, 2, true)
+                .build());
     }
 
     /**
@@ -444,6 +463,10 @@ public class Registration {
         DERELICT_COORDINATES.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
         INTERGALACTIC_COORDINATES.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
         NANITE_CORE.setCreativeTab(m);
+        XENOLITH_ORE.setCreativeTab(b);
+        for (Item i : new Item[]{RAW_XENOLITH, INACTIVE_DRONE, XENOLITH_CHIP}) i.setCreativeTab(m);
+        MINER_DRONE.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
+        COMPANION_DRONE.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
         TITANIUM_INGOT.setCreativeTab(m);
         for (Item i : new Item[]{RAW_NAQUADAH, REFINED_NAQUADAH, PRYSMIAN, UNSTABLE_NAQUADAH,
                 NAQUADAH_REACTOR, UNSTABLE_NAQUADAH_REACTOR}) i.setCreativeTab(m);
@@ -472,7 +495,7 @@ public class Registration {
                 STARGATE_PORTAL,
                 ANCIENT_GATE_FRAME,
                 REINFORCED_GATE_FRAME,
-                HULL_PLATING, HULL_BULKHEAD, HULL_LAMP, HULL_LAMP_GOLD, HULL_WINDOW, MODULATOR_CRADLE, QUANTUM_FIELD_MODULATOR, VORANI_MODULATOR, XENOLITH, XENOLITH_TILES, XENO_LAMP,
+                HULL_PLATING, HULL_BULKHEAD, HULL_LAMP, HULL_LAMP_GOLD, HULL_WINDOW, MODULATOR_CRADLE, QUANTUM_FIELD_MODULATOR, VORANI_MODULATOR, XENOLITH, XENOLITH_TILES, XENO_LAMP, XENOLITH_ORE, MINER_DRONE,
                 TITANIUM_BLOCK,
                 NATURAL_NAQUADAH_ORE,
                 PRYSMIAN_ORE,
@@ -535,6 +558,7 @@ public class Registration {
                 ITEM_ANCIENT_GATE_FRAME,
                 ITEM_REINFORCED_GATE_FRAME,
                 ITEM_HULL_PLATING, ITEM_HULL_BULKHEAD, ITEM_HULL_LAMP, ITEM_HULL_LAMP_GOLD, ITEM_HULL_WINDOW, ITEM_MODULATOR_CRADLE, ITEM_QUANTUM_FIELD_MODULATOR, ITEM_XENOLITH, ITEM_XENOLITH_TILES, ITEM_XENO_LAMP,
+                ITEM_XENOLITH_ORE, RAW_XENOLITH, INACTIVE_DRONE, XENOLITH_CHIP, ITEM_MINER_DRONE, COMPANION_DRONE,
                 DERELICT_COORDINATES,
                 INTERGALACTIC_COORDINATES,
                 NANITE_CORE,
@@ -549,6 +573,8 @@ public class Registration {
                 ITEM_ANCIENT_STONE
         );
         net.minecraftforge.oredict.OreDictionary.registerOre("ingotTitanium", TITANIUM_INGOT);
+        net.minecraftforge.oredict.OreDictionary.registerOre("oreXenolith", XENOLITH_ORE);
+        net.minecraftforge.oredict.OreDictionary.registerOre("gemXenolith", RAW_XENOLITH);
         net.minecraftforge.oredict.OreDictionary.registerOre("blockTitanium", TITANIUM_BLOCK);
     }
 }

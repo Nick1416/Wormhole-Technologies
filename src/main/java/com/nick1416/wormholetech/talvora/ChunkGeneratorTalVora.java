@@ -43,6 +43,19 @@ public class ChunkGeneratorTalVora extends ChunkGeneratorOverworld {
     @Override
     public void populate(int x, int z) {
         super.populate(x, z);
+        generateXenolithOre(x, z);
         AlienVillages.populate(world, x, z);
+    }
+
+    /** Xenolith Ore: veins of up to 6 in the red sandstone under the dunes, y 12-60, 5 tries per chunk (about iron rarity). */
+    private void generateXenolithOre(int cx, int cz) {
+        int n = com.nick1416.wormholetech.ModConfig.xenolithOreVeinsPerChunk;
+        if (n <= 0) return;
+        java.util.Random r = new java.util.Random(world.getSeed() ^ (cx * 341873128712L + cz * 132897987541L) ^ 0x58454E4FL);
+        net.minecraft.world.gen.feature.WorldGenMinable vein = new net.minecraft.world.gen.feature.WorldGenMinable(
+                com.nick1416.wormholetech.registry.Registration.XENOLITH_ORE.getDefaultState(), 6,
+                state -> state != null && (state.getBlock() == Blocks.RED_SANDSTONE || state.getBlock() == Blocks.STONE));
+        for (int i = 0; i < n; i++)
+            vein.generate(world, r, new net.minecraft.util.math.BlockPos((cx << 4) + 8 + r.nextInt(16), 12 + r.nextInt(49), (cz << 4) + 8 + r.nextInt(16)));
     }
 }

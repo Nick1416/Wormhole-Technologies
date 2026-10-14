@@ -1,0 +1,171 @@
+{
+ "parent": "block/block",
+ "ambientocclusion": false,
+ "textures": {
+  "particle": "wormholetech:blocks/miner_drone_body",
+  "body": "wormholetech:blocks/miner_drone_body",
+  "lens": "wormholetech:blocks/miner_drone_lens"
+ },
+ "elements": [
+  {
+   "from": [
+    3,
+    6,
+    3
+   ],
+   "to": [
+    13,
+    9,
+    13
+   ],
+   "faces": {
+    "down": {
+     "texture": "#body"
+    },
+    "up": {
+     "texture": "#body"
+    },
+    "north": {
+     "texture": "#body"
+    },
+    "south": {
+     "texture": "#body"
+    },
+    "west": {
+     "texture": "#body"
+    },
+    "east": {
+     "texture": "#body"
+    }
+   }
+  },
+  {
+   "from": [
+    5,
+    9,
+    5
+   ],
+   "to": [
+    11,
+    11,
+    11
+   ],
+   "faces": {
+    "down": {
+     "texture": "#body"
+    },
+    "up": {
+     "texture": "#body"
+    },
+    "north": {
+     "texture": "#body"
+    },
+    "south": {
+     "texture": "#body"
+    },
+    "west": {
+     "texture": "#body"
+    },
+    "east": {
+     "texture": "#body"
+    }
+   }
+  },
+  {
+   "from": [
+    6.5,
+    5,
+    6.5
+   ],
+   "to": [
+    9.5,
+    6,
+    9.5
+   ],
+   "faces": {
+    "down": {
+     "texture": "#lens"
+    },
+    "up": {
+     "texture": "#lens"
+    },
+    "north": {
+     "texture": "#lens"
+    },
+    "south": {
+     "texture": "#lens"
+    },
+    "west": {
+     "texture": "#lens"
+    },
+    "east": {
+     "texture": "#lens"
+    }
+   }
+  },
+  {
+   "from": [
+    1,
+    7,
+    6
+   ],
+   "to": [
+    3,
+    8,
+    10
+   ],
+   "faces": {
+    "down": {
+     "texture": "#body"
+    },
+    "up": {
+     "texture": "#body"
+    },
+    "north": {
+     "texture": "#body"
+    },
+    "south": {
+     "texture": "#body"
+    },
+    "west": {
+     "texture": "#body"
+    },
+    "east": {
+     "texture": "#body"
+    }
+   }
+  },
+  {
+   "from": [
+    13,
+    7,
+    6
+   ],
+   "to": [
+    15,
+    8,
+    10
+   ],
+   "faces": {
+    "down": {
+     "texture": "#body"
+    },
+    "up": {
+     "texture": "#body"
+    },
+    "north": {
+     "texture": "#body"
+    },
+    "south": {
+     "texture": "#body"
+    },
+    "west": {
+     "texture": "#body"
+    },
+    "east": {
+     "texture": "#body"
+    }
+   }
+  }
+ ]
+}

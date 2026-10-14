@@ -61,8 +61,10 @@ public class EntityXenolithDrone extends EntityFlying {
     public boolean getCanSpawnHere() {
         if (world.provider.getDimension() != com.nick1416.wormholetech.ModConfig.talVoraDimensionId) return false;
         BlockPos p = new BlockPos(this);
-        if (!world.canSeeSky(p) || rand.nextInt(4) != 0) return false;
-        if (world.getEntitiesWithinAABB(EntityXenolithDrone.class, getEntityBoundingBox().grow(96, 128, 96)).size() >= 2) return false;
+        int[] v = AlienVillages.nearest((int) posX, (int) posZ, 1);
+        boolean nearVillage = v != null && (v[0] - posX) * (v[0] - posX) + (v[1] - posZ) * (v[1] - posZ) < 80 * 80;
+        if (!world.canSeeSky(p) || (!nearVillage && rand.nextInt(4) != 0)) return false;
+        if (world.getEntitiesWithinAABB(EntityXenolithDrone.class, getEntityBoundingBox().grow(96, 128, 96)).size() >= (nearVillage ? 5 : 2)) return false;
         return world.getCollisionBoxes(this, getEntityBoundingBox()).isEmpty();
     }
 
@@ -174,8 +176,8 @@ public class EntityXenolithDrone extends EntityFlying {
         }
     }
 
-    static class DroneMoveHelper extends EntityMoveHelper {
-        DroneMoveHelper(EntityXenolithDrone d) { super(d); }
+    public static class DroneMoveHelper extends EntityMoveHelper {
+        public DroneMoveHelper(net.minecraft.entity.EntityLiving d) { super(d); }
         @Override public void onUpdateMoveHelper() {
             if (action != Action.MOVE_TO) { entity.motionY += Math.sin(entity.ticksExisted * 0.1) * 0.002; return; }
             double dx = posX - entity.posX, dy = posY - entity.posY, dz = posZ - entity.posZ;

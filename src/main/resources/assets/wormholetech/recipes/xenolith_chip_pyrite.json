@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "M",
+    "Q",
+    "X"
+  ],
+  "key": {
+    "M": {
+      "type": "forge:ore_dict",
+      "ore": "dustSulfur"
+    },
+    "Q": {
+      "item": "wormholetech:quantum_circuit"
+    },
+    "X": {
+      "item": "wormholetech:raw_xenolith"
+    }
+  },
+  "result": {
+    "item": "wormholetech:xenolith_chip",
+    "data": 4
+  }
+}
