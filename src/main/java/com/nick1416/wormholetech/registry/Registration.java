@@ -178,6 +178,18 @@ public class Registration {
     public static final Item ITEM_QUANTUM_FIELD_MODULATOR = new ItemBlock(QUANTUM_FIELD_MODULATOR).setMaxStackSize(1)
             .setRegistryName(QUANTUM_FIELD_MODULATOR.getRegistryName());
 
+    public static final net.minecraft.world.biome.Biome TAL_VORA_BIOME =
+            new com.nick1416.wormholetech.talvora.BiomeTalVora().setRegistryName(WormholeTech.MODID, "tal_vora_dunes");
+    public static final Block XENOLITH = new Block(net.minecraft.block.material.Material.ROCK, net.minecraft.block.material.MapColor.CYAN)
+            .setHardness(2.0F).setResistance(12.0F).setRegistryName(WormholeTech.MODID, "xenolith").setUnlocalizedName(WormholeTech.MODID + ".xenolith");
+    public static final Item ITEM_XENOLITH = new ItemBlock(XENOLITH).setRegistryName(XENOLITH.getRegistryName());
+    public static final Block XENOLITH_TILES = new Block(net.minecraft.block.material.Material.ROCK, net.minecraft.block.material.MapColor.CYAN)
+            .setHardness(2.0F).setResistance(12.0F).setRegistryName(WormholeTech.MODID, "xenolith_tiles").setUnlocalizedName(WormholeTech.MODID + ".xenolith_tiles");
+    public static final Item ITEM_XENOLITH_TILES = new ItemBlock(XENOLITH_TILES).setRegistryName(XENOLITH_TILES.getRegistryName());
+    public static final Block XENO_LAMP = new Block(net.minecraft.block.material.Material.GLASS, net.minecraft.block.material.MapColor.PURPLE)
+            .setHardness(0.6F).setLightLevel(1.0F).setRegistryName(WormholeTech.MODID, "xeno_lamp").setUnlocalizedName(WormholeTech.MODID + ".xeno_lamp");
+    public static final Item ITEM_XENO_LAMP = new ItemBlock(XENO_LAMP).setRegistryName(XENO_LAMP.getRegistryName());
+
     public static final net.minecraft.world.biome.Biome DERELICT_BIOME =
             new com.nick1416.wormholetech.derelict.BiomeDerelict().setRegistryName(WormholeTech.MODID, "derelict_vessel");
 
@@ -355,6 +367,9 @@ public class Registration {
     public static void onRegisterBiomes(RegistryEvent.Register<net.minecraft.world.biome.Biome> e) {
         e.getRegistry().register(NAQUADAH_WASTES);
         e.getRegistry().register(DERELICT_BIOME);
+        e.getRegistry().register(TAL_VORA_BIOME);
+        net.minecraftforge.common.BiomeDictionary.addTypes(TAL_VORA_BIOME, net.minecraftforge.common.BiomeDictionary.Type.HOT,
+                net.minecraftforge.common.BiomeDictionary.Type.DRY, net.minecraftforge.common.BiomeDictionary.Type.SANDY);
     }
 
     @SubscribeEvent
@@ -387,6 +402,13 @@ public class Registration {
                 .tracker(80, 3, true)
                 .egg(0x1A1D21, 0xE0A030)
                 .build());
+        e.getRegistry().register(net.minecraftforge.fml.common.registry.EntityEntryBuilder.create()
+                .entity(com.nick1416.wormholetech.talvora.EntityAlienVillager.class)
+                .id(new net.minecraft.util.ResourceLocation(WormholeTech.MODID, "alien_villager"), 4)
+                .name(WormholeTech.MODID + ".alien_villager")
+                .tracker(80, 3, true)
+                .egg(0x2A6E78, 0xC9A0FF)
+                .build());
     }
 
     /**
@@ -408,7 +430,7 @@ public class Registration {
         UNSTABLE_PRYSMIAN_BLOCK.setCreativeTab(b);
         ANCIENT_GATE_FRAME.setCreativeTab(b);
         TITANIUM_BLOCK.setCreativeTab(b);
-        for (Block blk : new Block[]{HULL_PLATING, HULL_BULKHEAD, HULL_LAMP, HULL_LAMP_GOLD, HULL_WINDOW, MODULATOR_CRADLE}) blk.setCreativeTab(b);
+        for (Block blk : new Block[]{HULL_PLATING, HULL_BULKHEAD, HULL_LAMP, HULL_LAMP_GOLD, HULL_WINDOW, MODULATOR_CRADLE, XENOLITH, XENOLITH_TILES, XENO_LAMP}) blk.setCreativeTab(b);
         QUANTUM_FIELD_MODULATOR.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
         DERELICT_COORDINATES.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
         INTERGALACTIC_COORDINATES.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
@@ -441,7 +463,7 @@ public class Registration {
                 STARGATE_PORTAL,
                 ANCIENT_GATE_FRAME,
                 REINFORCED_GATE_FRAME,
-                HULL_PLATING, HULL_BULKHEAD, HULL_LAMP, HULL_LAMP_GOLD, HULL_WINDOW, MODULATOR_CRADLE, QUANTUM_FIELD_MODULATOR,
+                HULL_PLATING, HULL_BULKHEAD, HULL_LAMP, HULL_LAMP_GOLD, HULL_WINDOW, MODULATOR_CRADLE, QUANTUM_FIELD_MODULATOR, XENOLITH, XENOLITH_TILES, XENO_LAMP,
                 TITANIUM_BLOCK,
                 NATURAL_NAQUADAH_ORE,
                 PRYSMIAN_ORE,
@@ -503,7 +525,7 @@ public class Registration {
                 ITEM_GATE_NETWORK_COMPUTER,
                 ITEM_ANCIENT_GATE_FRAME,
                 ITEM_REINFORCED_GATE_FRAME,
-                ITEM_HULL_PLATING, ITEM_HULL_BULKHEAD, ITEM_HULL_LAMP, ITEM_HULL_LAMP_GOLD, ITEM_HULL_WINDOW, ITEM_MODULATOR_CRADLE, ITEM_QUANTUM_FIELD_MODULATOR,
+                ITEM_HULL_PLATING, ITEM_HULL_BULKHEAD, ITEM_HULL_LAMP, ITEM_HULL_LAMP_GOLD, ITEM_HULL_WINDOW, ITEM_MODULATOR_CRADLE, ITEM_QUANTUM_FIELD_MODULATOR, ITEM_XENOLITH, ITEM_XENOLITH_TILES, ITEM_XENO_LAMP,
                 DERELICT_COORDINATES,
                 INTERGALACTIC_COORDINATES,
                 NANITE_CORE,

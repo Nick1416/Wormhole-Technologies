@@ -92,6 +92,7 @@ public class WormholeTech {
 
         com.nick1416.wormholetech.world.ModDimensions.register();
         com.nick1416.wormholetech.world.ModDimensions.registerDerelict();
+        com.nick1416.wormholetech.world.ModDimensions.registerTalVora();
         GameRegistry.registerWorldGenerator(new com.nick1416.wormholetech.world.P3XOreGenerator(), 10);
 
         PROXY.preInit();

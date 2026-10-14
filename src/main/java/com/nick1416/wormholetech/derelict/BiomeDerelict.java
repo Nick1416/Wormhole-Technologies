@@ -11,7 +11,7 @@ import java.util.Random;
 /** Single biome of the derelict vessel: no weather, no decoration, only ship crawlers spawn. */
 public class BiomeDerelict extends Biome {
     public BiomeDerelict() {
-        super(new BiomeProperties("Derelict Vessel").setRainDisabled().setTemperature(0.5F).setBaseHeight(0F).setHeightVariation(0F));
+        super(new BiomeProperties("Abandoned Ancient Vessel").setRainDisabled().setTemperature(0.5F).setBaseHeight(0F).setHeightVariation(0F));
         spawnableMonsterList.clear();
         spawnableCreatureList.clear();
         spawnableWaterCreatureList.clear();

@@ -49,7 +49,7 @@ public class TooltipHandler {
             "aetherius",
             "wormhole_pad",
             "wormhole_linker",
-            "dialing_computer", "gate_network_computer", "nanite_core", "intergalactic_coordinates",
+            "dialing_computer", "gate_network_computer", "xenolith", "xenolith_tiles", "xeno_lamp", "nanite_core", "intergalactic_coordinates",
             "ancient_gate_frame",
             "gate_locator",
             "naquadah_ore_natural",

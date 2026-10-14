@@ -53,6 +53,11 @@ public final class ModConfig {
     public static boolean stargateEnabled = true;
     public static int p3xDimensionId = -1416;
     public static int derelictDimensionId = -1417;
+    public static int talVoraDimensionId = -1418;
+    public static double talVoraGravity = 1.15D;
+    public static double talVoraFallDamageMultiplier = 1.5D;
+    public static int talVoraVillageRegionChunks = 40;
+    public static int talVoraVillageChance = 50;
     public static int derelictModulatorRoomChance = 384;
     public static int derelictRoomChance = 7;
     public static int derelictSpawnIntervalTicks = 100;
@@ -173,6 +178,16 @@ public final class ModConfig {
                 "1 in N ship chunks is a modulator room with a Giant Emerald Sentinel (384 = twice as common as nether fortresses, which are 1 in 768; 0 = off)",
                 0, 1_000_000);
         if (modRoom.getInt() == 770) modRoom.set(384); // migrate the old default
+        talVoraDimensionId = cfg.getInt("talVoraDimensionId", sg, -1418, Integer.MIN_VALUE, Integer.MAX_VALUE,
+                "Dimension ID of Tal'Vora (Intergalactic Coordinates). Keep it stable once a world uses it; must not clash with another mod");
+        talVoraGravity = cfg.getFloat("talVoraGravity", sg, 1.15F, 1.0F, 1.2F,
+                "Gravity on Tal'Vora relative to normal (1.15 = jumps ~1.07 blocks instead of 1.25, faster falls; capped at 1.2 so one-block steps stay jumpable)");
+        talVoraFallDamageMultiplier = cfg.getFloat("talVoraFallDamageMultiplier", sg, 1.5F, 1.0F, 10.0F,
+                "Fall damage multiplier on Tal'Vora");
+        talVoraVillageRegionChunks = cfg.getInt("talVoraVillageRegionChunks", sg, 40, 8, 1000,
+                "Tal'Vora is split into square regions of this many chunks; each may hold one alien village");
+        talVoraVillageChance = cfg.getInt("talVoraVillageChance", sg, 50, 0, 100,
+                "Percent chance that a Tal'Vora region holds an alien village (0 = none)");
         derelictModulatorRoomChance = Math.max(0, Math.min(1_000_000, modRoom.getInt()));
         derelictRoomChance = cfg.getInt("derelictRoomChance", sg, 7, 0, 1000,
                 "1 in N ship chunks is an open room (half of them with a chest; 0 = maze only)");

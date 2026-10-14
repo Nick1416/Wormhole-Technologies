@@ -38,7 +38,7 @@ public final class ReturnGates {
             d.arrival = d.gate.front(1, 2);
             buildPlatform(w, yb);
             d.markDirty();
-            WormholeTech.LOGGER.info("Built the P3X-1416 return gate at {}", d.gate.bottomLeft);
+            WormholeTech.LOGGER.info("Built the return gate in dimension {} at {}", w.provider.getDimension(), d.gate.bottomLeft);
         }
         buildGate(w, d.gate);
         // keep the arrival spot usable even if someone dug/built there

@@ -92,6 +92,9 @@ public class WormholeJeiPlugin implements IModPlugin {
         info(registry, Registration.ITEM_QUANTUM_FIELD_MODULATOR, "quantum_field_modulator", 1);
         info(registry, Registration.INTERGALACTIC_COORDINATES, "intergalactic_coordinates", 1);
         info(registry, Registration.NANITE_CORE, "nanite_core", 1);
+        info(registry, Registration.ITEM_XENOLITH, "xenolith", 1);
+        info(registry, Registration.ITEM_XENOLITH_TILES, "xenolith_tiles", 1);
+        info(registry, Registration.ITEM_XENO_LAMP, "xeno_lamp", 1);
         info(registry, Registration.DERELICT_COORDINATES, "derelict_coordinates", 1);
         info(registry, Registration.ITEM_ANCIENT_GATE_FRAME, "ancient_gate_frame", 0);
         info(registry, Registration.GATE_LOCATOR, "gate_locator", 0);

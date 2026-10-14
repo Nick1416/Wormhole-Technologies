@@ -49,6 +49,14 @@ public class GuiGateNetworkComputer extends GuiDialingComputer {
         GlStateManager.color(1f, 1f, 1f, 1f);
         mc.getTextureManager().bindTexture(GALAXY);
         drawModalRectWithCustomSizedTexture(guiLeft + MAP_X, guiTop + MAP_Y, 0, 0, MAP_S, MAP_S, MAP_S, MAP_S);
+        // other-galaxy inset (top right), a small reddened copy of the galaxy
+        int ix = guiLeft + markerX(GateNetwork.TAL_VORA), iy = guiTop + markerY(GateNetwork.TAL_VORA), ih = 17;
+        Gui.drawRect(ix - ih - 1, iy - ih - 1, ix + ih + 1, iy + ih + 1, 0xFF6A7488);
+        Gui.drawRect(ix - ih, iy - ih, ix + ih, iy + ih, 0xFF05040A);
+        GlStateManager.color(1.0F, 0.55F, 0.4F, 1F);
+        mc.getTextureManager().bindTexture(GALAXY);
+        drawModalRectWithCustomSizedTexture(ix - ih, iy - ih, 0, 0, ih * 2, ih * 2, ih * 2, ih * 2);
+        GlStateManager.color(1f, 1f, 1f, 1f);
         long t = mc.world == null ? 0 : mc.world.getTotalWorldTime();
         int hov = hovered(mouseX, mouseY);
         GlStateManager.enableBlend();
@@ -56,8 +64,10 @@ public class GuiGateNetworkComputer extends GuiDialingComputer {
         for (int i = 0; i < GateNetwork.count(); i++) {
             if (!visited(i)) continue;
             boolean sel = gnc.getClientSelected() == i;
+            boolean here = mc.world != null && GateNetwork.dimension(i) == mc.world.provider.getDimension();
             float pulse = 0.75F + 0.25F * (float) Math.sin((t + partialTicks) * 0.2F + i);
-            if (sel) GlStateManager.color(0.55F, 1F, 0.75F, 1F);
+            if (here) GlStateManager.color(0.5F, 0.5F, 0.55F, 0.8F);
+            else if (sel) GlStateManager.color(0.55F, 1F, 0.75F, 1F);
             else if (hov == i) GlStateManager.color(1F, 1F, 1F, 1F);
             else GlStateManager.color(pulse, pulse, pulse, 1F);
             // marker texture: left half = ring, right half = selected ring
@@ -99,7 +109,9 @@ public class GuiGateNetworkComputer extends GuiDialingComputer {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
         int h = hovered(mouseX, mouseY);
-        if (h >= 0) drawHoveringText(Collections.singletonList(I18n.format(gnc.getClientSelected() == h
+        if (h >= 0 && mc.world != null && GateNetwork.dimension(h) == mc.world.provider.getDimension())
+            drawHoveringText(Collections.singletonList(I18n.format("gui.wormholetech.network.here")), mouseX, mouseY);
+        else if (h >= 0) drawHoveringText(Collections.singletonList(I18n.format(gnc.getClientSelected() == h
                 ? "gui.wormholetech.network.deselect" : "gui.wormholetech.network.select")), mouseX, mouseY);
     }
 }

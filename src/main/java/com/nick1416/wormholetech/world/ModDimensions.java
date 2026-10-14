@@ -45,9 +45,30 @@ public final class ModDimensions {
 
     public static int derelictId() { return ModConfig.derelictDimensionId; }
 
-    /** P3X-1416 or the derelict vessel: worlds reached through a gate, with a return gate. */
+    public static final String TAL_VORA_NAME = "tal_vora";
+    public static DimensionType TAL_VORA;
+
+    /** Tal'Vora, the red desert planet in another galaxy (Intergalactic Coordinates). */
+    public static void registerTalVora() {
+        if (!ModConfig.stargateEnabled) return;
+        int id = ModConfig.talVoraDimensionId;
+        if (DimensionManager.isDimensionRegistered(id)) {
+            WormholeTech.LOGGER.error("Dimension id {} is already taken; Tal'Vora is disabled. Change talVoraDimensionId in the config.", id);
+            return;
+        }
+        TAL_VORA = DimensionType.register(TAL_VORA_NAME, "_" + TAL_VORA_NAME, id,
+                com.nick1416.wormholetech.talvora.WorldProviderTalVora.class, false);
+        DimensionManager.registerDimension(id, TAL_VORA);
+    }
+
+    public static boolean isTalVoraRegistered() { return TAL_VORA != null; }
+
+    public static int talVoraId() { return ModConfig.talVoraDimensionId; }
+
+    /** Worlds reached through a gate, with a return gate. */
     public static boolean isGateWorld(int dim) {
-        return (isRegistered() && dim == id()) || (isDerelictRegistered() && dim == derelictId());
+        return (isRegistered() && dim == id()) || (isDerelictRegistered() && dim == derelictId())
+                || (isTalVoraRegistered() && dim == talVoraId());
     }
 
     public static boolean isRegistered() { return P3X != null; }
