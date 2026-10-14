@@ -6,4 +6,5 @@ public class CommonProxy {
 
     /** Client opens the Ancient Tablet GUI; server no-op. */
     public void openAncientTabletGui() {}
+    public void openRepositoryGui(net.minecraft.nbt.NBTTagCompound data) {}
 }

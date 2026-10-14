@@ -24,6 +24,7 @@ public class TooltipHandler {
     /** Registry paths that have tooltip.wormholetech.<path>.summary (+ optional .detail.N). */
     private static final Set<String> DOCUMENTED = new HashSet<String>(Arrays.asList(
             "wormhole_duplicator",
+            "repository_of_knowledge",
             "unstable_wormhole_duplicator",
             "rf_generator",
             "naquadah_generator",

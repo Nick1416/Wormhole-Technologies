@@ -121,6 +121,11 @@ public class EntityCompanionDrone extends EntityFlying {
         }
         if (ticksExisted % 60 == 1) powered = ModulatorTracker.near(world, posX, posY, posZ);
         charge = DroneCharge.tick(charge, powered);
+        if (ticksExisted % 20 == 0 && getMode() == RESEARCH && active() && getOwnerId() != null) {
+            int planet = com.nick1416.wormholetech.knowledge.Planets.indexOf(world.provider.getDimension());
+            if (planet >= 0 && com.nick1416.wormholetech.knowledge.RepositoryTracker.near(world, posX, posY, posZ, com.nick1416.wormholetech.ModConfig.repositoryResearchRange))
+                com.nick1416.wormholetech.knowledge.KnowledgeData.get(world).addProgress(getOwnerId(), planet, 20);
+        }
         if (cooldown > 0) cooldown--;
         if (zapShow > 0 && --zapShow == 0) dataManager.set(ZAP, -1);
         if (ticksExisted % 40 == 0 && getHealth() < getMaxHealth()) heal(1.0F);

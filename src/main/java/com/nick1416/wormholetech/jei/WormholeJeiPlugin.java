@@ -63,6 +63,7 @@ public class WormholeJeiPlugin implements IModPlugin {
                 HighEnergyRefineCategory.UID);
 
         info(registry, Registration.ITEM_RF_GENERATOR, "rf_generator", 0);
+        info(registry, Registration.ITEM_REPOSITORY, "repository_of_knowledge", 2);
         info(registry, Registration.ITEM_REFINED_NAQUADAH_BLOCK, "refined_naquadah_block", 0);
         info(registry, Registration.ITEM_NAQUADAH_GENERATOR, "naquadah_generator", 4);
         if (com.nick1416.wormholetech.ModConfig.isCC()) {

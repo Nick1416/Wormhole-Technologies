@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [ "GGG", "GCG", "GEG" ],
+  "key": {
+    "G": { "item": "minecraft:glass" },
+    "C": { "item": "wormholetech:xenolith_chip", "data": 20 },
+    "E": { "item": "minecraft:enchanting_table" }
+  },
+  "result": { "item": "wormholetech:repository_of_knowledge" }
+}
