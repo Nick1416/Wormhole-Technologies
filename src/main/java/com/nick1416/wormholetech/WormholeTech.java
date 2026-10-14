@@ -122,6 +122,10 @@ public class WormholeTech {
                     ModConfig.emeraldDroneSpawnWeight, 1, 2, net.minecraft.entity.EnumCreatureType.MONSTER,
                     com.nick1416.wormholetech.registry.Registration.NAQUADAH_WASTES);
         }
+        if (ModConfig.xenolithDroneSpawnWeight > 0)
+            com.nick1416.wormholetech.registry.Registration.TAL_VORA_BIOME.getSpawnableList(net.minecraft.entity.EnumCreatureType.AMBIENT).add(
+                    new net.minecraft.world.biome.Biome.SpawnListEntry(com.nick1416.wormholetech.talvora.EntityXenolithDrone.class,
+                            ModConfig.xenolithDroneSpawnWeight, 1, 1));
         OreDictionary.registerOre("oreNaquadah", com.nick1416.wormholetech.registry.Registration.NATURAL_NAQUADAH_ORE);
         OreDictionary.registerOre("orePrysmian", com.nick1416.wormholetech.registry.Registration.PRYSMIAN_ORE);
         OreDictionary.registerOre("gemPrysmian", com.nick1416.wormholetech.registry.Registration.PRYSMIAN);

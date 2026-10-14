@@ -21,7 +21,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 
-/** Tall, passive Tal'Vora native that trades exotic goods for emeralds and naquadah. */
+/** Tall, passive Tal'Vora native that trades exotic goods for emeralds. */
 public class EntityAlienVillager extends EntityCreature implements IMerchant, INpc {
     private EntityPlayer customer;
     private MerchantRecipeList trades;
@@ -73,10 +73,14 @@ public class EntityAlienVillager extends EntityCreature implements IMerchant, IN
 
     private MerchantRecipeList buildTrades() {
         MerchantRecipeList l = new MerchantRecipeList();
+        ItemStack redSand = new ItemStack(net.minecraft.init.Blocks.SAND, 32, 1);
         l.add(new MerchantRecipe(s(Items.EMERALD, 3), ItemStack.EMPTY, s(Registration.XENOLITH, 16), 0, 9999));
+        l.add(new MerchantRecipe(s(Items.EMERALD, 4), ItemStack.EMPTY, s(Registration.XENOLITH_TILES, 16), 0, 9999));
         l.add(new MerchantRecipe(s(Items.EMERALD, 5), ItemStack.EMPTY, s(Registration.XENO_LAMP, 4), 0, 9999));
-        l.add(new MerchantRecipe(s(Registration.REFINED_NAQUADAH, 8), ItemStack.EMPTY, s(Registration.PRYSMIAN, 2), 0, 9999));
-        l.add(new MerchantRecipe(s(Items.EMERALD, 12), s(Registration.REFINED_NAQUADAH, 4), s(Registration.ITEM_NAQUADAH_CRYSTAL, 2), 0, 9999));
+        l.add(new MerchantRecipe(redSand, ItemStack.EMPTY, s(Items.EMERALD, 1), 0, 9999));
+        l.add(new MerchantRecipe(s(Items.EMERALD, 8), ItemStack.EMPTY, s(Registration.PRYSMIAN, 1), 0, 9999));
+        l.add(new MerchantRecipe(s(Registration.PRYSMIAN, 1), ItemStack.EMPTY, s(Items.EMERALD, 4), 0, 9999));
+        l.add(new MerchantRecipe(s(Items.GOLD_INGOT, 4), ItemStack.EMPTY, s(Items.EMERALD, 1), 0, 9999));
         return l;
     }
 

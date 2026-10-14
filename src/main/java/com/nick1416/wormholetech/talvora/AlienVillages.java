@@ -109,7 +109,13 @@ public final class AlienVillages {
             int ty = y0 + 30 + (int) Math.round(top);
             set(w, x, ty, z, r < 1.5 ? lamp : stone);
             if (ty - 1 > y0 + 30) set(w, x, ty - 1, z, stone);
-            if (r < 1.5) for (int y = y0 + 1; y <= y0 + 6; y++) set(w, x, y, z, lamp);
+            // sacred modulator on a gold cradle at the spire's heart
+            if (ax <= 1 && az <= 1) {
+                IBlockState cradle = Registration.MODULATOR_CRADLE.getDefaultState();
+                set(w, x, y0 + 1, z, cradle);
+                if (ax == 1 && az == 1) { set(w, x, y0 + 2, z, cradle); set(w, x, y0 + 3, z, cradle); }
+                else if (ax + az == 0) set(w, x, y0 + 2, z, Registration.VORANI_MODULATOR.getDefaultState());
+            }
             // landmark: a glowing needle rising high above the dome, visible across the dunes
             if (ax + az <= 1) {
                 int topY = Math.min(250, y0 + NEEDLE);

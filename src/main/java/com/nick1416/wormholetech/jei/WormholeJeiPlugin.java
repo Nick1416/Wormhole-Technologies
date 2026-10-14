@@ -92,6 +92,9 @@ public class WormholeJeiPlugin implements IModPlugin {
         info(registry, Registration.ITEM_QUANTUM_FIELD_MODULATOR, "quantum_field_modulator", 1);
         info(registry, Registration.INTERGALACTIC_COORDINATES, "intergalactic_coordinates", 1);
         info(registry, Registration.NANITE_CORE, "nanite_core", 1);
+        ItemStack droneEgg = new ItemStack(net.minecraft.init.Items.SPAWN_EGG);
+        net.minecraft.item.ItemMonsterPlacer.applyEntityIdToItemStack(droneEgg, new net.minecraft.util.ResourceLocation(com.nick1416.wormholetech.WormholeTech.MODID, "xenolith_drone"));
+        registry.addIngredientInfo(droneEgg, VanillaTypes.ITEM, "tooltip.wormholetech.xenolith_drone.summary", "tooltip.wormholetech.xenolith_drone.detail.1");
         info(registry, Registration.ITEM_XENOLITH, "xenolith", 1);
         info(registry, Registration.ITEM_XENOLITH_TILES, "xenolith_tiles", 1);
         info(registry, Registration.ITEM_XENO_LAMP, "xeno_lamp", 1);
