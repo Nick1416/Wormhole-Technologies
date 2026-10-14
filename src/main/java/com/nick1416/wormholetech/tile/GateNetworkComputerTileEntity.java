@@ -23,6 +23,12 @@ public class GateNetworkComputerTileEntity extends DialingComputerTileEntity {
 
     private boolean slotHasAddress() { return isAddress(items().getStackInSlot(0)); }
 
+    /** The Tal'Vora marker also needs the modulator at the gate. */
+    @Override
+    protected boolean intergalactic() {
+        return slotHasAddress() ? super.intergalactic() : selected == GateNetwork.TAL_VORA;
+    }
+
     @Override protected boolean hasAddress() { return slotHasAddress() || selected >= 0; }
 
     @Override
@@ -32,6 +38,7 @@ public class GateNetworkComputerTileEntity extends DialingComputerTileEntity {
 
     @Override
     protected boolean destinationAvailable() {
+        if (!slotHasAddress() && selected == GateNetwork.TAL_VORA) return GateNetwork.registered(selected);
         return slotHasAddress() || selected < 0 ? super.destinationAvailable() : GateNetwork.registered(selected);
     }
 

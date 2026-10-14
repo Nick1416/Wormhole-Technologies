@@ -32,10 +32,10 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
 
     public static final int STATUS_DISABLED = 0, STATUS_NO_ADDRESS = 1, STATUS_NEED_COMPUTER = 2,
             STATUS_NO_FRAME = 3, STATUS_NEED_POWER = 4, STATUS_READY = 5, STATUS_OPEN = 6, STATUS_NEED_CLOCK = 7,
-            STATUS_NEED_MODULATOR = 8, STATUS_UNREACHABLE = 9;
+            STATUS_NEED_MODULATOR = 8, STATUS_UNREACHABLE = 9, STATUS_HERE = 10;
     public static final String[] STATUS_KEYS = {
             "disabled", "no_address", "need_computer", "no_frame", "need_power", "ready", "open", "need_clock",
-            "need_modulator", "unreachable" };
+            "need_modulator", "unreachable", "here" };
 
     private final Energy energy = new Energy(ModConfig.dialingComputerBuffer, ModConfig.dialingComputerMaxReceive);
     private final ItemStackHandler inv = new ItemStackHandler(1) {
@@ -67,11 +67,12 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
 
     /** Dimension the address in the slot leads to. */
     public int destination() {
+        if (intergalactic()) return ModDimensions.talVoraId();
         return inv.getStackInSlot(0).getItem() == Registration.DERELICT_COORDINATES ? ModDimensions.derelictId() : ModDimensions.id();
     }
 
     protected boolean destinationAvailable() {
-        if (intergalactic()) return true;
+        if (intergalactic()) return ModDimensions.isTalVoraRegistered();
         return inv.getStackInSlot(0).getItem() == Registration.DERELICT_COORDINATES ? ModDimensions.isDerelictRegistered() : ModDimensions.isRegistered();
     }
 
@@ -114,13 +115,14 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
     public void evaluate() {
         GateShape found = null;
         int s;
-        if (!TitaniumFrame.available() || (!ModDimensions.isRegistered() && !ModDimensions.isDerelictRegistered())) s = STATUS_DISABLED;
+        if (!TitaniumFrame.available() || (!ModDimensions.isRegistered() && !ModDimensions.isDerelictRegistered() && !ModDimensions.isTalVoraRegistered())) s = STATUS_DISABLED;
         else if (!hasAddress()) s = STATUS_NO_ADDRESS;
         else if (!destinationAvailable()) s = STATUS_DISABLED;
+        else if (destination() == world.provider.getDimension()) s = STATUS_HERE;
         else if (!adjacentActiveComputer()) s = STATUS_NEED_COMPUTER;
         else if (!adjacentForwardClock()) s = STATUS_NEED_CLOCK;
         else if ((found = findGate()) == null) s = STATUS_NO_FRAME;
-        else if (intergalactic()) s = modulatorAtGate(found) ? STATUS_UNREACHABLE : STATUS_NEED_MODULATOR;
+        else if (intergalactic() && !modulatorAtGate(found)) s = STATUS_NEED_MODULATOR;
         else if (!open && energy.getEnergyStored() < ModConfig.dialingComputerRfPerTick()) s = STATUS_NEED_POWER;
         else s = open ? STATUS_OPEN : STATUS_READY;
 

@@ -18,17 +18,23 @@ public final class GateNetwork {
 
     public static final String VISITED_TAG = WormholeTech.MODID + ":visited_gates";
     /** Map destinations, in marker order. */
-    public static final String[] KEYS = { "p3x", "derelict", "home" };
+    public static final String[] KEYS = { "p3x", "derelict", "home", "tal_vora" };
     /** Index of the Overworld home marker: always on the map. */
     public static final int HOME = 2;
+    /** Tal'Vora sits in the other-galaxy inset of the map. */
+    public static final int TAL_VORA = 3;
+    public static final ResourceLocation TAL_VORA_ADVANCEMENT = new ResourceLocation(WormholeTech.MODID, "tal_vora");
     /** Marker positions on the galaxy map (0..1 of the map area). */
-    public static final float[][] MAP_POS = { { 0.64F, 0.36F }, { 0.31F, 0.68F }, { 0.80F, 0.66F } };
+    public static final float[][] MAP_POS = { { 0.64F, 0.36F }, { 0.31F, 0.68F }, { 0.80F, 0.66F }, { 0.875F, 0.17F } };
 
     public static int count() { return KEYS.length; }
 
-    public static int dimension(int i) { return i == HOME ? 0 : i == 0 ? ModDimensions.id() : ModDimensions.derelictId(); }
+    public static int dimension(int i) { return i == TAL_VORA ? ModDimensions.talVoraId() : i == HOME ? 0 : i == 0 ? ModDimensions.id() : ModDimensions.derelictId(); }
 
-    public static boolean registered(int i) { return i == HOME || (i == 0 ? ModDimensions.isRegistered() : ModDimensions.isDerelictRegistered()); }
+    public static boolean registered(int i) { if (i == TAL_VORA) return ModDimensions.isTalVoraRegistered(); return i == HOME || (i == 0 ? ModDimensions.isRegistered() : ModDimensions.isDerelictRegistered()); }
+
+    /** Marker index of the dimension a player is in, or -1. */
+    public static int here(int dim) { return indexOf(dim); }
 
     public static int indexOf(int dim) {
         for (int i = 0; i < count(); i++) if (registered(i) && dimension(i) == dim) return i;
@@ -54,6 +60,7 @@ public final class GateNetwork {
         int m = persisted(p).getInteger(VISITED_TAG) | 1 << HOME;
         m |= done(p, StargateTravel.ADVANCEMENT) && registered(0) ? 1 : 0;
         m |= done(p, StargateTravel.DERELICT_ADVANCEMENT) && registered(1) ? 2 : 0;
+        m |= done(p, TAL_VORA_ADVANCEMENT) && registered(TAL_VORA) ? 1 << TAL_VORA : 0;
         return m;
     }
 
