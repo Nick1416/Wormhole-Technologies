@@ -78,7 +78,7 @@ public final class ModConfig {
     public static int p3xTempleChestChance = 2;      // 1 in N temples get a chest
     public static int droneModulatorRange = 64;
     public static int minerDroneTicksPerItem = 400;    // 20 s per ore
-    public static int xenolithOreVeinsPerChunk = 5;
+    public static int xenolithOreVeinsPerChunk = 10;
     public static int xenolithDroneSpawnWeight = 5;     // 0 = off
     public static int emeraldDroneSpawnWeight = 50;     // 0 = off
     public static boolean p3xDustStorms = true;
@@ -232,8 +232,8 @@ public final class ModConfig {
                 "Active Xenolith drones only work within this many blocks of a free (placed or unlocked) Quantum Field Modulator in the same dimension.");
         minerDroneTicksPerItem = cfg.getInt("minerDroneTicksPerItem", sg, 400, 1, 72000,
                 "Ticks a Miner Drone needs per ore it puts into the adjacent storage (400 = one every 20 s). No power needed.");
-        xenolithOreVeinsPerChunk = cfg.getInt("xenolithOreVeinsPerChunk", sg, 5, 0, 64,
-                "Xenolith Ore veins (up to 6 blocks) per Tal'Vora chunk, y 12-60 (0 = off).");
+        xenolithOreVeinsPerChunk = migrated(cfg, sg, "xenolithOreVeinsPerChunk", 10, new int[] { 5, 8 }, 0, 64,
+                "Xenolith Ore veins (up to 8 blocks) per Tal'Vora chunk, from y 12 up to just under the sand (0 = off).");
         xenolithDroneSpawnWeight = cfg.getInt("xenolithDroneSpawnWeight", sg, 5, 0, 1000,
                 "Spawn weight of the harmless Xenolith Drone over Tal'Vora (0 = off). At most 2 drones within 96 blocks.");
         emeraldDroneSpawnWeight = migrated(cfg, sg, "emeraldDroneSpawnWeight", 50, new int[] { 6, 20 }, 0, 1000,
