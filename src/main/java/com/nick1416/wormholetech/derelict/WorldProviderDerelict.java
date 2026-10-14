@@ -22,6 +22,17 @@ public class WorldProviderDerelict extends WorldProvider {
         this.biomeProvider = new BiomeProviderSingle(Registration.DERELICT_BIOME);
     }
 
+    /** Slight ambient light so unlit corners are dim rather than pitch black (the sky colour is unaffected). */
+    public static final float AMBIENT = 0.10F;
+
+    @Override
+    protected void generateLightBrightnessTable() {
+        for (int i = 0; i <= 15; ++i) {
+            float f1 = 1.0F - i / 15.0F;
+            lightBrightnessTable[i] = (1.0F - f1) / (f1 * 3.0F + 1.0F) * (1.0F - AMBIENT) + AMBIENT;
+        }
+    }
+
     @Override public DimensionType getDimensionType() { return ModDimensions.DERELICT; }
     @Override public IChunkGenerator createChunkGenerator() { return new ChunkGeneratorDerelict(world, world.getSeed() ^ 0x0DE1E1C7L); }
 
