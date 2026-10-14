@@ -143,6 +143,34 @@ public class Registration {
     public static final Item ITEM_TITANIUM_BLOCK =
             new ItemBlock(TITANIUM_BLOCK).setRegistryName(TITANIUM_BLOCK.getRegistryName());
 
+    // --- Derelict vessel ---
+    public static final Item DERELICT_COORDINATES = new Item().setMaxStackSize(1)
+            .setRegistryName(WormholeTech.MODID, "derelict_coordinates")
+            .setUnlocalizedName(WormholeTech.MODID + ".derelict_coordinates");
+
+    public static final Block HULL_PLATING = new com.nick1416.wormholetech.derelict.HullBlock(net.minecraft.block.material.MapColor.GRAY, 0F)
+            .setRegistryName(WormholeTech.MODID, "hull_plating").setUnlocalizedName(WormholeTech.MODID + ".hull_plating");
+    public static final Item ITEM_HULL_PLATING = new ItemBlock(HULL_PLATING).setRegistryName(HULL_PLATING.getRegistryName());
+    public static final Block HULL_BULKHEAD = new com.nick1416.wormholetech.derelict.HullBlock(net.minecraft.block.material.MapColor.BLACK, 0F)
+            .setRegistryName(WormholeTech.MODID, "hull_bulkhead").setUnlocalizedName(WormholeTech.MODID + ".hull_bulkhead");
+    public static final Item ITEM_HULL_BULKHEAD = new ItemBlock(HULL_BULKHEAD).setRegistryName(HULL_BULKHEAD.getRegistryName());
+    public static final Block HULL_LAMP = new com.nick1416.wormholetech.derelict.HullBlock(net.minecraft.block.material.MapColor.SNOW, 0.8F)
+            .setRegistryName(WormholeTech.MODID, "hull_lamp").setUnlocalizedName(WormholeTech.MODID + ".hull_lamp");
+    public static final Item ITEM_HULL_LAMP = new ItemBlock(HULL_LAMP).setRegistryName(HULL_LAMP.getRegistryName());
+    public static final Block HULL_WINDOW = new com.nick1416.wormholetech.derelict.HullWindowBlock()
+            .setRegistryName(WormholeTech.MODID, "hull_window").setUnlocalizedName(WormholeTech.MODID + ".hull_window");
+    public static final Item ITEM_HULL_WINDOW = new ItemBlock(HULL_WINDOW).setRegistryName(HULL_WINDOW.getRegistryName());
+    public static final Block MODULATOR_CRADLE = new com.nick1416.wormholetech.derelict.HullBlock(net.minecraft.block.material.MapColor.GOLD, 0.4F)
+            .setRegistryName(WormholeTech.MODID, "modulator_cradle").setUnlocalizedName(WormholeTech.MODID + ".modulator_cradle");
+    public static final Item ITEM_MODULATOR_CRADLE = new ItemBlock(MODULATOR_CRADLE).setRegistryName(MODULATOR_CRADLE.getRegistryName());
+    public static final Block QUANTUM_FIELD_MODULATOR = new com.nick1416.wormholetech.derelict.QuantumFieldModulatorBlock()
+            .setRegistryName(WormholeTech.MODID, "quantum_field_modulator").setUnlocalizedName(WormholeTech.MODID + ".quantum_field_modulator");
+    public static final Item ITEM_QUANTUM_FIELD_MODULATOR = new ItemBlock(QUANTUM_FIELD_MODULATOR).setMaxStackSize(1)
+            .setRegistryName(QUANTUM_FIELD_MODULATOR.getRegistryName());
+
+    public static final net.minecraft.world.biome.Biome DERELICT_BIOME =
+            new com.nick1416.wormholetech.derelict.BiomeDerelict().setRegistryName(WormholeTech.MODID, "derelict_vessel");
+
     // --- Unstable Naquadah ---
     public static final Item UNSTABLE_NAQUADAH = new Item()
     		.setRegistryName(WormholeTech.MODID, "unstable_naquadah")
@@ -310,6 +338,7 @@ public class Registration {
     @SubscribeEvent
     public static void onRegisterBiomes(RegistryEvent.Register<net.minecraft.world.biome.Biome> e) {
         e.getRegistry().register(NAQUADAH_WASTES);
+        e.getRegistry().register(DERELICT_BIOME);
     }
 
     @SubscribeEvent
@@ -327,6 +356,20 @@ public class Registration {
                 .name(WormholeTech.MODID + ".emerald_sentinel")
                 .tracker(80, 3, true)
                 .egg(0x1A1D21, 0x3FD27A)
+                .build());
+        e.getRegistry().register(net.minecraftforge.fml.common.registry.EntityEntryBuilder.create()
+                .entity(com.nick1416.wormholetech.entity.EntityEmeraldWisp.class)
+                .id(new net.minecraft.util.ResourceLocation(WormholeTech.MODID, "emerald_wisp"), 2)
+                .name(WormholeTech.MODID + ".emerald_wisp")
+                .tracker(64, 3, true)
+                .egg(0x22302A, 0xE03030)
+                .build());
+        e.getRegistry().register(net.minecraftforge.fml.common.registry.EntityEntryBuilder.create()
+                .entity(com.nick1416.wormholetech.entity.EntityGiantEmeraldSentinel.class)
+                .id(new net.minecraft.util.ResourceLocation(WormholeTech.MODID, "giant_emerald_sentinel"), 3)
+                .name(WormholeTech.MODID + ".giant_emerald_sentinel")
+                .tracker(80, 3, true)
+                .egg(0x1A1D21, 0xE0A030)
                 .build());
     }
 
@@ -349,6 +392,9 @@ public class Registration {
         UNSTABLE_PRYSMIAN_BLOCK.setCreativeTab(b);
         ANCIENT_GATE_FRAME.setCreativeTab(b);
         TITANIUM_BLOCK.setCreativeTab(b);
+        for (Block blk : new Block[]{HULL_PLATING, HULL_BULKHEAD, HULL_LAMP, HULL_WINDOW, MODULATOR_CRADLE}) blk.setCreativeTab(b);
+        QUANTUM_FIELD_MODULATOR.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
+        DERELICT_COORDINATES.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
         TITANIUM_INGOT.setCreativeTab(m);
         for (Item i : new Item[]{RAW_NAQUADAH, REFINED_NAQUADAH, PRYSMIAN, UNSTABLE_NAQUADAH,
                 NAQUADAH_REACTOR, UNSTABLE_NAQUADAH_REACTOR}) i.setCreativeTab(m);
@@ -376,6 +422,7 @@ public class Registration {
                 STARGATE_PORTAL,
                 ANCIENT_GATE_FRAME,
                 REINFORCED_GATE_FRAME,
+                HULL_PLATING, HULL_BULKHEAD, HULL_LAMP, HULL_WINDOW, MODULATOR_CRADLE, QUANTUM_FIELD_MODULATOR,
                 TITANIUM_BLOCK,
                 NATURAL_NAQUADAH_ORE,
                 PRYSMIAN_ORE,
@@ -436,6 +483,8 @@ public class Registration {
                 ITEM_DIALING_COMPUTER,
                 ITEM_ANCIENT_GATE_FRAME,
                 ITEM_REINFORCED_GATE_FRAME,
+                ITEM_HULL_PLATING, ITEM_HULL_BULKHEAD, ITEM_HULL_LAMP, ITEM_HULL_WINDOW, ITEM_MODULATOR_CRADLE, ITEM_QUANTUM_FIELD_MODULATOR,
+                DERELICT_COORDINATES,
                 ITEM_TITANIUM_BLOCK,
                 TITANIUM_INGOT,
                 GATE_LOCATOR,

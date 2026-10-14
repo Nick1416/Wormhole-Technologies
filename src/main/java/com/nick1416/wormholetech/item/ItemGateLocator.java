@@ -54,7 +54,7 @@ public class ItemGateLocator extends Item {
     /** Server side: what the locator should point at for this player in this world. */
     public static Target computeTarget(EntityPlayer player, World world) {
         int dim = world.provider.getDimension();
-        if (ModDimensions.isRegistered() && dim == ModDimensions.id()) {
+        if (ModDimensions.isGateWorld(dim)) {
             ReturnGateData d = ReturnGateData.get(world);
             if (d.gate != null) return new Target(1, d.gate.interior(d.gate.width / 2, 0));
             return new Target(0, null);

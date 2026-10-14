@@ -57,7 +57,7 @@ public class AncientGateFrameBlock extends Block {
     @Override
     public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
         super.onBlockAdded(world, pos, state);
-        if (!world.isRemote && ModDimensions.isRegistered() && world.provider.getDimension() == ModDimensions.id()
+        if (!world.isRemote && ModDimensions.isGateWorld(world.provider.getDimension())
                 && world instanceof WorldServer) {
             ReturnGates.relightIfIntact((WorldServer) world);
         }

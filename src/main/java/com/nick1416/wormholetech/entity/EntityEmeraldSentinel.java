@@ -99,7 +99,7 @@ public class EntityEmeraldSentinel extends EntityEmeraldDrone {
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
         if (!world.isRemote) { bossInfo.setPercent(0F); clearBar(); }
-        if (!world.isRemote && cause.getTrueSource() instanceof EntityPlayer) {
+        if (!world.isRemote && cause.getTrueSource() instanceof EntityPlayer && !(this instanceof EntityGiantEmeraldSentinel)) {
             GuardianRewards.onSentinelDefeated((EntityPlayer) cause.getTrueSource(), this);
         }
     }

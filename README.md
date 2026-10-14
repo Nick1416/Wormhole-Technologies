@@ -139,3 +139,11 @@ Requires **JDK 8**. Immersive Engineering is `provided` from `libs/` when presen
 Mod code and assets: **MIT** — see `LICENSE` (Copyright 2026 Nick1416 / Nicky Starr).
 
 The MDK also ships Forge/Paulscode license texts (`LICENSE.txt`, etc.) which apply to those bundled third-party materials, not to this mod’s own code.
+
+## Derelict Vessel (second gate address)
+
+- **Address**: defeating an Emerald Sentinel drops **Derelict Coordinates** (guardian temple chests have a 50% chance too). Put them in the Dialing Computer instead of the Ancient Tablet; the gate then opens to the derelict vessel (dimension id `derelictDimensionId`, default -1417). Same gate rules as P3X-1416; you arrive at an always-open return gate in the ship's hub room (chunk 0,0).
+- **The ship**: permanent night under a star field, no weather. One endless deck (y 64-70) of 3-wide corridors and rooms between two hull layers, floating in the void. Hull Plating, Bulkheads, Hull Lamps, Viewport Glass and Modulator Cradles are unbreakable (bedrock-like, blast-proof, immovable), so the maze can't be tunnelled and nobody gets out except through the gate. Generated per chunk from hashed coordinates (no cascading worldgen).
+- **Crawlers**: Emerald Drones and **Emerald Wisps** (small flying drones with red eyes, 10 HP, 3 damage, dive attacks; drop iron nuggets/redstone, rarely Raw Naquadah) spawn on the deck, plus an extra spawner (`derelictSpawnIntervalTicks`, `derelictCrawlerCap`). No spawns in the hub room.
+- **Rooms**: 1 in `derelictRoomChance` (7) chunks is an open room, half of them with a loot chest. 1 in `derelictModulatorRoomChance` (770, about nether fortress rarity) chunks is a **modulator room**: a **Quantum Field Modulator** locked in a Modulator Cradle, guarded by a **Giant Emerald Sentinel** (300 HP, 16 armour, 14 damage, boss bar within 32 blocks, never despawns, rich drops).
+- **Cradle mechanic**: the Modulator is unbreakable while locked. The Giant Sentinel's death releases every Modulator within 24 blocks (a random tick also releases it if no living Giant Sentinel is within 24 blocks); then it can be mined and drops itself. It can't be crafted and has no GUI or item I/O (its use is a TODO). Advancement: "Contained Energy".

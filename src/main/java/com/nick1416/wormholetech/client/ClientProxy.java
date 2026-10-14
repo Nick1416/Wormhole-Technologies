@@ -130,7 +130,7 @@ public class ClientProxy extends com.nick1416.wormholetech.common.CommonProxy {
 	    		refiner, 0, new ModelResourceLocation(refiner.getRegistryName(), "inventory"));
 
 	    for (Item it : new Item[] { Registration.ITEM_DIALING_COMPUTER, Registration.ITEM_ANCIENT_GATE_FRAME, Registration.GATE_LOCATOR,
-	            Registration.ITEM_NATURAL_NAQUADAH_ORE, Registration.ITEM_PRYSMIAN_ORE, Registration.DIAMOND_NUGGET, Registration.ITEM_REINFORCED_GATE_FRAME, Registration.TITANIUM_INGOT, Registration.ITEM_TITANIUM_BLOCK, Registration.ITEM_NAQUADRIC_STONE, Registration.ITEM_ASHEN_REGOLITH,
+	            Registration.ITEM_NATURAL_NAQUADAH_ORE, Registration.ITEM_PRYSMIAN_ORE, Registration.DIAMOND_NUGGET, Registration.ITEM_REINFORCED_GATE_FRAME, Registration.ITEM_HULL_PLATING, Registration.ITEM_HULL_BULKHEAD, Registration.ITEM_HULL_LAMP, Registration.ITEM_HULL_WINDOW, Registration.ITEM_MODULATOR_CRADLE, Registration.ITEM_QUANTUM_FIELD_MODULATOR, Registration.DERELICT_COORDINATES, Registration.TITANIUM_INGOT, Registration.ITEM_TITANIUM_BLOCK, Registration.ITEM_NAQUADRIC_STONE, Registration.ITEM_ASHEN_REGOLITH,
 	            Registration.ITEM_NAQUADAH_CRYSTAL, Registration.ITEM_ANCIENT_STONE }) {
 	        ModelLoader.setCustomModelResourceLocation(it, 0, new ModelResourceLocation(it.getRegistryName(), "inventory"));
 	    }
@@ -143,6 +143,12 @@ public class ClientProxy extends com.nick1416.wormholetech.common.CommonProxy {
 		net.minecraftforge.fml.client.registry.RenderingRegistry.registerEntityRenderingHandler(
 				com.nick1416.wormholetech.entity.EntityEmeraldSentinel.class,
 				com.nick1416.wormholetech.client.render.RenderEmeraldSentinel::new);
+		net.minecraftforge.fml.client.registry.RenderingRegistry.registerEntityRenderingHandler(
+				com.nick1416.wormholetech.entity.EntityGiantEmeraldSentinel.class,
+				com.nick1416.wormholetech.client.render.RenderGiantEmeraldSentinel::new);
+		net.minecraftforge.fml.client.registry.RenderingRegistry.registerEntityRenderingHandler(
+				com.nick1416.wormholetech.entity.EntityEmeraldWisp.class,
+				com.nick1416.wormholetech.client.render.RenderEmeraldWisp::new);
 		net.minecraftforge.fml.client.registry.RenderingRegistry.registerEntityRenderingHandler(
 				com.nick1416.wormholetech.entity.EntityEmeraldDrone.class,
 				com.nick1416.wormholetech.client.render.RenderEmeraldDrone::new);

@@ -53,7 +53,16 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
     private boolean checkRequested = true;
 
     public static boolean isAddress(ItemStack s) {
-        return !s.isEmpty() && s.getItem() == Registration.ANCIENT_TABLET;
+        return !s.isEmpty() && (s.getItem() == Registration.ANCIENT_TABLET || s.getItem() == Registration.DERELICT_COORDINATES);
+    }
+
+    /** Dimension the address in the slot leads to. */
+    public int destination() {
+        return inv.getStackInSlot(0).getItem() == Registration.DERELICT_COORDINATES ? ModDimensions.derelictId() : ModDimensions.id();
+    }
+
+    private boolean destinationAvailable() {
+        return inv.getStackInSlot(0).getItem() == Registration.DERELICT_COORDINATES ? ModDimensions.isDerelictRegistered() : ModDimensions.isRegistered();
     }
 
     public void requestCheck() { checkRequested = true; }
@@ -82,8 +91,9 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
     public void evaluate() {
         GateShape found = null;
         int s;
-        if (!TitaniumFrame.available() || !ModDimensions.isRegistered()) s = STATUS_DISABLED;
+        if (!TitaniumFrame.available() || (!ModDimensions.isRegistered() && !ModDimensions.isDerelictRegistered())) s = STATUS_DISABLED;
         else if (!isAddress(inv.getStackInSlot(0))) s = STATUS_NO_ADDRESS;
+        else if (!destinationAvailable()) s = STATUS_DISABLED;
         else if (!adjacentActiveComputer()) s = STATUS_NEED_COMPUTER;
         else if (!adjacentForwardClock()) s = STATUS_NEED_CLOCK;
         else if ((found = findGate()) == null) s = STATUS_NO_FRAME;

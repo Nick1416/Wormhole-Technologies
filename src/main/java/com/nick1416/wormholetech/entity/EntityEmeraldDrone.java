@@ -56,8 +56,15 @@ public class EntityEmeraldDrone extends EntityMob {
     @Override
     public boolean getCanSpawnHere() {
         if (world.getDifficulty() == EnumDifficulty.PEACEFUL) return false;
-        if (!ModDimensions.isRegistered() || world.provider.getDimension() != ModDimensions.id()) return false;
         BlockPos pos = new BlockPos(posX, getEntityBoundingBox().minY, posZ);
+        if (com.nick1416.wormholetech.derelict.DerelictSpawner.isDerelict(world)) {
+            // anywhere on the ship's deck (not on the outer hull)
+            if (!com.nick1416.wormholetech.derelict.DerelictSpawner.canSpawnAt(posX, posY, posZ, height)) return false;
+            IBlockState deck = world.getBlockState(pos.down());
+            return deck.isSideSolid(world, pos.down(), net.minecraft.util.EnumFacing.UP)
+                    && world.getCollisionBoxes(this, getEntityBoundingBox()).isEmpty() && !world.containsAnyLiquid(getEntityBoundingBox());
+        }
+        if (!ModDimensions.isRegistered() || world.provider.getDimension() != ModDimensions.id()) return false;
         // open sky, or bright skylight (under a thin overhang, spire or floating rock) - never in caves
         if (!world.canSeeSky(pos) && world.getLightFor(net.minecraft.world.EnumSkyBlock.SKY, pos) < 10) return false;
         // any solid top surface (also works in P3X chunks generated before Naquadric Stone existed)

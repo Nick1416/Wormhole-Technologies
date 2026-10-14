@@ -52,6 +52,11 @@ public final class ModConfig {
     // stargate / P3X-1416
     public static boolean stargateEnabled = true;
     public static int p3xDimensionId = -1416;
+    public static int derelictDimensionId = -1417;
+    public static int derelictModulatorRoomChance = 770;
+    public static int derelictRoomChance = 7;
+    public static int derelictSpawnIntervalTicks = 100;
+    public static int derelictCrawlerCap = 10;
     public static int dialingComputerRfPerTickSetting = -1; // -1: half the Relativistic Computer upkeep
     public static int dialingComputerBuffer = 1_000_000;
     public static int dialingComputerMaxReceive = 100_000;
@@ -162,6 +167,16 @@ public final class ModConfig {
                 "Titanium gate + Dialing Computer + the P3X-1416 dimension. Needs Galacticraft Titanium Blocks or any oredict blockTitanium");
         p3xDimensionId = cfg.getInt("p3xDimensionId", sg, -1416, Integer.MIN_VALUE, Integer.MAX_VALUE,
                 "Dimension ID of P3X-1416. Keep it stable once a world uses it; must not clash with another mod");
+        derelictDimensionId = cfg.getInt("derelictDimensionId", sg, -1417, Integer.MIN_VALUE, Integer.MAX_VALUE,
+                "Dimension ID of the derelict vessel (second gate address). Keep it stable once a world uses it; must not clash with another mod");
+        derelictModulatorRoomChance = cfg.getInt("derelictModulatorRoomChance", sg, 770, 0, 1_000_000,
+                "1 in N ship chunks is a modulator room with a Giant Emerald Sentinel (770 ~ nether fortress rarity; 0 = off)");
+        derelictRoomChance = cfg.getInt("derelictRoomChance", sg, 7, 0, 1000,
+                "1 in N ship chunks is an open room (half of them with a chest; 0 = maze only)");
+        derelictSpawnIntervalTicks = cfg.getInt("derelictSpawnIntervalTicks", sg, 100, 0, 1_000_000,
+                "Every N ticks each player on the derelict vessel gets up to 2 extra crawlers (drones/wisps) nearby (0 = off)");
+        derelictCrawlerCap = cfg.getInt("derelictCrawlerCap", sg, 10, 0, 200,
+                "Extra crawler spawning stops while this many hostile mobs are within 32 blocks of the player");
         dialingComputerRfPerTickSetting = cfg.getInt("dialingComputerRfPerTick", sg, -1, -1, Integer.MAX_VALUE,
                 "Dialing Computer RF per tick while the wormhole is open (-1 = half of relativisticComputerUpkeepRfPerTick)");
         dialingComputerBuffer = cfg.getInt("dialingComputerBuffer", sg, 1_000_000, 1, Integer.MAX_VALUE, "Dialing Computer RF buffer");

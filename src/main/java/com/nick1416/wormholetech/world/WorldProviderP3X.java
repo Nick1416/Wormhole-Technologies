@@ -74,7 +74,10 @@ public class WorldProviderP3X extends WorldProvider {
 
     /** No rain or thunder here (overworld rain must not leak in); P3X has dust storms instead, see P3XWeather. */
     @Override
-    public void updateWeather() {
+    public void updateWeather() { clearWeather(world); }
+
+    /** Zero rain/thunder on this world (server and client). */
+    public static void clearWeather(net.minecraft.world.World world) {
         try {
             for (java.lang.reflect.Field f : WEATHER_FIELDS) f.setFloat(world, 0.0F);
         } catch (IllegalAccessException ignored) {
