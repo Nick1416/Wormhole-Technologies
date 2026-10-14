@@ -29,6 +29,10 @@ public class QuantumFieldModulatorTileEntity extends TileEntity implements ITick
         @Override public boolean canReceive() { return false; }
     };
 
+    @Override public void onLoad() { com.nick1416.wormholetech.drone.ModulatorTracker.add(world, pos); }
+    @Override public void invalidate() { super.invalidate(); com.nick1416.wormholetech.drone.ModulatorTracker.remove(world, pos); }
+    @Override public void onChunkUnload() { com.nick1416.wormholetech.drone.ModulatorTracker.remove(world, pos); }
+
     @Override
     public void update() {
         if (world == null || world.isRemote) return;

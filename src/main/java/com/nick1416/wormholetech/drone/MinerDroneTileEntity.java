@@ -21,12 +21,14 @@ import net.minecraftforge.items.ItemHandlerHelper;
  * IE minerals only in the Overworld and only with Immersive Engineering installed.
  */
 public class MinerDroneTileEntity extends TileEntity implements ITickable {
-    public static final int WORKING = 0, WRONG_DIM = 1, NO_STORAGE = 2, FULL = 3, NO_MINERAL = 4;
-    private static final String[] KEYS = { "working", "wrong_dim", "no_storage", "full", "no_mineral" };
+    public static final int WORKING = 0, WRONG_DIM = 1, NO_STORAGE = 2, FULL = 3, NO_MINERAL = 4, NO_MODULATOR = 5;
+    private static final String[] KEYS = { "working", "wrong_dim", "no_storage", "full", "no_mineral", "no_modulator" };
 
     public int program;
     public int status = WORKING;
     private int progress;
+    private boolean powered;
+    private long nextModCheck;
     private ItemStack pending = ItemStack.EMPTY;
 
     @Override
@@ -61,6 +63,11 @@ public class MinerDroneTileEntity extends TileEntity implements ITickable {
             if (dim != 0) return WRONG_DIM;
             if (!net.minecraftforge.fml.common.Loader.isModLoaded("immersiveengineering")) return NO_MINERAL;
         }
+        if (world.getTotalWorldTime() >= nextModCheck) {        // re-check every 3 s
+            nextModCheck = world.getTotalWorldTime() + 60;
+            powered = ModulatorTracker.near(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+        }
+        if (!powered) return NO_MODULATOR;
         if (storage() == null) return NO_STORAGE;
         if (!pending.isEmpty()) {
             ItemStack left = ItemHandlerHelper.insertItemStacked(storage(), pending, true);

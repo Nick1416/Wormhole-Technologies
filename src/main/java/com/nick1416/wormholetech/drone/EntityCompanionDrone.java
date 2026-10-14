@@ -38,6 +38,8 @@ public class EntityCompanionDrone extends EntityFlying {
     private static final DataParameter<Integer> ZAP = EntityDataManager.createKey(EntityCompanionDrone.class, DataSerializers.VARINT);
     private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(EntityCompanionDrone.class, DataSerializers.OPTIONAL_UNIQUE_ID);
     private int cooldown, zapShow;
+    /** A free Quantum Field Modulator is in range (re-checked every 3 s on the server). */
+    private boolean powered;
 
     public EntityCompanionDrone(World w) {
         super(w);
@@ -109,6 +111,7 @@ public class EntityCompanionDrone extends EntityFlying {
                 world.spawnParticle(EnumParticleTypes.ENCHANTMENT_TABLE, posX, posY + 0.4, posZ, (rand.nextDouble() - 0.5) * 0.6, 0.3, (rand.nextDouble() - 0.5) * 0.6);
             return;
         }
+        if (ticksExisted % 60 == 1) powered = ModulatorTracker.near(world, posX, posY, posZ);
         if (cooldown > 0) cooldown--;
         if (zapShow > 0 && --zapShow == 0) dataManager.set(ZAP, -1);
         if (ticksExisted % 40 == 0 && getHealth() < getMaxHealth()) heal(1.0F);
@@ -126,7 +129,7 @@ public class EntityCompanionDrone extends EntityFlying {
         EntityLivingBase target;
         AIDefend() { setMutexBits(1); }
         @Override public boolean shouldExecute() {
-            if (getMode() != DEFENSIVE) return false;
+            if (getMode() != DEFENSIVE || !powered) return false;
             EntityPlayer o = getOwner();
             if (o == null) return false;
             EntityLivingBase a = o.getRevengeTarget();
@@ -137,7 +140,7 @@ public class EntityCompanionDrone extends EntityFlying {
         }
         @Override public boolean shouldContinueExecuting() {
             EntityPlayer o = getOwner();
-            return o != null && validTarget(target, o) && getDistanceSq(o) < 32 * 32;
+            return powered && o != null && validTarget(target, o) && getDistanceSq(o) < 32 * 32;
         }
         @Override public void updateTask() {
             getLookHelper().setLookPositionWithEntity(target, 30F, 30F);
@@ -157,7 +160,7 @@ public class EntityCompanionDrone extends EntityFlying {
     /** Stay near the owner's shoulder; teleport if left far behind. */
     class AIFollow extends EntityAIBase {
         AIFollow() { setMutexBits(1); }
-        @Override public boolean shouldExecute() { return getOwner() != null; }
+        @Override public boolean shouldExecute() { return getOwner() != null && (powered || getMode() == DEFENSIVE); }
         @Override public void updateTask() {
             EntityPlayer o = getOwner();
             if (o == null) return;
