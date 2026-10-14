@@ -368,3 +368,4 @@ gui.wormholetech.network.select=Click to select
 gui.wormholetech.network.deselect=Click to clear
 gui.wormholetech.network.dest.p3x=P3X-1416
 gui.wormholetech.network.dest.derelict=Derelict Vessel
+gui.wormholetech.network.dest.home=Overworld

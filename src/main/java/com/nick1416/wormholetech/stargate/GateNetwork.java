@@ -18,15 +18,17 @@ public final class GateNetwork {
 
     public static final String VISITED_TAG = WormholeTech.MODID + ":visited_gates";
     /** Map destinations, in marker order. */
-    public static final String[] KEYS = { "p3x", "derelict" };
+    public static final String[] KEYS = { "p3x", "derelict", "home" };
+    /** Index of the Overworld home marker: always on the map. */
+    public static final int HOME = 2;
     /** Marker positions on the galaxy map (0..1 of the map area). */
-    public static final float[][] MAP_POS = { { 0.64F, 0.36F }, { 0.31F, 0.68F } };
+    public static final float[][] MAP_POS = { { 0.64F, 0.36F }, { 0.31F, 0.68F }, { 0.80F, 0.66F } };
 
     public static int count() { return KEYS.length; }
 
-    public static int dimension(int i) { return i == 0 ? ModDimensions.id() : ModDimensions.derelictId(); }
+    public static int dimension(int i) { return i == HOME ? 0 : i == 0 ? ModDimensions.id() : ModDimensions.derelictId(); }
 
-    public static boolean registered(int i) { return i == 0 ? ModDimensions.isRegistered() : ModDimensions.isDerelictRegistered(); }
+    public static boolean registered(int i) { return i == HOME || (i == 0 ? ModDimensions.isRegistered() : ModDimensions.isDerelictRegistered()); }
 
     public static int indexOf(int dim) {
         for (int i = 0; i < count(); i++) if (registered(i) && dimension(i) == dim) return i;
@@ -49,7 +51,7 @@ public final class GateNetwork {
 
     /** Bit i set = destination i visited (server side). */
     public static int visitedMask(EntityPlayerMP p) {
-        int m = persisted(p).getInteger(VISITED_TAG);
+        int m = persisted(p).getInteger(VISITED_TAG) | 1 << HOME;
         m |= done(p, StargateTravel.ADVANCEMENT) && registered(0) ? 1 : 0;
         m |= done(p, StargateTravel.DERELICT_ADVANCEMENT) && registered(1) ? 2 : 0;
         return m;

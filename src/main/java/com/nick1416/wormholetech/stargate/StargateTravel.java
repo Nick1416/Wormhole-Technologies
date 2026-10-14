@@ -120,6 +120,10 @@ public final class StargateTravel {
         } else {
             back = portal;
         }
+        if (destinationOf(from, g) == 0) { // Overworld home marker
+            goOverworld(p);
+            return;
+        }
         NBTTagCompound o = new NBTTagCompound();
         o.setInteger("Dim", from.provider.getDimension());
         o.setLong("Pos", back.toLong());
@@ -159,6 +163,21 @@ public final class StargateTravel {
         if (target == null) { dim = 0; target = p.mcServer.getWorld(0); pos = null; }
         if (pos == null) pos = target.getTopSolidOrLiquidBlock(target.getSpawnPoint());
         teleport(p, dim, safeSpot(target, pos), yaw);
+    }
+
+    /** Overworld home: the Overworld gate the player last left from, else the world spawn. */
+    private static void goOverworld(EntityPlayerMP p) {
+        NBTTagCompound tag = persisted(p);
+        WorldServer target = p.mcServer.getWorld(0);
+        BlockPos pos = null;
+        float yaw = p.rotationYaw;
+        if (tag.hasKey(ORIGIN_TAG, Constants.NBT.TAG_COMPOUND) && tag.getCompoundTag(ORIGIN_TAG).getInteger("Dim") == 0) {
+            NBTTagCompound o = tag.getCompoundTag(ORIGIN_TAG);
+            pos = BlockPos.fromLong(o.getLong("Pos"));
+            yaw = o.getFloat("Yaw");
+        }
+        if (pos == null) pos = target.getTopSolidOrLiquidBlock(target.getSpawnPoint());
+        teleport(p, 0, safeSpot(target, pos), yaw);
     }
 
     // ---------------------------------------------------------------- helpers
