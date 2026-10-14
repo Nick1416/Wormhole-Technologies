@@ -53,7 +53,7 @@ public final class ModConfig {
     public static boolean stargateEnabled = true;
     public static int p3xDimensionId = -1416;
     public static int derelictDimensionId = -1417;
-    public static int derelictModulatorRoomChance = 770;
+    public static int derelictModulatorRoomChance = 384;
     public static int derelictRoomChance = 7;
     public static int derelictSpawnIntervalTicks = 100;
     public static int derelictCrawlerCap = 10;
@@ -169,8 +169,11 @@ public final class ModConfig {
                 "Dimension ID of P3X-1416. Keep it stable once a world uses it; must not clash with another mod");
         derelictDimensionId = cfg.getInt("derelictDimensionId", sg, -1417, Integer.MIN_VALUE, Integer.MAX_VALUE,
                 "Dimension ID of the derelict vessel (second gate address). Keep it stable once a world uses it; must not clash with another mod");
-        derelictModulatorRoomChance = cfg.getInt("derelictModulatorRoomChance", sg, 770, 0, 1_000_000,
-                "1 in N ship chunks is a modulator room with a Giant Emerald Sentinel (770 ~ nether fortress rarity; 0 = off)");
+        net.minecraftforge.common.config.Property modRoom = cfg.get(sg, "derelictModulatorRoomChance", 384,
+                "1 in N ship chunks is a modulator room with a Giant Emerald Sentinel (384 = twice as common as nether fortresses, which are 1 in 768; 0 = off)",
+                0, 1_000_000);
+        if (modRoom.getInt() == 770) modRoom.set(384); // migrate the old default
+        derelictModulatorRoomChance = Math.max(0, Math.min(1_000_000, modRoom.getInt()));
         derelictRoomChance = cfg.getInt("derelictRoomChance", sg, 7, 0, 1000,
                 "1 in N ship chunks is an open room (half of them with a chest; 0 = maze only)");
         derelictSpawnIntervalTicks = cfg.getInt("derelictSpawnIntervalTicks", sg, 100, 0, 1_000_000,
