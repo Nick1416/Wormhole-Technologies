@@ -91,10 +91,24 @@ public class WormholeJeiPlugin implements IModPlugin {
         info(registry, Registration.ITEM_GATE_NETWORK_COMPUTER, "gate_network_computer", 0);
         info(registry, Registration.ITEM_QUANTUM_FIELD_MODULATOR, "quantum_field_modulator", 1);
         info(registry, Registration.INTERGALACTIC_COORDINATES, "intergalactic_coordinates", 1);
-        info(registry, Registration.NANITE_CORE, "nanite_core", 1);
+        info(registry, Registration.NANITE_CORE, "nanite_core", 2);
         ItemStack droneEgg = new ItemStack(net.minecraft.init.Items.SPAWN_EGG);
         net.minecraft.item.ItemMonsterPlacer.applyEntityIdToItemStack(droneEgg, new net.minecraft.util.ResourceLocation(com.nick1416.wormholetech.WormholeTech.MODID, "xenolith_drone"));
         registry.addIngredientInfo(droneEgg, VanillaTypes.ITEM, "tooltip.wormholetech.xenolith_drone.summary", "tooltip.wormholetech.xenolith_drone.detail.1");
+        info(registry, Registration.ITEM_XENOLITH_ORE, "xenolith_ore", 1);
+        info(registry, Registration.RAW_XENOLITH, "raw_xenolith", 1);
+        info(registry, Registration.INACTIVE_DRONE, "inactive_xenolith_drone", 1);
+        for (int m = 0; m < com.nick1416.wormholetech.drone.DroneProgram.VALUES.length; m++)
+            registry.addIngredientInfo(new ItemStack(Registration.XENOLITH_CHIP, 1, m), VanillaTypes.ITEM,
+                    "tooltip.wormholetech.xenolith_chip.summary", "tooltip.wormholetech.xenolith_chip.detail.1");
+        for (int m = 0; m < com.nick1416.wormholetech.drone.DroneProgram.MINERS; m++)
+            registry.addIngredientInfo(new ItemStack(Registration.ITEM_MINER_DRONE, 1, m), VanillaTypes.ITEM,
+                    "tooltip.wormholetech.miner_drone.summary", "tooltip.wormholetech.miner_drone.detail.1",
+                    m == 0 ? "tooltip.wormholetech.miner_drone.naquadah" : "tooltip.wormholetech.miner_drone.overworld");
+        registry.addIngredientInfo(new ItemStack(Registration.COMPANION_DRONE, 1, 0), VanillaTypes.ITEM,
+                "tooltip.wormholetech.defensive_drone.summary", "tooltip.wormholetech.defensive_drone.detail.1");
+        registry.addIngredientInfo(new ItemStack(Registration.COMPANION_DRONE, 1, 1), VanillaTypes.ITEM,
+                "tooltip.wormholetech.research_drone.summary", "tooltip.wormholetech.research_drone.detail.1");
         info(registry, Registration.ITEM_XENOLITH, "xenolith", 1);
         info(registry, Registration.ITEM_XENOLITH_TILES, "xenolith_tiles", 1);
         info(registry, Registration.ITEM_XENO_LAMP, "xeno_lamp", 1);

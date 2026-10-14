@@ -126,7 +126,7 @@ public class ItemMineralTuner extends Item {
     }
 
     /** Resolve MineralMix by display name (exact, CI, then substring), independent of Map shape. */
-    private static MineralMix resolveByName(String wanted) {
+    public static MineralMix resolveByName(String wanted) {
         if (wanted == null) return null;
         String w = wanted.trim();
         if (w.isEmpty()) return null;

@@ -56,7 +56,7 @@ public class TooltipHandler {
             "naquadric_stone",
             "ashen_regolith",
             "naquadah_crystal",
-            "ancient_stone"
+            "ancient_stone", "xenolith_ore", "raw_xenolith", "inactive_xenolith_drone", "xenolith_chip"
     ));
 
     @SubscribeEvent
@@ -68,10 +68,17 @@ public class TooltipHandler {
         ResourceLocation id = stack.getItem().getRegistryName();
         if (!WormholeTech.MODID.equals(id.getResourceDomain())) return;
 
-        event.getToolTip().add(TextFormatting.BLUE + "Wormhole Technologies");
+        // JEI already appends the mod name; only add it ourselves without JEI (avoids the duplicate line)
+        if (!net.minecraftforge.fml.common.Loader.isModLoaded("jei")) event.getToolTip().add(TextFormatting.BLUE + "Wormhole Technologies");
 
         String path = id.getResourcePath();
-        if (path.startsWith("mineral_tuner_")) {
+        if ("miner_drone".equals(path)) {
+            addDocumentedTooltips(event, path);
+            event.getToolTip().add(1, TextFormatting.YELLOW + net.minecraft.client.resources.I18n.format(stack.getMetadata() == 0
+                    ? "tooltip.wormholetech.miner_drone.naquadah" : "tooltip.wormholetech.miner_drone.overworld"));
+        } else if ("companion_drone".equals(path)) {
+            addDocumentedTooltips(event, stack.getMetadata() == 1 ? "research_drone" : "defensive_drone");
+        } else if (path.startsWith("mineral_tuner_")) {
             addMineralTunerTooltips(event, stack);
         } else if (DOCUMENTED.contains(path)) {
             addDocumentedTooltips(event, path);

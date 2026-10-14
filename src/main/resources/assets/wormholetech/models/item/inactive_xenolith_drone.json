@@ -1,0 +1,6 @@
+{
+ "parent": "item/generated",
+ "textures": {
+  "layer0": "wormholetech:items/inactive_xenolith_drone"
+ }
+}

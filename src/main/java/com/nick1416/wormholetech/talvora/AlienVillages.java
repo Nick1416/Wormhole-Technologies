@@ -155,13 +155,33 @@ public final class AlienVillages {
     }
 
     private static void spawnVillagers(World w, int vx, int vz) {
-        for (int k = 0; k < 6; k++) {
-            double a = k * Math.PI / 3 + 0.4;
+        // nine wanderers around the plaza
+        for (int k = 0; k < 9; k++) {
+            double a = k * Math.PI * 2 / 9 + 0.4;
             double x = vx + 0.5 + Math.cos(a) * 14, z = vz + 0.5 + Math.sin(a) * 14;
             EntityAlienVillager v = new EntityAlienVillager(w);
-            v.setLocationAndAngles(x, FLOOR_Y + 1, z, (float) (k * 60), 0F);
+            v.setLocationAndAngles(x, FLOOR_Y + 1, z, (float) (k * 40), 0F);
             v.enablePersistence();
             w.spawnEntity(v);
+        }
+        // three meditate in huts, facing the spire
+        for (int k = 0; k < HUTS; k += 3) {
+            double a = hutAngle(vx, vz, k);
+            double x = vx + 0.5 + Math.cos(a) * (HUT_RING - 1.5), z = vz + 0.5 + Math.sin(a) * (HUT_RING - 1.5);
+            EntityAlienVillager v = new EntityAlienVillager(w);
+            float yaw = (float) Math.toDegrees(Math.atan2(-(vx - x), vz - z));
+            v.setLocationAndAngles(x, FLOOR_Y + 1, z, yaw, 0F);
+            v.rotationYawHead = yaw; v.renderYawOffset = yaw;
+            v.setMeditating(true);
+            v.enablePersistence();
+            w.spawnEntity(v);
+        }
+        // two resident survey drones
+        for (int k = 0; k < 2; k++) {
+            EntityXenolithDrone d = new EntityXenolithDrone(w);
+            d.setLocationAndAngles(vx + 0.5 + (k == 0 ? 20 : -20), FLOOR_Y + 12, vz + 0.5, 0F, 0F);
+            d.enablePersistence();
+            w.spawnEntity(d);
         }
     }
 }

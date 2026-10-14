@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RIR",
+    "XNX",
+    "IDI"
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:repeater"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "X": {
+      "item": "wormholetech:raw_xenolith"
+    },
+    "N": {
+      "item": "wormholetech:nanite_core"
+    },
+    "D": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "item": "wormholetech:inactive_xenolith_drone"
+  }
+}

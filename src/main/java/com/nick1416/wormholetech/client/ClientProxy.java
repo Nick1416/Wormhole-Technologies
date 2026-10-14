@@ -16,7 +16,22 @@ import net.minecraftforge.fml.relauncher.Side;
 public class ClientProxy extends com.nick1416.wormholetech.common.CommonProxy {
 
 	@SubscribeEvent
+	public static void onItemColors(net.minecraftforge.client.event.ColorHandlerEvent.Item e) {
+		e.getItemColors().registerItemColorHandler((stack, layer) -> layer == 1
+				? com.nick1416.wormholetech.drone.DroneProgram.byMeta(stack.getMetadata()).color : 0xFFFFFF,
+				Registration.XENOLITH_CHIP, Registration.ITEM_MINER_DRONE);
+	}
+
+	@SubscribeEvent
 	public static void onModels(ModelRegistryEvent e) {
+	    for (Item it : new Item[] { Registration.ITEM_XENOLITH_ORE, Registration.RAW_XENOLITH, Registration.INACTIVE_DRONE })
+	        ModelLoader.setCustomModelResourceLocation(it, 0, new ModelResourceLocation(it.getRegistryName(), "inventory"));
+	    for (int m = 0; m < com.nick1416.wormholetech.drone.DroneProgram.VALUES.length; m++)
+	        ModelLoader.setCustomModelResourceLocation(Registration.XENOLITH_CHIP, m, new ModelResourceLocation(Registration.XENOLITH_CHIP.getRegistryName(), "inventory"));
+	    for (int m = 0; m < com.nick1416.wormholetech.drone.DroneProgram.MINERS; m++)
+	        ModelLoader.setCustomModelResourceLocation(Registration.ITEM_MINER_DRONE, m, new ModelResourceLocation(Registration.ITEM_MINER_DRONE.getRegistryName(), "inventory"));
+	    ModelLoader.setCustomModelResourceLocation(Registration.COMPANION_DRONE, 0, new ModelResourceLocation(WormholeTech.MODID + ":defensive_drone", "inventory"));
+	    ModelLoader.setCustomModelResourceLocation(Registration.COMPANION_DRONE, 1, new ModelResourceLocation(WormholeTech.MODID + ":research_drone", "inventory"));
 
 	    Item genItem = Item.getItemFromBlock(Registration.RF_GENERATOR);
 	    ModelLoader.setCustomModelResourceLocation(
@@ -158,6 +173,9 @@ public class ClientProxy extends com.nick1416.wormholetech.common.CommonProxy {
 		net.minecraftforge.fml.client.registry.RenderingRegistry.registerEntityRenderingHandler(
 				com.nick1416.wormholetech.talvora.EntityXenolithDrone.class,
 				com.nick1416.wormholetech.client.render.RenderXenolithDrone::new);
+		net.minecraftforge.fml.client.registry.RenderingRegistry.registerEntityRenderingHandler(
+				com.nick1416.wormholetech.drone.EntityCompanionDrone.class,
+				com.nick1416.wormholetech.client.render.RenderCompanionDrone::new);
 	}
 
 	@Override

@@ -1,0 +1,7 @@
+{
+ "parent": "item/generated",
+ "textures": {
+  "layer0": "wormholetech:items/miner_drone",
+  "layer1": "wormholetech:items/miner_drone_overlay"
+ }
+}

@@ -39,7 +39,11 @@ public class ModelAlienVillager extends ModelBase {
     @Override
     public void render(Entity e, float limbSwing, float amount, float age, float yaw, float pitch, float scale) {
         setRotationAngles(limbSwing, amount, age, yaw, pitch, scale, e);
+        boolean sit = meditating(e);
+        net.minecraft.client.renderer.GlStateManager.pushMatrix();
+        if (sit) net.minecraft.client.renderer.GlStateManager.translate(0F, 14F * scale, 0F);
         head.render(scale); body.render(scale); armL.render(scale); armR.render(scale); legL.render(scale); legR.render(scale);
+        net.minecraft.client.renderer.GlStateManager.popMatrix();
     }
 
     @Override
@@ -50,5 +54,19 @@ public class ModelAlienVillager extends ModelBase {
         legR.rotateAngleX = sw; legL.rotateAngleX = -sw;
         armR.rotateAngleX = -sw * 0.6F; armL.rotateAngleX = sw * 0.6F;
         armR.rotateAngleZ = 0.06F + MathHelper.sin(age * 0.05F) * 0.03F; armL.rotateAngleZ = -armR.rotateAngleZ;
+        if (meditating(e)) {
+            // cross-legged: thighs forward and splayed, hands resting on the knees, head slightly bowed
+            legR.rotateAngleX = legL.rotateAngleX = -1.45F;
+            legR.rotateAngleY = 0.35F; legL.rotateAngleY = -0.35F;
+            armR.rotateAngleX = armL.rotateAngleX = -0.75F;
+            armR.rotateAngleZ = 0.12F; armL.rotateAngleZ = -0.12F;
+            head.rotateAngleX = 0.25F + MathHelper.sin(age * 0.04F) * 0.04F;
+        } else {
+            legR.rotateAngleY = legL.rotateAngleY = 0F;
+        }
+    }
+
+    private static boolean meditating(Entity e) {
+        return e instanceof com.nick1416.wormholetech.talvora.EntityAlienVillager && ((com.nick1416.wormholetech.talvora.EntityAlienVillager) e).isMeditating();
     }
 }
