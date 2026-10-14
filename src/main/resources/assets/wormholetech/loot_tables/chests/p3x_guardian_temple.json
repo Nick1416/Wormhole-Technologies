@@ -2,18 +2,151 @@
   "pools": [
     {
       "name": "main",
-      "rolls": { "min": 5, "max": 8 },
+      "rolls": {
+        "min": 5,
+        "max": 8
+      },
       "entries": [
-        { "type": "item", "name": "minecraft:diamond", "weight": 8, "functions": [ { "function": "set_count", "count": { "min": 1, "max": 3 } } ] },
-        { "type": "item", "name": "minecraft:emerald", "weight": 12, "functions": [ { "function": "set_count", "count": { "min": 3, "max": 8 } } ] },
-        { "type": "item", "name": "minecraft:gold_ingot", "weight": 12, "functions": [ { "function": "set_count", "count": { "min": 2, "max": 6 } } ] },
-        { "type": "item", "name": "minecraft:ender_pearl", "weight": 8, "functions": [ { "function": "set_count", "count": { "min": 1, "max": 3 } } ] },
-        { "type": "item", "name": "wormholetech:refined_naquadah", "weight": 12, "functions": [ { "function": "set_count", "count": { "min": 2, "max": 6 } } ] },
-        { "type": "item", "name": "wormholetech:refined_naquadah_block", "weight": 5 },
-        { "type": "item", "name": "wormholetech:naquadah_ore_natural", "weight": 10, "functions": [ { "function": "set_count", "count": { "min": 2, "max": 6 } } ] },
-        { "type": "item", "name": "minecraft:book", "weight": 8, "functions": [ { "function": "enchant_with_levels", "levels": { "min": 20, "max": 30 }, "treasure": true } ] },
-        { "type": "item", "name": "minecraft:golden_apple", "weight": 4 },
-        { "type": "item", "name": "minecraft:experience_bottle", "weight": 6, "functions": [ { "function": "set_count", "count": { "min": 2, "max": 6 } } ] }
+        {
+          "type": "item",
+          "name": "minecraft:diamond",
+          "weight": 8,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:emerald",
+          "weight": 12,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 3,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:gold_ingot",
+          "weight": 12,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 6
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:ender_pearl",
+          "weight": 8,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "wormholetech:refined_naquadah",
+          "weight": 12,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 6
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "wormholetech:refined_naquadah_block",
+          "weight": 5
+        },
+        {
+          "type": "item",
+          "name": "wormholetech:naquadah_ore_natural",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 6
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:book",
+          "weight": 8,
+          "functions": [
+            {
+              "function": "enchant_with_levels",
+              "levels": {
+                "min": 20,
+                "max": 30
+              },
+              "treasure": true
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:golden_apple",
+          "weight": 4
+        },
+        {
+          "type": "item",
+          "name": "minecraft:experience_bottle",
+          "weight": 6,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 6
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "address",
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "random_chance",
+          "chance": 0.5
+        }
+      ],
+      "entries": [
+        {
+          "type": "item",
+          "name": "wormholetech:derelict_coordinates",
+          "weight": 1
+        }
       ]
     }
   ]

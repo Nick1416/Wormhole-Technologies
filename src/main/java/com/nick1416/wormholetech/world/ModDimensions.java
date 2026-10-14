@@ -24,6 +24,32 @@ public final class ModDimensions {
         DimensionManager.registerDimension(id, P3X);
     }
 
+    public static final String DERELICT_NAME = "derelict_vessel";
+    public static DimensionType DERELICT;
+
+    /** The derelict vessel (second gate address). */
+    public static void registerDerelict() {
+        if (!ModConfig.stargateEnabled) return;
+        int id = ModConfig.derelictDimensionId;
+        if (DimensionManager.isDimensionRegistered(id)) {
+            WormholeTech.LOGGER.error("Dimension id {} is already taken; the derelict vessel is disabled. "
+                    + "Change derelictDimensionId in the config.", id);
+            return;
+        }
+        DERELICT = DimensionType.register(DERELICT_NAME, "_" + DERELICT_NAME, id,
+                com.nick1416.wormholetech.derelict.WorldProviderDerelict.class, false);
+        DimensionManager.registerDimension(id, DERELICT);
+    }
+
+    public static boolean isDerelictRegistered() { return DERELICT != null; }
+
+    public static int derelictId() { return ModConfig.derelictDimensionId; }
+
+    /** P3X-1416 or the derelict vessel: worlds reached through a gate, with a return gate. */
+    public static boolean isGateWorld(int dim) {
+        return (isRegistered() && dim == id()) || (isDerelictRegistered() && dim == derelictId());
+    }
+
     public static boolean isRegistered() { return P3X != null; }
 
     public static int id() { return ModConfig.p3xDimensionId; }

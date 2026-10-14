@@ -44,6 +44,7 @@ public final class StargateTravel {
     public static final String ORIGIN_TAG = WormholeTech.MODID + ":gate_origin";
     public static final int COOLDOWN_TICKS = 60;
     public static final ResourceLocation ADVANCEMENT = new ResourceLocation(WormholeTech.MODID, "p3x_1416");
+    public static final ResourceLocation DERELICT_ADVANCEMENT = new ResourceLocation(WormholeTech.MODID, "derelict_vessel");
 
     private static final Map<UUID, Request> PENDING = new HashMap<UUID, Request>();
 
@@ -56,7 +57,7 @@ public final class StargateTravel {
     private StargateTravel() {}
 
     public static void request(EntityPlayerMP player, World world, BlockPos portal) {
-        if (!ModDimensions.isRegistered()) return;
+        if (!ModDimensions.isRegistered() && !ModDimensions.isDerelictRegistered()) return;
         player.timeUntilPortal = COOLDOWN_TICKS; // ignore further collisions while queued/after travel
         PENDING.put(player.getUniqueID(), new Request(world.provider.getDimension(), portal.toImmutable()));
     }
@@ -82,16 +83,34 @@ public final class StargateTravel {
     public static void travel(EntityPlayerMP p, WorldServer from, BlockPos portal) {
         IBlockState st = from.getBlockState(portal);
         if (st.getBlock() != Registration.STARGATE_PORTAL) return;
-        if (from.provider.getDimension() == ModDimensions.id()) {
+        if (ModDimensions.isGateWorld(from.provider.getDimension())) {
             goHome(p);
         } else {
-            goToP3X(p, from, portal, st.getValue(StargatePortalBlock.AXIS));
+            goOut(p, from, portal, st.getValue(StargatePortalBlock.AXIS));
         }
     }
 
     // ---------------------------------------------------------------- outbound
 
-    private static void goToP3X(EntityPlayerMP p, WorldServer from, BlockPos portal, EnumFacing.Axis axis) {
+    /** Destination of the dialing computer that opened this gate (P3X-1416 if none is found). */
+    private static int destinationOf(WorldServer w, GateShape g) {
+        if (g != null) {
+            for (int y = -1; y <= g.height; y++)
+                for (int x = -1; x <= g.width; x++) {
+                    if (!(y == -1 || y == g.height || x == -1 || x == g.width)) continue;
+                    BlockPos f = g.interior(x, y);
+                    for (EnumFacing d : EnumFacing.VALUES) {
+                        net.minecraft.tileentity.TileEntity te = w.getTileEntity(f.offset(d));
+                        if (te instanceof com.nick1416.wormholetech.tile.DialingComputerTileEntity
+                                && ((com.nick1416.wormholetech.tile.DialingComputerTileEntity) te).isOpen())
+                            return ((com.nick1416.wormholetech.tile.DialingComputerTileEntity) te).destination();
+                    }
+                }
+        }
+        return ModDimensions.id();
+    }
+
+    private static void goOut(EntityPlayerMP p, WorldServer from, BlockPos portal, EnumFacing.Axis axis) {
         GateShape g = GateShape.detect(from, portal, axis, TitaniumFrame::isTitanium);
         BlockPos back;
         if (g != null) {
@@ -108,12 +127,12 @@ public final class StargateTravel {
         o.setLong("Gate", (g != null ? g.interior(g.width / 2, 0) : portal).toLong());
         persisted(p).setTag(ORIGIN_TAG, o);
 
-        int dest = ModDimensions.id();
+        int dest = destinationOf(from, g);
         WorldServer target = p.mcServer.getWorld(dest);
         final BlockPos arrival = ReturnGates.ensure(target);
         final float yaw = target == null ? p.rotationYaw : ReturnGates.arrivalYaw();
         teleport(p, dest, arrival, yaw);
-        grantAdvancement(p);
+        grantAdvancement(p, ModDimensions.isDerelictRegistered() && dest == ModDimensions.derelictId() ? DERELICT_ADVANCEMENT : ADVANCEMENT);
     }
 
     private static int sideOf(GateShape g, EntityPlayer p) {
@@ -212,8 +231,8 @@ public final class StargateTravel {
         return data.getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG);
     }
 
-    private static void grantAdvancement(EntityPlayerMP p) {
-        Advancement adv = p.mcServer.getAdvancementManager().getAdvancement(ADVANCEMENT);
+    private static void grantAdvancement(EntityPlayerMP p, ResourceLocation id) {
+        Advancement adv = p.mcServer.getAdvancementManager().getAdvancement(id);
         if (adv == null) return;
         if (p.getAdvancements().getProgress(adv).isDone()) return;
         for (String c : p.getAdvancements().getProgress(adv).getRemaningCriteria()) {

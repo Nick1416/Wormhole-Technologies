@@ -1,0 +1,12 @@
+{
+  "parent": "wormholetech:derelict_vessel",
+  "display": {
+    "icon": { "item": "wormholetech:quantum_field_modulator" },
+    "title": { "translate": "advancements.wormholetech.quantum_field_modulator.title" },
+    "description": { "translate": "advancements.wormholetech.quantum_field_modulator.desc" },
+    "frame": "challenge", "show_toast": true, "announce_to_chat": true, "hidden": false
+  },
+  "criteria": {
+    "has": { "trigger": "minecraft:inventory_changed", "conditions": { "items": [ { "item": "wormholetech:quantum_field_modulator" } ] } }
+  }
+}

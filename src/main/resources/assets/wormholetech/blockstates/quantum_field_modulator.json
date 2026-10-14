@@ -1,0 +1,1 @@
+{ "variants": { "locked=false": { "model": "wormholetech:quantum_field_modulator" }, "locked=true": { "model": "wormholetech:quantum_field_modulator" } } }

@@ -1,0 +1,10 @@
+{
+  "pools": [
+    { "name": "scrap", "rolls": 1, "entries": [ { "type": "item", "name": "minecraft:iron_nugget", "weight": 1,
+        "functions": [ { "function": "set_count", "count": { "min": 0, "max": 2 } }, { "function": "looting_enchant", "count": { "min": 0, "max": 1 } } ] } ] },
+    { "name": "spark", "rolls": 1, "conditions": [ { "condition": "killed_by_player" } ],
+      "entries": [ { "type": "item", "name": "minecraft:redstone", "weight": 1, "functions": [ { "function": "set_count", "count": { "min": 0, "max": 1 } } ] } ] },
+    { "name": "rare", "rolls": 1, "conditions": [ { "condition": "killed_by_player" }, { "condition": "random_chance_with_looting", "chance": 0.05, "looting_multiplier": 0.02 } ],
+      "entries": [ { "type": "item", "name": "wormholetech:raw_naquadah", "weight": 1 } ] }
+  ]
+}

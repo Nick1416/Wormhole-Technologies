@@ -85,6 +85,7 @@ public class WormholeTech {
                 new ResourceLocation(MODID, "dialing_computer"));
 
         com.nick1416.wormholetech.world.ModDimensions.register();
+        com.nick1416.wormholetech.world.ModDimensions.registerDerelict();
         GameRegistry.registerWorldGenerator(new com.nick1416.wormholetech.world.P3XOreGenerator(), 10);
 
         PROXY.preInit();

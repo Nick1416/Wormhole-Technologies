@@ -1,0 +1,10 @@
+{
+  "parent": "wormholetech:guardian_sentinel",
+  "display": {
+    "icon": { "item": "wormholetech:derelict_coordinates" },
+    "title": { "translate": "advancements.wormholetech.derelict_vessel.title" },
+    "description": { "translate": "advancements.wormholetech.derelict_vessel.desc" },
+    "frame": "goal", "show_toast": true, "announce_to_chat": true, "hidden": false
+  },
+  "criteria": { "arrived": { "trigger": "minecraft:impossible" } }
+}

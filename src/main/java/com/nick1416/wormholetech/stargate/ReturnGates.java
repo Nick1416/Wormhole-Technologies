@@ -25,6 +25,13 @@ public final class ReturnGates {
     /** Makes sure the gate exists and returns the (safe) arrival position in front of it. */
     public static BlockPos ensure(WorldServer w) {
         ReturnGateData d = ReturnGateData.get(w);
+        if (d.gate == null && com.nick1416.wormholetech.derelict.DerelictSpawner.isDerelict(w)) {
+            // the ship's hub chunk already holds the gate (built by the chunk generator)
+            w.getChunkFromBlockCoords(com.nick1416.wormholetech.derelict.DerelictLayout.GATE.bottomLeft);
+            d.gate = com.nick1416.wormholetech.derelict.DerelictLayout.GATE;
+            d.arrival = d.gate.front(1, 2);
+            d.markDirty();
+        }
         if (d.gate == null) {
             int yb = surfaceY(w, 0, 0);
             d.gate = new GateShape(new BlockPos(0, yb + 1, 0), EnumFacing.Axis.X, 2, 3);
