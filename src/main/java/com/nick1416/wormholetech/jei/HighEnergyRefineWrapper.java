@@ -21,14 +21,14 @@ public class HighEnergyRefineWrapper implements IRecipeWrapper {
 
     @Override
     public void getIngredients(IIngredients ingredients) {
-        ingredients.setInput(VanillaTypes.ITEM, recipe.input);
+        ingredients.setInputLists(VanillaTypes.ITEM, Collections.singletonList(recipe.input));
         ingredients.setOutput(VanillaTypes.ITEM, recipe.output);
     }
 
     @Override
     public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
         minecraft.fontRenderer.drawString(I18n.format("jei.wormholetech.high_energy_refine.hint",
-                String.format("%,d", ModConfig.highEnergyRefinerRfPerTick), formatTime(ModConfig.highEnergyRefinerCookTimeTicks)),
+                String.format("%,d", ModConfig.highEnergyRefinerRfPerTick), formatTime(recipe.recipe.ticks())),
                 2, 2, 0x444444);
     }
 
@@ -44,7 +44,7 @@ public class HighEnergyRefineWrapper implements IRecipeWrapper {
     @Override
     public List<String> getTooltipStrings(int mouseX, int mouseY) {
         if (mouseY < 14) {
-            int ticks = ModConfig.highEnergyRefinerCookTimeTicks;
+            int ticks = recipe.recipe.ticks();
             return Arrays.asList(
                     I18n.format("jei.wormholetech.high_energy_refine.tooltip"),
                     I18n.format("jei.wormholetech.high_energy_refine.time", String.format("%,d", ticks), formatTime(ticks)),

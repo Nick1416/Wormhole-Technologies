@@ -36,7 +36,7 @@ public class AetheriusRefinerTileEntity extends TileEntity implements ITickable 
         public boolean isItemValid(int slot, ItemStack stack) {
             if (stack.isEmpty()) return false;
             if (slot == 0) {
-                return stack.getItem() == Item.getItemFromBlock(Registration.COMPRESSED_NAQUADAH);
+                return RefinerRecipes.find(stack) != null;
             }
             return false; // output extract-only
         }
@@ -66,18 +66,18 @@ public class AetheriusRefinerTileEntity extends TileEntity implements ITickable 
         ItemStack input = inv.getStackInSlot(0);
         ItemStack output = inv.getStackInSlot(1);
 
-        boolean canCook = !input.isEmpty()
-                && input.getItem() == Item.getItemFromBlock(Registration.COMPRESSED_NAQUADAH)
-                && (output.isEmpty() || (output.getItem() == Registration.AETHERIUS && output.getCount() < output.getMaxStackSize()))
+        RefinerRecipes.Recipe recipe = RefinerRecipes.find(input);
+        boolean canCook = recipe != null
+                && (output.isEmpty() || (output.getItem() == recipe.output && output.getCount() < output.getMaxStackSize()))
                 && energy.getEnergyStored() >= ModConfig.highEnergyRefinerRfPerTick;
 
         if (canCook) {
             energy.consume(ModConfig.highEnergyRefinerRfPerTick);
             cook++;
-            if (cook >= ModConfig.highEnergyRefinerCookTimeTicks) {
+            if (cook >= recipe.ticks()) {
                 input.shrink(1);
                 if (input.getCount() <= 0) inv.setStackInSlot(0, ItemStack.EMPTY);
-                if (output.isEmpty()) inv.setStackInSlot(1, new ItemStack(Registration.AETHERIUS));
+                if (output.isEmpty()) inv.setStackInSlot(1, new ItemStack(recipe.output));
                 else {
                     output.grow(1);
                     inv.setStackInSlot(1, output);
@@ -95,9 +95,10 @@ public class AetheriusRefinerTileEntity extends TileEntity implements ITickable 
         ItemStack input = inv.getStackInSlot(0);
         ItemStack output = inv.getStackInSlot(1);
         int next;
-        if (input.isEmpty() || input.getItem() != Item.getItemFromBlock(Registration.COMPRESSED_NAQUADAH)) {
+        RefinerRecipes.Recipe recipe = RefinerRecipes.find(input);
+        if (recipe == null) {
             next = STATUS_IDLE;
-        } else if (!output.isEmpty() && (output.getItem() != Registration.AETHERIUS
+        } else if (!output.isEmpty() && (output.getItem() != recipe.output
                 || output.getCount() >= output.getMaxStackSize())) {
             next = STATUS_OUTPUT_FULL;
         } else if (energy.getEnergyStored() < ModConfig.highEnergyRefinerRfPerTick) {
@@ -120,18 +121,22 @@ public class AetheriusRefinerTileEntity extends TileEntity implements ITickable 
     /** Client and server: true while refining (client value arrives via the update packet). */
     public boolean isActive() { return active; }
 
-    public int getCookTimeTotal() { return ModConfig.highEnergyRefinerCookTimeTicks; }
+    /** Ticks for the recipe currently loaded (the Aetherius time when empty). */
+    public int getCookTimeTotal() {
+        RefinerRecipes.Recipe r = RefinerRecipes.find(inv.getStackInSlot(0));
+        return r != null ? r.ticks() : ModConfig.highEnergyRefinerCookTimeTicks;
+    }
 
     public int getCookTime() { return cook; }
 
     public float getCookProgress() {
-        int cookTime = ModConfig.highEnergyRefinerCookTimeTicks;
+        int cookTime = getCookTimeTotal();
         if (cookTime <= 0) return 0f;
         return Math.min(1f, cook / (float) cookTime);
     }
 
     public int getProgressPercent() {
-        int cookTime = ModConfig.highEnergyRefinerCookTimeTicks;
+        int cookTime = getCookTimeTotal();
         if (cookTime <= 0) return 0;
         return Math.min(100, (cook * 100) / cookTime);
     }
