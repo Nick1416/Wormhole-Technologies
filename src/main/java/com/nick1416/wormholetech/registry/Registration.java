@@ -175,6 +175,8 @@ public class Registration {
     public static final Item ITEM_MODULATOR_CRADLE = new ItemBlock(MODULATOR_CRADLE).setRegistryName(MODULATOR_CRADLE.getRegistryName());
     public static final Block QUANTUM_FIELD_MODULATOR = new com.nick1416.wormholetech.derelict.QuantumFieldModulatorBlock()
             .setRegistryName(WormholeTech.MODID, "quantum_field_modulator").setUnlocalizedName(WormholeTech.MODID + ".quantum_field_modulator");
+    public static final Block VORANI_MODULATOR = new com.nick1416.wormholetech.talvora.VoraniModulatorBlock()
+            .setRegistryName(WormholeTech.MODID, "vorani_modulator").setUnlocalizedName(WormholeTech.MODID + ".vorani_modulator");
     public static final Item ITEM_QUANTUM_FIELD_MODULATOR = new ItemBlock(QUANTUM_FIELD_MODULATOR).setMaxStackSize(1)
             .setRegistryName(QUANTUM_FIELD_MODULATOR.getRegistryName());
 
@@ -409,6 +411,13 @@ public class Registration {
                 .tracker(80, 3, true)
                 .egg(0x2A6E78, 0xC9A0FF)
                 .build());
+        e.getRegistry().register(net.minecraftforge.fml.common.registry.EntityEntryBuilder.create()
+                .entity(com.nick1416.wormholetech.talvora.EntityXenolithDrone.class)
+                .id(new net.minecraft.util.ResourceLocation(WormholeTech.MODID, "xenolith_drone"), 5)
+                .name(WormholeTech.MODID + ".xenolith_drone")
+                .tracker(80, 2, true)
+                .egg(0x1F4A55, 0x46C8BE)
+                .build());
     }
 
     /**
@@ -463,7 +472,7 @@ public class Registration {
                 STARGATE_PORTAL,
                 ANCIENT_GATE_FRAME,
                 REINFORCED_GATE_FRAME,
-                HULL_PLATING, HULL_BULKHEAD, HULL_LAMP, HULL_LAMP_GOLD, HULL_WINDOW, MODULATOR_CRADLE, QUANTUM_FIELD_MODULATOR, XENOLITH, XENOLITH_TILES, XENO_LAMP,
+                HULL_PLATING, HULL_BULKHEAD, HULL_LAMP, HULL_LAMP_GOLD, HULL_WINDOW, MODULATOR_CRADLE, QUANTUM_FIELD_MODULATOR, VORANI_MODULATOR, XENOLITH, XENOLITH_TILES, XENO_LAMP,
                 TITANIUM_BLOCK,
                 NATURAL_NAQUADAH_ORE,
                 PRYSMIAN_ORE,

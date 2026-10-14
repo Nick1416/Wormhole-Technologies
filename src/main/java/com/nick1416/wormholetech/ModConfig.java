@@ -76,6 +76,7 @@ public final class ModConfig {
     public static int p3xObeliskChance = 40;         // 1 in N chunks, 0 = off
     public static int p3xTempleChance = 60;          // 1 in N chunks, 0 = off
     public static int p3xTempleChestChance = 2;      // 1 in N temples get a chest
+    public static int xenolithDroneSpawnWeight = 5;     // 0 = off
     public static int emeraldDroneSpawnWeight = 50;     // 0 = off
     public static boolean p3xDustStorms = true;
     public static int p3xDustStormClearTicks = 36_000;   // average clear spell
@@ -224,6 +225,8 @@ public final class ModConfig {
                 "1 in N chunks on P3X-1416 get a small ancient temple (0 = off)");
         p3xTempleChestChance = cfg.getInt("p3xTempleChestChance", sg, 2, 0, 1000,
                 "1 in N temples contain a loot chest (0 = never)");
+        xenolithDroneSpawnWeight = cfg.getInt("xenolithDroneSpawnWeight", sg, 5, 0, 1000,
+                "Spawn weight of the harmless Xenolith Drone over Tal'Vora (0 = off). At most 2 drones within 96 blocks.");
         emeraldDroneSpawnWeight = migrated(cfg, sg, "emeraldDroneSpawnWeight", 50, new int[] { 6, 20 }, 0, 1000,
                 "Spawn weight of Emerald Drones on the P3X-1416 surface (vanilla zombies are 100; 0 = off). Groups of 1-2. Needs a restart");
         p3xDustStorms = cfg.getBoolean("p3xDustStorms", sg, true,

@@ -155,6 +155,9 @@ public class ClientProxy extends com.nick1416.wormholetech.common.CommonProxy {
 		net.minecraftforge.fml.client.registry.RenderingRegistry.registerEntityRenderingHandler(
 				com.nick1416.wormholetech.talvora.EntityAlienVillager.class,
 				com.nick1416.wormholetech.client.render.RenderAlienVillager::new);
+		net.minecraftforge.fml.client.registry.RenderingRegistry.registerEntityRenderingHandler(
+				com.nick1416.wormholetech.talvora.EntityXenolithDrone.class,
+				com.nick1416.wormholetech.client.render.RenderXenolithDrone::new);
 	}
 
 	@Override
