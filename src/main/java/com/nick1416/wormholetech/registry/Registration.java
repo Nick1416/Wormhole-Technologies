@@ -131,6 +131,18 @@ public class Registration {
             .setRegistryName(WormholeTech.MODID, "diamond_nugget")
             .setUnlocalizedName(WormholeTech.MODID + ".diamond_nugget");
 
+    // --- Titanium (refined from silicon) ---
+    public static final Item TITANIUM_INGOT = new Item()
+            .setRegistryName(WormholeTech.MODID, "titanium_ingot")
+            .setUnlocalizedName(WormholeTech.MODID + ".titanium_ingot");
+
+    public static final Block TITANIUM_BLOCK = new Block(net.minecraft.block.material.Material.IRON)
+            .setHardness(5.0F).setResistance(30.0F)
+            .setRegistryName(WormholeTech.MODID, "titanium_block")
+            .setUnlocalizedName(WormholeTech.MODID + ".titanium_block");
+    public static final Item ITEM_TITANIUM_BLOCK =
+            new ItemBlock(TITANIUM_BLOCK).setRegistryName(TITANIUM_BLOCK.getRegistryName());
+
     // --- Unstable Naquadah ---
     public static final Item UNSTABLE_NAQUADAH = new Item()
     		.setRegistryName(WormholeTech.MODID, "unstable_naquadah")
@@ -336,6 +348,8 @@ public class Registration {
         PRYSMIAN_BLOCK.setCreativeTab(b);
         UNSTABLE_PRYSMIAN_BLOCK.setCreativeTab(b);
         ANCIENT_GATE_FRAME.setCreativeTab(b);
+        TITANIUM_BLOCK.setCreativeTab(b);
+        TITANIUM_INGOT.setCreativeTab(m);
         for (Item i : new Item[]{RAW_NAQUADAH, REFINED_NAQUADAH, PRYSMIAN, UNSTABLE_NAQUADAH,
                 NAQUADAH_REACTOR, UNSTABLE_NAQUADAH_REACTOR}) i.setCreativeTab(m);
     }
@@ -362,6 +376,7 @@ public class Registration {
                 STARGATE_PORTAL,
                 ANCIENT_GATE_FRAME,
                 REINFORCED_GATE_FRAME,
+                TITANIUM_BLOCK,
                 NATURAL_NAQUADAH_ORE,
                 PRYSMIAN_ORE,
                 NAQUADRIC_STONE,
@@ -421,6 +436,8 @@ public class Registration {
                 ITEM_DIALING_COMPUTER,
                 ITEM_ANCIENT_GATE_FRAME,
                 ITEM_REINFORCED_GATE_FRAME,
+                ITEM_TITANIUM_BLOCK,
+                TITANIUM_INGOT,
                 GATE_LOCATOR,
                 ITEM_NATURAL_NAQUADAH_ORE,
                 ITEM_PRYSMIAN_ORE,
@@ -429,5 +446,7 @@ public class Registration {
                 ITEM_NAQUADAH_CRYSTAL,
                 ITEM_ANCIENT_STONE
         );
+        net.minecraftforge.oredict.OreDictionary.registerOre("ingotTitanium", TITANIUM_INGOT);
+        net.minecraftforge.oredict.OreDictionary.registerOre("blockTitanium", TITANIUM_BLOCK);
     }
 }

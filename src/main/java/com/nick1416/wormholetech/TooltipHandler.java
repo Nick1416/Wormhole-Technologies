@@ -33,7 +33,7 @@ public class TooltipHandler {
             "refined_naquadah",
             "unstable_naquadah",
             "prysmian",
-            "diamond_nugget",
+            "diamond_nugget", "titanium_ingot", "titanium_block",
             "reinforced_gate_frame",
             "prysmian_ore",
             "prysmian_block",

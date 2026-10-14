@@ -20,9 +20,12 @@ public final class Fallbacks {
     /** Mods known to add nuggetDiamond (some register their oredict late, so ask by mod id too). */
     private static final String[] NUGGET_MODS = { "thermalfoundation" };
 
+    /** Mods known to add oredict itemSilicon (asked by mod id too, in case they register late). */
+    private static final String[] SILICON_MODS = { "appliedenergistics2", "galacticraftcore" };
+
     private static boolean otherOre(String name) {
         for (ItemStack s : OreDictionary.getOres(name, false))
-            if (s.getItem() != Registration.DIAMOND_NUGGET) return true;
+            if (s.getItem() != Registration.DIAMOND_NUGGET && s.getItem() != Registration.ITEM_TITANIUM_BLOCK) return true;
         return false;
     }
 
@@ -31,20 +34,24 @@ public final class Fallbacks {
         boolean nuggetMod = false;
         for (String m : NUGGET_MODS) nuggetMod |= Loader.isModLoaded(m);
         nugget = !nuggetMod && !otherOre("nuggetDiamond");
-        frame = !Loader.isModLoaded("galacticraftplanets") && !otherOre("blockTitanium");
+        boolean silicon = !OreDictionary.getOres("itemSilicon", false).isEmpty();
+        for (String m : SILICON_MODS) silicon |= Loader.isModLoaded(m);
+        // the Reinforced Gate Frame is only needed when no titanium can be had at all: no other mod's
+        // titanium block and no silicon to refine into this mod's Titanium Ingot
+        frame = !Loader.isModLoaded("galacticraftplanets") && !otherOre("blockTitanium") && !silicon;
         if (nugget) {
             OreDictionary.registerOre("nuggetDiamond", Registration.DIAMOND_NUGGET);
             Registration.DIAMOND_NUGGET.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MATERIALS);
         }
         if (frame) Registration.REINFORCED_GATE_FRAME.setCreativeTab(net.minecraft.creativetab.CreativeTabs.BUILDING_BLOCKS);
         WormholeTech.LOGGER.info("Fallbacks: diamond nugget {}, gate frame block {}",
-                nugget ? "ON (no nuggetDiamond found)" : "off", frame ? "ON (no Galacticraft or blockTitanium found)" : "off");
+                nugget ? "ON (no nuggetDiamond found)" : "off", frame ? "ON (no titanium block and no silicon found)" : "off");
     }
 
     /** True when this mod's own Diamond Nugget is the pack's nuggetDiamond. */
     public static boolean nugget() { decide(); return nugget; }
 
-    /** True when neither Galacticraft nor any blockTitanium exists, so the Reinforced Gate Frame is craftable. */
+    /** True when no titanium source exists (no other blockTitanium, no silicon), so the Reinforced Gate Frame is craftable. */
     public static boolean frame() { decide(); return frame; }
 
     /** Items hidden from JEI when their fallback is off. */

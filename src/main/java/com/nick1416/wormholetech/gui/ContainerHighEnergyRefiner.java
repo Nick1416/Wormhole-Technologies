@@ -83,7 +83,7 @@ public class ContainerHighEnergyRefiner extends SyncedIntsContainer {
             if (!this.mergeItemStack(in, teSlots, this.inventorySlots.size(), true)) return ItemStack.EMPTY;
             slot.onSlotChange(in, ret);
         } else {
-            if (in.getItem() == Item.getItemFromBlock(Registration.COMPRESSED_NAQUADAH)) {
+            if (com.nick1416.wormholetech.tile.RefinerRecipes.find(in) != null) {
                 if (!this.mergeItemStack(in, 0, 1, false)) return ItemStack.EMPTY;
             } else {
                 return ItemStack.EMPTY;
