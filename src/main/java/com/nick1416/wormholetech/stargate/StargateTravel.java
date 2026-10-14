@@ -83,7 +83,9 @@ public final class StargateTravel {
     public static void travel(EntityPlayerMP p, WorldServer from, BlockPos portal) {
         IBlockState st = from.getBlockState(portal);
         if (st.getBlock() != Registration.STARGATE_PORTAL) return;
-        if (ModDimensions.isGateWorld(from.provider.getDimension())) {
+        int here = from.provider.getDimension();
+        if (ModDimensions.isGateWorld(here) && !dialedElsewhere(from, portal, st.getValue(StargatePortalBlock.AXIS), here)) {
+            // return gates (and gates without an open computer) lead back to where the player came from
             goHome(p);
         } else {
             goOut(p, from, portal, st.getValue(StargatePortalBlock.AXIS));
@@ -91,6 +93,28 @@ public final class StargateTravel {
     }
 
     // ---------------------------------------------------------------- outbound
+
+    /** A titanium gate in a gate world, opened by a computer that dialed another dimension. */
+    private static boolean dialedElsewhere(WorldServer w, BlockPos portal, EnumFacing.Axis axis, int here) {
+        GateShape g = GateShape.detect(w, portal, axis, TitaniumFrame::isTitanium);
+        Integer d = g == null ? null : openComputerDestination(w, g);
+        return d != null && d != here;
+    }
+
+    private static Integer openComputerDestination(WorldServer w, GateShape g) {
+        for (int y = -1; y <= g.height; y++)
+            for (int x = -1; x <= g.width; x++) {
+                if (!(y == -1 || y == g.height || x == -1 || x == g.width)) continue;
+                BlockPos f = g.interior(x, y);
+                for (EnumFacing d : EnumFacing.VALUES) {
+                    net.minecraft.tileentity.TileEntity te = w.getTileEntity(f.offset(d));
+                    if (te instanceof com.nick1416.wormholetech.tile.DialingComputerTileEntity
+                            && ((com.nick1416.wormholetech.tile.DialingComputerTileEntity) te).isOpen())
+                        return ((com.nick1416.wormholetech.tile.DialingComputerTileEntity) te).destination();
+                }
+            }
+        return null;
+    }
 
     /** Destination of the dialing computer that opened this gate (P3X-1416 if none is found). */
     private static int destinationOf(WorldServer w, GateShape g) {

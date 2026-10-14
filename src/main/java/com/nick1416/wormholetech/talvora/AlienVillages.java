@@ -21,6 +21,8 @@ public final class AlienVillages {
     public static final int RADIUS = 46, FLOOR_Y = 70;
     private static final int HUTS = 8, HUT_RING = 28, OBELISKS = 12, OBELISK_RING = 39;
     private static final double HUT_R = 6.5;
+    /** Height of the glowing landmark needle above the plaza. */
+    private static final int NEEDLE = 100;
 
     private static long mix(long a, long b, long c) {
         long h = a * 0x9E3779B97F4A7C15L ^ b * 0xC2B2AE3D27D4EB4FL ^ c * 0x165667B19E3779F9L ^ 0x5DEECE66DL;
@@ -37,7 +39,7 @@ public final class AlienVillages {
         if (bucket(mix(rx, rz, 501), 100) >= ModConfig.talVoraVillageChance) return null;
         int margin = RADIUS + 8, span = size - 2 * margin;
         int vx = rx * size + margin + bucket(mix(rx, rz, 502), span), vz = rz * size + margin + bucket(mix(rx, rz, 503), span);
-        if (Math.abs(vx) < 160 && Math.abs(vz) < 160) return null; // keep clear of the return gate
+        if (Math.abs(vx) < 96 && Math.abs(vz) < 96) return null; // keep clear of the return gate
         return new int[] { vx, vz };
     }
 
@@ -108,6 +110,11 @@ public final class AlienVillages {
             set(w, x, ty, z, r < 1.5 ? lamp : stone);
             if (ty - 1 > y0 + 30) set(w, x, ty - 1, z, stone);
             if (r < 1.5) for (int y = y0 + 1; y <= y0 + 6; y++) set(w, x, y, z, lamp);
+            // landmark: a glowing needle rising high above the dome, visible across the dunes
+            if (ax + az <= 1) {
+                int topY = Math.min(250, y0 + NEEDLE);
+                for (int y = ty + 1; y <= topY; y++) if (ax + az == 0 || y > topY - 3) set(w, x, y, z, lamp);
+            }
             return;
         }
         // huts

@@ -56,8 +56,8 @@ public final class ModConfig {
     public static int talVoraDimensionId = -1418;
     public static double talVoraGravity = 1.15D;
     public static double talVoraFallDamageMultiplier = 1.5D;
-    public static int talVoraVillageRegionChunks = 40;
-    public static int talVoraVillageChance = 50;
+    public static int talVoraVillageRegionChunks = 28;
+    public static int talVoraVillageChance = 70;
     public static int derelictModulatorRoomChance = 384;
     public static int derelictRoomChance = 7;
     public static int derelictSpawnIntervalTicks = 100;
@@ -184,10 +184,14 @@ public final class ModConfig {
                 "Gravity on Tal'Vora relative to normal (1.15 = jumps ~1.07 blocks instead of 1.25, faster falls; capped at 1.2 so one-block steps stay jumpable)");
         talVoraFallDamageMultiplier = cfg.getFloat("talVoraFallDamageMultiplier", sg, 1.5F, 1.0F, 10.0F,
                 "Fall damage multiplier on Tal'Vora");
-        talVoraVillageRegionChunks = cfg.getInt("talVoraVillageRegionChunks", sg, 40, 8, 1000,
-                "Tal'Vora is split into square regions of this many chunks; each may hold one alien village");
-        talVoraVillageChance = cfg.getInt("talVoraVillageChance", sg, 50, 0, 100,
-                "Percent chance that a Tal'Vora region holds an alien village (0 = none)");
+        net.minecraftforge.common.config.Property vr = cfg.get(sg, "talVoraVillageRegionChunks", 28,
+                "Tal'Vora is split into square regions of this many chunks; each may hold one alien village", 8, 1000);
+        if (vr.getInt() == 40) vr.set(28); // migrate the old default
+        talVoraVillageRegionChunks = Math.max(8, Math.min(1000, vr.getInt()));
+        net.minecraftforge.common.config.Property vc = cfg.get(sg, "talVoraVillageChance", 70,
+                "Percent chance that a Tal'Vora region holds an alien village (0 = none)", 0, 100);
+        if (vc.getInt() == 50 || vc.getInt() == 65) vc.set(70); // migrate the old default
+        talVoraVillageChance = Math.max(0, Math.min(100, vc.getInt()));
         derelictModulatorRoomChance = Math.max(0, Math.min(1_000_000, modRoom.getInt()));
         derelictRoomChance = cfg.getInt("derelictRoomChance", sg, 7, 0, 1000,
                 "1 in N ship chunks is an open room (half of them with a chest; 0 = maze only)");
