@@ -318,6 +318,28 @@ public class Registration {
                 .build());
     }
 
+    /**
+     * Vanilla creative search only lists items that sit in a creative tab. Runs after the mode config
+     * is read (preInit), so the duplicators only get a tab in cc mode.
+     */
+    private static void assignCreativeTabs() {
+        net.minecraft.creativetab.CreativeTabs b = net.minecraft.creativetab.CreativeTabs.BUILDING_BLOCKS,
+                r = net.minecraft.creativetab.CreativeTabs.REDSTONE, m = net.minecraft.creativetab.CreativeTabs.MATERIALS;
+        RF_GENERATOR.setCreativeTab(r);
+        NAQUADAH_GENERATOR.setCreativeTab(r);
+        if (com.nick1416.wormholetech.ModConfig.isCC()) {
+            WORMHOLE_DUPLICATOR.setCreativeTab(r);
+            UNSTABLE_WORMHOLE_DUPLICATOR.setCreativeTab(r);
+        }
+        NAQUADAH_ORE.setCreativeTab(b);
+        UNSTABLE_NAQUADAH_BLOCK.setCreativeTab(b);
+        PRYSMIAN_BLOCK.setCreativeTab(b);
+        UNSTABLE_PRYSMIAN_BLOCK.setCreativeTab(b);
+        ANCIENT_GATE_FRAME.setCreativeTab(b);
+        for (Item i : new Item[]{RAW_NAQUADAH, REFINED_NAQUADAH, PRYSMIAN, UNSTABLE_NAQUADAH,
+                NAQUADAH_REACTOR, UNSTABLE_NAQUADAH_REACTOR}) i.setCreativeTab(m);
+    }
+
     // --- Registry events ---
     @SubscribeEvent
     public static void onRegisterBlocks(RegistryEvent.Register<Block> e) {
@@ -351,6 +373,7 @@ public class Registration {
 
     @SubscribeEvent
     public static void onRegisterItems(RegistryEvent.Register<Item> e) {
+        assignCreativeTabs();
         e.getRegistry().registerAll(
                 ITEM_RF_GENERATOR,
                 ITEM_NAQUADAH_ORE,
