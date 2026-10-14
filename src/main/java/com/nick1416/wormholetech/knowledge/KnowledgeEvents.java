@@ -14,12 +14,11 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 @Mod.EventBusSubscriber(modid = WormholeTech.MODID)
 public final class KnowledgeEvents {
     private KnowledgeEvents() {}
-    public static final String[] TECH = { "quantum_field_modulator", "nanite_core", "xenolith_drone" };
+    public static final String[] TECH = { "quantum_field_modulator", "nanite_core" };
 
     static int techOf(Item i) {
         if (i == Registration.ITEM_QUANTUM_FIELD_MODULATOR) return 0;
         if (i == Registration.NANITE_CORE) return 1;
-        if (i == Registration.INACTIVE_DRONE || i == Registration.ITEM_MINER_DRONE || i == Registration.COMPANION_DRONE) return 2;
         return -1;
     }
 
