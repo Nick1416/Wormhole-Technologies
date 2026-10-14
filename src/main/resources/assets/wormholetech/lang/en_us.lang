@@ -449,3 +449,5 @@ status.wormholetech.miner_drone.wrong_dim_naquadah=Miner Drone: idle - works onl
 status.wormholetech.miner_drone.no_storage=Miner Drone: idle - place it next to a chest or other storage
 status.wormholetech.miner_drone.full=Miner Drone: storage full
 status.wormholetech.miner_drone.no_mineral=Miner Drone: idle - this mineral is not available
+status.wormholetech.miner_drone.no_modulator=Miner Drone: paused - Needs a Quantum Field Modulator nearby
+tooltip.wormholetech.drone_modulator=Needs a placed Quantum Field Modulator nearby (64 blocks by default)

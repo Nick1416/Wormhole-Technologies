@@ -104,11 +104,11 @@ public class WormholeJeiPlugin implements IModPlugin {
         for (int m = 0; m < com.nick1416.wormholetech.drone.DroneProgram.MINERS; m++)
             registry.addIngredientInfo(new ItemStack(Registration.ITEM_MINER_DRONE, 1, m), VanillaTypes.ITEM,
                     "tooltip.wormholetech.miner_drone.summary", "tooltip.wormholetech.miner_drone.detail.1",
-                    m == 0 ? "tooltip.wormholetech.miner_drone.naquadah" : "tooltip.wormholetech.miner_drone.overworld");
+                    m == 0 ? "tooltip.wormholetech.miner_drone.naquadah" : "tooltip.wormholetech.miner_drone.overworld", "tooltip.wormholetech.drone_modulator");
         registry.addIngredientInfo(new ItemStack(Registration.COMPANION_DRONE, 1, 0), VanillaTypes.ITEM,
-                "tooltip.wormholetech.defensive_drone.summary", "tooltip.wormholetech.defensive_drone.detail.1");
+                "tooltip.wormholetech.defensive_drone.summary", "tooltip.wormholetech.defensive_drone.detail.1", "tooltip.wormholetech.drone_modulator");
         registry.addIngredientInfo(new ItemStack(Registration.COMPANION_DRONE, 1, 1), VanillaTypes.ITEM,
-                "tooltip.wormholetech.research_drone.summary", "tooltip.wormholetech.research_drone.detail.1");
+                "tooltip.wormholetech.research_drone.summary", "tooltip.wormholetech.research_drone.detail.1", "tooltip.wormholetech.drone_modulator");
         info(registry, Registration.ITEM_XENOLITH, "xenolith", 1);
         info(registry, Registration.ITEM_XENOLITH_TILES, "xenolith_tiles", 1);
         info(registry, Registration.ITEM_XENO_LAMP, "xeno_lamp", 1);

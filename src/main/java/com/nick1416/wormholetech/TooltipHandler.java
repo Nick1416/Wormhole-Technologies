@@ -76,8 +76,10 @@ public class TooltipHandler {
             addDocumentedTooltips(event, path);
             event.getToolTip().add(1, TextFormatting.YELLOW + net.minecraft.client.resources.I18n.format(stack.getMetadata() == 0
                     ? "tooltip.wormholetech.miner_drone.naquadah" : "tooltip.wormholetech.miner_drone.overworld"));
+            event.getToolTip().add(2, TextFormatting.YELLOW + net.minecraft.client.resources.I18n.format("tooltip.wormholetech.drone_modulator"));
         } else if ("companion_drone".equals(path)) {
             addDocumentedTooltips(event, stack.getMetadata() == 1 ? "research_drone" : "defensive_drone");
+            event.getToolTip().add(2, TextFormatting.YELLOW + net.minecraft.client.resources.I18n.format("tooltip.wormholetech.drone_modulator"));
         } else if (path.startsWith("mineral_tuner_")) {
             addMineralTunerTooltips(event, stack);
         } else if (DOCUMENTED.contains(path)) {
