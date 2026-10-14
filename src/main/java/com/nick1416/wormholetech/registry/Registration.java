@@ -154,7 +154,7 @@ public class Registration {
     public static final Block HULL_BULKHEAD = new com.nick1416.wormholetech.derelict.HullBlock(net.minecraft.block.material.MapColor.BLACK, 0F)
             .setRegistryName(WormholeTech.MODID, "hull_bulkhead").setUnlocalizedName(WormholeTech.MODID + ".hull_bulkhead");
     public static final Item ITEM_HULL_BULKHEAD = new ItemBlock(HULL_BULKHEAD).setRegistryName(HULL_BULKHEAD.getRegistryName());
-    public static final Block HULL_LAMP = new com.nick1416.wormholetech.derelict.HullBlock(net.minecraft.block.material.MapColor.SNOW, 0.8F)
+    public static final Block HULL_LAMP = new com.nick1416.wormholetech.derelict.HullBlock(net.minecraft.block.material.MapColor.SNOW, 1.0F)
             .setRegistryName(WormholeTech.MODID, "hull_lamp").setUnlocalizedName(WormholeTech.MODID + ".hull_lamp");
     public static final Item ITEM_HULL_LAMP = new ItemBlock(HULL_LAMP).setRegistryName(HULL_LAMP.getRegistryName());
     public static final Block HULL_WINDOW = new com.nick1416.wormholetech.derelict.HullWindowBlock()

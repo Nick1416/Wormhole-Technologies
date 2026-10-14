@@ -111,7 +111,7 @@ public final class DerelictLayout {
                 boolean floorView = cellInner && bucket(ch, 23) == 1;    // floor viewport
                 p.setBlockState(lx, HULL_LOW, lz, plating);
                 p.setBlockState(lx, FLOOR, lz, floorView ? window : plating);
-                p.setBlockState(lx, CEIL, lz, skylight ? window : (centre && bucket(ch, 5) == 2 ? lamp : plating));
+                p.setBlockState(lx, CEIL, lz, skylight ? window : (centre && ((cellX + cellZ) & 1) == 0 ? lamp : plating));
                 p.setBlockState(lx, HULL_HIGH, lz, skylight ? window : plating);
                 if (floorView) p.setBlockState(lx, HULL_LOW, lz, window);
                 if (wallAt(x, z)) for (int y = FLOOR + 1; y < CEIL; y++) p.setBlockState(lx, y, lz, wall);
