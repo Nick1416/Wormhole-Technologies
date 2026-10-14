@@ -97,6 +97,10 @@ public class QuantumFieldModulatorBlock extends Block {
                     net.minecraft.util.SoundCategory.BLOCKS, 1.5F, 0.5F, false);
     }
 
+    /** Only a free (unlocked or player-placed) modulator produces energy. */
+    @Override public boolean hasTileEntity(IBlockState state) { return !state.getValue(LOCKED); }
+    @Override public net.minecraft.tileentity.TileEntity createTileEntity(World world, IBlockState state) { return new QuantumFieldModulatorTileEntity(); }
+
     @Override public boolean isOpaqueCube(IBlockState s) { return false; }
     @Override public boolean isFullCube(IBlockState s) { return false; }
     @Override public AxisAlignedBB getBoundingBox(IBlockState s, IBlockAccess w, BlockPos p) { return BOX; }

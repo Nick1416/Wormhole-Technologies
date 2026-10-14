@@ -26,7 +26,8 @@ public class DialingComputerBlock extends Block {
     }
 
     @Override public boolean hasTileEntity(IBlockState state) { return true; }
-    @Override public TileEntity createTileEntity(World world, IBlockState state) { return new DialingComputerTileEntity(); }
+    @Override public TileEntity createTileEntity(World world, IBlockState state) { return newTile(); }
+    protected DialingComputerTileEntity newTile() { return new DialingComputerTileEntity(); }
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,

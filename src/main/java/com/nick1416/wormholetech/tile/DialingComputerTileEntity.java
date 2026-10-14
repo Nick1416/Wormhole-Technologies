@@ -31,9 +31,11 @@ import net.minecraftforge.items.ItemStackHandler;
 public class DialingComputerTileEntity extends TileEntity implements ITickable {
 
     public static final int STATUS_DISABLED = 0, STATUS_NO_ADDRESS = 1, STATUS_NEED_COMPUTER = 2,
-            STATUS_NO_FRAME = 3, STATUS_NEED_POWER = 4, STATUS_READY = 5, STATUS_OPEN = 6, STATUS_NEED_CLOCK = 7;
+            STATUS_NO_FRAME = 3, STATUS_NEED_POWER = 4, STATUS_READY = 5, STATUS_OPEN = 6, STATUS_NEED_CLOCK = 7,
+            STATUS_NEED_MODULATOR = 8, STATUS_UNREACHABLE = 9;
     public static final String[] STATUS_KEYS = {
-            "disabled", "no_address", "need_computer", "no_frame", "need_power", "ready", "open", "need_clock" };
+            "disabled", "no_address", "need_computer", "no_frame", "need_power", "ready", "open", "need_clock",
+            "need_modulator", "unreachable" };
 
     private final Energy energy = new Energy(ModConfig.dialingComputerBuffer, ModConfig.dialingComputerMaxReceive);
     private final ItemStackHandler inv = new ItemStackHandler(1) {
@@ -53,16 +55,37 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
     private boolean checkRequested = true;
 
     public static boolean isAddress(ItemStack s) {
-        return !s.isEmpty() && (s.getItem() == Registration.ANCIENT_TABLET || s.getItem() == Registration.DERELICT_COORDINATES);
+        return !s.isEmpty() && (s.getItem() == Registration.ANCIENT_TABLET || s.getItem() == Registration.DERELICT_COORDINATES
+                || s.getItem() == Registration.INTERGALACTIC_COORDINATES);
     }
+
+    /** Is there an address to dial (slot item, or a selected destination in subclasses)? */
+    protected boolean hasAddress() { return isAddress(inv.getStackInSlot(0)); }
+
+    /** The address points to another galaxy (no destination exists there yet). */
+    protected boolean intergalactic() { return inv.getStackInSlot(0).getItem() == Registration.INTERGALACTIC_COORDINATES; }
 
     /** Dimension the address in the slot leads to. */
     public int destination() {
         return inv.getStackInSlot(0).getItem() == Registration.DERELICT_COORDINATES ? ModDimensions.derelictId() : ModDimensions.id();
     }
 
-    private boolean destinationAvailable() {
+    protected boolean destinationAvailable() {
+        if (intergalactic()) return true;
         return inv.getStackInSlot(0).getItem() == Registration.DERELICT_COORDINATES ? ModDimensions.isDerelictRegistered() : ModDimensions.isRegistered();
+    }
+
+    /** A Quantum Field Modulator touches one of the gate's titanium frame blocks. */
+    public boolean modulatorAtGate(GateShape g) {
+        if (g == null) return false;
+        for (int y = -1; y <= g.height; y++)
+            for (int x = -1; x <= g.width; x++) {
+                if (!(y == -1 || y == g.height || x == -1 || x == g.width)) continue;
+                BlockPos f = g.interior(x, y);
+                for (EnumFacing d : EnumFacing.VALUES)
+                    if (world.getBlockState(f.offset(d)).getBlock() == Registration.QUANTUM_FIELD_MODULATOR) return true;
+            }
+        return false;
     }
 
     public void requestCheck() { checkRequested = true; }
@@ -92,11 +115,12 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
         GateShape found = null;
         int s;
         if (!TitaniumFrame.available() || (!ModDimensions.isRegistered() && !ModDimensions.isDerelictRegistered())) s = STATUS_DISABLED;
-        else if (!isAddress(inv.getStackInSlot(0))) s = STATUS_NO_ADDRESS;
+        else if (!hasAddress()) s = STATUS_NO_ADDRESS;
         else if (!destinationAvailable()) s = STATUS_DISABLED;
         else if (!adjacentActiveComputer()) s = STATUS_NEED_COMPUTER;
         else if (!adjacentForwardClock()) s = STATUS_NEED_CLOCK;
         else if ((found = findGate()) == null) s = STATUS_NO_FRAME;
+        else if (intergalactic()) s = modulatorAtGate(found) ? STATUS_UNREACHABLE : STATUS_NEED_MODULATOR;
         else if (!open && energy.getEnergyStored() < ModConfig.dialingComputerRfPerTick()) s = STATUS_NEED_POWER;
         else s = open ? STATUS_OPEN : STATUS_READY;
 
@@ -124,6 +148,12 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
             return;
         }
         evaluate();
+        if (status == STATUS_UNREACHABLE) {
+            // the far galaxy has no gate to connect to yet
+            world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, 0.5F);
+            if (by != null) by.sendStatusMessage(new net.minecraft.util.text.TextComponentTranslation("message.wormholetech.dialing.unreachable"), true);
+            return;
+        }
         if (status != STATUS_READY) return;
         gate = findGate();
         if (gate == null) return;

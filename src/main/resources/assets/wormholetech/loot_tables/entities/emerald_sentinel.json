@@ -4,17 +4,64 @@
       "name": "emeralds",
       "rolls": 1,
       "entries": [
-        { "type": "item", "name": "minecraft:emerald", "weight": 1,
-          "functions": [ { "function": "set_count", "count": { "min": 4, "max": 8 } },
-                         { "function": "looting_enchant", "count": { "min": 0, "max": 2 } } ] }
+        {
+          "type": "item",
+          "name": "minecraft:emerald",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            {
+              "function": "looting_enchant",
+              "count": {
+                "min": 0,
+                "max": 2
+              }
+            }
+          ]
+        }
       ]
     },
     {
       "name": "core",
       "rolls": 1,
       "entries": [
-        { "type": "item", "name": "wormholetech:refined_naquadah", "weight": 1,
-          "functions": [ { "function": "set_count", "count": { "min": 2, "max": 4 } } ] }
+        {
+          "type": "item",
+          "name": "wormholetech:refined_naquadah",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 4
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "nanite",
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "random_chance",
+          "chance": 0.05
+        }
+      ],
+      "entries": [
+        {
+          "type": "item",
+          "name": "wormholetech:nanite_core",
+          "weight": 1
+        }
       ]
     }
   ]

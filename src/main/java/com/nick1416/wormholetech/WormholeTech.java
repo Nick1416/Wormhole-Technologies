@@ -83,6 +83,12 @@ public class WormholeTech {
         GameRegistry.registerTileEntity(
                 com.nick1416.wormholetech.tile.DialingComputerTileEntity.class,
                 new ResourceLocation(MODID, "dialing_computer"));
+        GameRegistry.registerTileEntity(
+                com.nick1416.wormholetech.tile.GateNetworkComputerTileEntity.class,
+                new ResourceLocation(MODID, "gate_network_computer"));
+        GameRegistry.registerTileEntity(
+                com.nick1416.wormholetech.derelict.QuantumFieldModulatorTileEntity.class,
+                new ResourceLocation(MODID, "quantum_field_modulator"));
 
         com.nick1416.wormholetech.world.ModDimensions.register();
         com.nick1416.wormholetech.world.ModDimensions.registerDerelict();
