@@ -47,15 +47,21 @@ public class ChunkGeneratorTalVora extends ChunkGeneratorOverworld {
         AlienVillages.populate(world, x, z);
     }
 
-    /** Xenolith Ore: veins of up to 6 in the red sandstone under the dunes, y 12-60, 5 tries per chunk (about iron rarity). */
+    /**
+     * Xenolith Ore: veins of up to 8 in the red sandstone (and any leftover stone) from y 12 up to just
+     * under the sand of that column, 10 tries per chunk (about 45 ore per chunk).
+     */
     private void generateXenolithOre(int cx, int cz) {
         int n = com.nick1416.wormholetech.ModConfig.xenolithOreVeinsPerChunk;
         if (n <= 0) return;
         java.util.Random r = new java.util.Random(world.getSeed() ^ (cx * 341873128712L + cz * 132897987541L) ^ 0x58454E4FL);
         net.minecraft.world.gen.feature.WorldGenMinable vein = new net.minecraft.world.gen.feature.WorldGenMinable(
-                com.nick1416.wormholetech.registry.Registration.XENOLITH_ORE.getDefaultState(), 6,
+                com.nick1416.wormholetech.registry.Registration.XENOLITH_ORE.getDefaultState(), 8,
                 state -> state != null && (state.getBlock() == Blocks.RED_SANDSTONE || state.getBlock() == Blocks.STONE));
-        for (int i = 0; i < n; i++)
-            vein.generate(world, r, new net.minecraft.util.math.BlockPos((cx << 4) + 8 + r.nextInt(16), 12 + r.nextInt(49), (cz << 4) + 8 + r.nextInt(16)));
+        for (int i = 0; i < n; i++) {
+            int x = (cx << 4) + 8 + r.nextInt(16), z = (cz << 4) + 8 + r.nextInt(16);
+            int top = Math.max(16, world.getHeight(x, z) - 4);   // stay under the sand layer
+            vein.generate(world, r, new net.minecraft.util.math.BlockPos(x, 12 + r.nextInt(top - 11), z));
+        }
     }
 }
