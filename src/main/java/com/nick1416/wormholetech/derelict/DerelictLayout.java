@@ -36,6 +36,8 @@ public final class DerelictLayout {
     private DerelictLayout() {}
 
     public static final int HULL_LOW = 63, FLOOR = 64, CEIL = 69, HULL_HIGH = 70;
+    /** Modulator halls are taller: ceiling and outer hull above the normal deck. */
+    public static final int HALL_CEIL = 74, HALL_HULL = 75;
     public static final int TYPE_MAZE = 0, TYPE_ROOM = 1, TYPE_MODULATOR = 2, TYPE_HUB = 3;
     /** Return gate in the hub: 2x3 opening, frame x 6..9, y 64..68 at z 8. */
     public static final GateShape GATE = new GateShape(new BlockPos(7, FLOOR + 1, 8), EnumFacing.Axis.X, 2, 3);
@@ -49,11 +51,52 @@ public final class DerelictLayout {
 
     private static int bucket(long h, int n) { return (int) ((h >>> 1) % n); }
 
+    /**
+     * Modulator halls are 3x3 chunks. The world is split into 16x16-chunk regions; each region holds
+     * one hall with probability 256/N (N = derelictModulatorRoomChance, so on average one hall per N
+     * chunks), at a hashed offset that keeps the hall inside the region. Any chunk can work out from
+     * its own coordinates whether it is part of a hall, so no neighbour generation is needed.
+     * Halls never come within 2 chunks of the hub.
+     * @return the hall's minimum chunk {x, z}, or null if chunk (cx, cz) is not in a hall
+     */
+    public static int[] modulatorHall(int cx, int cz) {
+        int n = ModConfig.derelictModulatorRoomChance;
+        if (n <= 0) return null;
+        int rx = cx >> 4, rz = cz >> 4;
+        if (n > 256 && bucket(mix(rx, rz, 77), n) >= 256) return null;
+        int ax = (rx << 4) + bucket(mix(rx, rz, 78), 14), az = (rz << 4) + bucket(mix(rx, rz, 79), 14);
+        if (ax <= 2 && ax + 2 >= -2 && az <= 2 && az + 2 >= -2) return null; // hub exclusion
+        if (cx < ax || cx > ax + 2 || cz < az || cz > az + 2) return null;
+        return new int[] { ax, az };
+    }
+
+    /** Is chunk (cx, cz) the centre chunk of a hall (cradle, modulator, Giant Sentinel)? */
+    public static boolean isHallCentre(int cx, int cz) {
+        int[] h = modulatorHall(cx, cz);
+        return h != null && h[0] + 1 == cx && h[1] + 1 == cz;
+    }
+
+    private static boolean sameHall(int ax, int az, int bx, int bz) {
+        int[] a = modulatorHall(ax, az), b = modulatorHall(bx, bz);
+        return a != null && b != null && a[0] == b[0] && a[1] == b[1];
+    }
+
+    /** Block column (x, z) lies inside a hall and off its outer boundary lines. */
+    private static boolean hallInterior(int x, int z) {
+        int[] h = modulatorHall(x >> 4, z >> 4);
+        return h != null && x != h[0] << 4 && z != h[1] << 4;
+    }
+
+    /** Column touches a hall from its boundary (outer wall line, owned by either side). */
+    private static boolean hallBoundary(int x, int z) {
+        if (hallInterior(x, z)) return false;
+        return modulatorHall(x >> 4, z >> 4) != null || modulatorHall((x - 1) >> 4, z >> 4) != null
+                || modulatorHall(x >> 4, (z - 1) >> 4) != null || modulatorHall((x - 1) >> 4, (z - 1) >> 4) != null;
+    }
+
     public static int chunkType(int cx, int cz) {
         if (cx == 0 && cz == 0) return TYPE_HUB;
-        boolean nearHub = Math.abs(cx) <= 2 && Math.abs(cz) <= 2;
-        int modChance = ModConfig.derelictModulatorRoomChance;
-        if (!nearHub && modChance > 0 && bucket(mix(cx, cz, 77), modChance) == 0) return TYPE_MODULATOR;
+        if (modulatorHall(cx, cz) != null) return TYPE_MODULATOR;
         int roomChance = ModConfig.derelictRoomChance;
         if (roomChance > 0 && bucket(mix(cx, cz, 31), roomChance) == 0) return TYPE_ROOM;
         return TYPE_MAZE;
@@ -101,8 +144,11 @@ public final class DerelictLayout {
         int cellA = (line >> 2) - 1, cellB = line >> 2;
         int chA = cellA >> 2, chB = cellB >> 2, chO = cell >> 2;
         int along = cell & 3;
-        if (chA != chB) return along == 1 || along == 2;   // fixed doorways on every chunk edge
         int cx = axis == 0 ? chA : chO, cz = axis == 0 ? chO : chA;
+        if (chA != chB) {
+            if (axis == 0 ? sameHall(chA, chO, chB, chO) : sameHall(chO, chA, chO, chB)) return true; // inside a hall
+            return along == 1 || along == 2;   // fixed doorways on every chunk edge
+        }
         if (isRoom(cx, cz)) return true;
         int i = cellA & 3;                                   // cell index across the line (0..2)
         int bit = axis == 0 ? along * 3 + i : 12 + along * 3 + i;
@@ -112,7 +158,8 @@ public final class DerelictLayout {
     /** Post at the corner (x, z), both multiples of 4: solid unless all four cells are inside one room chunk. */
     private static boolean postOpen(int x, int z) {
         int cx = x >> 4, cz = z >> 4;
-        if ((x & 15) == 0 || (z & 15) == 0) return false;
+        if ((x & 15) == 0 || (z & 15) == 0)
+            return sameHall((x - 1) >> 4, (z - 1) >> 4, cx, cz) && sameHall(cx, (z - 1) >> 4, (x - 1) >> 4, cz) && sameHall(cx, cz, cx, (z - 1) >> 4);
         return isRoom(cx, cz);
     }
 
@@ -146,13 +193,28 @@ public final class DerelictLayout {
                 p.setBlockState(lx, HULL_HIGH, lz, skylight ? window : plating);
                 if (floorView) p.setBlockState(lx, HULL_LOW, lz, window);
                 if (wallAt(x, z)) for (int y = FLOOR + 1; y < CEIL; y++) p.setBlockState(lx, y, lz, wall);
+                if (hallInterior(x, z)) {
+                    // tall open hall: lamps in the floor and the high ceiling, nothing at the normal deck height
+                    p.setBlockState(lx, FLOOR, lz, centre && ((cellX + cellZ) & 1) == 1 ? lamp : plating);
+                    p.setBlockState(lx, HULL_LOW, lz, plating);
+                    p.setBlockState(lx, CEIL, lz, Blocks.AIR.getDefaultState());
+                    p.setBlockState(lx, HULL_HIGH, lz, Blocks.AIR.getDefaultState());
+                    p.setBlockState(lx, HALL_CEIL, lz, centre ? lamp : plating);
+                    p.setBlockState(lx, HALL_HULL, lz, plating);
+                } else if (hallBoundary(x, z)) {
+                    // outer hall wall continues up to the high ceiling, sealed on top
+                    boolean wallLamp = wallAt(x, z) && (((x & 3) == 2) || ((z & 3) == 2));
+                    if (wallLamp) p.setBlockState(lx, FLOOR + 3, lz, lamp);
+                    for (int y = CEIL; y <= HALL_CEIL; y++) p.setBlockState(lx, y, lz, wall);
+                    p.setBlockState(lx, HALL_HULL, lz, plating);
+                }
             }
         }
-        if (type == TYPE_ROOM || type == TYPE_MODULATOR || type == TYPE_HUB) {
+        if (type == TYPE_ROOM || type == TYPE_HUB) {
             for (int[] c : new int[][] { { 3, 3 }, { 12, 3 }, { 3, 12 }, { 12, 12 } }) p.setBlockState(c[0], CEIL, c[1], lamp);
         }
         placeGuideLamps(p, cx, cz, type);
-        if (type == TYPE_MODULATOR) {
+        if (isHallCentre(cx, cz)) {
             IBlockState cradle = Registration.MODULATOR_CRADLE.getDefaultState();
             for (int dx = -1; dx <= 1; dx++)
                 for (int dz = -1; dz <= 1; dz++) {
@@ -186,14 +248,16 @@ public final class DerelictLayout {
         IBlockState gold = Registration.HULL_LAMP_GOLD.getDefaultState();
         int[][] dirs = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
         for (int[] d : dirs) {
-            boolean towardRoom = chunkType(cx + d[0], cz + d[1]) == TYPE_MODULATOR;
-            int depthMax = towardRoom ? 3 : (type == TYPE_MODULATOR ? 1 : 0);
+            boolean sameHallSide = sameHall(cx, cz, cx + d[0], cz + d[1]);
+            boolean towardRoom = !sameHallSide && chunkType(cx + d[0], cz + d[1]) == TYPE_MODULATOR;
+            boolean hallEdge = type == TYPE_MODULATOR && !sameHallSide;
+            int depthMax = towardRoom ? 4 : (hallEdge ? 1 : 0);
             for (int depth = 0; depth < depthMax; depth++)
                 for (int along = 1; along <= 2; along++) {
                     // cell index across: 0 is the cell touching the edge in direction d
                     int across = d[0] + d[1] < 0 ? depth : 3 - depth;
                     int cellX = d[0] != 0 ? across : along, cellZ = d[0] != 0 ? along : across;
-                    p.setBlockState(cellX * 4 + 2, CEIL, cellZ * 4 + 2, gold);
+                    p.setBlockState(cellX * 4 + 2, hallEdge && !towardRoom ? HALL_CEIL : CEIL, cellZ * 4 + 2, gold);
                 }
         }
     }
@@ -210,7 +274,7 @@ public final class DerelictLayout {
                 if (te instanceof TileEntityChest) ((TileEntityChest) te).setLootTable(ROOM_LOOT, rand.nextLong());
             }
         }
-        if (type == TYPE_MODULATOR) {
+        if (isHallCentre(cx, cz)) {
             BlockPos home = new BlockPos(bx + 8, FLOOR + 1, bz + 8);
             if (w.getEntitiesWithinAABB(EntityGiantEmeraldSentinel.class, new AxisAlignedBB(home).grow(16)).isEmpty()) {
                 EntityGiantEmeraldSentinel g = new EntityGiantEmeraldSentinel(w);
@@ -222,12 +286,22 @@ public final class DerelictLayout {
         }
     }
 
-    /** Nearest modulator room chunk (search radius in chunks), or null. For tests/locators. */
-    public static int[] findModulatorRoom(int r) {
-        for (int d = 0; d <= r; d++)
+    /** Centre chunk of the nearest modulator hall to the hub (search radius in chunks), or null. */
+    public static int[] findModulatorRoom(int r) { return findModulatorRoom(0, 0, r); }
+
+    /** Centre chunk of the nearest modulator hall to chunk (cx, cz), searching out to r chunks, or null. */
+    public static int[] findModulatorRoom(int cx, int cz, int r) {
+        int[] best = null;
+        long bestD = Long.MAX_VALUE;
+        for (int d = 0; d <= r; d++) {
+            if (best != null && (long) (d - 2) * (d - 2) > bestD) break;
             for (int x = -d; x <= d; x++)
-                for (int z = -d; z <= d; z++)
-                    if (Math.max(Math.abs(x), Math.abs(z)) == d && chunkType(x, z) == TYPE_MODULATOR) return new int[] { x, z };
-        return null;
+                for (int z = -d; z <= d; z++) {
+                    if (Math.max(Math.abs(x), Math.abs(z)) != d || !isHallCentre(cx + x, cz + z)) continue;
+                    long dd = (long) x * x + (long) z * z;
+                    if (dd < bestD) { bestD = dd; best = new int[] { cx + x, cz + z }; }
+                }
+        }
+        return best;
     }
 }
