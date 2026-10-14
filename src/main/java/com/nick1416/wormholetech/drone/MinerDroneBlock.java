@@ -46,16 +46,22 @@ public class MinerDroneBlock extends Block implements ITileEntityProvider {
         return true;
     }
 
+    private ItemStack dropOf(IBlockAccess w, BlockPos pos) {
+        TileEntity te = w.getTileEntity(pos);
+        ItemStack s = new ItemStack(Registration.ITEM_MINER_DRONE, 1, metaAt(w, pos));
+        return te instanceof MinerDroneTileEntity ? DroneCharge.with(s, ((MinerDroneTileEntity) te).charge) : s;
+    }
+
     private int metaAt(IBlockAccess w, BlockPos pos) {
         TileEntity te = w.getTileEntity(pos);
         return te instanceof MinerDroneTileEntity ? ((MinerDroneTileEntity) te).program : 0;
     }
 
     @Override public void getDrops(NonNullList<ItemStack> drops, IBlockAccess w, BlockPos pos, IBlockState s, int fortune) {
-        drops.add(new ItemStack(Registration.ITEM_MINER_DRONE, 1, metaAt(w, pos)));
+        drops.add(dropOf(w, pos));
     }
     @Override public ItemStack getPickBlock(IBlockState s, RayTraceResult t, World w, BlockPos pos, EntityPlayer p) {
-        return new ItemStack(Registration.ITEM_MINER_DRONE, 1, metaAt(w, pos));
+        return dropOf(w, pos);
     }
     /** Keep the tile entity until drops are collected. */
     @Override public boolean removedByPlayer(IBlockState s, World w, BlockPos pos, EntityPlayer p, boolean willHarvest) {

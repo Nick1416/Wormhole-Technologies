@@ -22,6 +22,11 @@ public class ItemCompanionDrone extends Item {
 
     @Override public String getUnlocalizedName(ItemStack s) { return "item.wormholetech." + (s.getMetadata() == 1 ? "research_drone" : "defensive_drone"); }
 
+
+    @Override public boolean showDurabilityBar(ItemStack s) { return DroneCharge.of(s) < DroneCharge.max(); }
+    @Override public double getDurabilityForDisplay(ItemStack s) { return 1.0 - DroneCharge.of(s) / (double) DroneCharge.max(); }
+    @Override public int getRGBDurabilityForDisplay(ItemStack s) { return 0x46C8BE; }
+
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World w, BlockPos pos, EnumHand hand, EnumFacing side, float hx, float hy, float hz) {
         ItemStack s = player.getHeldItem(hand);
@@ -30,6 +35,7 @@ public class ItemCompanionDrone extends Item {
         EntityCompanionDrone d = new EntityCompanionDrone(w);
         d.setMode(s.getMetadata() == 1 ? EntityCompanionDrone.RESEARCH : EntityCompanionDrone.DEFENSIVE);
         d.setOwnerId(player.getUniqueID());
+        d.charge = DroneCharge.of(s);
         d.setLocationAndAngles(p.getX() + 0.5, p.getY() + 0.8, p.getZ() + 0.5, player.rotationYaw, 0F);
         if (s.hasDisplayName()) d.setCustomNameTag(s.getDisplayName());
         w.spawnEntity(d);

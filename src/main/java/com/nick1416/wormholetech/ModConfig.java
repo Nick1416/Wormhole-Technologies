@@ -77,6 +77,7 @@ public final class ModConfig {
     public static int p3xTempleChance = 60;          // 1 in N chunks, 0 = off
     public static int p3xTempleChestChance = 2;      // 1 in N temples get a chest
     public static int droneModulatorRange = 64;
+    public static int droneChargeTicks = 12000;   // 10 min away from a modulator
     public static int minerDroneTicksPerItem = 400;    // 20 s per ore
     public static int xenolithOreVeinsPerChunk = 10;
     public static int xenolithDroneSpawnWeight = 5;     // 0 = off
@@ -230,6 +231,8 @@ public final class ModConfig {
                 "1 in N temples contain a loot chest (0 = never)");
         droneModulatorRange = cfg.getInt("droneModulatorRange", sg, 64, 1, 1024,
                 "Active Xenolith drones only work within this many blocks of a free (placed or unlocked) Quantum Field Modulator in the same dimension.");
+        droneChargeTicks = cfg.getInt("droneChargeTicks", sg, 12000, 20, 1728000,
+                "Ticks an active Xenolith drone keeps working away from a Quantum Field Modulator (12000 = 10 min). Near one it recharges to full in 10 s.");
         minerDroneTicksPerItem = cfg.getInt("minerDroneTicksPerItem", sg, 400, 1, 72000,
                 "Ticks a Miner Drone needs per ore it puts into the adjacent storage (400 = one every 20 s). No power needed.");
         xenolithOreVeinsPerChunk = migrated(cfg, sg, "xenolithOreVeinsPerChunk", 10, new int[] { 5, 8 }, 0, 64,
