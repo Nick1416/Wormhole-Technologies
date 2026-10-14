@@ -14,12 +14,17 @@ public class GuiDialingComputer extends GuiContainer {
     private static final ResourceLocation BG =
             new ResourceLocation("wormholetech", "textures/gui/dialing_computer.png");
 
-    private final ContainerDialingComputer container;
+    /** Width of the dialing panel (subclasses may add panels to the right). */
+    protected static final int PANEL_W = 176;
+
+    protected final ContainerDialingComputer container;
     private GuiButton button;
 
-    public GuiDialingComputer(InventoryPlayer inv, DialingComputerTileEntity te) {
-        super(new ContainerDialingComputer(inv, te));
-        this.container = (ContainerDialingComputer) this.inventorySlots;
+    public GuiDialingComputer(InventoryPlayer inv, DialingComputerTileEntity te) { this(new ContainerDialingComputer(inv, te)); }
+
+    protected GuiDialingComputer(ContainerDialingComputer c) {
+        super(c);
+        this.container = c;
         this.xSize = 176;
         this.ySize = ContainerDialingComputer.GUI_HEIGHT;
     }
@@ -36,7 +41,7 @@ public class GuiDialingComputer extends GuiContainer {
         int s = container.getClientStatus();
         boolean open = container.isClientOpen();
         button.displayString = I18n.format(open ? "gui.wormholetech.dialing.close" : "gui.wormholetech.dialing.dial");
-        button.enabled = open || s == DialingComputerTileEntity.STATUS_READY;
+        button.enabled = open || s == DialingComputerTileEntity.STATUS_READY || s == DialingComputerTileEntity.STATUS_UNREACHABLE;
     }
 
     @Override
@@ -48,26 +53,28 @@ public class GuiDialingComputer extends GuiContainer {
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         GlStateManager.color(1f, 1f, 1f, 1f);
         mc.getTextureManager().bindTexture(BG);
-        drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+        drawTexturedModalRect(guiLeft, guiTop, 0, 0, PANEL_W, ySize);
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRenderer.drawString(I18n.format("container.wormholetech.dialing_computer"), 8, 6, 0x404040);
+        fontRenderer.drawString(I18n.format(titleKey()), 8, 6, 0x404040);
         fontRenderer.drawString(I18n.format("container.inventory"), 8, ySize - 94, 0x404040);
 
         String rf = I18n.format("gui.wormholetech.rf_stored", container.getClientEnergy());
         fontRenderer.drawString(rf, 8, 18, 0x404040);
         String rate = I18n.format("gui.wormholetech.dialing.rate", String.format("%,d", ModConfig.dialingComputerRfPerTick()));
-        fontRenderer.drawString(rate, xSize - 8 - fontRenderer.getStringWidth(rate), 18, 0x404040);
+        fontRenderer.drawString(rate, PANEL_W - 8 - fontRenderer.getStringWidth(rate), 18, 0x404040);
 
         int s = container.getClientStatus();
         if (s < 0 || s >= DialingComputerTileEntity.STATUS_KEYS.length) s = 0;
         String status = I18n.format("gui.wormholetech.dialing.status." + DialingComputerTileEntity.STATUS_KEYS[s]);
         int col = s == DialingComputerTileEntity.STATUS_OPEN ? 0x1C7A72
                 : s == DialingComputerTileEntity.STATUS_READY ? 0x206020 : 0x803020;
-        fontRenderer.drawString(status, (xSize - fontRenderer.getStringWidth(status)) / 2, 54, col);
+        fontRenderer.drawString(status, (PANEL_W - fontRenderer.getStringWidth(status)) / 2, 54, col);
     }
+
+    protected String titleKey() { return "container.wormholetech.dialing_computer"; }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {

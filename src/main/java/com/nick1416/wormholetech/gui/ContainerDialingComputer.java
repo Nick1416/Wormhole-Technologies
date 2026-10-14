@@ -17,10 +17,12 @@ public class ContainerDialingComputer extends SyncedIntsContainer {
 
     private static final int ENERGY = 0, STATUS = 1, OPEN = 2;
 
-    private final DialingComputerTileEntity te;
+    protected final DialingComputerTileEntity te;
 
-    public ContainerDialingComputer(InventoryPlayer playerInv, DialingComputerTileEntity te) {
-        super(3);
+    public ContainerDialingComputer(InventoryPlayer playerInv, DialingComputerTileEntity te) { this(playerInv, te, 0); }
+
+    protected ContainerDialingComputer(InventoryPlayer playerInv, DialingComputerTileEntity te, int extraInts) {
+        super(3 + extraInts);
         this.te = te;
         addSlotToContainer(new SlotItemHandler(te.items(), 0, SLOT_X, SLOT_Y));
         for (int r = 0; r < 3; r++)

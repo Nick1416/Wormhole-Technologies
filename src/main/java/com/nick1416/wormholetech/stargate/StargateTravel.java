@@ -132,6 +132,7 @@ public final class StargateTravel {
         final BlockPos arrival = ReturnGates.ensure(target);
         final float yaw = target == null ? p.rotationYaw : ReturnGates.arrivalYaw();
         teleport(p, dest, arrival, yaw);
+        GateNetwork.recordVisit(p, dest);
         grantAdvancement(p, ModDimensions.isDerelictRegistered() && dest == ModDimensions.derelictId() ? DERELICT_ADVANCEMENT : ADVANCEMENT);
     }
 

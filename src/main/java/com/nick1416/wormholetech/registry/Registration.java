@@ -148,6 +148,13 @@ public class Registration {
             .setRegistryName(WormholeTech.MODID, "derelict_coordinates")
             .setUnlocalizedName(WormholeTech.MODID + ".derelict_coordinates");
 
+    public static final Item INTERGALACTIC_COORDINATES = new Item().setMaxStackSize(1)
+            .setRegistryName(WormholeTech.MODID, "intergalactic_coordinates")
+            .setUnlocalizedName(WormholeTech.MODID + ".intergalactic_coordinates");
+    public static final Item NANITE_CORE = new Item()
+            .setRegistryName(WormholeTech.MODID, "nanite_core")
+            .setUnlocalizedName(WormholeTech.MODID + ".nanite_core");
+
     public static final Block HULL_PLATING = new com.nick1416.wormholetech.derelict.HullBlock(net.minecraft.block.material.MapColor.GRAY, 0F)
             .setRegistryName(WormholeTech.MODID, "hull_plating").setUnlocalizedName(WormholeTech.MODID + ".hull_plating");
     public static final Item ITEM_HULL_PLATING = new ItemBlock(HULL_PLATING).setRegistryName(HULL_PLATING.getRegistryName());
@@ -274,6 +281,12 @@ public class Registration {
     public static final Item ITEM_DIALING_COMPUTER =
             new ItemBlock(DIALING_COMPUTER).setRegistryName(DIALING_COMPUTER.getRegistryName());
 
+    public static final Block GATE_NETWORK_COMPUTER = new com.nick1416.wormholetech.block.GateNetworkComputerBlock()
+            .setRegistryName(WormholeTech.MODID, "gate_network_computer")
+            .setUnlocalizedName(WormholeTech.MODID + ".gate_network_computer");
+    public static final Item ITEM_GATE_NETWORK_COMPUTER =
+            new ItemBlock(GATE_NETWORK_COMPUTER).setRegistryName(GATE_NETWORK_COMPUTER.getRegistryName());
+
     public static final Block STARGATE_PORTAL = new com.nick1416.wormholetech.block.StargatePortalBlock()
             .setRegistryName(WormholeTech.MODID, "stargate_portal")
             .setUnlocalizedName(WormholeTech.MODID + ".stargate_portal");
@@ -398,6 +411,8 @@ public class Registration {
         for (Block blk : new Block[]{HULL_PLATING, HULL_BULKHEAD, HULL_LAMP, HULL_LAMP_GOLD, HULL_WINDOW, MODULATOR_CRADLE}) blk.setCreativeTab(b);
         QUANTUM_FIELD_MODULATOR.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
         DERELICT_COORDINATES.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
+        INTERGALACTIC_COORDINATES.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
+        NANITE_CORE.setCreativeTab(m);
         TITANIUM_INGOT.setCreativeTab(m);
         for (Item i : new Item[]{RAW_NAQUADAH, REFINED_NAQUADAH, PRYSMIAN, UNSTABLE_NAQUADAH,
                 NAQUADAH_REACTOR, UNSTABLE_NAQUADAH_REACTOR}) i.setCreativeTab(m);
@@ -422,6 +437,7 @@ public class Registration {
                 RELATIVISTIC_COMPUTER,
                 HIGH_ENERGY_REFINER,
                 DIALING_COMPUTER,
+                GATE_NETWORK_COMPUTER,
                 STARGATE_PORTAL,
                 ANCIENT_GATE_FRAME,
                 REINFORCED_GATE_FRAME,
@@ -484,10 +500,13 @@ public class Registration {
                 ITEM_RELATIVISTIC_COMPUTER,
                 ITEM_HIGH_ENERGY_REFINER,
                 ITEM_DIALING_COMPUTER,
+                ITEM_GATE_NETWORK_COMPUTER,
                 ITEM_ANCIENT_GATE_FRAME,
                 ITEM_REINFORCED_GATE_FRAME,
                 ITEM_HULL_PLATING, ITEM_HULL_BULKHEAD, ITEM_HULL_LAMP, ITEM_HULL_LAMP_GOLD, ITEM_HULL_WINDOW, ITEM_MODULATOR_CRADLE, ITEM_QUANTUM_FIELD_MODULATOR,
                 DERELICT_COORDINATES,
+                INTERGALACTIC_COORDINATES,
+                NANITE_CORE,
                 ITEM_TITANIUM_BLOCK,
                 TITANIUM_INGOT,
                 GATE_LOCATOR,

@@ -88,6 +88,10 @@ public class WormholeJeiPlugin implements IModPlugin {
         info(registry, Registration.ITEM_COMPRESSED_NAQUADAH, "compressed_naquadah", 0);
         info(registry, Registration.ITEM_HIGH_ENERGY_REFINER, "high_energy_refiner", 0);
         info(registry, Registration.ITEM_DIALING_COMPUTER, "dialing_computer", 0);
+        info(registry, Registration.ITEM_GATE_NETWORK_COMPUTER, "gate_network_computer", 0);
+        info(registry, Registration.ITEM_QUANTUM_FIELD_MODULATOR, "quantum_field_modulator", 0);
+        info(registry, Registration.INTERGALACTIC_COORDINATES, "intergalactic_coordinates", 0);
+        info(registry, Registration.NANITE_CORE, "nanite_core", 0);
         info(registry, Registration.ITEM_ANCIENT_GATE_FRAME, "ancient_gate_frame", 0);
         info(registry, Registration.GATE_LOCATOR, "gate_locator", 0);
         info(registry, Registration.ITEM_NATURAL_NAQUADAH_ORE, "naquadah_ore_natural", 0);

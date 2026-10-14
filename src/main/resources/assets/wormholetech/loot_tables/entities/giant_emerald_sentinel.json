@@ -1,17 +1,141 @@
 {
   "pools": [
-    { "name": "emeralds", "rolls": 1, "entries": [ { "type": "item", "name": "minecraft:emerald", "weight": 1,
-        "functions": [ { "function": "set_count", "count": { "min": 10, "max": 20 } }, { "function": "looting_enchant", "count": { "min": 0, "max": 4 } } ] } ] },
-    { "name": "diamonds", "rolls": 1, "entries": [ { "type": "item", "name": "minecraft:diamond", "weight": 1,
-        "functions": [ { "function": "set_count", "count": { "min": 3, "max": 6 } } ] } ] },
-    { "name": "core", "rolls": 1, "entries": [ { "type": "item", "name": "wormholetech:refined_naquadah_block", "weight": 1,
-        "functions": [ { "function": "set_count", "count": { "min": 1, "max": 2 } } ] } ] },
-    { "name": "prysmian", "rolls": 1, "entries": [ { "type": "item", "name": "wormholetech:prysmian", "weight": 1,
-        "functions": [ { "function": "set_count", "count": { "min": 2, "max": 4 } } ] } ] },
-    { "name": "tech", "rolls": 1, "entries": [
-        { "type": "item", "name": "minecraft:nether_star", "weight": 1 },
-        { "type": "item", "name": "minecraft:totem_of_undying", "weight": 2 },
-        { "type": "item", "name": "minecraft:golden_apple", "weight": 1, "functions": [ { "function": "set_data", "data": 1 } ] },
-        { "type": "item", "name": "minecraft:book", "weight": 3, "functions": [ { "function": "enchant_with_levels", "levels": 30, "treasure": true } ] } ] }
+    {
+      "name": "emeralds",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "minecraft:emerald",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 10,
+                "max": 20
+              }
+            },
+            {
+              "function": "looting_enchant",
+              "count": {
+                "min": 0,
+                "max": 4
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "diamonds",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "minecraft:diamond",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 3,
+                "max": 6
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "core",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "wormholetech:refined_naquadah_block",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "prysmian",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "wormholetech:prysmian",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 4
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tech",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "minecraft:nether_star",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "minecraft:totem_of_undying",
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "minecraft:golden_apple",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_data",
+              "data": 1
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:book",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "enchant_with_levels",
+              "levels": 30,
+              "treasure": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "nanite",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "wormholetech:nanite_core",
+          "weight": 1
+        }
+      ]
+    }
   ]
 }
