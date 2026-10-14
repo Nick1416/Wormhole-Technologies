@@ -26,11 +26,16 @@ public class ItemMinerDrone extends ItemBlock {
         return net.minecraft.util.text.translation.I18n.translateToLocalFormatted("item.wormholetech.miner_drone.name", DroneNames.program(DroneProgram.byMeta(s.getMetadata())));
     }
 
+
+    @Override public boolean showDurabilityBar(ItemStack s) { return DroneCharge.of(s) < DroneCharge.max(); }
+    @Override public double getDurabilityForDisplay(ItemStack s) { return 1.0 - DroneCharge.of(s) / (double) DroneCharge.max(); }
+    @Override public int getRGBDurabilityForDisplay(ItemStack s) { return 0x46C8BE; }
+
     @Override
     public boolean placeBlockAt(ItemStack s, EntityPlayer p, World w, BlockPos pos, EnumFacing side, float hx, float hy, float hz, IBlockState state) {
         if (!super.placeBlockAt(s, p, w, pos, side, hx, hy, hz, state)) return false;
         TileEntity te = w.getTileEntity(pos);
-        if (te instanceof MinerDroneTileEntity) ((MinerDroneTileEntity) te).program = Math.min(DroneProgram.MINERS - 1, s.getMetadata());
+        if (te instanceof MinerDroneTileEntity) { ((MinerDroneTileEntity) te).program = Math.min(DroneProgram.MINERS - 1, s.getMetadata()); ((MinerDroneTileEntity) te).charge = DroneCharge.of(s); }
         return true;
     }
 }

@@ -91,6 +91,9 @@ public class WormholeTech {
         GameRegistry.registerTileEntity(
                 com.nick1416.wormholetech.derelict.QuantumFieldModulatorTileEntity.class,
                 new ResourceLocation(MODID, "quantum_field_modulator"));
+        GameRegistry.registerTileEntity(
+                com.nick1416.wormholetech.knowledge.RepositoryTileEntity.class,
+                new ResourceLocation(MODID, "repository_of_knowledge"));
 
         com.nick1416.wormholetech.world.ModDimensions.register();
         com.nick1416.wormholetech.world.ModDimensions.registerDerelict();

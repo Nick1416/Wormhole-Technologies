@@ -145,7 +145,7 @@ public class ClientProxy extends com.nick1416.wormholetech.common.CommonProxy {
 	    		refiner, 0, new ModelResourceLocation(refiner.getRegistryName(), "inventory"));
 
 	    for (Item it : new Item[] { Registration.ITEM_DIALING_COMPUTER, Registration.ITEM_ANCIENT_GATE_FRAME, Registration.GATE_LOCATOR,
-	            Registration.ITEM_NATURAL_NAQUADAH_ORE, Registration.ITEM_PRYSMIAN_ORE, Registration.DIAMOND_NUGGET, Registration.ITEM_REINFORCED_GATE_FRAME, Registration.ITEM_HULL_PLATING, Registration.ITEM_HULL_BULKHEAD, Registration.ITEM_HULL_LAMP, Registration.ITEM_HULL_LAMP_GOLD, Registration.ITEM_HULL_WINDOW, Registration.ITEM_MODULATOR_CRADLE, Registration.ITEM_QUANTUM_FIELD_MODULATOR, Registration.DERELICT_COORDINATES, Registration.INTERGALACTIC_COORDINATES, Registration.NANITE_CORE, Registration.ITEM_GATE_NETWORK_COMPUTER, Registration.ITEM_XENOLITH, Registration.ITEM_XENOLITH_TILES, Registration.ITEM_XENO_LAMP, Registration.TITANIUM_INGOT, Registration.ITEM_TITANIUM_BLOCK, Registration.ITEM_NAQUADRIC_STONE, Registration.ITEM_ASHEN_REGOLITH,
+	            Registration.ITEM_NATURAL_NAQUADAH_ORE, Registration.ITEM_PRYSMIAN_ORE, Registration.DIAMOND_NUGGET, Registration.ITEM_REINFORCED_GATE_FRAME, Registration.ITEM_HULL_PLATING, Registration.ITEM_HULL_BULKHEAD, Registration.ITEM_HULL_LAMP, Registration.ITEM_HULL_LAMP_GOLD, Registration.ITEM_HULL_WINDOW, Registration.ITEM_MODULATOR_CRADLE, Registration.ITEM_QUANTUM_FIELD_MODULATOR, Registration.DERELICT_COORDINATES, Registration.INTERGALACTIC_COORDINATES, Registration.NANITE_CORE, Registration.ITEM_GATE_NETWORK_COMPUTER, Registration.ITEM_XENOLITH, Registration.ITEM_XENOLITH_TILES, Registration.ITEM_REPOSITORY, Registration.ITEM_XENO_LAMP, Registration.TITANIUM_INGOT, Registration.ITEM_TITANIUM_BLOCK, Registration.ITEM_NAQUADRIC_STONE, Registration.ITEM_ASHEN_REGOLITH,
 	            Registration.ITEM_NAQUADAH_CRYSTAL, Registration.ITEM_ANCIENT_STONE }) {
 	        ModelLoader.setCustomModelResourceLocation(it, 0, new ModelResourceLocation(it.getRegistryName(), "inventory"));
 	    }
@@ -176,6 +176,18 @@ public class ClientProxy extends com.nick1416.wormholetech.common.CommonProxy {
 		net.minecraftforge.fml.client.registry.RenderingRegistry.registerEntityRenderingHandler(
 				com.nick1416.wormholetech.drone.EntityCompanionDrone.class,
 				com.nick1416.wormholetech.client.render.RenderCompanionDrone::new);
+		net.minecraftforge.fml.client.registry.ClientRegistry.bindTileEntitySpecialRenderer(
+				com.nick1416.wormholetech.knowledge.RepositoryTileEntity.class, new com.nick1416.wormholetech.client.render.RenderRepository());
+	}
+
+	@Override
+	public void openRepositoryGui(net.minecraft.nbt.NBTTagCompound data) {
+	    Minecraft mc = Minecraft.getMinecraft();
+	    mc.addScheduledTask(() -> {
+	        if (mc.currentScreen instanceof com.nick1416.wormholetech.client.gui.GuiRepository)
+	            ((com.nick1416.wormholetech.client.gui.GuiRepository) mc.currentScreen).setData(data);
+	        else mc.displayGuiScreen(new com.nick1416.wormholetech.client.gui.GuiRepository(data));
+	    });
 	}
 
 	@Override

@@ -201,6 +201,9 @@ public class Registration {
     public static final Block XENOLITH_TILES = new Block(net.minecraft.block.material.Material.ROCK, net.minecraft.block.material.MapColor.CYAN)
             .setHardness(2.0F).setResistance(12.0F).setRegistryName(WormholeTech.MODID, "xenolith_tiles").setUnlocalizedName(WormholeTech.MODID + ".xenolith_tiles");
     public static final Item ITEM_XENOLITH_TILES = new ItemBlock(XENOLITH_TILES).setRegistryName(XENOLITH_TILES.getRegistryName());
+    public static final Block REPOSITORY = new com.nick1416.wormholetech.knowledge.RepositoryBlock()
+            .setRegistryName(WormholeTech.MODID, "repository_of_knowledge").setUnlocalizedName(WormholeTech.MODID + ".repository_of_knowledge");
+    public static final Item ITEM_REPOSITORY = new ItemBlock(REPOSITORY).setRegistryName(REPOSITORY.getRegistryName());
     public static final Block XENO_LAMP = new Block(net.minecraft.block.material.Material.GLASS, net.minecraft.block.material.MapColor.PURPLE)
             .setHardness(0.6F).setLightLevel(1.0F).setRegistryName(WormholeTech.MODID, "xeno_lamp").setUnlocalizedName(WormholeTech.MODID + ".xeno_lamp");
     public static final Item ITEM_XENO_LAMP = new ItemBlock(XENO_LAMP).setRegistryName(XENO_LAMP.getRegistryName());
@@ -466,6 +469,7 @@ public class Registration {
         XENOLITH_ORE.setCreativeTab(b);
         for (Item i : new Item[]{RAW_XENOLITH, INACTIVE_DRONE, XENOLITH_CHIP}) i.setCreativeTab(m);
         MINER_DRONE.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
+        REPOSITORY.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
         COMPANION_DRONE.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
         TITANIUM_INGOT.setCreativeTab(m);
         for (Item i : new Item[]{RAW_NAQUADAH, REFINED_NAQUADAH, PRYSMIAN, UNSTABLE_NAQUADAH,
@@ -495,7 +499,7 @@ public class Registration {
                 STARGATE_PORTAL,
                 ANCIENT_GATE_FRAME,
                 REINFORCED_GATE_FRAME,
-                HULL_PLATING, HULL_BULKHEAD, HULL_LAMP, HULL_LAMP_GOLD, HULL_WINDOW, MODULATOR_CRADLE, QUANTUM_FIELD_MODULATOR, VORANI_MODULATOR, XENOLITH, XENOLITH_TILES, XENO_LAMP, XENOLITH_ORE, MINER_DRONE,
+                HULL_PLATING, HULL_BULKHEAD, HULL_LAMP, HULL_LAMP_GOLD, HULL_WINDOW, MODULATOR_CRADLE, QUANTUM_FIELD_MODULATOR, VORANI_MODULATOR, XENOLITH, XENOLITH_TILES, XENO_LAMP, XENOLITH_ORE, MINER_DRONE, REPOSITORY,
                 TITANIUM_BLOCK,
                 NATURAL_NAQUADAH_ORE,
                 PRYSMIAN_ORE,
@@ -558,7 +562,7 @@ public class Registration {
                 ITEM_ANCIENT_GATE_FRAME,
                 ITEM_REINFORCED_GATE_FRAME,
                 ITEM_HULL_PLATING, ITEM_HULL_BULKHEAD, ITEM_HULL_LAMP, ITEM_HULL_LAMP_GOLD, ITEM_HULL_WINDOW, ITEM_MODULATOR_CRADLE, ITEM_QUANTUM_FIELD_MODULATOR, ITEM_XENOLITH, ITEM_XENOLITH_TILES, ITEM_XENO_LAMP,
-                ITEM_XENOLITH_ORE, RAW_XENOLITH, INACTIVE_DRONE, XENOLITH_CHIP, ITEM_MINER_DRONE, COMPANION_DRONE,
+                ITEM_XENOLITH_ORE, RAW_XENOLITH, INACTIVE_DRONE, XENOLITH_CHIP, ITEM_MINER_DRONE, COMPANION_DRONE, ITEM_REPOSITORY,
                 DERELICT_COORDINATES,
                 INTERGALACTIC_COORDINATES,
                 NANITE_CORE,

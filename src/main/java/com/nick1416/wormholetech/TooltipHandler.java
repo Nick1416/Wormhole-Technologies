@@ -24,6 +24,7 @@ public class TooltipHandler {
     /** Registry paths that have tooltip.wormholetech.<path>.summary (+ optional .detail.N). */
     private static final Set<String> DOCUMENTED = new HashSet<String>(Arrays.asList(
             "wormhole_duplicator",
+            "repository_of_knowledge",
             "unstable_wormhole_duplicator",
             "rf_generator",
             "naquadah_generator",
@@ -74,12 +75,16 @@ public class TooltipHandler {
         String path = id.getResourcePath();
         if ("miner_drone".equals(path)) {
             addDocumentedTooltips(event, path);
-            event.getToolTip().add(1, TextFormatting.YELLOW + net.minecraft.client.resources.I18n.format(stack.getMetadata() == 0
+            event.getToolTip().add(Math.min(1, event.getToolTip().size()), TextFormatting.YELLOW + net.minecraft.client.resources.I18n.format(stack.getMetadata() == 0
                     ? "tooltip.wormholetech.miner_drone.naquadah" : "tooltip.wormholetech.miner_drone.overworld"));
-            event.getToolTip().add(2, TextFormatting.YELLOW + net.minecraft.client.resources.I18n.format("tooltip.wormholetech.drone_modulator"));
+            event.getToolTip().add(Math.min(2, event.getToolTip().size()), TextFormatting.YELLOW + net.minecraft.client.resources.I18n.format("tooltip.wormholetech.drone_modulator"));
+            event.getToolTip().add(Math.min(3, event.getToolTip().size()), TextFormatting.AQUA + net.minecraft.client.resources.I18n.format("tooltip.wormholetech.drone.charge",
+                    com.nick1416.wormholetech.drone.DroneCharge.percent(com.nick1416.wormholetech.drone.DroneCharge.of(stack))));
         } else if ("companion_drone".equals(path)) {
             addDocumentedTooltips(event, stack.getMetadata() == 1 ? "research_drone" : "defensive_drone");
-            event.getToolTip().add(2, TextFormatting.YELLOW + net.minecraft.client.resources.I18n.format("tooltip.wormholetech.drone_modulator"));
+            event.getToolTip().add(Math.min(2, event.getToolTip().size()), TextFormatting.YELLOW + net.minecraft.client.resources.I18n.format("tooltip.wormholetech.drone_modulator"));
+            event.getToolTip().add(Math.min(3, event.getToolTip().size()), TextFormatting.AQUA + net.minecraft.client.resources.I18n.format("tooltip.wormholetech.drone.charge",
+                    com.nick1416.wormholetech.drone.DroneCharge.percent(com.nick1416.wormholetech.drone.DroneCharge.of(stack))));
         } else if (path.startsWith("mineral_tuner_")) {
             addMineralTunerTooltips(event, stack);
         } else if (DOCUMENTED.contains(path)) {

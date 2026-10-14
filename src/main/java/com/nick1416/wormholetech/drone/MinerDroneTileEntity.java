@@ -28,13 +28,21 @@ public class MinerDroneTileEntity extends TileEntity implements ITickable {
     public int status = WORKING;
     private int progress;
     private boolean powered;
+    public int charge = DroneCharge.max();
     private long nextModCheck;
     private ItemStack pending = ItemStack.EMPTY;
 
     @Override
     public void update() {
         if (world.isRemote) return;
+        if (world.getTotalWorldTime() >= nextModCheck) {        // re-check every 3 s
+            nextModCheck = world.getTotalWorldTime() + 60;
+            powered = ModulatorTracker.near(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+        }
+        int before = DroneCharge.percent(charge);
         int s = check();
+        if (powered || s == WORKING) charge = DroneCharge.tick(charge, powered);
+        if (DroneCharge.percent(charge) != before) markDirty();
         if (s == WORKING && ++progress >= Math.max(1, ModConfig.minerDroneTicksPerItem)) {
             progress = 0;
             if (pending.isEmpty()) pending = produce();
@@ -63,11 +71,7 @@ public class MinerDroneTileEntity extends TileEntity implements ITickable {
             if (dim != 0) return WRONG_DIM;
             if (!net.minecraftforge.fml.common.Loader.isModLoaded("immersiveengineering")) return NO_MINERAL;
         }
-        if (world.getTotalWorldTime() >= nextModCheck) {        // re-check every 3 s
-            nextModCheck = world.getTotalWorldTime() + 60;
-            powered = ModulatorTracker.near(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-        }
-        if (!powered) return NO_MODULATOR;
+        if (!powered && charge <= 0) return NO_MODULATOR;
         if (storage() == null) return NO_STORAGE;
         if (!pending.isEmpty()) {
             ItemStack left = ItemHandlerHelper.insertItemStacked(storage(), pending, true);
@@ -95,13 +99,14 @@ public class MinerDroneTileEntity extends TileEntity implements ITickable {
         TextComponentTranslation t = new TextComponentTranslation("status.wormholetech.miner_drone." + KEYS[Math.min(KEYS.length - 1, status)]);
         if (status == WRONG_DIM) t = new TextComponentTranslation(prog() == DroneProgram.NAQUADAH
                 ? "status.wormholetech.miner_drone.wrong_dim_naquadah" : "status.wormholetech.miner_drone.wrong_dim");
+        t.appendText(" (" + DroneCharge.percent(charge) + "% charge" + (powered ? ", charging)" : ")"));
         return t;
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound c) {
         super.writeToNBT(c);
-        c.setInteger("Program", program); c.setInteger("Status", status); c.setInteger("Progress", progress);
+        c.setInteger("Program", program); c.setInteger("Charge", charge); c.setInteger("Status", status); c.setInteger("Progress", progress);
         if (!pending.isEmpty()) c.setTag("Pending", pending.writeToNBT(new NBTTagCompound()));
         return c;
     }
@@ -109,7 +114,7 @@ public class MinerDroneTileEntity extends TileEntity implements ITickable {
     @Override
     public void readFromNBT(NBTTagCompound c) {
         super.readFromNBT(c);
-        program = c.getInteger("Program"); status = c.getInteger("Status"); progress = c.getInteger("Progress");
+        program = c.getInteger("Program"); charge = c.hasKey("Charge") ? c.getInteger("Charge") : DroneCharge.max(); status = c.getInteger("Status"); progress = c.getInteger("Progress");
         pending = c.hasKey("Pending") ? new ItemStack(c.getCompoundTag("Pending")) : ItemStack.EMPTY;
     }
 

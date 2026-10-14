@@ -40,6 +40,9 @@ public class EntityCompanionDrone extends EntityFlying {
     private int cooldown, zapShow;
     /** A free Quantum Field Modulator is in range (re-checked every 3 s on the server). */
     private boolean powered;
+    public int charge = DroneCharge.max();
+    /** Charged enough to act (near a modulator, or charge left). */
+    private boolean active() { return powered || charge > 0; }
 
     public EntityCompanionDrone(World w) {
         super(w);
@@ -86,12 +89,17 @@ public class EntityCompanionDrone extends EntityFlying {
     public boolean processInteract(EntityPlayer p, EnumHand hand) {
         if (p.isSneaking() && p.getHeldItem(hand).isEmpty() && p.getUniqueID().equals(getOwnerId())) {
             if (!world.isRemote) {
-                ItemStack s = new ItemStack(Registration.COMPANION_DRONE, 1, getMode());
+                ItemStack s = DroneCharge.with(new ItemStack(Registration.COMPANION_DRONE, 1, getMode()), charge);
                 if (hasCustomName()) s.setStackDisplayName(getCustomNameTag());
                 if (!p.inventory.addItemStackToInventory(s)) entityDropItem(s, 0.5F);
                 playSound(SoundEvents.ENTITY_ITEM_PICKUP, 0.6F, 1.4F);
                 setDead();
             }
+            return true;
+        }
+        if (!p.isSneaking() && p.getHeldItem(hand).isEmpty() && p.getUniqueID().equals(getOwnerId())) {
+            if (!world.isRemote) p.sendStatusMessage(new net.minecraft.util.text.TextComponentTranslation(
+                    active() ? "status.wormholetech.drone.charge" : "status.wormholetech.drone.empty", DroneCharge.percent(charge)), true);
             return true;
         }
         return super.processInteract(p, hand);
@@ -112,6 +120,12 @@ public class EntityCompanionDrone extends EntityFlying {
             return;
         }
         if (ticksExisted % 60 == 1) powered = ModulatorTracker.near(world, posX, posY, posZ);
+        charge = DroneCharge.tick(charge, powered);
+        if (ticksExisted % 20 == 0 && getMode() == RESEARCH && active() && getOwnerId() != null) {
+            int planet = com.nick1416.wormholetech.knowledge.Planets.indexOf(world.provider.getDimension());
+            if (planet >= 0 && com.nick1416.wormholetech.knowledge.RepositoryTracker.near(world, posX, posY, posZ, com.nick1416.wormholetech.ModConfig.repositoryResearchRange))
+                com.nick1416.wormholetech.knowledge.KnowledgeData.get(world).addProgress(getOwnerId(), planet, 20);
+        }
         if (cooldown > 0) cooldown--;
         if (zapShow > 0 && --zapShow == 0) dataManager.set(ZAP, -1);
         if (ticksExisted % 40 == 0 && getHealth() < getMaxHealth()) heal(1.0F);
@@ -129,7 +143,7 @@ public class EntityCompanionDrone extends EntityFlying {
         EntityLivingBase target;
         AIDefend() { setMutexBits(1); }
         @Override public boolean shouldExecute() {
-            if (getMode() != DEFENSIVE || !powered) return false;
+            if (getMode() != DEFENSIVE || !active()) return false;
             EntityPlayer o = getOwner();
             if (o == null) return false;
             EntityLivingBase a = o.getRevengeTarget();
@@ -140,7 +154,7 @@ public class EntityCompanionDrone extends EntityFlying {
         }
         @Override public boolean shouldContinueExecuting() {
             EntityPlayer o = getOwner();
-            return powered && o != null && validTarget(target, o) && getDistanceSq(o) < 32 * 32;
+            return active() && o != null && validTarget(target, o) && getDistanceSq(o) < 32 * 32;
         }
         @Override public void updateTask() {
             getLookHelper().setLookPositionWithEntity(target, 30F, 30F);
@@ -160,7 +174,7 @@ public class EntityCompanionDrone extends EntityFlying {
     /** Stay near the owner's shoulder; teleport if left far behind. */
     class AIFollow extends EntityAIBase {
         AIFollow() { setMutexBits(1); }
-        @Override public boolean shouldExecute() { return getOwner() != null && (powered || getMode() == DEFENSIVE); }
+        @Override public boolean shouldExecute() { return getOwner() != null && (active() || getMode() == DEFENSIVE); }
         @Override public void updateTask() {
             EntityPlayer o = getOwner();
             if (o == null) return;
@@ -175,12 +189,12 @@ public class EntityCompanionDrone extends EntityFlying {
 
     @Override public void writeEntityToNBT(NBTTagCompound c) {
         super.writeEntityToNBT(c);
-        c.setInteger("Mode", getMode());
+        c.setInteger("Mode", getMode()); c.setInteger("Charge", charge);
         if (getOwnerId() != null) c.setUniqueId("Owner", getOwnerId());
     }
     @Override public void readEntityFromNBT(NBTTagCompound c) {
         super.readEntityFromNBT(c);
-        setMode(c.getInteger("Mode"));
+        setMode(c.getInteger("Mode")); charge = c.hasKey("Charge") ? c.getInteger("Charge") : DroneCharge.max();
         if (c.hasUniqueId("Owner")) setOwnerId(c.getUniqueId("Owner"));
     }
 

@@ -31,6 +31,8 @@ public final class ModeNetwork {
         CHANNEL.registerMessage(MismatchHandler.class, ModeMessage.class, 1, Side.SERVER);
         CHANNEL.registerMessage(com.nick1416.wormholetech.world.P3XWeather.StormHandler.class,
                 com.nick1416.wormholetech.world.P3XWeather.StormMessage.class, 2, Side.CLIENT);
+        CHANNEL.registerMessage(com.nick1416.wormholetech.knowledge.KnowledgeMessage.Handler.class,
+                com.nick1416.wormholetech.knowledge.KnowledgeMessage.class, 3, Side.CLIENT);
     }
 
     public static String kickText(String serverMode, String clientMode) {
