@@ -46,8 +46,8 @@ public class EntityEmeraldDrone extends EntityMob {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(14.0D);
-        getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.28D);
-        getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3.0D);
+        getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.224D);
+        getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.3D);
         getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(4.0D);
         getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(24.0D);
     }
