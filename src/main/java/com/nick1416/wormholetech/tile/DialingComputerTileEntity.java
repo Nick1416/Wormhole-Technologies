@@ -41,9 +41,9 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
     private final ItemStackHandler inv = new ItemStackHandler(1) {
         @Override protected void onContentsChanged(int slot) { markDirty(); requestCheck(); }
         @Override public int getSlotLimit(int slot) { return 1; }
-        @Override public boolean isItemValid(int slot, ItemStack stack) { return isAddress(stack); }
+        @Override public boolean isItemValid(int slot, ItemStack stack) { return accepts(stack); }
         @Override public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-            if (!isAddress(stack)) return stack;
+            if (!accepts(stack)) return stack;
             return super.insertItem(slot, stack, simulate);
         }
     };
@@ -59,8 +59,13 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
                 || s.getItem() == Registration.INTERGALACTIC_COORDINATES);
     }
 
+    /** Intergalactic Coordinates only work in a Gate Network Computer. */
+    public boolean accepts(ItemStack s) {
+        return isAddress(s) && (s.getItem() != Registration.INTERGALACTIC_COORDINATES || this instanceof GateNetworkComputerTileEntity);
+    }
+
     /** Is there an address to dial (slot item, or a selected destination in subclasses)? */
-    protected boolean hasAddress() { return isAddress(inv.getStackInSlot(0)); }
+    protected boolean hasAddress() { return accepts(inv.getStackInSlot(0)); }
 
     /** The address points to another galaxy (no destination exists there yet). */
     protected boolean intergalactic() { return inv.getStackInSlot(0).getItem() == Registration.INTERGALACTIC_COORDINATES; }
