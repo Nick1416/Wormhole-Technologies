@@ -128,6 +128,9 @@ public class ClientProxy extends com.nick1416.wormholetech.common.CommonProxy {
 	    ModelLoader.setCustomModelResourceLocation(
 	    		linker, 0, new ModelResourceLocation(linker.getRegistryName(), "inventory"));
 
+	    for (Item hd : com.nick1416.wormholetech.item.HardDiamond.ALL)
+	        ModelLoader.setCustomModelResourceLocation(hd, 0, new ModelResourceLocation(hd.getRegistryName(), "inventory"));
+
 	    Item aetherius = Registration.AETHERIUS;
 	    ModelLoader.setCustomModelResourceLocation(
 	    		aetherius, 0, new ModelResourceLocation(aetherius.getRegistryName(), "inventory"));

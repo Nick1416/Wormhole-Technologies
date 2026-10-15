@@ -467,6 +467,7 @@ public class Registration {
         DERELICT_COORDINATES.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
         INTERGALACTIC_COORDINATES.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
         NANITE_CORE.setCreativeTab(m);
+        com.nick1416.wormholetech.item.HardDiamond.assignTabs();
         XENOLITH_ORE.setCreativeTab(b);
         for (Item i : new Item[]{RAW_XENOLITH, INACTIVE_DRONE, XENOLITH_CHIP}) i.setCreativeTab(m);
         MINER_DRONE.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
@@ -555,6 +556,7 @@ public class Registration {
                 ITEM_WORMHOLE_PAD,
                 WORMHOLE_LINKER,
                 AETHERIUS,
+                com.nick1416.wormholetech.item.HardDiamond.GEM, com.nick1416.wormholetech.item.HardDiamond.PICKAXE, com.nick1416.wormholetech.item.HardDiamond.SWORD, com.nick1416.wormholetech.item.HardDiamond.AXE, com.nick1416.wormholetech.item.HardDiamond.SHOVEL,
                 ITEM_COMPRESSED_NAQUADAH,
                 ITEM_RELATIVISTIC_COMPUTER,
                 ITEM_HIGH_ENERGY_REFINER,
