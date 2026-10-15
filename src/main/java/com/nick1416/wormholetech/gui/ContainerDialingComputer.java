@@ -63,7 +63,7 @@ public class ContainerDialingComputer extends SyncedIntsContainer {
         ItemStack ret = in.copy();
         if (index == 0) {
             if (!this.mergeItemStack(in, 1, this.inventorySlots.size(), true)) return ItemStack.EMPTY;
-        } else if (DialingComputerTileEntity.isAddress(in) && !getSlot(0).getHasStack()) {
+        } else if (getSlot(0).isItemValid(in) && !getSlot(0).getHasStack()) {
             ItemStack one = in.splitStack(1);
             getSlot(0).putStack(one);
         } else {

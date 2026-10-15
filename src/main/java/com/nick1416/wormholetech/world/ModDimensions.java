@@ -65,10 +65,31 @@ public final class ModDimensions {
 
     public static int talVoraId() { return ModConfig.talVoraDimensionId; }
 
+    public static final String SEL_VORA_NAME = "sel_vora";
+    public static DimensionType SEL_VORA;
+
+    /** Sel'Vora, Tal'Vora's moon (address learned in the Repository of Knowledge). */
+    public static void registerSelVora() {
+        if (!ModConfig.stargateEnabled) return;
+        int id = ModConfig.selVoraDimensionId;
+        if (DimensionManager.isDimensionRegistered(id)) {
+            WormholeTech.LOGGER.error("Dimension id {} is already taken; Sel'Vora is disabled. Change selVoraDimensionId in the config.", id);
+            return;
+        }
+        SEL_VORA = DimensionType.register(SEL_VORA_NAME, "_" + SEL_VORA_NAME, id,
+                com.nick1416.wormholetech.moon.WorldProviderSelVora.class, false);
+        DimensionManager.registerDimension(id, SEL_VORA);
+    }
+
+    public static boolean isSelVoraRegistered() { return SEL_VORA != null; }
+
+    public static int selVoraId() { return ModConfig.selVoraDimensionId; }
+
     /** Worlds reached through a gate, with a return gate. */
     public static boolean isGateWorld(int dim) {
         return (isRegistered() && dim == id()) || (isDerelictRegistered() && dim == derelictId())
-                || (isTalVoraRegistered() && dim == talVoraId());
+                || (isTalVoraRegistered() && dim == talVoraId())
+                || (isSelVoraRegistered() && dim == selVoraId());
     }
 
     public static boolean isRegistered() { return P3X != null; }

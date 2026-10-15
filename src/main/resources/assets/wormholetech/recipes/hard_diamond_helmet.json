@@ -1,0 +1,21 @@
+{
+  "conditions": [
+    {
+      "type": "wormholetech:mode",
+      "mode": "normal"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "HHH",
+    "H H"
+  ],
+  "key": {
+    "H": {
+      "item": "wormholetech:hard_diamond"
+    }
+  },
+  "result": {
+    "item": "wormholetech:hard_diamond_helmet"
+  }
+}

@@ -69,7 +69,7 @@ public class WormholeJeiPlugin implements IModPlugin {
         if (com.nick1416.wormholetech.ModConfig.isCC()) {
             info(registry, Registration.ITEM_UNSTABLE_NAQUADAH_BLOCK, "unstable_naquadah_block", 2);
         } else {
-            registry.addIngredientInfo(new ItemStack(Registration.ITEM_UNSTABLE_NAQUADAH_BLOCK), VanillaTypes.ITEM,
+            addInfo(registry, new ItemStack(Registration.ITEM_UNSTABLE_NAQUADAH_BLOCK), VanillaTypes.ITEM,
                     "tooltip.wormholetech.unstable_naquadah_block.summary",
                     "tooltip.wormholetech.unstable_naquadah_block.detail.1.normal",
                     "tooltip.wormholetech.unstable_naquadah_block.detail.2");
@@ -95,20 +95,21 @@ public class WormholeJeiPlugin implements IModPlugin {
         info(registry, Registration.NANITE_CORE, "nanite_core", 2);
         ItemStack droneEgg = new ItemStack(net.minecraft.init.Items.SPAWN_EGG);
         net.minecraft.item.ItemMonsterPlacer.applyEntityIdToItemStack(droneEgg, new net.minecraft.util.ResourceLocation(com.nick1416.wormholetech.WormholeTech.MODID, "xenolith_drone"));
-        registry.addIngredientInfo(droneEgg, VanillaTypes.ITEM, "tooltip.wormholetech.xenolith_drone.summary", "tooltip.wormholetech.xenolith_drone.detail.1");
+        addInfo(registry, droneEgg, VanillaTypes.ITEM, "tooltip.wormholetech.xenolith_drone.summary", "tooltip.wormholetech.xenolith_drone.detail.1");
         info(registry, Registration.ITEM_XENOLITH_ORE, "xenolith_ore", 1);
+        info(registry, Registration.ITEM_TITANIUM_ORE, "titanium_ore", 1);
         info(registry, Registration.RAW_XENOLITH, "raw_xenolith", 1);
         info(registry, Registration.INACTIVE_DRONE, "inactive_xenolith_drone", 1);
         for (int m = 0; m < com.nick1416.wormholetech.drone.DroneProgram.VALUES.length; m++)
-            registry.addIngredientInfo(new ItemStack(Registration.XENOLITH_CHIP, 1, m), VanillaTypes.ITEM,
+            addInfo(registry, new ItemStack(Registration.XENOLITH_CHIP, 1, m), VanillaTypes.ITEM,
                     "tooltip.wormholetech.xenolith_chip.summary", "tooltip.wormholetech.xenolith_chip.detail.1");
         for (int m = 0; m < com.nick1416.wormholetech.drone.DroneProgram.MINERS; m++)
-            registry.addIngredientInfo(new ItemStack(Registration.ITEM_MINER_DRONE, 1, m), VanillaTypes.ITEM,
+            addInfo(registry, new ItemStack(Registration.ITEM_MINER_DRONE, 1, m), VanillaTypes.ITEM,
                     "tooltip.wormholetech.miner_drone.summary", "tooltip.wormholetech.miner_drone.detail.1",
                     m == 0 ? "tooltip.wormholetech.miner_drone.naquadah" : "tooltip.wormholetech.miner_drone.overworld", "tooltip.wormholetech.drone_modulator");
-        registry.addIngredientInfo(new ItemStack(Registration.COMPANION_DRONE, 1, 0), VanillaTypes.ITEM,
+        addInfo(registry, new ItemStack(Registration.COMPANION_DRONE, 1, 0), VanillaTypes.ITEM,
                 "tooltip.wormholetech.defensive_drone.summary", "tooltip.wormholetech.defensive_drone.detail.1", "tooltip.wormholetech.drone_modulator");
-        registry.addIngredientInfo(new ItemStack(Registration.COMPANION_DRONE, 1, 1), VanillaTypes.ITEM,
+        addInfo(registry, new ItemStack(Registration.COMPANION_DRONE, 1, 1), VanillaTypes.ITEM,
                 "tooltip.wormholetech.research_drone.summary", "tooltip.wormholetech.research_drone.detail.1", "tooltip.wormholetech.drone_modulator");
         info(registry, Registration.ITEM_XENOLITH, "xenolith", 1);
         info(registry, Registration.ITEM_XENOLITH_TILES, "xenolith_tiles", 1);
@@ -118,6 +119,12 @@ public class WormholeJeiPlugin implements IModPlugin {
         info(registry, Registration.GATE_LOCATOR, "gate_locator", 0);
         info(registry, Registration.ITEM_NATURAL_NAQUADAH_ORE, "naquadah_ore_natural", 0);
         info(registry, Registration.ITEM_NAQUADAH_CRYSTAL, "naquadah_crystal", 1);
+        if (!com.nick1416.wormholetech.ModConfig.isCC()) {
+            addInfo(registry, new ItemStack(net.minecraft.init.Blocks.BEDROCK), VanillaTypes.ITEM,
+                    "jei.wormholetech.bedrock.info");
+            addInfo(registry, new ItemStack(com.nick1416.wormholetech.item.HardDiamond.PICKAXE), VanillaTypes.ITEM,
+                    "jei.wormholetech.bedrock.info");
+        }
         if (com.nick1416.wormholetech.ModConfig.isCC())
             for (Item hd : com.nick1416.wormholetech.item.HardDiamond.ALL)
                 registry.getJeiHelpers().getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(hd));
@@ -127,7 +134,7 @@ public class WormholeJeiPlugin implements IModPlugin {
                 registry.getJeiHelpers().getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(tuner));
                 continue;
             }
-            registry.addIngredientInfo(
+            addInfo(registry, 
                     new ItemStack(tuner),
                     VanillaTypes.ITEM,
                     "tooltip.wormholetech.mineral_tuner.jei.1",
@@ -148,12 +155,22 @@ public class WormholeJeiPlugin implements IModPlugin {
         }
     }
 
+    /**
+     * JEI shows info lines without String.format, so a lang "%%" would appear literally. Format each
+     * key here (the same way item tooltips are) and hand JEI the finished text.
+     */
+    private static void addInfo(IModRegistry registry, ItemStack stack, Object type, String... keys) {
+        String[] lines = new String[keys.length];
+        for (int i = 0; i < keys.length; i++) lines[i] = net.minecraft.client.resources.I18n.format(keys[i]);
+        registry.addIngredientInfo(stack, VanillaTypes.ITEM, lines);
+    }
+
     private static void info(IModRegistry registry, Item item, String path, int detailCount) {
         String[] keys = new String[1 + detailCount];
         keys[0] = "tooltip.wormholetech." + path + ".summary";
         for (int i = 1; i <= detailCount; i++) {
             keys[i] = "tooltip.wormholetech." + path + ".detail." + i;
         }
-        registry.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM, keys);
+        addInfo(registry, new ItemStack(item), VanillaTypes.ITEM, keys);
     }
 }

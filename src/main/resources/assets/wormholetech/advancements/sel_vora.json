@@ -1,0 +1,10 @@
+{
+  "parent": "wormholetech:tal_vora",
+  "display": {
+    "icon": { "item": "wormholetech:moon_regolith" },
+    "title": { "translate": "advancements.wormholetech.sel_vora.title" },
+    "description": { "translate": "advancements.wormholetech.sel_vora.desc" },
+    "frame": "challenge", "show_toast": true, "announce_to_chat": true, "hidden": false
+  },
+  "criteria": { "arrived": { "trigger": "minecraft:impossible" } }
+}

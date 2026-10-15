@@ -33,27 +33,37 @@ public class EntityAlienVillager extends EntityCreature implements IMerchant, IN
         setSize(0.6F, 2.3F);
     }
 
-    @Override protected void entityInit() { super.entityInit(); dataManager.register(MEDITATING, false); }
+    private static final net.minecraft.network.datasync.DataParameter<Boolean> RESEARCHING =
+            net.minecraft.network.datasync.EntityDataManager.createKey(EntityAlienVillager.class, net.minecraft.network.datasync.DataSerializers.BOOLEAN);
+    @Override protected void entityInit() { super.entityInit(); dataManager.register(MEDITATING, false); dataManager.register(RESEARCHING, false); }
+    /** Sel'Vora outpost researcher: stands at a console studying it, does not trade. */
+    public boolean isResearching() { return dataManager.get(RESEARCHING); }
+    public void setResearching(boolean r) { dataManager.set(RESEARCHING, r); }
+    private boolean still() { return isMeditating() || isResearching(); }
     public boolean isMeditating() { return dataManager.get(MEDITATING); }
     public void setMeditating(boolean m) { dataManager.set(MEDITATING, m); }
 
-    @Override public void writeEntityToNBT(net.minecraft.nbt.NBTTagCompound c) { super.writeEntityToNBT(c); c.setBoolean("Meditating", isMeditating()); }
-    @Override public void readEntityFromNBT(net.minecraft.nbt.NBTTagCompound c) { super.readEntityFromNBT(c); setMeditating(c.getBoolean("Meditating")); }
+    @Override public void writeEntityToNBT(net.minecraft.nbt.NBTTagCompound c) { super.writeEntityToNBT(c); c.setBoolean("Meditating", isMeditating()); c.setBoolean("Researching", isResearching()); c.setFloat("StudyYaw", rotationYaw); }
+    @Override public void readEntityFromNBT(net.minecraft.nbt.NBTTagCompound c) { super.readEntityFromNBT(c); setMeditating(c.getBoolean("Meditating")); setResearching(c.getBoolean("Researching")); }
 
     /** Meditating Vorani stay put (no wandering, no pushing). */
-    @Override public boolean canBePushed() { return !isMeditating() && super.canBePushed(); }
+    @Override public boolean canBePushed() { return !still() && super.canBePushed(); }
 
     @Override
     protected void initEntityAI() {
         tasks.addTask(0, new EntityAISwimming(this));
         tasks.addTask(1, new EntityAIPanic(this, 0.7D) {
-            @Override public boolean shouldExecute() { return !isMeditating() && super.shouldExecute(); }
+            @Override public boolean shouldExecute() { return !still() && super.shouldExecute(); }
         });
         tasks.addTask(5, new EntityAIWanderAvoidWater(this, 0.5D) {
-            @Override public boolean shouldExecute() { return !isMeditating() && super.shouldExecute(); }
+            @Override public boolean shouldExecute() { return !still() && super.shouldExecute(); }
         });
-        tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        tasks.addTask(7, new EntityAILookIdle(this));
+        tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F) {
+            @Override public boolean shouldExecute() { return !isResearching() && super.shouldExecute(); }
+        });
+        tasks.addTask(7, new EntityAILookIdle(this) {
+            @Override public boolean shouldExecute() { return !isResearching() && super.shouldExecute(); }
+        });
     }
 
     @Override
@@ -65,6 +75,10 @@ public class EntityAlienVillager extends EntityCreature implements IMerchant, IN
 
     @Override
     public boolean processInteract(EntityPlayer player, EnumHand hand) {
+        if (isResearching()) {
+            if (!world.isRemote) player.sendStatusMessage(new net.minecraft.util.text.TextComponentTranslation("message.wormholetech.vorani.researching"), true);
+            return true;
+        }
         if (isEntityAlive() && customer == null && !player.isSneaking()) {
             if (!world.isRemote) {
                 setCustomer(player);
@@ -85,6 +99,16 @@ public class EntityAlienVillager extends EntityCreature implements IMerchant, IN
                         posY + 1.6 + rand.nextDouble() * 0.6, posZ + (rand.nextDouble() - 0.5) * 1.2, 0, 0.1, 0);
             if (world.isRemote && rand.nextInt(40) == 0)
                 world.spawnParticle(net.minecraft.util.EnumParticleTypes.END_ROD, posX, posY + 2.0, posZ, 0, 0.02, 0);
+        }
+        if (isResearching()) {
+            // keep studying the console in front: fixed gaze down at it, data sparks rising between
+            motionX = 0; motionZ = 0; getNavigator().clearPath();
+            rotationYawHead = rotationYaw; renderYawOffset = rotationYaw; rotationPitch = 35F;
+            if (world.isRemote && rand.nextInt(5) == 0) {
+                double fx = -Math.sin(Math.toRadians(rotationYaw)) * 1.3, fz = Math.cos(Math.toRadians(rotationYaw)) * 1.3;
+                world.spawnParticle(net.minecraft.util.EnumParticleTypes.ENCHANTMENT_TABLE, posX + fx, posY + 1.2, posZ + fz,
+                        -fx * 0.6, 0.6, -fz * 0.6);
+            }
         }
         if (customer != null) {
             getNavigator().clearPath();

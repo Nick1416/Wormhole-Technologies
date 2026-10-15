@@ -1,0 +1,23 @@
+{
+  "parent": "wormholetech:defensive_drone",
+  "display": {
+    "icon": {
+      "item": "wormholetech:xenolith_chip"
+    },
+    "title": {
+      "translate": "advancements.wormholetech.drone_kill.title"
+    },
+    "description": {
+      "translate": "advancements.wormholetech.drone_kill.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "kill": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

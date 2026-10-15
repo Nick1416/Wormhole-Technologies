@@ -20,6 +20,9 @@ import java.util.List;
 public class GuiAncientTablet extends GuiScreen {
 
     private int page;
+    /** Pages split to fit: each leaf = fragment index + its wrapped lines (null = paragraph gap). */
+    private final List<Leaf> leaves = new ArrayList<Leaf>();
+    private static final int TEXT_TOP = 28, FOOTER_Y = 155, ICON_BLOCK = 34, LINE_H = 9, GAP = 4, WRAP = 216;
     private final List<Page> pages = new ArrayList<Page>();
 
     public GuiAncientTablet() {
@@ -138,8 +141,53 @@ public class GuiAncientTablet extends GuiScreen {
         return new ItemStack(Registration.ANCIENT_GATE_FRAME);
     }
 
+    /** Wraps every fragment and splits it over as many leaves as needed; icons go on its last leaf. */
+    private void paginate() {
+        leaves.clear();
+        for (int pi = 0; pi < pages.size(); pi++) {
+            Page p = pages.get(pi);
+            List<String> rows = new ArrayList<String>();
+            for (int i = 0; i < p.lines.length; i++) {
+                String line = p.lines[i];
+                String text = line.startsWith("gui.wormholetech.") ? I18n.format(line) : line;
+                if (i > 0) rows.add(null);
+                rows.addAll(fontRenderer.listFormattedStringToWidth(text, WRAP));
+            }
+            int full = FOOTER_Y - 5 - TEXT_TOP;
+            boolean icons = p.icons != null && p.icons.length > 0;
+            int last = icons ? full - ICON_BLOCK : full;
+            List<Leaf> mine = new ArrayList<Leaf>();
+            Leaf cur = new Leaf(pi);
+            int h = 0;
+            for (String r : rows) {
+                int rh = r == null ? GAP : LINE_H;
+                if (r == null && cur.rows.isEmpty()) continue;
+                if (h + rh > full) { mine.add(cur); cur = new Leaf(pi); h = 0; if (r == null) continue; }
+                cur.rows.add(r); h += rh;
+            }
+            // the last leaf also carries the icons: move overflow rows to one more leaf if needed
+            if (icons && h > last) {
+                Leaf extra = new Leaf(pi);
+                while (h > last && !cur.rows.isEmpty()) {
+                    String r = cur.rows.remove(cur.rows.size() - 1);
+                    h -= r == null ? GAP : LINE_H;
+                    if (r != null) extra.rows.add(0, r);
+                }
+                while (!cur.rows.isEmpty() && cur.rows.get(cur.rows.size() - 1) == null) cur.rows.remove(cur.rows.size() - 1);
+                while (!extra.rows.isEmpty() && extra.rows.get(0) == null) extra.rows.remove(0);
+                mine.add(cur); cur = extra;
+            }
+            mine.add(cur);
+            for (int i = 0; i < mine.size(); i++) { mine.get(i).part = i; mine.get(i).parts = mine.size(); }
+            mine.get(mine.size() - 1).icons = icons;
+            leaves.addAll(mine);
+        }
+        if (page >= leaves.size()) page = leaves.size() - 1;
+    }
+
     @Override
     public void initGui() {
+        paginate();
         buttonList.clear();
         int cx = width / 2;
         int by = height / 2 + 85;
@@ -151,13 +199,13 @@ public class GuiAncientTablet extends GuiScreen {
 
     private void updateButtons() {
         buttonList.get(0).enabled = page > 0;
-        buttonList.get(1).enabled = page < pages.size() - 1;
+        buttonList.get(1).enabled = page < leaves.size() - 1;
     }
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
         if (button.id == 0 && page > 0) page--;
-        if (button.id == 1 && page < pages.size() - 1) page++;
+        if (button.id == 1 && page < leaves.size() - 1) page++;
         if (button.id == 2) mc.player.closeScreen();
         updateButtons();
     }
@@ -172,16 +220,19 @@ public class GuiAncientTablet extends GuiScreen {
         drawGradientRect(left, top, left + 240, top + 170, 0xF0C8B890, 0xF0A09070);
         drawRect(left + 3, top + 3, left + 237, top + 167, 0x66FFFFFF);
 
-        Page p = pages.get(page);
-        fontRenderer.drawString(title(p, page), left + 12, top + 10, 0x3A2A1A);
-        int y = top + 28;
-        for (String line : p.lines) {
-            String text = line.startsWith("gui.wormholetech.") ? I18n.format(line) : line;
-            fontRenderer.drawSplitString(text, left + 12, y, 216, 0x2A2010);
-            y += fontRenderer.getWordWrappedHeight(text, 216) + 4;
+        Leaf leaf = leaves.get(page);
+        Page p = pages.get(leaf.page);
+        String head = title(p, leaf.page) + (leaf.parts > 1 ? " (" + (leaf.part + 1) + "/" + leaf.parts + ")" : "");
+        fontRenderer.drawString(head, left + 12, top + 10, 0x3A2A1A);
+        int y = top + TEXT_TOP;
+        for (String r : leaf.rows) {
+            if (r == null) { y += GAP; continue; }
+            fontRenderer.drawString(r, left + 12, y, 0x2A2010);
+            y += LINE_H;
         }
 
-        if (p.icons != null && p.icons.length > 0) {
+        if (leaf.icons) {
+            y = top + FOOTER_Y - 5 - ICON_BLOCK; // fixed slot just above the footer
             y += 6;
             fontRenderer.drawString(I18n.format("gui.wormholetech.tablet.progression"), left + 12, y, 0x3A2A1A);
             y += 12;
@@ -199,7 +250,7 @@ public class GuiAncientTablet extends GuiScreen {
             GlStateManager.disableLighting();
         }
 
-        String footer = I18n.format("gui.wormholetech.tablet.page", page + 1, pages.size());
+        String footer = I18n.format("gui.wormholetech.tablet.page", page + 1, leaves.size());
         fontRenderer.drawString(footer, left + 12, top + 155, 0x5A4A3A);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
@@ -216,7 +267,7 @@ public class GuiAncientTablet extends GuiScreen {
             return;
         }
         if (keyCode == Keyboard.KEY_LEFT && page > 0) { page--; updateButtons(); return; }
-        if (keyCode == Keyboard.KEY_RIGHT && page < pages.size() - 1) { page++; updateButtons(); return; }
+        if (keyCode == Keyboard.KEY_RIGHT && page < leaves.size() - 1) { page++; updateButtons(); return; }
         super.keyTyped(typedChar, keyCode);
     }
 
@@ -228,6 +279,12 @@ public class GuiAncientTablet extends GuiScreen {
         int dash = t.indexOf(" \u2014 ");
         if (!t.startsWith("Fragment ") || dash < 0 || index >= ROMAN.length) return t;
         return "Fragment " + ROMAN[index] + t.substring(dash);
+    }
+
+    private static final class Leaf {
+        final int page; int part, parts; boolean icons;
+        final List<String> rows = new ArrayList<String>();
+        Leaf(int page) { this.page = page; }
     }
 
     private static final class Page {

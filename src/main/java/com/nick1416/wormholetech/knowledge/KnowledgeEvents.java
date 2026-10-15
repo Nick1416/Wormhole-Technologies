@@ -29,6 +29,12 @@ public final class KnowledgeEvents {
         KnowledgeData d = KnowledgeData.get(p.world);
         int planet = Planets.indexOf(p.world.provider.getDimension());
         if (planet >= 0) d.findPlanet(p.getUniqueID(), planet);
+        // Tal'Vora research past 50% reveals the moon's gate address (once)
+        if (d.percent(p.getUniqueID(), Planets.TAL_VORA) > 50 && d.discover(p.getUniqueID(), "sel_vora_address")
+                && com.nick1416.wormholetech.world.ModDimensions.isSelVoraRegistered()) {
+            d.findPlanet(p.getUniqueID(), Planets.KEYS.length - 1);
+            p.sendMessage(new net.minecraft.util.text.TextComponentTranslation("message.wormholetech.knowledge.moon_address"));
+        }
         for (int s = 0; s < p.inventory.getSizeInventory(); s++) {
             ItemStack st = p.inventory.getStackInSlot(s);
             if (st.isEmpty()) continue;

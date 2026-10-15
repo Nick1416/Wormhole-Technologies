@@ -136,6 +136,7 @@ public final class StargateTravel {
 
     private static void goOut(EntityPlayerMP p, WorldServer from, BlockPos portal, EnumFacing.Axis axis) {
         GateShape g = GateShape.detect(from, portal, axis, TitaniumFrame::isTitanium);
+        GateRegistryData.register(from, g);
         BlockPos back;
         if (g != null) {
             // step out on the side the player came from
@@ -161,7 +162,8 @@ public final class StargateTravel {
         final float yaw = target == null ? p.rotationYaw : ReturnGates.arrivalYaw();
         teleport(p, dest, arrival, yaw);
         GateNetwork.recordVisit(p, dest);
-        grantAdvancement(p, ModDimensions.isTalVoraRegistered() && dest == ModDimensions.talVoraId() ? GateNetwork.TAL_VORA_ADVANCEMENT
+        grantAdvancement(p, ModDimensions.isSelVoraRegistered() && dest == ModDimensions.selVoraId() ? GateNetwork.SEL_VORA_ADVANCEMENT
+                : ModDimensions.isTalVoraRegistered() && dest == ModDimensions.talVoraId() ? GateNetwork.TAL_VORA_ADVANCEMENT
                 : ModDimensions.isDerelictRegistered() && dest == ModDimensions.derelictId() ? DERELICT_ADVANCEMENT : ADVANCEMENT);
     }
 

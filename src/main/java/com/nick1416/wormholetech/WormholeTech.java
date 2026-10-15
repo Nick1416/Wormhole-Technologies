@@ -98,6 +98,7 @@ public class WormholeTech {
         com.nick1416.wormholetech.world.ModDimensions.register();
         com.nick1416.wormholetech.world.ModDimensions.registerDerelict();
         com.nick1416.wormholetech.world.ModDimensions.registerTalVora();
+        com.nick1416.wormholetech.world.ModDimensions.registerSelVora();
         GameRegistry.registerWorldGenerator(new com.nick1416.wormholetech.world.P3XOreGenerator(), 10);
 
         PROXY.preInit();
@@ -105,6 +106,9 @@ public class WormholeTech {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent e) {
+        // Normal mode: bedrock reports the Hard Diamond Pickaxe (pickaxe, level 4) as its tool for HUDs
+        // like The One Probe. Hardness stays -1, so only our custom mining can break it.
+        if (!ModConfig.isCC()) net.minecraft.init.Blocks.BEDROCK.setHarvestLevel("pickaxe", 4);
         if (Loader.isModLoaded("thermalfoundation")) {
             Item tfItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "diamond_nugget"));
             if (tfItem != null) {
@@ -131,6 +135,14 @@ public class WormholeTech {
             com.nick1416.wormholetech.registry.Registration.TAL_VORA_BIOME.getSpawnableList(net.minecraft.entity.EnumCreatureType.AMBIENT).add(
                     new net.minecraft.world.biome.Biome.SpawnListEntry(com.nick1416.wormholetech.talvora.EntityXenolithDrone.class,
                             ModConfig.xenolithDroneSpawnWeight, 1, 1));
+        GameRegistry.addSmelting(com.nick1416.wormholetech.registry.Registration.TITANIUM_ORE,
+                new ItemStack(com.nick1416.wormholetech.registry.Registration.TITANIUM_INGOT), 0.7F);
+        net.minecraft.entity.EntitySpawnPlacementRegistry.setPlacementType(com.nick1416.wormholetech.moon.EntityRegolithCrawler.class,
+                net.minecraft.entity.EntityLiving.SpawnPlacementType.ON_GROUND);
+        if (ModConfig.regolithCrawlerSpawnWeight > 0)
+            com.nick1416.wormholetech.registry.Registration.SEL_VORA_BIOME.getSpawnableList(net.minecraft.entity.EnumCreatureType.MONSTER).add(
+                    new net.minecraft.world.biome.Biome.SpawnListEntry(com.nick1416.wormholetech.moon.EntityRegolithCrawler.class,
+                            ModConfig.regolithCrawlerSpawnWeight, 1, 2));
         GameRegistry.addSmelting(com.nick1416.wormholetech.registry.Registration.RAW_XENOLITH,
                 new ItemStack(com.nick1416.wormholetech.registry.Registration.XENOLITH), 0.2F);
         OreDictionary.registerOre("oreNaquadah", com.nick1416.wormholetech.registry.Registration.NATURAL_NAQUADAH_ORE);

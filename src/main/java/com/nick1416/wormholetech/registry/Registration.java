@@ -193,6 +193,18 @@ public class Registration {
     public static final Item ITEM_QUANTUM_FIELD_MODULATOR = new ItemBlock(QUANTUM_FIELD_MODULATOR).setMaxStackSize(1)
             .setRegistryName(QUANTUM_FIELD_MODULATOR.getRegistryName());
 
+    // --- Sel'Vora (Tal'Vora's moon) ---
+    public static final Block MOON_REGOLITH = new com.nick1416.wormholetech.moon.MoonBlocks.Regolith()
+            .setRegistryName(WormholeTech.MODID, "moon_regolith").setUnlocalizedName(WormholeTech.MODID + ".moon_regolith");
+    public static final Item ITEM_MOON_REGOLITH = new ItemBlock(MOON_REGOLITH).setRegistryName(MOON_REGOLITH.getRegistryName());
+    public static final Block TITANIUM_ORE = new com.nick1416.wormholetech.moon.MoonBlocks.TitaniumOre()
+            .setRegistryName(WormholeTech.MODID, "titanium_ore").setUnlocalizedName(WormholeTech.MODID + ".titanium_ore");
+    public static final Item ITEM_TITANIUM_ORE = new ItemBlock(TITANIUM_ORE).setRegistryName(TITANIUM_ORE.getRegistryName());
+    public static final Block RESEARCH_CONSOLE = new com.nick1416.wormholetech.moon.MoonBlocks.ResearchConsole()
+            .setRegistryName(WormholeTech.MODID, "research_console").setUnlocalizedName(WormholeTech.MODID + ".research_console");
+    public static final net.minecraft.world.biome.Biome SEL_VORA_BIOME =
+            new com.nick1416.wormholetech.moon.BiomeSelVora().setRegistryName(WormholeTech.MODID, "sel_vora_highlands");
+
     public static final net.minecraft.world.biome.Biome TAL_VORA_BIOME =
             new com.nick1416.wormholetech.talvora.BiomeTalVora().setRegistryName(WormholeTech.MODID, "tal_vora_dunes");
     public static final Block XENOLITH = new Block(net.minecraft.block.material.Material.ROCK, net.minecraft.block.material.MapColor.CYAN)
@@ -386,6 +398,9 @@ public class Registration {
         e.getRegistry().register(NAQUADAH_WASTES);
         e.getRegistry().register(DERELICT_BIOME);
         e.getRegistry().register(TAL_VORA_BIOME);
+        e.getRegistry().register(SEL_VORA_BIOME);
+        net.minecraftforge.common.BiomeDictionary.addTypes(SEL_VORA_BIOME, net.minecraftforge.common.BiomeDictionary.Type.COLD,
+                net.minecraftforge.common.BiomeDictionary.Type.DEAD, net.minecraftforge.common.BiomeDictionary.Type.WASTELAND);
         net.minecraftforge.common.BiomeDictionary.addTypes(TAL_VORA_BIOME, net.minecraftforge.common.BiomeDictionary.Type.HOT,
                 net.minecraftforge.common.BiomeDictionary.Type.DRY, net.minecraftforge.common.BiomeDictionary.Type.SANDY);
     }
@@ -440,6 +455,13 @@ public class Registration {
                 .name(WormholeTech.MODID + ".companion_drone")
                 .tracker(80, 2, true)
                 .build());
+        e.getRegistry().register(net.minecraftforge.fml.common.registry.EntityEntryBuilder.create()
+                .entity(com.nick1416.wormholetech.moon.EntityRegolithCrawler.class)
+                .id(new net.minecraft.util.ResourceLocation(WormholeTech.MODID, "regolith_crawler"), 7)
+                .name(WormholeTech.MODID + ".regolith_crawler")
+                .tracker(64, 3, true)
+                .egg(0xB8B6B0, 0x46C8BE)
+                .build());
     }
 
     /**
@@ -462,6 +484,8 @@ public class Registration {
         UNSTABLE_PRYSMIAN_BLOCK.setCreativeTab(b);
         ANCIENT_GATE_FRAME.setCreativeTab(b);
         TITANIUM_BLOCK.setCreativeTab(b);
+        MOON_REGOLITH.setCreativeTab(b);
+        TITANIUM_ORE.setCreativeTab(b);
         for (Block blk : new Block[]{HULL_PLATING, HULL_BULKHEAD, HULL_LAMP, HULL_LAMP_GOLD, HULL_WINDOW, MODULATOR_CRADLE, XENOLITH, XENOLITH_TILES, XENO_LAMP}) blk.setCreativeTab(b);
         QUANTUM_FIELD_MODULATOR.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
         DERELICT_COORDINATES.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
@@ -503,6 +527,7 @@ public class Registration {
                 REINFORCED_GATE_FRAME,
                 HULL_PLATING, HULL_BULKHEAD, HULL_LAMP, HULL_LAMP_GOLD, HULL_WINDOW, MODULATOR_CRADLE, QUANTUM_FIELD_MODULATOR, VORANI_MODULATOR, XENOLITH, XENOLITH_TILES, XENO_LAMP, XENOLITH_ORE, MINER_DRONE, REPOSITORY,
                 TITANIUM_BLOCK,
+                MOON_REGOLITH, TITANIUM_ORE, RESEARCH_CONSOLE,
                 NATURAL_NAQUADAH_ORE,
                 PRYSMIAN_ORE,
                 NAQUADRIC_STONE,
@@ -570,6 +595,7 @@ public class Registration {
                 INTERGALACTIC_COORDINATES,
                 NANITE_CORE,
                 ITEM_TITANIUM_BLOCK,
+                ITEM_MOON_REGOLITH, ITEM_TITANIUM_ORE,
                 TITANIUM_INGOT,
                 GATE_LOCATOR,
                 ITEM_NATURAL_NAQUADAH_ORE,
@@ -580,6 +606,7 @@ public class Registration {
                 ITEM_ANCIENT_STONE
         );
         net.minecraftforge.oredict.OreDictionary.registerOre("ingotTitanium", TITANIUM_INGOT);
+        net.minecraftforge.oredict.OreDictionary.registerOre("oreTitanium", TITANIUM_ORE);
         net.minecraftforge.oredict.OreDictionary.registerOre("oreXenolith", XENOLITH_ORE);
         net.minecraftforge.oredict.OreDictionary.registerOre("gemXenolith", RAW_XENOLITH);
         net.minecraftforge.oredict.OreDictionary.registerOre("blockTitanium", TITANIUM_BLOCK);

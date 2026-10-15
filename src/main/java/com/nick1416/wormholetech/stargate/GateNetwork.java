@@ -18,20 +18,23 @@ public final class GateNetwork {
 
     public static final String VISITED_TAG = WormholeTech.MODID + ":visited_gates";
     /** Map destinations, in marker order. */
-    public static final String[] KEYS = { "p3x", "derelict", "home", "tal_vora" };
+    public static final String[] KEYS = { "p3x", "derelict", "home", "tal_vora", "sel_vora" };
     /** Index of the Overworld home marker: always on the map. */
     public static final int HOME = 2;
     /** Tal'Vora sits in the other-galaxy inset of the map. */
     public static final int TAL_VORA = 3;
+    /** Tal'Vora's moon, next to it in the inset; unlocked by Repository research (> 50% of Tal'Vora). */
+    public static final int SEL_VORA = 4;
+    public static final ResourceLocation SEL_VORA_ADVANCEMENT = new ResourceLocation(WormholeTech.MODID, "sel_vora");
     public static final ResourceLocation TAL_VORA_ADVANCEMENT = new ResourceLocation(WormholeTech.MODID, "tal_vora");
     /** Marker positions on the galaxy map (0..1 of the map area). */
-    public static final float[][] MAP_POS = { { 0.64F, 0.36F }, { 0.31F, 0.68F }, { 0.80F, 0.66F }, { 0.875F, 0.17F } };
+    public static final float[][] MAP_POS = { { 0.64F, 0.36F }, { 0.31F, 0.68F }, { 0.80F, 0.66F }, { 0.875F, 0.17F }, { 0.70F, 0.27F } };
 
     public static int count() { return KEYS.length; }
 
-    public static int dimension(int i) { return i == TAL_VORA ? ModDimensions.talVoraId() : i == HOME ? 0 : i == 0 ? ModDimensions.id() : ModDimensions.derelictId(); }
+    public static int dimension(int i) { return i == SEL_VORA ? ModDimensions.selVoraId() : i == TAL_VORA ? ModDimensions.talVoraId() : i == HOME ? 0 : i == 0 ? ModDimensions.id() : ModDimensions.derelictId(); }
 
-    public static boolean registered(int i) { if (i == TAL_VORA) return ModDimensions.isTalVoraRegistered(); return i == HOME || (i == 0 ? ModDimensions.isRegistered() : ModDimensions.isDerelictRegistered()); }
+    public static boolean registered(int i) { if (i == SEL_VORA) return ModDimensions.isSelVoraRegistered(); if (i == TAL_VORA) return ModDimensions.isTalVoraRegistered(); return i == HOME || (i == 0 ? ModDimensions.isRegistered() : ModDimensions.isDerelictRegistered()); }
 
     /** Marker index of the dimension a player is in, or -1. */
     public static int here(int dim) { return indexOf(dim); }
@@ -61,7 +64,13 @@ public final class GateNetwork {
         m |= done(p, StargateTravel.ADVANCEMENT) && registered(0) ? 1 : 0;
         m |= done(p, StargateTravel.DERELICT_ADVANCEMENT) && registered(1) ? 2 : 0;
         m |= done(p, TAL_VORA_ADVANCEMENT) && registered(TAL_VORA) ? 1 << TAL_VORA : 0;
+        m |= (done(p, SEL_VORA_ADVANCEMENT) || moonKnown(p)) && registered(SEL_VORA) ? 1 << SEL_VORA : 0;
         return m;
+    }
+
+    /** The moon's address is known once the player's Tal'Vora research passes 50%. */
+    public static boolean moonKnown(EntityPlayerMP p) {
+        return com.nick1416.wormholetech.knowledge.KnowledgeData.get(p.world).percent(p.getUniqueID(), com.nick1416.wormholetech.knowledge.Planets.TAL_VORA) > 50;
     }
 
     private static boolean done(EntityPlayerMP p, ResourceLocation id) {

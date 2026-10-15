@@ -44,7 +44,7 @@ public class ItemGateLocator extends Item {
         addPropertyOverride(new ResourceLocation("angle"), new Angle());
     }
 
-    /** Kind of target: 0 none, 1 return gate (on P3X), 2 origin gate. */
+    /** Kind of target: 0 none, 1 return gate (on P3X), 2 origin gate, 3 nearest known gate. */
     public static final class Target {
         public final int kind;
         public final BlockPos pos;
@@ -59,6 +59,8 @@ public class ItemGateLocator extends Item {
             if (d.gate != null) return new Target(1, d.gate.interior(d.gate.width / 2, 0));
             return new Target(0, null);
         }
+        BlockPos known = com.nick1416.wormholetech.stargate.GateRegistryData.nearest(world, player.posX, player.posZ);
+        if (known != null) return new Target(3, known);
         NBTTagCompound data = player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG);
         if (data.hasKey(StargateTravel.ORIGIN_TAG, Constants.NBT.TAG_COMPOUND)) {
             NBTTagCompound o = data.getCompoundTag(StargateTravel.ORIGIN_TAG);
@@ -119,7 +121,7 @@ public class ItemGateLocator extends Item {
         if (t.pos == null) return new TextComponentTranslation("message.wormholetech.gate_locator.unknown");
         double dx = t.pos.getX() + 0.5 - x, dz = t.pos.getZ() + 0.5 - z;
         int dist = (int) Math.round(Math.sqrt(dx * dx + dz * dz));
-        String which = t.kind == 1 ? "message.wormholetech.gate_locator.return" : "message.wormholetech.gate_locator.origin";
+        String which = t.kind == 1 ? "message.wormholetech.gate_locator.return" : t.kind == 3 ? "message.wormholetech.gate_locator.nearest" : "message.wormholetech.gate_locator.origin";
         return new TextComponentTranslation(which, dist, direction(dx, dz));
     }
 
