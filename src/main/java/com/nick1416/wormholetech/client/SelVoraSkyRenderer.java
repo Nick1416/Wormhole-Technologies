@@ -68,7 +68,7 @@ public class SelVoraSkyRenderer extends IRenderHandler {
         GlStateManager.rotate(-20F, 0F, 1F, 0F);
         GlStateManager.rotate(55F, 1F, 0F, 0F);
         mc.getTextureManager().bindTexture(PLANET);
-        float s = 38F;
+        float s = 19F; // half-size of the Tal'Vora quad (was 38)
         b.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
         b.pos(-s, 100D, -s).tex(0D, 0D).endVertex();
         b.pos(s, 100D, -s).tex(1D, 0D).endVertex();
