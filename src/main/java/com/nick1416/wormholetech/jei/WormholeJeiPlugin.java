@@ -119,6 +119,11 @@ public class WormholeJeiPlugin implements IModPlugin {
         info(registry, Registration.ITEM_NATURAL_NAQUADAH_ORE, "naquadah_ore_natural", 0);
         info(registry, Registration.ITEM_NAQUADAH_CRYSTAL, "naquadah_crystal", 1);
         for (com.nick1416.wormholetech.item.ItemMineralTuner tuner : Registration.MINERAL_TUNERS) {
+            if (!com.nick1416.wormholetech.ModConfig.isCC()) {
+                // mode=normal: mineral tuners are not part of the game
+                registry.getJeiHelpers().getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(tuner));
+                continue;
+            }
             registry.addIngredientInfo(
                     new ItemStack(tuner),
                     VanillaTypes.ITEM,
