@@ -499,7 +499,6 @@ advancements.wormholetech.drone_kill.title=Guardian Protocol
 advancements.wormholetech.drone_kill.desc=Let your Defensive Drone defeat a monster
 dimension.wormholetech.sel_vora=Sel'Vora
 gui.wormholetech.network.dest.sel_vora=Sel'Vora
-message.wormholetech.knowledge.moon_address=Your research of Tal'Vora reveals the gate address of its moon, Sel'Vora. It is now on the Gate Network Computer's map.
 advancements.wormholetech.sel_vora.title=Under a Red World
 advancements.wormholetech.sel_vora.desc=Step through a gate onto Sel'Vora, Tal'Vora's moon
 tile.wormholetech.moon_regolith.name=Sel'Vora Regolith

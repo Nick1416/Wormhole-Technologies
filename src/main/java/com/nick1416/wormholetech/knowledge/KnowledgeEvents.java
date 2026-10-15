@@ -33,7 +33,6 @@ public final class KnowledgeEvents {
         if (d.percent(p.getUniqueID(), Planets.TAL_VORA) > 50 && d.discover(p.getUniqueID(), "sel_vora_address")
                 && com.nick1416.wormholetech.world.ModDimensions.isSelVoraRegistered()) {
             d.findPlanet(p.getUniqueID(), Planets.KEYS.length - 1);
-            p.sendMessage(new net.minecraft.util.text.TextComponentTranslation("message.wormholetech.knowledge.moon_address"));
         }
         for (int s = 0; s < p.inventory.getSizeInventory(); s++) {
             ItemStack st = p.inventory.getStackInSlot(s);
