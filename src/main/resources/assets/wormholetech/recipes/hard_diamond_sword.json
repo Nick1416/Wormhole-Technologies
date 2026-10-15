@@ -1,0 +1,25 @@
+{
+  "conditions": [
+    {
+      "type": "wormholetech:mode",
+      "mode": "normal"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "H",
+    "H",
+    "S"
+  ],
+  "key": {
+    "H": {
+      "item": "wormholetech:hard_diamond"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "wormholetech:hard_diamond_sword"
+  }
+}

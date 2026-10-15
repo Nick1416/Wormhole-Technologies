@@ -22,12 +22,14 @@ public final class RefinerRecipes {
         public final String ore;
         public final Item output;
         private final boolean titanium;
+        private int fixedTicks;
 
         Recipe(Item item, String ore, Item output, boolean titanium) {
             this.item = item; this.ore = ore; this.output = output; this.titanium = titanium;
         }
 
         public int ticks() {
+            if (fixedTicks > 0) return fixedTicks;
             return titanium ? ModConfig.highEnergyRefinerTitaniumTicks : ModConfig.highEnergyRefinerCookTimeTicks;
         }
 
@@ -55,6 +57,11 @@ public final class RefinerRecipes {
             List<Recipe> l = new ArrayList<Recipe>();
             l.add(new Recipe(Item.getItemFromBlock(Registration.COMPRESSED_NAQUADAH), null, Registration.AETHERIUS, false));
             l.add(new Recipe(null, SILICON, Registration.TITANIUM_INGOT, true));
+            if (!ModConfig.isCC()) {
+                Recipe hd = new Recipe(net.minecraft.init.Items.DIAMOND, null, com.nick1416.wormholetech.item.HardDiamond.GEM, false);
+                hd.fixedTicks = 6000;
+                l.add(hd);
+            }
             all = l;
         }
         return all;

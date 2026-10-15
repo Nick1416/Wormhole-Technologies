@@ -73,7 +73,7 @@ public class AetheriusRefinerTileEntity extends TileEntity implements ITickable 
 
         if (canCook) {
             energy.consume(ModConfig.highEnergyRefinerRfPerTick);
-            cook++;
+            cook += timeBoosted() ? 2 : 1;
             if (cook >= recipe.ticks()) {
                 input.shrink(1);
                 if (input.getCount() <= 0) inv.setStackInSlot(0, ItemStack.EMPTY);
@@ -89,6 +89,16 @@ public class AetheriusRefinerTileEntity extends TileEntity implements ITickable 
             // keep progress when unpowered / empty
             markDirty();
         }
+    }
+
+    /** A Relativistic Computer running at +1 next to this refiner doubles its speed. */
+    public boolean timeBoosted() {
+        if (world == null) return false;
+        for (EnumFacing f : EnumFacing.VALUES) {
+            TileEntity te = world.getTileEntity(pos.offset(f));
+            if (te instanceof RelativisticComputerTileEntity && ((RelativisticComputerTileEntity) te).isClockActiveForward()) return true;
+        }
+        return false;
     }
 
     private void updateStatus() {
