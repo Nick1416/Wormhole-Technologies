@@ -105,6 +105,9 @@ public class WormholeTech {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent e) {
+        // Normal mode: bedrock reports the Hard Diamond Pickaxe (pickaxe, level 4) as its tool for HUDs
+        // like The One Probe. Hardness stays -1, so only our custom mining can break it.
+        if (!ModConfig.isCC()) net.minecraft.init.Blocks.BEDROCK.setHarvestLevel("pickaxe", 4);
         if (Loader.isModLoaded("thermalfoundation")) {
             Item tfItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermalfoundation", "diamond_nugget"));
             if (tfItem != null) {
