@@ -29,7 +29,7 @@ public final class GateNetwork {
     public static final ResourceLocation TAL_VORA_ADVANCEMENT = new ResourceLocation(WormholeTech.MODID, "tal_vora");
     /** Marker positions on their own galaxy's map (0..1 of the map area). */
     public static final float[][] MAP_POS = { { 0.64F, 0.36F }, { 0.31F, 0.68F }, { 0.80F, 0.66F }, { 0.58F, 0.47F }, { 0.75F, 0.31F } };
-    /** Galaxies on the universe view: 0 = Milky Way, 1 = Tal'Vora Galaxy (see ModDimensions.galaxy). */
+    /** Galaxies on the universe view: 0 = Milky Way, 1 = Altra Galaxy (see ModDimensions.galaxy). */
     public static final int GALAXIES = 2;
     public static final float[][] GALAXY_POS = { { 0.33F, 0.62F }, { 0.72F, 0.30F } };
 

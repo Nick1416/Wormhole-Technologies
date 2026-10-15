@@ -512,5 +512,5 @@ message.wormholetech.vorani.researching=The Vorani is absorbed in its research a
 entity.wormholetech.regolith_crawler.name=Regolith Crawler
 gui.wormholetech.network.universe=Universe
 gui.wormholetech.network.galaxy.0=Milky Way
-gui.wormholetech.network.galaxy.1=Tal'Vora Galaxy
+gui.wormholetech.network.galaxy.1=Altra Galaxy
 gui.wormholetech.network.zoom_in=Click to zoom in
