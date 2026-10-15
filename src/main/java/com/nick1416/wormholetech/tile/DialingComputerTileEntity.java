@@ -70,6 +70,11 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
     /** The address points to another galaxy (no destination exists there yet). */
     protected boolean intergalactic() { return inv.getStackInSlot(0).getItem() == Registration.INTERGALACTIC_COORDINATES; }
 
+    /** A Modulator is needed only when the destination lies in another galaxy than this gate. */
+    protected boolean needsModulator() {
+        return ModDimensions.galaxy(destination()) != ModDimensions.galaxy(world.provider.getDimension());
+    }
+
     /** Dimension the address in the slot leads to. */
     public int destination() {
         if (intergalactic()) return ModDimensions.talVoraId();
@@ -127,7 +132,7 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
         else if (!adjacentActiveComputer()) s = STATUS_NEED_COMPUTER;
         else if (!adjacentForwardClock()) s = STATUS_NEED_CLOCK;
         else if ((found = findGate()) == null) s = STATUS_NO_FRAME;
-        else if (intergalactic() && !modulatorAtGate(found)) s = STATUS_NEED_MODULATOR;
+        else if (needsModulator() && !modulatorAtGate(found)) s = STATUS_NEED_MODULATOR;
         else if (!open && energy.getEnergyStored() < ModConfig.dialingComputerRfPerTick()) s = STATUS_NEED_POWER;
         else s = open ? STATUS_OPEN : STATUS_READY;
 

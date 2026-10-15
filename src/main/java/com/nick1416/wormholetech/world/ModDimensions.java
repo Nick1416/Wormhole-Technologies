@@ -86,6 +86,11 @@ public final class ModDimensions {
     public static int selVoraId() { return ModConfig.selVoraDimensionId; }
 
     /** Worlds reached through a gate, with a return gate. */
+    /** Galaxy of a dimension: 1 = Tal'Vora galaxy (Tal'Vora, Sel'Vora), 0 = Milky Way (everything else). */
+    public static int galaxy(int dim) {
+        return (isTalVoraRegistered() && dim == talVoraId()) || (isSelVoraRegistered() && dim == selVoraId()) ? 1 : 0;
+    }
+
     public static boolean isGateWorld(int dim) {
         return (isRegistered() && dim == id()) || (isDerelictRegistered() && dim == derelictId())
                 || (isTalVoraRegistered() && dim == talVoraId())
