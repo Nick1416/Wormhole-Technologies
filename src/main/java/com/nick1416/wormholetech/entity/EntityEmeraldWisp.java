@@ -47,7 +47,7 @@ public class EntityEmeraldWisp extends EntityFlying implements IMob {
         super.applyEntityAttributes();
         getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
-        getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3.0D);
+        getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.3D);
         getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(24.0D);
     }
 
@@ -124,7 +124,7 @@ public class EntityEmeraldWisp extends EntityFlying implements IMob {
                 entity.motionX *= 0.5D; entity.motionY *= 0.5D; entity.motionZ *= 0.5D;
                 return;
             }
-            double k = 0.045D * speed / d;
+            double k = 0.036D * speed / d;
             entity.motionX += dx * k; entity.motionY += dy * k; entity.motionZ += dz * k;
             entity.rotationYaw = -((float) MathHelper.atan2(entity.motionX, entity.motionZ)) * (180F / (float) Math.PI);
             entity.renderYawOffset = entity.rotationYaw;
