@@ -454,6 +454,7 @@ public class Registration {
         if (com.nick1416.wormholetech.ModConfig.isCC()) {
             WORMHOLE_DUPLICATOR.setCreativeTab(r);
             UNSTABLE_WORMHOLE_DUPLICATOR.setCreativeTab(r);
+            for (Item t : MINERAL_TUNERS) t.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
         }
         NAQUADAH_ORE.setCreativeTab(b);
         UNSTABLE_NAQUADAH_BLOCK.setCreativeTab(b);

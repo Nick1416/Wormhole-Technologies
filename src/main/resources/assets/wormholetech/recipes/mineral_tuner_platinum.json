@@ -1,4 +1,5 @@
 {
+  "conditions": [ { "type": "wormholetech:mode", "mode": "cc" } ],
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "GZG",

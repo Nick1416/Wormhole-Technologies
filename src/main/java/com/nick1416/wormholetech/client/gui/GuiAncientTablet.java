@@ -57,17 +57,20 @@ public class GuiAncientTablet extends GuiScreen {
                         new ItemStack(Registration.ITEM_NAQUADAH_GENERATOR),
                         new ItemStack(Registration.ITEM_RF_GENERATOR)
                 }));
-        pages.add(new Page(
-                "gui.wormholetech.tablet.p5.title",
-                new String[] {
-                        "gui.wormholetech.tablet.p5.l1",
-                        "gui.wormholetech.tablet.p5.l2"
-                },
-                new ItemStack[] {
-                        new ItemStack(Registration.MINERAL_TUNER_COAL),
-                        new ItemStack(Registration.MINERAL_TUNER_IRON),
-                        new ItemStack(Registration.MINERAL_TUNER_GOLD)
-                }));
+        // Fragment on the mineral tuners: mode=cc only
+        if (com.nick1416.wormholetech.ModConfig.isCC()) {
+            pages.add(new Page(
+                    "gui.wormholetech.tablet.p5.title",
+                    new String[] {
+                            "gui.wormholetech.tablet.p5.l1",
+                            "gui.wormholetech.tablet.p5.l2"
+                    },
+                    new ItemStack[] {
+                            new ItemStack(Registration.MINERAL_TUNER_COAL),
+                            new ItemStack(Registration.MINERAL_TUNER_IRON),
+                            new ItemStack(Registration.MINERAL_TUNER_GOLD)
+                    }));
+        }
         // Fragment on the duplicators: mode=cc only
         if (com.nick1416.wormholetech.ModConfig.isCC()) {
             pages.add(new Page(

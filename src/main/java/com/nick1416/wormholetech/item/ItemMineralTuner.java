@@ -33,7 +33,6 @@ public class ItemMineralTuner extends Item {
         this.defaultTarget = mineralName;
         setRegistryName(com.nick1416.wormholetech.WormholeTech.MODID, "mineral_tuner_" + id);
         setUnlocalizedName(com.nick1416.wormholetech.WormholeTech.MODID + ".mineral_tuner_" + id);
-        setCreativeTab(CreativeTabs.MISC);
         setMaxStackSize(1);
     }
 
@@ -54,8 +53,9 @@ public class ItemMineralTuner extends Item {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
-    	bootstrapIfEmpty();
         ItemStack stack = player.getHeldItem(hand);
+        if (!com.nick1416.wormholetech.ModConfig.isCC()) return new ActionResult<>(EnumActionResult.PASS, stack); // not part of normal mode
+    	bootstrapIfEmpty();
         if (world.isRemote) return new ActionResult<>(EnumActionResult.SUCCESS, stack);
 
         if (!Loader.isModLoaded("immersiveengineering")) {
