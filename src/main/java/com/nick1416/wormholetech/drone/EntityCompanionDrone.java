@@ -28,8 +28,9 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 
 /**
- * Player-bound Xenolith Drone. DEFENSIVE follows its owner and zaps monsters that hurt the owner or that
- * the owner attacks (wolf-like). RESEARCH just follows and hovers (reserved for later). Sneak + use with
+ * Player-bound Xenolith Drone. DEFENSIVE trails its owner at a few blocks' distance, above head height,
+ * and zaps monsters that hurt the owner or that the owner attacks (wolf-like). RESEARCH stays home:
+ * it roams near where it was placed (or near a Repository of Knowledge), inside modulator range. Sneak + use with
  * an empty hand to pick it back up as an item.
  */
 public class EntityCompanionDrone extends EntityFlying {
@@ -38,6 +39,8 @@ public class EntityCompanionDrone extends EntityFlying {
     private static final DataParameter<Integer> ZAP = EntityDataManager.createKey(EntityCompanionDrone.class, DataSerializers.VARINT);
     private static final DataParameter<Optional<UUID>> OWNER = EntityDataManager.createKey(EntityCompanionDrone.class, DataSerializers.OPTIONAL_UNIQUE_ID);
     private int cooldown, zapShow;
+    /** Research drone home (anchor); set on first server tick. */
+    @Nullable private net.minecraft.util.math.BlockPos home;
     /** A free Quantum Field Modulator is in range (re-checked every 3 s on the server). */
     private boolean powered;
     public int charge = DroneCharge.max();
@@ -65,6 +68,7 @@ public class EntityCompanionDrone extends EntityFlying {
     @Override protected void initEntityAI() {
         tasks.addTask(2, new AIDefend());
         tasks.addTask(5, new AIFollow());
+        tasks.addTask(6, new AIRoam());
     }
 
     @Override protected void applyEntityAttributes() {
@@ -77,6 +81,10 @@ public class EntityCompanionDrone extends EntityFlying {
     @Override public boolean isPushedByWater() { return false; }
     @Override public boolean canBeLeashedTo(EntityPlayer p) { return false; }
     @Override public float getBrightness() { return 1.0F; }
+    /** Never shoves (or gets shoved by) its owner. */
+    @Override public boolean canBePushed() { return false; }
+    @Override protected void collideWithEntity(Entity e) { if (!e.getUniqueID().equals(getOwnerId())) super.collideWithEntity(e); }
+    @Override public void applyEntityCollision(Entity e) { if (!e.getUniqueID().equals(getOwnerId())) super.applyEntityCollision(e); }
 
     @Override
     public boolean attackEntityFrom(DamageSource s, float a) {
@@ -119,6 +127,7 @@ public class EntityCompanionDrone extends EntityFlying {
                 world.spawnParticle(EnumParticleTypes.ENCHANTMENT_TABLE, posX, posY + 0.4, posZ, (rand.nextDouble() - 0.5) * 0.6, 0.3, (rand.nextDouble() - 0.5) * 0.6);
             return;
         }
+        if (home == null && getMode() == RESEARCH) home = pickHome();
         if (ticksExisted % 60 == 1) powered = ModulatorTracker.near(world, posX, posY, posZ);
         charge = DroneCharge.tick(charge, powered);
         if (ticksExisted % 20 == 0 && getMode() == RESEARCH && active() && getOwnerId() != null) {
@@ -171,19 +180,69 @@ public class EntityCompanionDrone extends EntityFlying {
         @Override public void resetTask() { target = null; }
     }
 
-    /** Stay near the owner's shoulder; teleport if left far behind. */
+    /** Defensive only: trail the owner 4-6 blocks behind, above head height; teleport if left far behind. */
     class AIFollow extends EntityAIBase {
+        boolean moving;
         AIFollow() { setMutexBits(1); }
-        @Override public boolean shouldExecute() { return getOwner() != null && (active() || getMode() == DEFENSIVE); }
+        @Override public boolean shouldExecute() { return getMode() == DEFENSIVE && getOwner() != null; }
         @Override public void updateTask() {
             EntityPlayer o = getOwner();
             if (o == null) return;
-            double d2 = getDistanceSq(o);
-            if (d2 > 40 * 40 && o.world == world) { setPosition(o.posX, o.posY + 2.5, o.posZ); return; }
-            double a = Math.toRadians(o.rotationYaw + 140);
-            double hx = o.posX - Math.sin(a) * 1.6, hz = o.posZ + Math.cos(a) * 1.6, hy = o.posY + o.height + 0.6 + MathHelper.sin(ticksExisted * 0.08F) * 0.2;
-            if (d2 > 3.5 * 3.5 || rand.nextInt(20) == 0) moveHelper.setMoveTo(hx, hy, hz, d2 > 100 ? 1.4D : 0.7D);
+            double dx = posX - o.posX, dz = posZ - o.posZ, h2 = dx * dx + dz * dz, d2 = getDistanceSq(o);
+            if (d2 > 40 * 40 && o.world == world) { setPosition(o.posX - Math.sin(Math.toRadians(o.rotationYaw + 180)) * 4, o.posY + o.height + 1.2, o.posZ + Math.cos(Math.toRadians(o.rotationYaw + 180)) * 4); return; }
+            double a = Math.toRadians(o.rotationYaw + 180 + (getEntityId() % 2 == 0 ? 35 : -35)); // behind, off to one side
+            double hx = o.posX - Math.sin(a) * 4.5, hz = o.posZ + Math.cos(a) * 4.5, hy = o.posY + o.height + 1.2 + MathHelper.sin(ticksExisted * 0.08F) * 0.2;
+            // in front of the owner (within their view cone, close): get out of the way
+            double fx = -Math.sin(Math.toRadians(o.rotationYaw)), fz = Math.cos(Math.toRadians(o.rotationYaw));
+            boolean inWay = h2 < 2.5 * 2.5 || (h2 < 3.5 * 3.5 && dx * fx + dz * fz > 0); // on top of or in front of the owner
+            if (h2 > 6 * 6) moving = true;
+            else if (h2 < 4 * 4 && !inWay) moving = false;
+            if (moving || inWay) moveHelper.setMoveTo(hx, hy, hz, h2 > 100 ? 1.4D : 0.8D);
+            else if (posY < o.posY + o.height + 0.6) motionY += 0.04; // keep above head height
             if (!getLookHelper().getIsLooking()) getLookHelper().setLookPositionWithEntity(o, 10F, 10F);
+        }
+    }
+
+    public static final int ROAM_RADIUS = 16, REPO_ROAM_RADIUS = 6;
+
+    /** Home: just above the nearest Repository within 16 blocks, else where the drone was placed. */
+    private net.minecraft.util.math.BlockPos pickHome() {
+        net.minecraft.util.math.BlockPos r = com.nick1416.wormholetech.knowledge.RepositoryTracker.nearest(world, posX, posY, posZ, 16);
+        return r != null ? r.up(2) : new net.minecraft.util.math.BlockPos(this);
+    }
+
+    private int roamRadius() {
+        return home != null && com.nick1416.wormholetech.knowledge.RepositoryTracker.near(world, home.getX() + 0.5, home.getY(), home.getZ() + 0.5, 3)
+                ? REPO_ROAM_RADIUS : ROAM_RADIUS;
+    }
+
+    /** Spot is acceptable if no modulator is known near home, or it stays within modulator range. */
+    private boolean inModulatorRange(double x, double y, double z) {
+        if (home == null || !ModulatorTracker.near(world, home.getX() + 0.5, home.getY(), home.getZ() + 0.5)) return true;
+        return ModulatorTracker.near(world, x, y, z);
+    }
+
+    /** Research only: wander around home; head straight back if pushed or carried away. */
+    class AIRoam extends EntityAIBase {
+        AIRoam() { setMutexBits(1); }
+        @Override public boolean shouldExecute() { return getMode() == RESEARCH && home != null; }
+        @Override public void updateTask() {
+            int r = roamRadius();
+            double hx = home.getX() + 0.5, hy = home.getY() + 0.5, hz = home.getZ() + 0.5;
+            double dx = posX - hx, dz = posZ - hz;
+            if (dx * dx + dz * dz > (r + 3) * (r + 3) || Math.abs(posY - hy) > 8 || !inModulatorRange(posX, posY, posZ)) {
+                moveHelper.setMoveTo(hx, hy + 1, hz, 1.0D);
+                return;
+            }
+            if (moveHelper.isUpdating() || rand.nextInt(60) != 0) return;
+            for (int i = 0; i < 6; i++) {
+                double a = rand.nextDouble() * Math.PI * 2, d = rand.nextDouble() * r;
+                double x = hx + Math.cos(a) * d, z = hz + Math.sin(a) * d, y = hy + rand.nextInt(4) - 0.5;
+                net.minecraft.util.math.BlockPos tp = new net.minecraft.util.math.BlockPos(x, y, z);
+                if (!world.isBlockLoaded(tp) || !world.isAirBlock(tp) || !inModulatorRange(x, y, z)) continue;
+                moveHelper.setMoveTo(x, y, z, 0.5D);
+                return;
+            }
         }
     }
 
@@ -191,11 +250,13 @@ public class EntityCompanionDrone extends EntityFlying {
         super.writeEntityToNBT(c);
         c.setInteger("Mode", getMode()); c.setInteger("Charge", charge);
         if (getOwnerId() != null) c.setUniqueId("Owner", getOwnerId());
+        if (home != null) c.setLong("Home", home.toLong());
     }
     @Override public void readEntityFromNBT(NBTTagCompound c) {
         super.readEntityFromNBT(c);
         setMode(c.getInteger("Mode")); charge = c.hasKey("Charge") ? c.getInteger("Charge") : DroneCharge.max();
         if (c.hasUniqueId("Owner")) setOwnerId(c.getUniqueId("Owner"));
+        home = c.hasKey("Home") ? net.minecraft.util.math.BlockPos.fromLong(c.getLong("Home")) : null;
     }
 
     /** A destroyed drone leaves its inactive shell (the chip is lost). */
