@@ -86,7 +86,7 @@ public final class ModDimensions {
     public static int selVoraId() { return ModConfig.selVoraDimensionId; }
 
     /** Worlds reached through a gate, with a return gate. */
-    /** Galaxy of a dimension: 1 = Tal'Vora galaxy (Tal'Vora, Sel'Vora), 0 = Milky Way (everything else). */
+    /** Galaxy of a dimension: 1 = Altra Galaxy (Tal'Vora, Sel'Vora), 0 = Milky Way (everything else). */
     public static int galaxy(int dim) {
         return (isTalVoraRegistered() && dim == talVoraId()) || (isSelVoraRegistered() && dim == selVoraId()) ? 1 : 0;
     }
