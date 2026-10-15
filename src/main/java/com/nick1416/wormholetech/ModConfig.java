@@ -81,7 +81,7 @@ public final class ModConfig {
     public static int repositoryResearchTicks = 180000; // 2.5 h to fully research a planet
     public static int repositoryResearchRange = 8;
     public static int minerDroneTicksPerItem = 400;    // 20 s per ore
-    public static int xenolithOreVeinsPerChunk = 10;
+    public static int xenolithOreVeinsPerChunk = 23;
     public static int xenolithDroneSpawnWeight = 5;     // 0 = off
     public static int emeraldDroneSpawnWeight = 50;     // 0 = off
     public static boolean p3xDustStorms = true;
@@ -241,8 +241,8 @@ public final class ModConfig {
                 "A Research drone must be within this many blocks of a Repository of Knowledge to study the planet.");
         minerDroneTicksPerItem = cfg.getInt("minerDroneTicksPerItem", sg, 400, 1, 72000,
                 "Ticks a Miner Drone needs per ore it puts into the adjacent storage (400 = one every 20 s). No power needed.");
-        xenolithOreVeinsPerChunk = migrated(cfg, sg, "xenolithOreVeinsPerChunk", 10, new int[] { 5, 8 }, 0, 64,
-                "Xenolith Ore veins (up to 8 blocks) per Tal'Vora chunk, from y 12 up to just under the sand (0 = off).");
+        xenolithOreVeinsPerChunk = migrated(cfg, sg, "xenolithOreVeinsPerChunk", 23, new int[] { 5, 8, 10 }, 0, 64,
+                "Xenolith Ore veins (size 9, like iron) per Tal'Vora chunk, from y 12 up to just under the sand (0 = off).");
         xenolithDroneSpawnWeight = cfg.getInt("xenolithDroneSpawnWeight", sg, 5, 0, 1000,
                 "Spawn weight of the harmless Xenolith Drone over Tal'Vora (0 = off). At most 2 drones within 96 blocks.");
         emeraldDroneSpawnWeight = migrated(cfg, sg, "emeraldDroneSpawnWeight", 50, new int[] { 6, 20 }, 0, 1000,
