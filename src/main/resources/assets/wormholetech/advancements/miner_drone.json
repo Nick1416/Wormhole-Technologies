@@ -1,0 +1,30 @@
+{
+  "parent": "wormholetech:inactive_xenolith_drone",
+  "display": {
+    "icon": {
+      "item": "wormholetech:miner_drone"
+    },
+    "title": {
+      "translate": "advancements.wormholetech.miner_drone.title"
+    },
+    "description": {
+      "translate": "advancements.wormholetech.miner_drone.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:miner_drone"
+          }
+        ]
+      }
+    }
+  }
+}

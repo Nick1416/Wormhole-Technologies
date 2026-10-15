@@ -487,3 +487,13 @@ item.wormholetech.hard_diamond_boots.name=Hard Diamond Boots
 tooltip.wormholetech.relativistic_computer.detail.2=Clock +1 next to a High Energy Refiner: it refines twice as fast.
 
 jei.wormholetech.bedrock.info=Mine with a Hard Diamond Pickaxe.
+advancements.wormholetech.raw_xenolith.title=Alien Mineral
+advancements.wormholetech.raw_xenolith.desc=Mine Raw Xenolith on Tal'Vora
+advancements.wormholetech.inactive_xenolith_drone.title=Dormant Machine
+advancements.wormholetech.inactive_xenolith_drone.desc=Obtain an Inactive Xenolith Drone
+advancements.wormholetech.miner_drone.title=Tireless Digger
+advancements.wormholetech.miner_drone.desc=Program a Miner Drone with a Xenolith Chip
+advancements.wormholetech.defensive_drone.title=Bodyguard
+advancements.wormholetech.defensive_drone.desc=Program a Defensive Drone
+advancements.wormholetech.drone_kill.title=Guardian Protocol
+advancements.wormholetech.drone_kill.desc=Let your Defensive Drone defeat a monster

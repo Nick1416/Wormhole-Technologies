@@ -120,6 +120,15 @@ public class AdvancementBootstrap {
                 .getAdvancement(new ResourceLocation(WormholeTech.MODID, path));
     }
 
+    /** "Guardian Protocol": a Defensive Drone lands the killing zap on a monster. */
+    @SubscribeEvent
+    public static void onDroneKill(net.minecraftforge.event.entity.living.LivingDeathEvent e) {
+        if (e.getEntity().world.isRemote || !(e.getEntityLiving() instanceof net.minecraft.entity.monster.IMob)) return;
+        if (!(e.getSource().getImmediateSource() instanceof com.nick1416.wormholetech.drone.EntityCompanionDrone)) return;
+        net.minecraft.entity.player.EntityPlayer owner = ((com.nick1416.wormholetech.drone.EntityCompanionDrone) e.getSource().getImmediateSource()).getOwner();
+        if (owner instanceof EntityPlayerMP) grant((EntityPlayerMP) owner, "drone_kill");
+    }
+
     private static void grant(EntityPlayerMP player, String path) {
         Advancement adv = getAdv(player, path);
         if (adv == null) return;

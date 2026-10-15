@@ -1,0 +1,30 @@
+{
+  "parent": "wormholetech:tal_vora",
+  "display": {
+    "icon": {
+      "item": "wormholetech:raw_xenolith"
+    },
+    "title": {
+      "translate": "advancements.wormholetech.raw_xenolith.title"
+    },
+    "description": {
+      "translate": "advancements.wormholetech.raw_xenolith.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:raw_xenolith"
+          }
+        ]
+      }
+    }
+  }
+}
