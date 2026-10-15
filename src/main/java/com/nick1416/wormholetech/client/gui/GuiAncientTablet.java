@@ -30,7 +30,8 @@ public class GuiAncientTablet extends GuiScreen {
                         TextFormatting.OBFUSCATED + "yyyyyyyyyyyyyyyy",
                         "",
                         "gui.wormholetech.tablet.p0.l1",
-                        "gui.wormholetech.tablet.p0.l2"
+                        "gui.wormholetech.tablet.p0.l2",
+                        "gui.wormholetech.tablet.p0.l3"
                 },
                 null));
         pages.add(new Page(

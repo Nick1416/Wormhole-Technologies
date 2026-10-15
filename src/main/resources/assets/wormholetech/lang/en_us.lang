@@ -143,6 +143,7 @@ gui.wormholetech.tablet.arrow=>
 gui.wormholetech.tablet.p0.title=Fragment I — Discovery
 gui.wormholetech.tablet.p0.l1=[Translation] Looks like some ancient civilization wrote this.
 gui.wormholetech.tablet.p0.l2=[Translation] Technology that makes use of wormholes — not magic, but geometry folded thin.
+gui.wormholetech.tablet.p0.l3=[Translation] Whatever can be automated, automate. The builders never worked by hand.
 
 
 gui.wormholetech.tablet.p2.title=Fragment II — Matter
