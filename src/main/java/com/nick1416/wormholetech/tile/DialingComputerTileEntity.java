@@ -198,7 +198,7 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
     private GateShape findGate() {
         for (EnumFacing f : EnumFacing.VALUES) {
             GateShape g = GateShape.findFromFrameBlock(world, pos.offset(f), TitaniumFrame::isTitanium);
-            if (g != null) return g;
+            if (g != null) { com.nick1416.wormholetech.stargate.GateRegistryData.register(world, g); return g; }
         }
         return null;
     }

@@ -42,13 +42,22 @@ public final class HardDiamond {
     public static final Item AXE = name(new ItemAxe(MATERIAL, 9.0F, -3.0F) {}, "hard_diamond_axe");
     public static final Item SHOVEL = name(new ItemSpade(MATERIAL), "hard_diamond_shovel");
 
-    public static final Item[] ALL = { GEM, PICKAXE, SWORD, AXE, SHOVEL };
+    /** Armor: diamond x 8/7 -> 3/9/7/3 (head/chest/legs/feet), toughness 2.3, durability x38, enchantability 10. */
+    public static final ItemArmor.ArmorMaterial ARMOR = EnumHelper.addArmorMaterial("WORMHOLETECH_HARD_DIAMOND",
+            WormholeTech.MODID + ":hard_diamond", 38, new int[] { 3, 7, 9, 3 }, 10,
+            net.minecraft.init.SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.3F);
+    public static final Item HELMET = name(new ItemArmor(ARMOR, 0, net.minecraft.inventory.EntityEquipmentSlot.HEAD), "hard_diamond_helmet");
+    public static final Item CHESTPLATE = name(new ItemArmor(ARMOR, 1, net.minecraft.inventory.EntityEquipmentSlot.CHEST), "hard_diamond_chestplate");
+    public static final Item LEGGINGS = name(new ItemArmor(ARMOR, 2, net.minecraft.inventory.EntityEquipmentSlot.LEGS), "hard_diamond_leggings");
+    public static final Item BOOTS = name(new ItemArmor(ARMOR, 1, net.minecraft.inventory.EntityEquipmentSlot.FEET), "hard_diamond_boots");
+
+    public static final Item[] ALL = { GEM, PICKAXE, SWORD, AXE, SHOVEL, HELMET, CHESTPLATE, LEGGINGS, BOOTS };
 
     private static Item name(Item i, String id) {
         return i.setRegistryName(WormholeTech.MODID, id).setUnlocalizedName(WormholeTech.MODID + "." + id);
     }
 
-    static { MATERIAL.setRepairItem(new ItemStack(GEM)); }
+    static { MATERIAL.setRepairItem(new ItemStack(GEM)); ARMOR.setRepairItem(new ItemStack(GEM)); }
 
     /** Called from creative-tab assignment: only normal mode lists these. */
     public static void assignTabs() {
@@ -58,6 +67,7 @@ public final class HardDiamond {
         AXE.setCreativeTab(CreativeTabs.TOOLS);
         SHOVEL.setCreativeTab(CreativeTabs.TOOLS);
         SWORD.setCreativeTab(CreativeTabs.COMBAT);
+        for (Item a : new Item[] { HELMET, CHESTPLATE, LEGGINGS, BOOTS }) a.setCreativeTab(CreativeTabs.COMBAT);
     }
 
     // ---- bedrock mining ----
