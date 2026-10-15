@@ -27,8 +27,14 @@ public final class GateNetwork {
     public static final int SEL_VORA = 4;
     public static final ResourceLocation SEL_VORA_ADVANCEMENT = new ResourceLocation(WormholeTech.MODID, "sel_vora");
     public static final ResourceLocation TAL_VORA_ADVANCEMENT = new ResourceLocation(WormholeTech.MODID, "tal_vora");
-    /** Marker positions on the galaxy map (0..1 of the map area). */
-    public static final float[][] MAP_POS = { { 0.64F, 0.36F }, { 0.31F, 0.68F }, { 0.80F, 0.66F }, { 0.875F, 0.17F }, { 0.70F, 0.27F } };
+    /** Marker positions on their own galaxy's map (0..1 of the map area). */
+    public static final float[][] MAP_POS = { { 0.64F, 0.36F }, { 0.31F, 0.68F }, { 0.80F, 0.66F }, { 0.58F, 0.47F }, { 0.73F, 0.36F } };
+    /** Galaxies on the universe view: 0 = Milky Way, 1 = Tal'Vora Galaxy (see ModDimensions.galaxy). */
+    public static final int GALAXIES = 2;
+    public static final float[][] GALAXY_POS = { { 0.33F, 0.62F }, { 0.72F, 0.30F } };
+
+    /** Galaxy of marker i (single source of truth: ModDimensions.galaxy, as used by the Modulator rule). */
+    public static int galaxy(int i) { return ModDimensions.galaxy(dimension(i)); }
 
     public static int count() { return KEYS.length; }
 

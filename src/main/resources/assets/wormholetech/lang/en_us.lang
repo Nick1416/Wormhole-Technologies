@@ -510,3 +510,7 @@ tile.wormholetech.research_console.name=Vorani Research Console
 message.wormholetech.research_console=The console resists every attempt to move it.
 message.wormholetech.vorani.researching=The Vorani is absorbed in its research and does not look up.
 entity.wormholetech.regolith_crawler.name=Regolith Crawler
+gui.wormholetech.network.universe=Universe
+gui.wormholetech.network.galaxy.0=Milky Way
+gui.wormholetech.network.galaxy.1=Tal'Vora Galaxy
+gui.wormholetech.network.zoom_in=Click to zoom in
