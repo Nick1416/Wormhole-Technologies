@@ -58,6 +58,12 @@ public final class ModConfig {
     public static double talVoraFallDamageMultiplier = 1.5D;
     public static int talVoraVillageRegionChunks = 28;
     public static int talVoraVillageChance = 70;
+    public static int selVoraDimensionId = -1419;
+    public static double selVoraGravity = 0.85D;
+    public static double selVoraFallDamageMultiplier = 0.6D;
+    public static int selVoraOutpostRegionChunks = 20;
+    public static int selVoraOutpostChance = 75;
+    public static int regolithCrawlerSpawnWeight = 30;
     public static int derelictModulatorRoomChance = 384;
     public static int derelictRoomChance = 7;
     public static int derelictSpawnIntervalTicks = 100;
@@ -199,6 +205,18 @@ public final class ModConfig {
                 "Percent chance that a Tal'Vora region holds an alien village (0 = none)", 0, 100);
         if (vc.getInt() == 50 || vc.getInt() == 65) vc.set(70); // migrate the old default
         talVoraVillageChance = Math.max(0, Math.min(100, vc.getInt()));
+        selVoraDimensionId = cfg.getInt("selVoraDimensionId", sg, -1419, Integer.MIN_VALUE, Integer.MAX_VALUE,
+                "Dimension ID of Sel'Vora, Tal'Vora's moon. Keep it stable once a world uses it; must not clash with another mod");
+        selVoraGravity = cfg.getFloat("selVoraGravity", sg, 0.85F, 0.5F, 1.0F,
+                "Gravity on Sel'Vora relative to normal (0.85 = higher, floatier jumps)");
+        selVoraFallDamageMultiplier = cfg.getFloat("selVoraFallDamageMultiplier", sg, 0.6F, 0.0F, 1.0F,
+                "Fall damage multiplier on Sel'Vora");
+        selVoraOutpostRegionChunks = cfg.getInt("selVoraOutpostRegionChunks", sg, 20, 6, 1000,
+                "Sel'Vora is split into square regions of this many chunks; each may hold one Vorani research outpost");
+        selVoraOutpostChance = cfg.getInt("selVoraOutpostChance", sg, 75, 0, 100,
+                "Percent chance that a Sel'Vora region holds a research outpost (0 = none)");
+        regolithCrawlerSpawnWeight = cfg.getInt("regolithCrawlerSpawnWeight", sg, 30, 0, 1000,
+                "Spawn weight of the hostile Regolith Crawler on Sel'Vora (never inside outposts; 0 = off)");
         derelictModulatorRoomChance = Math.max(0, Math.min(1_000_000, modRoom.getInt()));
         derelictRoomChance = cfg.getInt("derelictRoomChance", sg, 7, 0, 1000,
                 "1 in N ship chunks is an open room (half of them with a chest; 0 = maze only)");

@@ -97,6 +97,7 @@ public class WormholeJeiPlugin implements IModPlugin {
         net.minecraft.item.ItemMonsterPlacer.applyEntityIdToItemStack(droneEgg, new net.minecraft.util.ResourceLocation(com.nick1416.wormholetech.WormholeTech.MODID, "xenolith_drone"));
         addInfo(registry, droneEgg, VanillaTypes.ITEM, "tooltip.wormholetech.xenolith_drone.summary", "tooltip.wormholetech.xenolith_drone.detail.1");
         info(registry, Registration.ITEM_XENOLITH_ORE, "xenolith_ore", 1);
+        info(registry, Registration.ITEM_TITANIUM_ORE, "titanium_ore", 1);
         info(registry, Registration.RAW_XENOLITH, "raw_xenolith", 1);
         info(registry, Registration.INACTIVE_DRONE, "inactive_xenolith_drone", 1);
         for (int m = 0; m < com.nick1416.wormholetech.drone.DroneProgram.VALUES.length; m++)

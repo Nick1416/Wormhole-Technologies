@@ -22,16 +22,24 @@ public final class TalVoraGravity {
         return ModDimensions.isTalVoraRegistered() && e.world.provider.getDimension() == ModDimensions.talVoraId();
     }
 
+    /** Sel'Vora, the moon: lighter gravity. */
+    public static boolean moon(EntityLivingBase e) {
+        return ModDimensions.isSelVoraRegistered() && e.world.provider.getDimension() == ModDimensions.selVoraId();
+    }
+
     @SubscribeEvent
     public static void onUpdate(LivingEvent.LivingUpdateEvent ev) {
         EntityLivingBase e = ev.getEntityLiving();
-        if (e.onGround || e.isInWater() || e.isInLava() || e.hasNoGravity() || e.isElytraFlying() || !on(e)) return;
+        if (e.onGround || e.isInWater() || e.isInLava() || e.hasNoGravity() || e.isElytraFlying()) return;
+        boolean heavy = on(e), light = !heavy && moon(e);
+        if (!heavy && !light) return;
         if (e instanceof EntityPlayer && ((EntityPlayer) e).capabilities.isFlying) return;
-        e.motionY -= 0.08D * (ModConfig.talVoraGravity - 1.0D);
+        e.motionY -= 0.08D * ((heavy ? ModConfig.talVoraGravity : ModConfig.selVoraGravity) - 1.0D);
     }
 
     @SubscribeEvent
     public static void onFall(LivingFallEvent ev) {
         if (on(ev.getEntityLiving())) ev.setDamageMultiplier(ev.getDamageMultiplier() * (float) ModConfig.talVoraFallDamageMultiplier);
+        else if (moon(ev.getEntityLiving())) ev.setDamageMultiplier(ev.getDamageMultiplier() * (float) ModConfig.selVoraFallDamageMultiplier);
     }
 }

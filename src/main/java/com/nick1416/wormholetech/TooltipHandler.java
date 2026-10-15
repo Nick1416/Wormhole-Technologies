@@ -57,7 +57,7 @@ public class TooltipHandler {
             "naquadric_stone",
             "ashen_regolith",
             "naquadah_crystal",
-            "ancient_stone", "xenolith_ore", "raw_xenolith", "inactive_xenolith_drone", "xenolith_chip"
+            "ancient_stone", "xenolith_ore", "raw_xenolith", "inactive_xenolith_drone", "xenolith_chip", "titanium_ore", "moon_regolith"
     ));
 
     @SubscribeEvent

@@ -162,7 +162,8 @@ public final class StargateTravel {
         final float yaw = target == null ? p.rotationYaw : ReturnGates.arrivalYaw();
         teleport(p, dest, arrival, yaw);
         GateNetwork.recordVisit(p, dest);
-        grantAdvancement(p, ModDimensions.isTalVoraRegistered() && dest == ModDimensions.talVoraId() ? GateNetwork.TAL_VORA_ADVANCEMENT
+        grantAdvancement(p, ModDimensions.isSelVoraRegistered() && dest == ModDimensions.selVoraId() ? GateNetwork.SEL_VORA_ADVANCEMENT
+                : ModDimensions.isTalVoraRegistered() && dest == ModDimensions.talVoraId() ? GateNetwork.TAL_VORA_ADVANCEMENT
                 : ModDimensions.isDerelictRegistered() && dest == ModDimensions.derelictId() ? DERELICT_ADVANCEMENT : ADVANCEMENT);
     }
 

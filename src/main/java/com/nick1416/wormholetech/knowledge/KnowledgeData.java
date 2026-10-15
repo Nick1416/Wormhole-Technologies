@@ -57,6 +57,13 @@ public class KnowledgeData extends WorldSavedData {
         markDirty();
     }
 
+    /** Research percent (0..100) of a planet, 0 if not found. */
+    public int percent(UUID id, int planet) {
+        NBTTagCompound pl = sub(id, "Planets");
+        String k = Planets.KEYS[planet];
+        return pl.hasKey(k) ? (int) Math.floor(100.0 * pl.getInteger(k) / fullTicks()) : 0;
+    }
+
     public boolean discover(UUID id, String tech) {
         NBTTagCompound t = sub(id, "Tech");
         if (t.hasKey(tech)) return false;
