@@ -43,6 +43,15 @@ public final class ModulatorTracker {
         return false;
     }
 
+    /** Nearest tracked position within r of (x, y, z), or null. */
+    public static BlockPos nearest(World w, double x, double y, double z, double r) {
+        Set<BlockPos> s = LOADED.get(w.provider.getDimension());
+        if (s == null) return null;
+        BlockPos best = null; double bd = r * r;
+        for (BlockPos p : s) { double d = p.distanceSqToCenter(x, y, z); if (d <= bd) { bd = d; best = p; } }
+        return best;
+    }
+
     @SubscribeEvent
     public static void onUnload(WorldEvent.Unload e) {
         if (!e.getWorld().isRemote) LOADED.remove(e.getWorld().provider.getDimension());
