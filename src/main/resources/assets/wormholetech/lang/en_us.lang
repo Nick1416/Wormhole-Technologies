@@ -480,3 +480,5 @@ item.wormholetech.hard_diamond_sword.name=Hard Diamond Sword
 item.wormholetech.hard_diamond_axe.name=Hard Diamond Axe
 item.wormholetech.hard_diamond_shovel.name=Hard Diamond Shovel
 tooltip.wormholetech.relativistic_computer.detail.2=Clock +1 next to a High Energy Refiner: it refines twice as fast.
+
+jei.wormholetech.bedrock.info=Mine with a Hard Diamond Pickaxe.
