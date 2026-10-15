@@ -2,6 +2,9 @@ package com.nick1416.wormholetech.item;
 
 import com.nick1416.wormholetech.ModConfig;
 import com.nick1416.wormholetech.WormholeTech;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.fml.common.network.simpleimpl.*;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -57,56 +60,53 @@ public final class HardDiamond {
         SWORD.setCreativeTab(CreativeTabs.COMBAT);
     }
 
-    // ---- bedrock mining (vanilla bedrock is unbreakable, so progress is tracked here) ----
+    // ---- bedrock mining ----
+    // Vanilla never lets a hardness -1 block be dug (the client stops, the server ignores it), so the
+    // client tracks the hold itself (HardDiamondClient) and sends a START and a FINISH packet; the
+    // server validates and breaks the block.
 
     public static final int BEDROCK_TICKS = 100;
 
-    private static final class Dig { BlockPos pos; int ticks; }
+    private static final class Dig { BlockPos pos; long start; }
     private static final Map<UUID, Dig> DIGS = new HashMap<UUID, Dig>();
 
-    private static boolean holdsPick(EntityPlayer p) {
-        return !ModConfig.isCC() && p.getHeldItemMainhand().getItem() == PICKAXE && !p.isCreative();
+    public static boolean holdsPick(EntityPlayer p) {
+        return !ModConfig.isCC() && p.getHeldItemMainhand().getItem() == PICKAXE && !p.isSpectator();
     }
 
-    @SubscribeEvent
-    public static void onLeftClick(PlayerInteractEvent.LeftClickBlock e) {
-        World w = e.getWorld();
-        if (w.isRemote || !holdsPick(e.getEntityPlayer())) return;
-        if (w.getBlockState(e.getPos()).getBlock() != Blocks.BEDROCK) return;
-        Dig d = new Dig();
-        d.pos = e.getPos().toImmutable();
-        DIGS.put(e.getEntityPlayer().getUniqueID(), d);
+    public static class BedrockMessage implements IMessage {
+        public boolean finish; public BlockPos pos = BlockPos.ORIGIN;
+        public BedrockMessage() {}
+        public BedrockMessage(boolean finish, BlockPos pos) { this.finish = finish; this.pos = pos; }
+        @Override public void fromBytes(ByteBuf b) { finish = b.readBoolean(); pos = BlockPos.fromLong(b.readLong()); }
+        @Override public void toBytes(ByteBuf b) { b.writeBoolean(finish); b.writeLong(pos.toLong()); }
     }
 
-    @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent e) {
-        if (e.phase != TickEvent.Phase.END || e.player.world.isRemote) return;
-        EntityPlayer p = e.player;
-        Dig d = DIGS.get(p.getUniqueID());
-        if (d == null) return;
+    public static class BedrockHandler implements IMessageHandler<BedrockMessage, IMessage> {
+        @Override public IMessage onMessage(final BedrockMessage m, MessageContext ctx) {
+            final EntityPlayerMP p = ctx.getServerHandler().player;
+            p.getServerWorld().addScheduledTask(new Runnable() { public void run() { handle(p, m); } });
+            return null;
+        }
+    }
+
+    private static void handle(EntityPlayerMP p, BedrockMessage m) {
         World w = p.world;
-        if (!holdsPick(p) || !p.isSwingInProgress || w.getBlockState(d.pos).getBlock() != Blocks.BEDROCK
-                || !lookingAt(p, d.pos)) {
-            w.sendBlockBreakProgress(p.getEntityId(), d.pos, -1);
-            DIGS.remove(p.getUniqueID());
+        BlockPos pos = m.pos;
+        if (!holdsPick(p) || !w.isBlockLoaded(pos) || w.getBlockState(pos).getBlock() != Blocks.BEDROCK
+                || p.getDistanceSqToCenter(pos) > 7.5 * 7.5) { DIGS.remove(p.getUniqueID()); return; }
+        if (!m.finish) {
+            Dig d = new Dig(); d.pos = pos.toImmutable(); d.start = w.getTotalWorldTime();
+            DIGS.put(p.getUniqueID(), d);
             return;
         }
-        d.ticks++;
-        w.sendBlockBreakProgress(p.getEntityId(), d.pos, d.ticks * 10 / BEDROCK_TICKS);
-        if (d.ticks >= BEDROCK_TICKS) {
-            w.sendBlockBreakProgress(p.getEntityId(), d.pos, -1);
-            DIGS.remove(p.getUniqueID());
-            w.playEvent(2001, d.pos, net.minecraft.block.Block.getStateId(w.getBlockState(d.pos)));
-            w.setBlockToAir(d.pos);
-            net.minecraft.block.Block.spawnAsEntity(w, d.pos, new ItemStack(Blocks.BEDROCK));
+        Dig d = DIGS.remove(p.getUniqueID());
+        if (d == null || !d.pos.equals(pos) || w.getTotalWorldTime() - d.start < BEDROCK_TICKS - 10) return;
+        w.playEvent(2001, pos, net.minecraft.block.Block.getStateId(w.getBlockState(pos)));
+        w.setBlockToAir(pos);
+        if (!p.isCreative()) {
+            net.minecraft.block.Block.spawnAsEntity(w, pos, new ItemStack(Blocks.BEDROCK));
             p.getHeldItemMainhand().damageItem(1, p);
         }
-    }
-
-    private static boolean lookingAt(EntityPlayer p, BlockPos pos) {
-        Vec3d eye = p.getPositionEyes(1F);
-        Vec3d end = eye.add(p.getLook(1F).scale(6));
-        RayTraceResult r = p.world.rayTraceBlocks(eye, end, false, false, true);
-        return r != null && r.typeOfHit == RayTraceResult.Type.BLOCK && pos.equals(r.getBlockPos());
     }
 }

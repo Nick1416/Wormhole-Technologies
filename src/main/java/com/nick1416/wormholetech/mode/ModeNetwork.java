@@ -33,6 +33,8 @@ public final class ModeNetwork {
                 com.nick1416.wormholetech.world.P3XWeather.StormMessage.class, 2, Side.CLIENT);
         CHANNEL.registerMessage(com.nick1416.wormholetech.knowledge.KnowledgeMessage.Handler.class,
                 com.nick1416.wormholetech.knowledge.KnowledgeMessage.class, 3, Side.CLIENT);
+        CHANNEL.registerMessage(com.nick1416.wormholetech.item.HardDiamond.BedrockHandler.class,
+                com.nick1416.wormholetech.item.HardDiamond.BedrockMessage.class, 4, Side.SERVER);
     }
 
     public static String kickText(String serverMode, String clientMode) {
