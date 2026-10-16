@@ -18,6 +18,13 @@ public class GuiRepository extends GuiScreen {
     private static final String[] TABS = { "planets", "tech", "ascension" };
     private NBTTagCompound data;
     private int tab;
+    /** Planet whose info page is open on the Planets tab, or -1 for the list. */
+    private int info = -1;
+    /** Clickable planet rows from the last frame: {planet, x0, y0, x1, y1}. */
+    private final java.util.List<int[]> rows = new java.util.ArrayList<>();
+    private static final String[] FIELDS = { "gravity", "cycle", "galaxy", "ores", "mobs", "structures" };
+    /** Fields shown at 50% (the rest read ???); ores show a partial list until 100%. */
+    private static final boolean[] AT_HALF = { true, true, false, true, false, false };
 
     public GuiRepository(NBTTagCompound d) { data = d; }
     public void setData(NBTTagCompound d) { data = d; }
@@ -31,12 +38,59 @@ public class GuiRepository extends GuiScreen {
     protected void mouseClicked(int mx, int my, int button) throws java.io.IOException {
         super.mouseClicked(mx, my, button);
         if (button != 0) return;
+        planetClick(mx, my);
         int y = top() + TAB_Y;
         for (int i = 0; i < 3; i++)
             if (mx >= tabX(i) && mx < tabX(i) + tabW() && my >= y && my < y + TAB_H && tab != i) {
                 tab = i;
+                info = -1;
                 mc.getSoundHandler().playSound(net.minecraft.client.audio.PositionedSoundRecord.getMasterRecord(net.minecraft.init.SoundEvents.UI_BUTTON_CLICK, 1.0F));
             }
+    }
+
+    private void click() {
+        mc.getSoundHandler().playSound(net.minecraft.client.audio.PositionedSoundRecord.getMasterRecord(net.minecraft.init.SoundEvents.UI_BUTTON_CLICK, 1.0F));
+    }
+
+    private boolean overBack(int mx, int my) {
+        int bx = left() + W - PAD - backW(), by = top() + TAB_Y + TAB_H + 6;
+        return info >= 0 && tab == 0 && mx >= bx && mx < bx + backW() && my >= by && my < by + 12;
+    }
+    private int backW() { return fontRenderer.getStringWidth("< " + I18n.format("gui.wormholetech.repository.back")) + 8; }
+
+    private void planetClick(int mx, int my) {
+        if (tab != 0) return;
+        if (info >= 0) { if (overBack(mx, my)) { info = -1; click(); } return; }
+        for (int[] r : rows) if (mx >= r[1] && mx < r[3] && my >= r[2] && my < r[4]) { info = r[0]; click(); return; }
+    }
+
+    private int pct(int planet) {
+        return Math.max(0, Math.min(100, data.getCompoundTag("Planets").getInteger(Planets.KEYS[planet])));
+    }
+
+    private void drawInfo(int x, int ly, int inner, int bottom, int mx, int my) {
+        String k = Planets.KEYS[info];
+        int pct = pct(info);
+        boolean full = pct >= 100;
+        String back = "< " + I18n.format("gui.wormholetech.repository.back");
+        int bx = x + W - PAD - backW(), by = ly - 2;
+        drawRect(bx, by, bx + backW(), by + 12, overBack(mx, my) ? 0xFF3A4A58 : 0xFF202A34);
+        fontRenderer.drawString(back, bx + 4, by + 2, 0xFFFFFF);
+        fontRenderer.drawString(trim(I18n.format("dimension.wormholetech." + k) + "  " + pct + "%", inner - backW() - 4), x + PAD, ly, 0x7FF0E6);
+        ly += 16;
+        int labelW = 0;
+        for (String f : FIELDS) labelW = Math.max(labelW, fontRenderer.getStringWidth(I18n.format("gui.wormholetech.repository.info." + f)));
+        labelW += 6;
+        for (int i = 0; i < FIELDS.length && ly < bottom - 8; i++) {
+            String f = FIELDS[i];
+            String v = full ? I18n.format("gui.wormholetech.repository.info." + k + "." + f)
+                    : !AT_HALF[i] ? "???"
+                    : f.equals("ores") ? I18n.format("gui.wormholetech.repository.info." + k + ".ores_partial")
+                    : I18n.format("gui.wormholetech.repository.info." + k + "." + f);
+            fontRenderer.drawString(I18n.format("gui.wormholetech.repository.info." + f), x + PAD, ly, 0xAAAAAA);
+            ly += wrap(v, x + PAD + labelW, ly, inner - labelW, 3, "???".equals(v) ? 0x666666 : 0xFFFFFF) + 3;
+        }
+        if (!full) wrap(I18n.format("gui.wormholetech.repository.info.more"), x + PAD, bottom - 10, inner, 1, 0x888888);
     }
 
     /** Draws s centred at cx, shrunk if it is wider than max. */
@@ -87,7 +141,10 @@ public class GuiRepository extends GuiScreen {
         drawRect(x + PAD, ty + TAB_H, x + W - PAD, ty + TAB_H + 1, 0xFF46C8BE);
 
         int ly = ty + TAB_H + 8, bottom = y + H - PAD;
-        if (tab == 0) {
+        rows.clear();
+        if (tab == 0 && info >= 0) {
+            drawInfo(x, ly, inner, bottom, mx, my);
+        } else if (tab == 0) {
             String hint = I18n.format("gui.wormholetech.repository.planets_hint");
             int hintH = Math.min(2, fontRenderer.listFormattedStringToWidth(hint, inner).size()) * 10;
             int listEnd = bottom - hintH - 4;
@@ -100,7 +157,10 @@ public class GuiRepository extends GuiScreen {
                 int pct = Math.max(0, Math.min(100, pl.getInteger(k)));
                 String p = pct + "%";
                 int pw = fontRenderer.getStringWidth(p);
-                fontRenderer.drawString(trim(I18n.format("dimension.wormholetech." + k), inner - pw - 6), x + PAD, ly, 0xFFFFFF);
+                boolean open = pct >= 50, hov = open && mx >= x + PAD && mx < x + W - PAD && my >= ly - 2 && my < ly + 16;
+                if (open) rows.add(new int[] { i, x + PAD, ly - 2, x + W - PAD, ly + 16 });
+                if (hov) drawRect(x + PAD - 2, ly - 2, x + W - PAD + 2, ly + 16, 0xFF24323E);
+                fontRenderer.drawString(trim(I18n.format("dimension.wormholetech." + k) + (open ? " >" : ""), inner - pw - 6), x + PAD, ly, open ? (hov ? 0x7FF0E6 : 0xFFFFFF) : 0xAAAAAA);
                 fontRenderer.drawString(p, x + W - PAD - pw, ly, pct >= 100 ? 0x7FFF7F : 0xCCCCCC);
                 drawRect(x + PAD, ly + 10, x + W - PAD, ly + 14, 0xFF2A3440);
                 drawRect(x + PAD, ly + 10, x + PAD + inner * pct / 100, ly + 14, 0xFF46C8BE);
