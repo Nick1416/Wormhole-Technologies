@@ -80,7 +80,7 @@ public final class GateNetwork {
 
     /** Elyndra's far address is known once the player's P3X-1416 research passes 50%. */
     public static boolean elyndraKnown(EntityPlayerMP p) {
-        return com.nick1416.wormholetech.knowledge.KnowledgeData.get(p.world).percent(p.getUniqueID(), com.nick1416.wormholetech.knowledge.Planets.P3X) > 50;
+        return com.nick1416.wormholetech.knowledge.KnowledgeData.get(p.world).percent(p.getUniqueID(), com.nick1416.wormholetech.knowledge.Planets.P3X) >= 50;
     }
 
     /** The moon's address is known once the player's Tal'Vora research passes 50%. */

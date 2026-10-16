@@ -178,5 +178,6 @@ public class WormholeTech {
         // oredict is final by now (CraftTweaker etc.)
         com.nick1416.wormholetech.stargate.TitaniumFrame.refresh();
         com.nick1416.wormholetech.mode.NormalModeAdvancements.apply();
+        e.registerServerCommand(new com.nick1416.wormholetech.knowledge.CommandResearch());
     }
 }

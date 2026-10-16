@@ -67,6 +67,13 @@ public class KnowledgeData extends WorldSavedData {
         markDirty();
     }
 
+    /** Set research of a planet to pct (0..100), finding it if needed. */
+    public void setPercent(UUID id, int planet, int pct) {
+        findPlanet(id, planet);
+        sub(id, "Planets").setInteger(Planets.KEYS[planet], (int) Math.ceil(fullTicks() * Math.max(0, Math.min(100, pct)) / 100.0));
+        markDirty();
+    }
+
     /** Research percent (0..100) of a planet, 0 if not found. */
     public int percent(UUID id, int planet) {
         NBTTagCompound pl = sub(id, "Planets");
