@@ -71,7 +71,19 @@ public class GuiDialingComputer extends GuiContainer {
         String status = I18n.format("gui.wormholetech.dialing.status." + DialingComputerTileEntity.STATUS_KEYS[s]);
         int col = s == DialingComputerTileEntity.STATUS_OPEN ? 0x1C7A72
                 : s == DialingComputerTileEntity.STATUS_READY ? 0x206020 : 0x803020;
-        fontRenderer.drawString(status, (PANEL_W - fontRenderer.getStringWidth(status)) / 2, 54, col);
+        // wrap within the panel, centred, bottom line just above the Dial button (y 66)
+        java.util.List<String> lines = fontRenderer.listFormattedStringToWidth(status, PANEL_W - 12);
+        if (lines.size() > 2) { // never expected; shrink to one line rather than overlap
+            float k = (float) (PANEL_W - 12) / fontRenderer.getStringWidth(status);
+            net.minecraft.client.renderer.GlStateManager.pushMatrix();
+            net.minecraft.client.renderer.GlStateManager.translate(6, 56, 0);
+            net.minecraft.client.renderer.GlStateManager.scale(k, k, 1);
+            fontRenderer.drawString(status, 0, 0, col);
+            net.minecraft.client.renderer.GlStateManager.popMatrix();
+        } else {
+            int y = lines.size() > 1 ? 49 : 54; // slot ends at y 48, button starts at 66
+            for (String l : lines) { fontRenderer.drawString(l, (PANEL_W - fontRenderer.getStringWidth(l)) / 2, y, col); y += 8; }
+        }
     }
 
     protected String titleKey() { return "container.wormholetech.dialing_computer"; }
