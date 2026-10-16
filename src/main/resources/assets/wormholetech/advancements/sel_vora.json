@@ -1,5 +1,5 @@
 {
-  "parent": "wormholetech:tal_vora",
+  "parent": "wormholetech:sel_vora_address",
   "display": {
     "icon": { "item": "wormholetech:moon_regolith" },
     "title": { "translate": "advancements.wormholetech.sel_vora.title" },

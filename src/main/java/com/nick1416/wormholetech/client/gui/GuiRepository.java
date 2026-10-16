@@ -64,6 +64,15 @@ public class GuiRepository extends GuiScreen {
         for (int[] r : rows) if (mx >= r[1] && mx < r[3] && my >= r[2] && my < r[4]) { info = r[0]; click(); return; }
     }
 
+    private int scroll, maxScroll, scrollFor = -1;
+
+    @Override
+    public void handleMouseInput() throws java.io.IOException {
+        super.handleMouseInput();
+        int d = org.lwjgl.input.Mouse.getEventDWheel();
+        if (d != 0 && tab == 0 && info >= 0) scroll = Math.max(0, Math.min(maxScroll, scroll + (d > 0 ? -10 : 10)));
+    }
+
     private int pct(int planet) {
         return Math.max(0, Math.min(100, data.getCompoundTag("Planets").getInteger(Planets.KEYS[planet])));
     }
@@ -78,20 +87,38 @@ public class GuiRepository extends GuiScreen {
         fontRenderer.drawString(back, bx + 4, by + 2, 0xFFFFFF);
         fontRenderer.drawString(trim(I18n.format("dimension.wormholetech." + k) + "  " + pct + "%", inner - backW() - 4), x + PAD, ly, 0x7FF0E6);
         ly += 16;
+        // scrollable body: fields + notes, clipped to [top, viewBottom]
+        int top = ly, viewBottom = bottom - 12;
+        if (info != scrollFor) { scroll = 0; scrollFor = info; }
+        ly -= scroll;
+        net.minecraft.client.gui.ScaledResolution sr = new net.minecraft.client.gui.ScaledResolution(mc);
+        int sf = sr.getScaleFactor();
+        org.lwjgl.opengl.GL11.glEnable(org.lwjgl.opengl.GL11.GL_SCISSOR_TEST);
+        org.lwjgl.opengl.GL11.glScissor(x * sf, mc.displayHeight - viewBottom * sf, W * sf, (viewBottom - top) * sf);
+        inner -= 6; // room for the scrollbar
         int labelW = 0;
         for (String f : FIELDS) labelW = Math.max(labelW, fontRenderer.getStringWidth(I18n.format("gui.wormholetech.repository.info." + f)));
         labelW += 6;
-        for (int i = 0; i < FIELDS.length && ly < bottom - 8; i++) {
+        for (int i = 0; i < FIELDS.length; i++) {
             String f = FIELDS[i];
             String v = full ? I18n.format("gui.wormholetech.repository.info." + k + "." + f)
                     : !AT_HALF[i] ? "???"
                     : f.equals("ores") ? I18n.format("gui.wormholetech.repository.info." + k + ".ores_partial")
                     : I18n.format("gui.wormholetech.repository.info." + k + "." + f);
             fontRenderer.drawString(I18n.format("gui.wormholetech.repository.info." + f), x + PAD, ly, 0xAAAAAA);
-            ly += wrap(v, x + PAD + labelW, ly, inner - labelW, 3, "???".equals(v) ? 0x666666 : 0xFFFFFF) + 3;
+            ly += wrap(v, x + PAD + labelW, ly, inner - labelW, 99, "???".equals(v) ? 0x666666 : 0xFFFFFF) + 3;
         }
         String nk = "gui.wormholetech.repository.info." + k + ".notes";
-        if (I18n.hasKey(nk) && ly < bottom - 18) wrap(I18n.format(nk), x + PAD, ly + 2, inner, Math.max(1, (bottom - 12 - ly) / 9), 0xE0C080);
+        if (I18n.hasKey(nk)) ly += wrap(I18n.format(nk), x + PAD, ly + 2, inner, 99, 0xE0C080) + 2;
+        org.lwjgl.opengl.GL11.glDisable(org.lwjgl.opengl.GL11.GL_SCISSOR_TEST);
+        int content = ly + scroll - top, view = viewBottom - top;
+        maxScroll = Math.max(0, content - view);
+        if (scroll > maxScroll) scroll = maxScroll;
+        if (maxScroll > 0) {
+            int sx = x + W - PAD - 3, th = Math.max(10, view * view / content), tp = top + (view - th) * scroll / maxScroll;
+            drawRect(sx, top, sx + 3, viewBottom, 0xFF202A34);
+            drawRect(sx, tp, sx + 3, tp + th, 0xFF46C8BE);
+        }
         if (!full) wrap(I18n.format("gui.wormholetech.repository.info.more"), x + PAD, bottom - 10, inner, 1, 0x888888);
     }
 
