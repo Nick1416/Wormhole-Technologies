@@ -53,6 +53,8 @@ public class WormholeTech {
 
         GameRegistry.registerTileEntity(com.nick1416.wormholetech.drone.MinerDroneTileEntity.class,
                 new net.minecraft.util.ResourceLocation(MODID, "miner_drone"));
+        GameRegistry.registerTileEntity(com.nick1416.wormholetech.moon.NeutroniumReactorBlock.Tile.class,
+                new ResourceLocation(MODID, "neutronium_reactor"));
         GameRegistry.registerTileEntity(GeneratorTileEntity.class,
                 new ResourceLocation(MODID, "rf_generator"));
 
@@ -135,6 +137,8 @@ public class WormholeTech {
             com.nick1416.wormholetech.registry.Registration.TAL_VORA_BIOME.getSpawnableList(net.minecraft.entity.EnumCreatureType.AMBIENT).add(
                     new net.minecraft.world.biome.Biome.SpawnListEntry(com.nick1416.wormholetech.talvora.EntityXenolithDrone.class,
                             ModConfig.xenolithDroneSpawnWeight, 1, 1));
+        GameRegistry.addSmelting(com.nick1416.wormholetech.registry.Registration.NEUTRONIUM_ORE,
+                new ItemStack(com.nick1416.wormholetech.registry.Registration.NEUTRONIUM_INGOT), 1.0F);
         GameRegistry.addSmelting(com.nick1416.wormholetech.registry.Registration.TITANIUM_ORE,
                 new ItemStack(com.nick1416.wormholetech.registry.Registration.TITANIUM_INGOT), 0.7F);
         net.minecraft.entity.EntitySpawnPlacementRegistry.setPlacementType(com.nick1416.wormholetech.moon.EntityRegolithCrawler.class,

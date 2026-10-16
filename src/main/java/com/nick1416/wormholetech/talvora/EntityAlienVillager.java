@@ -75,6 +75,7 @@ public class EntityAlienVillager extends EntityCreature implements IMerchant, IN
 
     @Override
     public boolean processInteract(EntityPlayer player, EnumHand hand) {
+        if (isMeditating()) return true; // deep in meditation: no reaction, no trading
         if (isResearching()) {
             if (!world.isRemote) player.sendStatusMessage(new net.minecraft.util.text.TextComponentTranslation("message.wormholetech.vorani.researching"), true);
             return true;
@@ -101,9 +102,9 @@ public class EntityAlienVillager extends EntityCreature implements IMerchant, IN
                 world.spawnParticle(net.minecraft.util.EnumParticleTypes.END_ROD, posX, posY + 2.0, posZ, 0, 0.02, 0);
         }
         if (isResearching()) {
-            // keep studying the console in front: fixed gaze down at it, data sparks rising between
+            // keep studying the neutronium beyond the console: fixed gaze, data sparks rising between
             motionX = 0; motionZ = 0; getNavigator().clearPath();
-            rotationYawHead = rotationYaw; renderYawOffset = rotationYaw; rotationPitch = 35F;
+            rotationYawHead = rotationYaw; renderYawOffset = rotationYaw; rotationPitch = 8F; // over the console, at the neutronium in the middle of the room
             if (world.isRemote && rand.nextInt(5) == 0) {
                 double fx = -Math.sin(Math.toRadians(rotationYaw)) * 1.3, fz = Math.cos(Math.toRadians(rotationYaw)) * 1.3;
                 world.spawnParticle(net.minecraft.util.EnumParticleTypes.ENCHANTMENT_TABLE, posX + fx, posY + 1.2, posZ + fz,

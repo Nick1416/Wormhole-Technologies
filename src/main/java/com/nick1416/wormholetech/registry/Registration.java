@@ -202,6 +202,17 @@ public class Registration {
     public static final Item ITEM_TITANIUM_ORE = new ItemBlock(TITANIUM_ORE).setRegistryName(TITANIUM_ORE.getRegistryName());
     public static final Block RESEARCH_CONSOLE = new com.nick1416.wormholetech.moon.MoonBlocks.ResearchConsole()
             .setRegistryName(WormholeTech.MODID, "research_console").setUnlocalizedName(WormholeTech.MODID + ".research_console");
+    public static final Block NEUTRONIUM_ORE = new com.nick1416.wormholetech.moon.MoonBlocks.TitaniumOre()
+            .setRegistryName(WormholeTech.MODID, "neutronium_ore").setUnlocalizedName(WormholeTech.MODID + ".neutronium_ore");
+    public static final Item ITEM_NEUTRONIUM_ORE = new ItemBlock(NEUTRONIUM_ORE).setRegistryName(NEUTRONIUM_ORE.getRegistryName());
+    public static final Item NEUTRONIUM_INGOT = new Item()
+            .setRegistryName(WormholeTech.MODID, "neutronium_ingot").setUnlocalizedName(WormholeTech.MODID + ".neutronium_ingot");
+    public static final Block NEUTRONIUM_SUPERCONDUCTOR_BLOCK = new Block(net.minecraft.block.material.Material.IRON, net.minecraft.block.material.MapColor.LIGHT_BLUE)
+            .setHardness(4.0F).setResistance(20.0F).setLightLevel(0.4F)
+            .setRegistryName(WormholeTech.MODID, "neutronium_superconductor").setUnlocalizedName(WormholeTech.MODID + ".neutronium_superconductor");
+    public static final Item NEUTRONIUM_SUPERCONDUCTOR = new ItemBlock(NEUTRONIUM_SUPERCONDUCTOR_BLOCK).setRegistryName(NEUTRONIUM_SUPERCONDUCTOR_BLOCK.getRegistryName());
+    public static final Block NEUTRONIUM_REACTOR = new com.nick1416.wormholetech.moon.NeutroniumReactorBlock()
+            .setRegistryName(WormholeTech.MODID, "neutronium_reactor").setUnlocalizedName(WormholeTech.MODID + ".neutronium_reactor");
     public static final net.minecraft.world.biome.Biome SEL_VORA_BIOME =
             new com.nick1416.wormholetech.moon.BiomeSelVora().setRegistryName(WormholeTech.MODID, "sel_vora_highlands");
 
@@ -486,6 +497,9 @@ public class Registration {
         TITANIUM_BLOCK.setCreativeTab(b);
         MOON_REGOLITH.setCreativeTab(b);
         TITANIUM_ORE.setCreativeTab(b);
+        NEUTRONIUM_ORE.setCreativeTab(b);
+        NEUTRONIUM_INGOT.setCreativeTab(m);
+        NEUTRONIUM_SUPERCONDUCTOR_BLOCK.setCreativeTab(b);
         for (Block blk : new Block[]{HULL_PLATING, HULL_BULKHEAD, HULL_LAMP, HULL_LAMP_GOLD, HULL_WINDOW, MODULATOR_CRADLE, XENOLITH, XENOLITH_TILES, XENO_LAMP}) blk.setCreativeTab(b);
         QUANTUM_FIELD_MODULATOR.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
         DERELICT_COORDINATES.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
@@ -527,7 +541,7 @@ public class Registration {
                 REINFORCED_GATE_FRAME,
                 HULL_PLATING, HULL_BULKHEAD, HULL_LAMP, HULL_LAMP_GOLD, HULL_WINDOW, MODULATOR_CRADLE, QUANTUM_FIELD_MODULATOR, VORANI_MODULATOR, XENOLITH, XENOLITH_TILES, XENO_LAMP, XENOLITH_ORE, MINER_DRONE, REPOSITORY,
                 TITANIUM_BLOCK,
-                MOON_REGOLITH, TITANIUM_ORE, RESEARCH_CONSOLE,
+                MOON_REGOLITH, TITANIUM_ORE, RESEARCH_CONSOLE, NEUTRONIUM_ORE, NEUTRONIUM_REACTOR, NEUTRONIUM_SUPERCONDUCTOR_BLOCK,
                 NATURAL_NAQUADAH_ORE,
                 PRYSMIAN_ORE,
                 NAQUADRIC_STONE,
@@ -595,7 +609,7 @@ public class Registration {
                 INTERGALACTIC_COORDINATES,
                 NANITE_CORE,
                 ITEM_TITANIUM_BLOCK,
-                ITEM_MOON_REGOLITH, ITEM_TITANIUM_ORE,
+                ITEM_MOON_REGOLITH, ITEM_TITANIUM_ORE, ITEM_NEUTRONIUM_ORE, NEUTRONIUM_INGOT, NEUTRONIUM_SUPERCONDUCTOR,
                 TITANIUM_INGOT,
                 GATE_LOCATOR,
                 ITEM_NATURAL_NAQUADAH_ORE,
@@ -607,6 +621,8 @@ public class Registration {
         );
         net.minecraftforge.oredict.OreDictionary.registerOre("ingotTitanium", TITANIUM_INGOT);
         net.minecraftforge.oredict.OreDictionary.registerOre("oreTitanium", TITANIUM_ORE);
+        net.minecraftforge.oredict.OreDictionary.registerOre("oreNeutronium", NEUTRONIUM_ORE);
+        net.minecraftforge.oredict.OreDictionary.registerOre("ingotNeutronium", NEUTRONIUM_INGOT);
         net.minecraftforge.oredict.OreDictionary.registerOre("oreXenolith", XENOLITH_ORE);
         net.minecraftforge.oredict.OreDictionary.registerOre("gemXenolith", RAW_XENOLITH);
         net.minecraftforge.oredict.OreDictionary.registerOre("blockTitanium", TITANIUM_BLOCK);

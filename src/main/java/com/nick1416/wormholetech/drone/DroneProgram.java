@@ -22,7 +22,10 @@ public enum DroneProgram {
     CINNABAR("cinnabar", "Cinnabar", 0xD03030, "item:minecraft:redstone"),
     SILT("silt", "Silt", 0xD8C89A, "item:minecraft:sand:0"),
     DEFENSIVE("defensive", null, 0xFF7A1A, "item:minecraft:blaze_powder"),
-    RESEARCH("research", null, 0xC9A0FF, "item:minecraft:book");
+    RESEARCH("research", null, 0xC9A0FF, "item:minecraft:book"),
+    // later miners, appended so existing chip/drone metas keep their meaning
+    XENOLITH("xenolith", "Xenolith", 0x3FC8B4, "item:wormholetech:raw_xenolith"),
+    TITANIUM("titanium", "Titanium", 0xC8D2DC, "item:wormholetech:titanium_ore");
 
     public final String id, mineral, mineralSlot;
     public final int color;
@@ -32,8 +35,20 @@ public enum DroneProgram {
     }
 
     public static final DroneProgram[] VALUES = values();
+    /** First block of miner programs (ordinals 0..MINERS-1); XENOLITH and TITANIUM are miners too. */
     public static final int MINERS = 19;
+    public static final DroneProgram[] MINER_PROGRAMS;
+    static {
+        java.util.List<DroneProgram> l = new java.util.ArrayList<>();
+        for (DroneProgram p : VALUES) if (p.isMiner()) l.add(p);
+        MINER_PROGRAMS = l.toArray(new DroneProgram[0]);
+    }
 
-    public boolean isMiner() { return ordinal() < MINERS; }
+    public boolean isMiner() { return ordinal() < MINERS || this == XENOLITH || this == TITANIUM; }
+    /** Lang key of the "works only ..." line for a miner program. */
+    public String whereKey() {
+        return this == NAQUADAH ? "tooltip.wormholetech.miner_drone.naquadah" : this == XENOLITH ? "tooltip.wormholetech.miner_drone.tal_vora"
+                : this == TITANIUM ? "tooltip.wormholetech.miner_drone.sel_vora" : "tooltip.wormholetech.miner_drone.overworld";
+    }
     public static DroneProgram byMeta(int m) { return m >= 0 && m < VALUES.length ? VALUES[m] : NAQUADAH; }
 }

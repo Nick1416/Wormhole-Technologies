@@ -67,6 +67,10 @@ public class MinerDroneTileEntity extends TileEntity implements ITickable {
         int dim = world.provider.getDimension();
         if (prog() == DroneProgram.NAQUADAH) {
             if (!com.nick1416.wormholetech.world.ModDimensions.isRegistered() || dim != com.nick1416.wormholetech.world.ModDimensions.id()) return WRONG_DIM;
+        } else if (prog() == DroneProgram.XENOLITH) {
+            if (!com.nick1416.wormholetech.world.ModDimensions.isTalVoraRegistered() || dim != com.nick1416.wormholetech.world.ModDimensions.talVoraId()) return WRONG_DIM;
+        } else if (prog() == DroneProgram.TITANIUM) {
+            if (!com.nick1416.wormholetech.world.ModDimensions.isSelVoraRegistered() || dim != com.nick1416.wormholetech.world.ModDimensions.selVoraId()) return WRONG_DIM;
         } else {
             if (dim != 0) return WRONG_DIM;
             if (!net.minecraftforge.fml.common.Loader.isModLoaded("immersiveengineering")) return NO_MINERAL;
@@ -92,13 +96,16 @@ public class MinerDroneTileEntity extends TileEntity implements ITickable {
 
     private ItemStack produce() {
         if (prog() == DroneProgram.NAQUADAH) return new ItemStack(Registration.ITEM_NATURAL_NAQUADAH_ORE);
+        if (prog() == DroneProgram.XENOLITH) return new ItemStack(Registration.RAW_XENOLITH);
+        if (prog() == DroneProgram.TITANIUM) return new ItemStack(Registration.ITEM_TITANIUM_ORE);
         try { return IEMinerals.randomOre(prog().mineral, world.rand); } catch (Throwable t) { return ItemStack.EMPTY; }
     }
 
     public ITextComponent statusText() {
         TextComponentTranslation t = new TextComponentTranslation("status.wormholetech.miner_drone." + KEYS[Math.min(KEYS.length - 1, status)]);
-        if (status == WRONG_DIM) t = new TextComponentTranslation(prog() == DroneProgram.NAQUADAH
-                ? "status.wormholetech.miner_drone.wrong_dim_naquadah" : "status.wormholetech.miner_drone.wrong_dim");
+        if (status == WRONG_DIM) t = new TextComponentTranslation(prog() == DroneProgram.NAQUADAH ? "status.wormholetech.miner_drone.wrong_dim_naquadah"
+                : prog() == DroneProgram.XENOLITH ? "status.wormholetech.miner_drone.wrong_dim_tal_vora"
+                : prog() == DroneProgram.TITANIUM ? "status.wormholetech.miner_drone.wrong_dim_sel_vora" : "status.wormholetech.miner_drone.wrong_dim");
         t.appendText(" (" + DroneCharge.percent(charge) + "% charge" + (powered ? ", charging)" : ")"));
         return t;
     }

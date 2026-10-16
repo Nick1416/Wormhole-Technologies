@@ -57,7 +57,7 @@ public class TooltipHandler {
             "naquadric_stone",
             "ashen_regolith",
             "naquadah_crystal",
-            "ancient_stone", "xenolith_ore", "raw_xenolith", "inactive_xenolith_drone", "xenolith_chip", "titanium_ore", "moon_regolith"
+            "ancient_stone", "xenolith_ore", "raw_xenolith", "inactive_xenolith_drone", "xenolith_chip", "titanium_ore", "moon_regolith", "neutronium_ore", "neutronium_ingot", "neutronium_superconductor"
     ));
 
     @SubscribeEvent
@@ -75,8 +75,8 @@ public class TooltipHandler {
         String path = id.getResourcePath();
         if ("miner_drone".equals(path)) {
             addDocumentedTooltips(event, path);
-            event.getToolTip().add(Math.min(1, event.getToolTip().size()), TextFormatting.YELLOW + net.minecraft.client.resources.I18n.format(stack.getMetadata() == 0
-                    ? "tooltip.wormholetech.miner_drone.naquadah" : "tooltip.wormholetech.miner_drone.overworld"));
+            event.getToolTip().add(Math.min(1, event.getToolTip().size()), TextFormatting.YELLOW + net.minecraft.client.resources.I18n.format(
+                    com.nick1416.wormholetech.drone.DroneProgram.byMeta(stack.getMetadata()).whereKey()));
             event.getToolTip().add(Math.min(2, event.getToolTip().size()), TextFormatting.YELLOW + net.minecraft.client.resources.I18n.format("tooltip.wormholetech.drone_modulator"));
             event.getToolTip().add(Math.min(3, event.getToolTip().size()), TextFormatting.AQUA + net.minecraft.client.resources.I18n.format("tooltip.wormholetech.drone.charge",
                     com.nick1416.wormholetech.drone.DroneCharge.percent(com.nick1416.wormholetech.drone.DroneCharge.of(stack))));

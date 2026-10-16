@@ -19,6 +19,8 @@ public class ChunkGeneratorSelVora extends ChunkGeneratorOverworld {
             + "\"useMansions\":false,\"useRavines\":false,\"useLavaOceans\":false,\"dirtCount\":0,\"gravelCount\":0,\"graniteCount\":0,"
             + "\"dioriteCount\":0,\"andesiteCount\":0,\"coalCount\":0,\"ironCount\":0,\"goldCount\":0,\"redstoneCount\":0,"
             + "\"diamondCount\":0,\"lapisCount\":0}";
+    /** Neutronium Ore veins per chunk (size 9, y 4..67). */
+    public static final int NEUTRONIUM_VEINS = 20;
     /** Titanium Ore veins per chunk (size 8, y 6..60): a little more common than vanilla iron. */
     public static final int TITANIUM_VEINS = 14;
     private final World world;
@@ -51,6 +53,10 @@ public class ChunkGeneratorSelVora extends ChunkGeneratorOverworld {
                 s -> s != null && (s.getBlock() == Blocks.STONE || s.getBlock() == Registration.MOON_REGOLITH));
         for (int i = 0; i < TITANIUM_VEINS; i++)   // WorldGenMinable adds the +8 itself
             vein.generate(world, r, new BlockPos((x << 4) + r.nextInt(16), 6 + r.nextInt(55), (z << 4) + r.nextInt(16)));
+        WorldGenMinable nVein = new WorldGenMinable(Registration.NEUTRONIUM_ORE.getDefaultState(), 9,
+                s -> s != null && (s.getBlock() == Blocks.STONE || s.getBlock() == Registration.MOON_REGOLITH));
+        for (int i = 0; i < NEUTRONIUM_VEINS; i++)  // as common as Overworld iron: 20 veins of 9
+            nVein.generate(world, r, new BlockPos((x << 4) + r.nextInt(16), 4 + r.nextInt(64), (z << 4) + r.nextInt(16)));
         SelVoraOutposts.populate(world, x, z);
     }
 

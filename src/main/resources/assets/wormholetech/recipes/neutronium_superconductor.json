@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "QNQ",
+    "NQN",
+    "QNQ"
+  ],
+  "key": {
+    "N": {
+      "type": "forge:ore_dict",
+      "ore": "ingotNeutronium"
+    },
+    "Q": {
+      "item": "wormholetech:quantum_circuit"
+    }
+  },
+  "result": {
+    "item": "wormholetech:neutronium_superconductor"
+  }
+}
