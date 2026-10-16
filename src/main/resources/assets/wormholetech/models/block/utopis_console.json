@@ -1,0 +1,1 @@
+{ "parent": "block/cube_bottom_top", "textures": { "side": "wormholetech:blocks/utopis_console", "top": "wormholetech:blocks/utopis_console_top", "bottom": "wormholetech:blocks/utopis_console_top" } }

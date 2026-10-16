@@ -371,6 +371,10 @@ public class Registration {
             .setRegistryName(WormholeTech.MODID, "naquadah_ore_natural")
             .setUnlocalizedName(WormholeTech.MODID + ".naquadah_ore_natural")
             .setCreativeTab(net.minecraft.creativetab.CreativeTabs.BUILDING_BLOCKS);
+    public static final Block UTOPIS_CONSOLE = new com.nick1416.wormholetech.utopis.UtopisConsoleBlock()
+            .setRegistryName(WormholeTech.MODID, "utopis_console").setUnlocalizedName(WormholeTech.MODID + ".utopis_console")
+            .setCreativeTab(net.minecraft.creativetab.CreativeTabs.DECORATIONS);
+    public static final Item ITEM_UTOPIS_CONSOLE = new ItemBlock(UTOPIS_CONSOLE).setRegistryName(UTOPIS_CONSOLE.getRegistryName());
     public static final Block ELYNDRA_NAQUADAH_ORE = new com.nick1416.wormholetech.elyndra.ElyndraNaquadahOre()
             .setRegistryName(WormholeTech.MODID, "naquadah_ore_elyndra")
             .setUnlocalizedName(WormholeTech.MODID + ".naquadah_ore_elyndra")
@@ -568,7 +572,7 @@ public class Registration {
                 HULL_PLATING, HULL_BULKHEAD, HULL_LAMP, HULL_LAMP_GOLD, HULL_WINDOW, MODULATOR_CRADLE, QUANTUM_FIELD_MODULATOR, VORANI_MODULATOR, XENOLITH, XENOLITH_TILES, XENO_LAMP, XENOLITH_ORE, MINER_DRONE, REPOSITORY,
                 TITANIUM_BLOCK,
                 MOON_REGOLITH, TITANIUM_ORE, RESEARCH_CONSOLE, NEUTRONIUM_ORE, NEUTRONIUM_REACTOR, NEUTRONIUM_SUPERCONDUCTOR_BLOCK, MINIATURE_FACTORY,
-                NATURAL_NAQUADAH_ORE, ELYNDRA_NAQUADAH_ORE,
+                NATURAL_NAQUADAH_ORE, ELYNDRA_NAQUADAH_ORE, UTOPIS_CONSOLE,
                 PRYSMIAN_ORE,
                 NAQUADRIC_STONE,
                 ASHEN_REGOLITH,
@@ -638,7 +642,7 @@ public class Registration {
                 ITEM_MOON_REGOLITH, ITEM_TITANIUM_ORE, ITEM_NEUTRONIUM_ORE, NEUTRONIUM_INGOT, NEUTRONIUM_SUPERCONDUCTOR, ITEM_MINIATURE_FACTORY,
                 TITANIUM_INGOT,
                 GATE_LOCATOR,
-                ITEM_NATURAL_NAQUADAH_ORE, ITEM_ELYNDRA_NAQUADAH_ORE,
+                ITEM_NATURAL_NAQUADAH_ORE, ITEM_ELYNDRA_NAQUADAH_ORE, ITEM_UTOPIS_CONSOLE,
                 ITEM_PRYSMIAN_ORE,
                 ITEM_NAQUADRIC_STONE,
                 ITEM_ASHEN_REGOLITH,

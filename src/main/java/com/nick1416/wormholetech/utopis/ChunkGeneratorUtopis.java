@@ -68,6 +68,7 @@ public class ChunkGeneratorUtopis implements IChunkGenerator {
                 for (int y = 1; y < GROUND; y++) p.setBlockState(lx, y, lz, CRUST);
                 boolean road = mx < 5 || mz < 5;
                 p.setBlockState(lx, GROUND, lz, road ? ((mx == 2 || mz == 2) && (x + z & 3) == 0 ? LINE : ROAD) : PLAZA);
+                if (x == 7 && z == 7) p.setBlockState(lx, GROUND + 1, lz, Registration.UTOPIS_CONSOLE.getDefaultState()); // by the arrival gate
                 if (road) continue;
                 int[] t = tower(Math.floorDiv(x, CELL), Math.floorDiv(z, CELL));
                 if (t == null || x < t[0] || x > t[2] || z < t[1] || z > t[3]) {
@@ -90,6 +91,8 @@ public class ChunkGeneratorUtopis implements IChunkGenerator {
                     if (s != null) p.setBlockState(lx, y, lz, s);
                 }
                 if (broken == top && !edge) p.setBlockState(lx, top, lz, FLOOR); // intact roof
+                if (x == (t[0] + t[2]) / 2 + 1 && z == (t[1] + t[3]) / 2 + 1 && hash(seed, x, 1, z) < 70) // a console in the lobby
+                    p.setBlockState(lx, GROUND + 1, lz, Registration.UTOPIS_CONSOLE.getDefaultState());
             }
         Chunk c = new Chunk(world, p, chunkX, chunkZ);
         byte[] biomes = c.getBiomeArray();
