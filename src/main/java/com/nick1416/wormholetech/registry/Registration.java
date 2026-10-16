@@ -248,6 +248,9 @@ public class Registration {
     
     
     // --- Quantum Circuit (Compact Machines miniaturization) ---
+    public static final Item NANITE_CLUSTER = new Item()
+            .setRegistryName(WormholeTech.MODID, "nanite_cluster").setUnlocalizedName(WormholeTech.MODID + ".nanite_cluster")
+            .setCreativeTab(net.minecraft.creativetab.CreativeTabs.MATERIALS);
     public static final Item QUANTUM_CIRCUIT = new Item()
     		.setRegistryName(WormholeTech.MODID, "quantum_circuit")
     		.setUnlocalizedName(WormholeTech.MODID + ".quantum_circuit")
@@ -497,6 +500,13 @@ public class Registration {
                 .egg(0xB8B6B0, 0x46C8BE)
                 .build());
         e.getRegistry().register(net.minecraftforge.fml.common.registry.EntityEntryBuilder.create()
+                .entity(com.nick1416.wormholetech.utopis.EntityEmeraldDroid.class)
+                .id(new net.minecraft.util.ResourceLocation(WormholeTech.MODID, "emerald_droid"), 9)
+                .name(WormholeTech.MODID + ".emerald_droid")
+                .tracker(80, 3, true)
+                .egg(0x6E7480, 0x2FD86A)
+                .build());
+        e.getRegistry().register(net.minecraftforge.fml.common.registry.EntityEntryBuilder.create()
                 .entity(com.nick1416.wormholetech.elyndra.EntityAncientSpirit.class)
                 .id(new net.minecraft.util.ResourceLocation(WormholeTech.MODID, "ancient_spirit"), 8)
                 .name(WormholeTech.MODID + ".ancient_spirit")
@@ -592,7 +602,7 @@ public class Registration {
                 PRYSMIAN,
                 DIAMOND_NUGGET,
                 ITEM_PRYSMIAN_BLOCK,
-                QUANTUM_CIRCUIT,
+                QUANTUM_CIRCUIT, NANITE_CLUSTER,
                 ITEM_PRYSMIAN_LOGIC_FRAME,
                 NAQUADAH_REACTOR,
                 UNSTABLE_NAQUADAH_REACTOR,
