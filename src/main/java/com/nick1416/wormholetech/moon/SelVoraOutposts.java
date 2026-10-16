@@ -13,7 +13,7 @@ import net.minecraft.world.World;
  * Vorani research outposts on Sel'Vora: one per region of {@code selVoraOutpostRegionChunks} chunks
  * with probability {@code selVoraOutpostChance}%. Like the Tal'Vora villages, every column is a pure
  * function of its offset from the centre. Layout (radius 16): a tiled pad, a xenolith dome with four
- * doors, a Neutronium Reactor on a Neutronium Ore block in the middle, four research consoles around it with a
+ * doors, a Neutronium Ore block in the middle, four research consoles around it with a
  * Vorani studying each (facing the centre), and a lamp antenna on top.
  */
 public final class SelVoraOutposts {
@@ -99,11 +99,8 @@ public final class SelVoraOutposts {
             set(w, x, y0 + top - 1, z, lamp);
             for (int y = y0 + top + 1; y <= y0 + top + 8; y++) set(w, x, y, z, y == y0 + top + 8 ? lamp : stone);
         }
-        // centre: a Neutronium Ore block with a Neutronium Reactor on it, studied by the researchers
-        if (ax + az == 0) {
-            set(w, x, y0 + 1, z, Registration.NEUTRONIUM_ORE.getDefaultState());
-            set(w, x, y0 + 2, z, Registration.NEUTRONIUM_REACTOR.getDefaultState());
-        }
+        // centre: a Neutronium Ore block, studied by the researchers
+        if (ax + az == 0) set(w, x, y0 + 1, z, Registration.NEUTRONIUM_ORE.getDefaultState());
         // research consoles on the floor
         for (int[] c : CONSOLES) if (dx == c[0] && dz == c[1]) set(w, x, y0 + 1, z, Registration.RESEARCH_CONSOLE.getDefaultState());
     }
