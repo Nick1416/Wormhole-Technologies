@@ -162,7 +162,8 @@ public final class StargateTravel {
         final float yaw = target == null ? p.rotationYaw : ReturnGates.arrivalYaw();
         teleport(p, dest, arrival, yaw);
         GateNetwork.recordVisit(p, dest);
-        grantAdvancement(p, ModDimensions.isSelVoraRegistered() && dest == ModDimensions.selVoraId() ? GateNetwork.SEL_VORA_ADVANCEMENT
+        grantAdvancement(p, ModDimensions.isElyndra(dest) ? GateNetwork.ELYNDRA_ADVANCEMENT
+                : ModDimensions.isSelVoraRegistered() && dest == ModDimensions.selVoraId() ? GateNetwork.SEL_VORA_ADVANCEMENT
                 : ModDimensions.isTalVoraRegistered() && dest == ModDimensions.talVoraId() ? GateNetwork.TAL_VORA_ADVANCEMENT
                 : ModDimensions.isDerelictRegistered() && dest == ModDimensions.derelictId() ? DERELICT_ADVANCEMENT : ADVANCEMENT);
     }
@@ -277,6 +278,17 @@ public final class StargateTravel {
         }
         return data.getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG);
     }
+
+    /** Teleport a player to the Overworld: their bed if it is still valid, else the world spawn. */
+    public static void sendToOverworldBed(EntityPlayerMP p) {
+        WorldServer ow = p.mcServer.getWorld(0);
+        BlockPos bed = p.getBedLocation(0), pos = null;
+        if (bed != null) pos = EntityPlayer.getBedSpawnLocation(ow, bed, p.isSpawnForced(0));
+        if (pos == null) pos = ow.getTopSolidOrLiquidBlock(ow.getSpawnPoint());
+        teleport(p, 0, safeSpot(ow, pos), p.rotationYaw);
+    }
+
+    public static void grant(EntityPlayerMP p, ResourceLocation id) { grantAdvancement(p, id); }
 
     private static void grantAdvancement(EntityPlayerMP p, ResourceLocation id) {
         Advancement adv = p.mcServer.getAdvancementManager().getAdvancement(id);

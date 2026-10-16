@@ -59,6 +59,7 @@ public final class ModConfig {
     public static int talVoraVillageRegionChunks = 28;
     public static int talVoraVillageChance = 70;
     public static int selVoraDimensionId = -1419;
+    public static int elyndraDimensionId = -1420;
     public static double selVoraGravity = 0.85D;
     public static double selVoraFallDamageMultiplier = 0.6D;
     public static int selVoraOutpostRegionChunks = 20;
@@ -206,6 +207,8 @@ public final class ModConfig {
                 "Percent chance that a Tal'Vora region holds an alien village (0 = none)", 0, 100);
         if (vc.getInt() == 50 || vc.getInt() == 65) vc.set(70); // migrate the old default
         talVoraVillageChance = Math.max(0, Math.min(100, vc.getInt()));
+        elyndraDimensionId = cfg.getInt("elyndraDimensionId", sg, -1420, Integer.MIN_VALUE, Integer.MAX_VALUE,
+                "Dimension ID of Elyndra, the far-away home world of the gate builders. Keep it stable; must not clash with another mod");
         selVoraDimensionId = cfg.getInt("selVoraDimensionId", sg, -1419, Integer.MIN_VALUE, Integer.MAX_VALUE,
                 "Dimension ID of Sel'Vora, Tal'Vora's moon. Keep it stable once a world uses it; must not clash with another mod");
         selVoraGravity = cfg.getFloat("selVoraGravity", sg, 0.85F, 0.5F, 1.0F,

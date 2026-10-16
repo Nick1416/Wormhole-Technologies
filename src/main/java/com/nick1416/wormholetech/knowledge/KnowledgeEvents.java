@@ -32,7 +32,12 @@ public final class KnowledgeEvents {
         // Tal'Vora research past 50% reveals the moon's gate address (once)
         if (d.percent(p.getUniqueID(), Planets.TAL_VORA) > 50 && d.discover(p.getUniqueID(), "sel_vora_address")
                 && com.nick1416.wormholetech.world.ModDimensions.isSelVoraRegistered()) {
-            d.findPlanet(p.getUniqueID(), Planets.KEYS.length - 1);
+            d.findPlanet(p.getUniqueID(), Planets.SEL_VORA);
+        }
+        // P3X-1416 research past 50% reveals the far address of Elyndra (once, silently: it appears on the map)
+        if (d.percent(p.getUniqueID(), Planets.P3X) > 50 && d.discover(p.getUniqueID(), "elyndra_address")
+                && com.nick1416.wormholetech.world.ModDimensions.isElyndraRegistered()) {
+            d.findPlanet(p.getUniqueID(), Planets.ELYNDRA);
         }
         for (int s = 0; s < p.inventory.getSizeInventory(); s++) {
             ItemStack st = p.inventory.getStackInSlot(s);

@@ -57,6 +57,16 @@ public class KnowledgeData extends WorldSavedData {
         markDirty();
     }
 
+    /** Ascension percent (0..100) of a player. */
+    public int ascension(UUID id) { return of(id).getInteger("Ascension"); }
+
+    /** Raise a player's ascension to at least pct. */
+    public void ascendTo(UUID id, int pct) {
+        if (ascension(id) >= pct) return;
+        of(id).setInteger("Ascension", Math.min(100, pct));
+        markDirty();
+    }
+
     /** Research percent (0..100) of a planet, 0 if not found. */
     public int percent(UUID id, int planet) {
         NBTTagCompound pl = sub(id, "Planets");
@@ -79,6 +89,7 @@ public class KnowledgeData extends WorldSavedData {
         for (String k : src.getKeySet()) pl.setInteger(k, (int) Math.floor(100.0 * src.getInteger(k) / fullTicks()));
         out.setTag("Planets", pl);
         out.setTag("Tech", sub(id, "Tech").copy());
+        out.setInteger("Ascension", ascension(id));
         return out;
     }
 

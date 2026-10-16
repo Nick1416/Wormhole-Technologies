@@ -3,6 +3,7 @@ package com.nick1416.wormholetech.stargate;
 import com.nick1416.wormholetech.WormholeTech;
 import com.nick1416.wormholetech.block.StargatePortalBlock;
 import com.nick1416.wormholetech.registry.Registration;
+import com.nick1416.wormholetech.world.ModDimensions;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -31,6 +32,22 @@ public final class ReturnGates {
             d.gate = com.nick1416.wormholetech.derelict.DerelictLayout.GATE;
             d.arrival = d.gate.front(1, 2);
             d.markDirty();
+        }
+        if (ModDimensions.isElyndra(w.provider.getDimension())) {
+            // one-way: an arrival terrace beside the dead ruin of a gate, nothing that can be lit
+            if (d.arrival == null) {
+                int yb = surfaceY(w, 0, 0);
+                buildPlatform(w, yb);
+                IBlockState frame = Registration.ANCIENT_GATE_FRAME.getDefaultState();
+                int[][] ruin = { { 0, 1 }, { 1, 1 }, { 2, 1 }, { -1, 1 }, { -1, 2 }, { -1, 3 }, { 3, 1 }, { 3, 2 } };
+                for (int[] r : ruin) w.setBlockState(new BlockPos(r[0], yb + r[1], 0), frame, 2);
+                w.setBlockState(new BlockPos(1, yb + 1, -1), Blocks.MOSSY_COBBLESTONE.getDefaultState(), 2);
+                d.arrival = new BlockPos(1, yb + 1, 2);
+                d.markDirty();
+            }
+            BlockPos a = d.arrival;
+            if (!StargateTravel.isSafe(w, a)) { StargateTravel.clear(w, a); StargateTravel.clear(w, a.up()); }
+            return a;
         }
         if (d.gate == null) {
             int yb = surfaceY(w, 0, 0);

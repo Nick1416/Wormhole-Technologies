@@ -182,6 +182,8 @@ public class ClientProxy extends com.nick1416.wormholetech.common.CommonProxy {
 		net.minecraftforge.fml.client.registry.RenderingRegistry.registerEntityRenderingHandler(
 				com.nick1416.wormholetech.moon.EntityRegolithCrawler.class,
 				com.nick1416.wormholetech.client.render.RenderRegolithCrawler::new);
+		net.minecraftforge.fml.client.registry.RenderingRegistry.registerEntityRenderingHandler(com.nick1416.wormholetech.elyndra.EntityAncientSpirit.class,
+				com.nick1416.wormholetech.elyndra.RenderAncientSpirit::new);
 		net.minecraftforge.fml.client.registry.ClientRegistry.bindTileEntitySpecialRenderer(
 				com.nick1416.wormholetech.knowledge.RepositoryTileEntity.class, new com.nick1416.wormholetech.client.render.RenderRepository());
 	}

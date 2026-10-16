@@ -216,6 +216,8 @@ public class Registration {
     public static final Block MINIATURE_FACTORY = new com.nick1416.wormholetech.factory.MiniatureFactoryBlock()
             .setRegistryName(WormholeTech.MODID, "miniature_factory").setUnlocalizedName(WormholeTech.MODID + ".miniature_factory");
     public static final Item ITEM_MINIATURE_FACTORY = new ItemBlock(MINIATURE_FACTORY).setRegistryName(MINIATURE_FACTORY.getRegistryName());
+    public static final net.minecraft.world.biome.Biome ELYNDRA_BIOME =
+            new com.nick1416.wormholetech.elyndra.BiomeElyndra().setRegistryName(WormholeTech.MODID, "elyndra_wilds");
     public static final net.minecraft.world.biome.Biome SEL_VORA_BIOME =
             new com.nick1416.wormholetech.moon.BiomeSelVora().setRegistryName(WormholeTech.MODID, "sel_vora_highlands");
 
@@ -413,6 +415,9 @@ public class Registration {
         e.getRegistry().register(DERELICT_BIOME);
         e.getRegistry().register(TAL_VORA_BIOME);
         e.getRegistry().register(SEL_VORA_BIOME);
+        e.getRegistry().register(ELYNDRA_BIOME);
+        net.minecraftforge.common.BiomeDictionary.addTypes(ELYNDRA_BIOME, net.minecraftforge.common.BiomeDictionary.Type.FOREST,
+                net.minecraftforge.common.BiomeDictionary.Type.MAGICAL);
         net.minecraftforge.common.BiomeDictionary.addTypes(SEL_VORA_BIOME, net.minecraftforge.common.BiomeDictionary.Type.COLD,
                 net.minecraftforge.common.BiomeDictionary.Type.DEAD, net.minecraftforge.common.BiomeDictionary.Type.WASTELAND);
         net.minecraftforge.common.BiomeDictionary.addTypes(TAL_VORA_BIOME, net.minecraftforge.common.BiomeDictionary.Type.HOT,
@@ -475,6 +480,12 @@ public class Registration {
                 .name(WormholeTech.MODID + ".regolith_crawler")
                 .tracker(64, 3, true)
                 .egg(0xB8B6B0, 0x46C8BE)
+                .build());
+        e.getRegistry().register(net.minecraftforge.fml.common.registry.EntityEntryBuilder.create()
+                .entity(com.nick1416.wormholetech.elyndra.EntityAncientSpirit.class)
+                .id(new net.minecraft.util.ResourceLocation(WormholeTech.MODID, "ancient_spirit"), 8)
+                .name(WormholeTech.MODID + ".ancient_spirit")
+                .tracker(64, 3, false)
                 .build());
     }
 

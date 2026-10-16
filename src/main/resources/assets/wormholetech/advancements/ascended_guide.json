@@ -1,0 +1,10 @@
+{
+  "parent": "wormholetech:leap_of_faith",
+  "display": {
+    "icon": { "item": "minecraft:end_rod" },
+    "title": { "translate": "advancements.wormholetech.ascended_guide.title" },
+    "description": { "translate": "advancements.wormholetech.ascended_guide.desc" },
+    "frame": "challenge", "show_toast": true, "announce_to_chat": true, "hidden": true
+  },
+  "criteria": { "returned": { "trigger": "minecraft:impossible" } }
+}
