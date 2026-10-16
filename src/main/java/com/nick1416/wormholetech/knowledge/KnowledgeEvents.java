@@ -22,6 +22,20 @@ public final class KnowledgeEvents {
         return -1;
     }
 
+    /** Address reveals driven by research percent (also used by /wormholetech research). */
+    public static void checkUnlocks(EntityPlayer p, KnowledgeData d) {
+        // Tal'Vora research past 50% reveals the moon's gate address (once)
+        if (d.percent(p.getUniqueID(), Planets.TAL_VORA) > 50 && d.discover(p.getUniqueID(), "sel_vora_address")
+                && com.nick1416.wormholetech.world.ModDimensions.isSelVoraRegistered()) {
+            d.findPlanet(p.getUniqueID(), Planets.SEL_VORA);
+        }
+        // P3X-1416 research past 50% reveals the far address of Elyndra (once, silently: it appears on the map)
+        if (d.percent(p.getUniqueID(), Planets.P3X) >= 50 && d.discover(p.getUniqueID(), "elyndra_address")
+                && com.nick1416.wormholetech.world.ModDimensions.isElyndraRegistered()) {
+            d.findPlanet(p.getUniqueID(), Planets.ELYNDRA);
+        }
+    }
+
     @SubscribeEvent
     public static void onTick(TickEvent.PlayerTickEvent e) {
         EntityPlayer p = e.player;
@@ -29,16 +43,7 @@ public final class KnowledgeEvents {
         KnowledgeData d = KnowledgeData.get(p.world);
         int planet = Planets.indexOf(p.world.provider.getDimension());
         if (planet >= 0) d.findPlanet(p.getUniqueID(), planet);
-        // Tal'Vora research past 50% reveals the moon's gate address (once)
-        if (d.percent(p.getUniqueID(), Planets.TAL_VORA) > 50 && d.discover(p.getUniqueID(), "sel_vora_address")
-                && com.nick1416.wormholetech.world.ModDimensions.isSelVoraRegistered()) {
-            d.findPlanet(p.getUniqueID(), Planets.SEL_VORA);
-        }
-        // P3X-1416 research past 50% reveals the far address of Elyndra (once, silently: it appears on the map)
-        if (d.percent(p.getUniqueID(), Planets.P3X) > 50 && d.discover(p.getUniqueID(), "elyndra_address")
-                && com.nick1416.wormholetech.world.ModDimensions.isElyndraRegistered()) {
-            d.findPlanet(p.getUniqueID(), Planets.ELYNDRA);
-        }
+        checkUnlocks(p, d);
         for (int s = 0; s < p.inventory.getSizeInventory(); s++) {
             ItemStack st = p.inventory.getStackInSlot(s);
             if (st.isEmpty()) continue;
