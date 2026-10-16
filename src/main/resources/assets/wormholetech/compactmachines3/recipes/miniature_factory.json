@@ -13,10 +13,6 @@
    "id": "minecraft:hopper",
    "ignore-meta": true
   },
-  "f": {
-   "id": "wormholetech:prysmian_logic_frame",
-   "meta": 0
-  },
   "n": {
    "id": "wormholetech:neutronium_superconductor",
    "meta": 0
@@ -26,7 +22,7 @@
    "ignore-meta": true
   }
  },
- "symmetrical": false,
+ "symmetrical": true,
  "shape": [
   [
    [
@@ -75,23 +71,23 @@
    ],
    [
     "t",
-    "h",
-    "f",
-    "h",
+    "t",
+    "t",
+    "t",
     "t"
    ],
    [
     "t",
-    "h",
-    "p",
-    "h",
+    "t",
+    "t",
+    "t",
     "t"
    ],
    [
     "t",
-    "h",
-    "f",
-    "h",
+    "t",
+    "t",
+    "t",
     "t"
    ],
    [
@@ -112,23 +108,23 @@
    ],
    [
     "t",
-    "t",
-    "t",
-    "t",
+    "h",
+    "p",
+    "h",
     "t"
    ],
    [
     "t",
-    "t",
+    "h",
     "n",
-    "t",
+    "h",
     "t"
    ],
    [
     "t",
-    "t",
-    "t",
-    "t",
+    "h",
+    "p",
+    "h",
     "t"
    ],
    [
