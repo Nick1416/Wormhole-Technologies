@@ -616,7 +616,7 @@ advancements.wormholetech.sel_vora_address.title=A Moon in Reach
 advancements.wormholetech.sel_vora_address.desc=New address found. Check the Gate Network Computer
 advancements.wormholetech.elyndra_address.title=The Builders' Home
 advancements.wormholetech.elyndra_address.desc=A far-off address found. Check the Gate Network Computer
-tile.wormholetech.naquadah_ore_elyndra.name=Naquadah Growth
+tile.wormholetech.naquadah_ore_elyndra.name=Naquadah Ore
 tooltip.wormholetech.naquadah_ore_elyndra.summary=Naquadah crystals growing out of stone
 
 # Utopis, the forbidden city world
