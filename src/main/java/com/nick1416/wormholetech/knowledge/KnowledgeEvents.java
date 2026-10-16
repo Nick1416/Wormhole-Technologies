@@ -25,15 +25,20 @@ public final class KnowledgeEvents {
     /** Address reveals driven by research percent (also used by /wormholetech research). */
     public static void checkUnlocks(EntityPlayer p, KnowledgeData d) {
         // Tal'Vora research past 50% reveals the moon's gate address (once)
-        if (d.percent(p.getUniqueID(), Planets.TAL_VORA) > 50 && d.discover(p.getUniqueID(), "sel_vora_address")
-                && com.nick1416.wormholetech.world.ModDimensions.isSelVoraRegistered()) {
-            d.findPlanet(p.getUniqueID(), Planets.SEL_VORA);
+        if (d.percent(p.getUniqueID(), Planets.TAL_VORA) > 50 && com.nick1416.wormholetech.world.ModDimensions.isSelVoraRegistered()) {
+            if (d.discover(p.getUniqueID(), "sel_vora_address")) d.findPlanet(p.getUniqueID(), Planets.SEL_VORA);
+            grant(p, "sel_vora_address"); // idempotent; also covers players who unlocked it before this advancement existed
         }
         // P3X-1416 research past 50% reveals the far address of Elyndra (once, silently: it appears on the map)
-        if (d.percent(p.getUniqueID(), Planets.P3X) >= 50 && d.discover(p.getUniqueID(), "elyndra_address")
-                && com.nick1416.wormholetech.world.ModDimensions.isElyndraRegistered()) {
-            d.findPlanet(p.getUniqueID(), Planets.ELYNDRA);
+        if (d.percent(p.getUniqueID(), Planets.P3X) >= 50 && com.nick1416.wormholetech.world.ModDimensions.isElyndraRegistered()) {
+            if (d.discover(p.getUniqueID(), "elyndra_address")) d.findPlanet(p.getUniqueID(), Planets.ELYNDRA);
+            grant(p, "elyndra_address");
         }
+    }
+
+    private static void grant(EntityPlayer p, String id) {
+        if (p instanceof EntityPlayerMP)
+            com.nick1416.wormholetech.stargate.StargateTravel.grant((EntityPlayerMP) p, new net.minecraft.util.ResourceLocation(com.nick1416.wormholetech.WormholeTech.MODID, id));
     }
 
     @SubscribeEvent

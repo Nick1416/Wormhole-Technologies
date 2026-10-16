@@ -612,3 +612,7 @@ gui.wormholetech.repository.info.elyndra.ores_partial=Naquadah, ???
 gui.wormholetech.repository.info.elyndra.mobs=Wild animals, no monsters, something pale at the shrines
 gui.wormholetech.repository.info.elyndra.structures=Glowstone plazas, crashed ships, sky islands, shrines
 gui.wormholetech.repository.info.elyndra.notes=Abandoned home world of the gate builders. Its gate is dead: this is a one-way journey.
+advancements.wormholetech.sel_vora_address.title=A Moon in Reach
+advancements.wormholetech.sel_vora_address.desc=New address found. Check the Gate Network Computer
+advancements.wormholetech.elyndra_address.title=The Builders' Home
+advancements.wormholetech.elyndra_address.desc=A far-off address found. Check the Gate Network Computer
