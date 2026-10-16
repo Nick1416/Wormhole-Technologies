@@ -582,3 +582,4 @@ gui.wormholetech.repository.info.sel_vora.mobs=Regolith Crawler, Vorani research
 gui.wormholetech.repository.info.sel_vora.structures=Vorani research outposts
 tile.wormholetech.neutronium_superconductor.name=Neutronium Superconductor
 message.wormholetech.pad.need_computer_dest=The destination pad in %s needs an active computer
+message.wormholetech.vorani.meditating=Deep in meditation...

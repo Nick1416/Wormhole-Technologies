@@ -75,7 +75,11 @@ public class EntityAlienVillager extends EntityCreature implements IMerchant, IN
 
     @Override
     public boolean processInteract(EntityPlayer player, EnumHand hand) {
-        if (isMeditating()) return true; // deep in meditation: no reaction, no trading
+        if (isMeditating()) { // deep in meditation: no trading, just an action-bar note (main hand only = once per click)
+            if (!world.isRemote && hand == EnumHand.MAIN_HAND)
+                player.sendStatusMessage(new net.minecraft.util.text.TextComponentTranslation("message.wormholetech.vorani.meditating"), true);
+            return true;
+        }
         if (isResearching()) {
             if (!world.isRemote) player.sendStatusMessage(new net.minecraft.util.text.TextComponentTranslation("message.wormholetech.vorani.researching"), true);
             return true;
