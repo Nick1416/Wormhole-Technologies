@@ -12,7 +12,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.Random;
 
 /**
- * Neutronium Reactor in a Sel'Vora research outpost: the blue Vorani counterpart of the Quantum Field
+ * Neutronium Reactor atop a Tal'Vora village spire (replaces the gold village modulator in newly generated
+ * villages): the blue Vorani counterpart of the Quantum Field
  * Modulator. Indestructible like the village modulator (no item, no drops, no recipe), but it powers
  * Xenolith drones within droneModulatorRange exactly like a placed modulator. It gives no RF.
  */
