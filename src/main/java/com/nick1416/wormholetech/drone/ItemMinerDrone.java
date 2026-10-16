@@ -18,7 +18,7 @@ public class ItemMinerDrone extends ItemBlock {
 
     @Override
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-        if (isInCreativeTab(tab)) for (int i = 0; i < DroneProgram.MINERS; i++) items.add(new ItemStack(this, 1, i));
+        if (isInCreativeTab(tab)) for (DroneProgram p : DroneProgram.MINER_PROGRAMS) items.add(new ItemStack(this, 1, p.ordinal()));
     }
 
     @Override
@@ -35,7 +35,7 @@ public class ItemMinerDrone extends ItemBlock {
     public boolean placeBlockAt(ItemStack s, EntityPlayer p, World w, BlockPos pos, EnumFacing side, float hx, float hy, float hz, IBlockState state) {
         if (!super.placeBlockAt(s, p, w, pos, side, hx, hy, hz, state)) return false;
         TileEntity te = w.getTileEntity(pos);
-        if (te instanceof MinerDroneTileEntity) { ((MinerDroneTileEntity) te).program = Math.min(DroneProgram.MINERS - 1, s.getMetadata()); ((MinerDroneTileEntity) te).charge = DroneCharge.of(s); }
+        if (te instanceof MinerDroneTileEntity) { ((MinerDroneTileEntity) te).program = DroneProgram.byMeta(s.getMetadata()).isMiner() ? s.getMetadata() : 0; ((MinerDroneTileEntity) te).charge = DroneCharge.of(s); }
         return true;
     }
 }
