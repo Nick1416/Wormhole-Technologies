@@ -1,0 +1,1 @@
+{ "parent": "block/cube_bottom_top", "textures": { "side": "wormholetech:blocks/miniature_factory", "top": "wormholetech:blocks/miniature_factory_top", "bottom": "wormholetech:blocks/titanium_block" } }

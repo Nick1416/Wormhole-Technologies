@@ -1,0 +1,217 @@
+{
+ "name": "wormholetech:miniature_factory",
+ "target-item": "wormholetech:miniature_factory",
+ "target-count": 1,
+ "duration": 600,
+ "catalyst": "wormholetech:quantum_circuit",
+ "input-types": {
+  "t": {
+   "id": "wormholetech:titanium_block",
+   "meta": 0
+  },
+  "h": {
+   "id": "minecraft:hopper",
+   "ignore-meta": true
+  },
+  "f": {
+   "id": "wormholetech:prysmian_logic_frame",
+   "meta": 0
+  },
+  "n": {
+   "id": "wormholetech:neutronium_superconductor",
+   "meta": 0
+  },
+  "p": {
+   "id": "minecraft:sticky_piston",
+   "ignore-meta": true
+  }
+ },
+ "symmetrical": false,
+ "shape": [
+  [
+   [
+    "t",
+    "t",
+    "t",
+    "t",
+    "t"
+   ],
+   [
+    "t",
+    "t",
+    "t",
+    "t",
+    "t"
+   ],
+   [
+    "t",
+    "t",
+    "t",
+    "t",
+    "t"
+   ],
+   [
+    "t",
+    "t",
+    "t",
+    "t",
+    "t"
+   ],
+   [
+    "t",
+    "t",
+    "t",
+    "t",
+    "t"
+   ]
+  ],
+  [
+   [
+    "t",
+    "t",
+    "t",
+    "t",
+    "t"
+   ],
+   [
+    "t",
+    "h",
+    "f",
+    "h",
+    "t"
+   ],
+   [
+    "t",
+    "h",
+    "p",
+    "h",
+    "t"
+   ],
+   [
+    "t",
+    "h",
+    "f",
+    "h",
+    "t"
+   ],
+   [
+    "t",
+    "t",
+    "t",
+    "t",
+    "t"
+   ]
+  ],
+  [
+   [
+    "t",
+    "t",
+    "t",
+    "t",
+    "t"
+   ],
+   [
+    "t",
+    "t",
+    "t",
+    "t",
+    "t"
+   ],
+   [
+    "t",
+    "t",
+    "n",
+    "t",
+    "t"
+   ],
+   [
+    "t",
+    "t",
+    "t",
+    "t",
+    "t"
+   ],
+   [
+    "t",
+    "t",
+    "t",
+    "t",
+    "t"
+   ]
+  ],
+  [
+   [
+    "t",
+    "t",
+    "t",
+    "t",
+    "t"
+   ],
+   [
+    "t",
+    "t",
+    "t",
+    "t",
+    "t"
+   ],
+   [
+    "t",
+    "t",
+    "t",
+    "t",
+    "t"
+   ],
+   [
+    "t",
+    "t",
+    "t",
+    "t",
+    "t"
+   ],
+   [
+    "t",
+    "t",
+    "t",
+    "t",
+    "t"
+   ]
+  ],
+  [
+   [
+    "t",
+    "t",
+    "t",
+    "t",
+    "t"
+   ],
+   [
+    "t",
+    "t",
+    "t",
+    "t",
+    "t"
+   ],
+   [
+    "t",
+    "t",
+    "t",
+    "t",
+    "t"
+   ],
+   [
+    "t",
+    "t",
+    "t",
+    "t",
+    "t"
+   ],
+   [
+    "t",
+    "t",
+    "t",
+    "t",
+    "t"
+   ]
+  ]
+ ]
+}

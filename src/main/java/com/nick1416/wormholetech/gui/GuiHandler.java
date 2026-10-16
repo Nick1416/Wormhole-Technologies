@@ -41,6 +41,9 @@ public class GuiHandler implements IGuiHandler {
         if (te instanceof com.nick1416.wormholetech.tile.DialingComputerTileEntity) {
             return new ContainerDialingComputer(player.inventory, (com.nick1416.wormholetech.tile.DialingComputerTileEntity) te);
         }
+        if (te instanceof com.nick1416.wormholetech.factory.MiniatureFactoryTileEntity) {
+            return new com.nick1416.wormholetech.factory.ContainerMiniatureFactory(player.inventory, (com.nick1416.wormholetech.factory.MiniatureFactoryTileEntity) te);
+        }
         if (te instanceof GeneratorTileEntity) {
             return new ContainerEnergyConverter(player.inventory, (GeneratorTileEntity) te);
         }
@@ -55,6 +58,8 @@ public class GuiHandler implements IGuiHandler {
     @SideOnly(Side.CLIENT)
     private Object getClientGui(int id, EntityPlayer player, World world, int x, int y, int z) {
         TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
+        if (te instanceof com.nick1416.wormholetech.factory.MiniatureFactoryTileEntity)
+            return new com.nick1416.wormholetech.factory.GuiMiniatureFactory(player.inventory, (com.nick1416.wormholetech.factory.MiniatureFactoryTileEntity) te);
         if (id == WormholeTech.GUI_RELATIVISTIC_COMPUTER || te instanceof RelativisticComputerTileEntity) {
             if (te instanceof RelativisticComputerTileEntity) {
                 return new GuiRelativisticComputer(player.inventory, (RelativisticComputerTileEntity) te);

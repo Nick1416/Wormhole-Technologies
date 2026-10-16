@@ -49,13 +49,45 @@ public final class CompactMachinesCompat {
 
     private static final Logger LOG = LogManager.getLogger(WormholeTech.MODID);
     private static final String RECIPE_DIR = "/assets/" + WormholeTech.MODID + "/compactmachines3/recipes/";
-    private static final String[] RECIPES = { "quantum_circuit.json" };
+    private static final String[] RECIPES = { "quantum_circuit.json", "miniature_factory.json" };
     private static final String VARIANTS_KEY = "wormholetech:state-variants";
 
     /** CM3 recipe objects registered only to accept alternate power states; hidden from JEI. */
     private static final List<Object> HIDDEN_VARIANTS = new ArrayList<Object>();
 
     private CompactMachinesCompat() {}
+
+    /** Every CM3 miniaturization recipe except our hidden power-state duplicates; empty without CM3. */
+    @SuppressWarnings("unchecked")
+    public static List<Object> fieldRecipes() {
+        if (!Loader.isModLoaded(MODID)) return Collections.emptyList();
+        try {
+            List<Object> all = (List<Object>) Class.forName("org.dave.compactmachines3.miniaturization.MultiblockRecipes").getMethod("getRecipes").invoke(null);
+            List<Object> out = new ArrayList<Object>();
+            for (Object r : all) {
+                boolean hidden = false;
+                for (Object h : HIDDEN_VARIANTS) if (h == r) { hidden = true; break; }
+                if (!hidden) out.add(r);
+            }
+            return out;
+        } catch (Throwable t) { return Collections.emptyList(); }
+    }
+
+    /** Blocks (as item stacks with counts) a field recipe needs. */
+    @SuppressWarnings("unchecked")
+    public static List<net.minecraft.item.ItemStack> required(Object recipe) {
+        try { return (List<net.minecraft.item.ItemStack>) recipe.getClass().getMethod("getRequiredItemStacks").invoke(recipe); }
+        catch (Throwable t) { return Collections.emptyList(); }
+    }
+
+    public static net.minecraft.item.ItemStack target(Object recipe) {
+        try { return ((net.minecraft.item.ItemStack) recipe.getClass().getMethod("getTargetStack").invoke(recipe)).copy(); }
+        catch (Throwable t) { return net.minecraft.item.ItemStack.EMPTY; }
+    }
+
+    public static int ticks(Object recipe) {
+        try { return (Integer) recipe.getClass().getMethod("getTicks").invoke(recipe); } catch (Throwable t) { return 200; }
+    }
 
     public static List<Object> getHiddenVariants() {
         return Collections.unmodifiableList(HIDDEN_VARIANTS);

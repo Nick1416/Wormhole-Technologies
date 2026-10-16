@@ -57,7 +57,7 @@ public class TooltipHandler {
             "naquadric_stone",
             "ashen_regolith",
             "naquadah_crystal",
-            "ancient_stone", "xenolith_ore", "raw_xenolith", "inactive_xenolith_drone", "xenolith_chip", "titanium_ore", "moon_regolith", "neutronium_ore", "neutronium_ingot", "neutronium_superconductor"
+            "ancient_stone", "xenolith_ore", "raw_xenolith", "inactive_xenolith_drone", "xenolith_chip", "titanium_ore", "moon_regolith", "neutronium_ore", "neutronium_ingot", "neutronium_superconductor", "miniature_factory"
     ));
 
     @SubscribeEvent
