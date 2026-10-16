@@ -57,6 +57,7 @@ public class ChunkGeneratorSelVora extends ChunkGeneratorOverworld {
                 s -> s != null && (s.getBlock() == Blocks.STONE || s.getBlock() == Registration.MOON_REGOLITH));
         for (int i = 0; i < NEUTRONIUM_VEINS; i++)  // as common as Overworld iron: 20 veins of 9
             nVein.generate(world, r, new BlockPos((x << 4) + r.nextInt(16), 4 + r.nextInt(64), (z << 4) + r.nextInt(16)));
+        SelVoraBarrens.populate(world, x, z, r);
         SelVoraOutposts.populate(world, x, z);
     }
 
