@@ -25,7 +25,7 @@ public final class GateNetwork {
     public static final int TAL_VORA = 3;
     /** Tal'Vora's moon, next to it in the inset; unlocked by Repository research (> 50% of Tal'Vora). */
     public static final int SEL_VORA = 4;
-    /** Elyndra: alone in the Primeval Expanse; unlocked by P3X-1416 research (> 50%). */
+    /** Elyndra: a lone far-away point outside every galaxy; unlocked by P3X-1416 research (>= 50%). */
     public static final int ELYNDRA = 5;
     public static final ResourceLocation ELYNDRA_ADVANCEMENT = new ResourceLocation(WormholeTech.MODID, "leap_of_faith");
     public static final ResourceLocation SEL_VORA_ADVANCEMENT = new ResourceLocation(WormholeTech.MODID, "sel_vora");
@@ -33,8 +33,10 @@ public final class GateNetwork {
     /** Marker positions on their own galaxy's map (0..1 of the map area). */
     public static final float[][] MAP_POS = { { 0.64F, 0.36F }, { 0.31F, 0.68F }, { 0.80F, 0.66F }, { 0.58F, 0.47F }, { 0.75F, 0.31F }, { 0.52F, 0.50F } };
     /** Galaxies on the universe view: 0 = Milky Way, 1 = Altra Galaxy (see ModDimensions.galaxy). */
-    public static final int GALAXIES = 3;
-    public static final float[][] GALAXY_POS = { { 0.33F, 0.62F }, { 0.72F, 0.30F }, { 0.86F, 0.82F } };
+    public static final int GALAXIES = 2; // Elyndra lies outside every galaxy: a lone point (FAR_POS)
+    public static final float[][] GALAXY_POS = { { 0.33F, 0.62F }, { 0.72F, 0.30F } };
+    /** Elyndra on the universe map: a single far-away point in the corner. */
+    public static final float[] FAR_POS = { 0.90F, 0.86F };
 
     /** Galaxy of marker i (single source of truth: ModDimensions.galaxy, as used by the Modulator rule). */
     public static int galaxy(int i) { return ModDimensions.galaxy(dimension(i)); }

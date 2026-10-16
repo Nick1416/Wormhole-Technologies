@@ -111,7 +111,7 @@ public final class ModDimensions {
     public static boolean isNeutroniumWorld(int dim) { return isSelVoraRegistered() && dim == selVoraId(); }
 
     /** Worlds reached through a gate, with a return gate (Elyndra has none: it is one-way). */
-    /** Galaxy of a dimension: 2 = Primeval Expanse (Elyndra), 1 = Altra Galaxy (Tal'Vora, Sel'Vora), 0 = Milky Way (everything else). */
+    /** Galaxy of a dimension: 2 = outside every galaxy (Elyndra), 1 = Altra Galaxy (Tal'Vora, Sel'Vora), 0 = Milky Way (everything else). */
     public static int galaxy(int dim) {
         if (isElyndra(dim)) return 2;
         return (isTalVoraRegistered() && dim == talVoraId()) || (isSelVoraRegistered() && dim == selVoraId()) ? 1 : 0;
