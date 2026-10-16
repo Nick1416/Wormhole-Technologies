@@ -216,6 +216,8 @@ public class Registration {
     public static final Block MINIATURE_FACTORY = new com.nick1416.wormholetech.factory.MiniatureFactoryBlock()
             .setRegistryName(WormholeTech.MODID, "miniature_factory").setUnlocalizedName(WormholeTech.MODID + ".miniature_factory");
     public static final Item ITEM_MINIATURE_FACTORY = new ItemBlock(MINIATURE_FACTORY).setRegistryName(MINIATURE_FACTORY.getRegistryName());
+    public static final net.minecraft.world.biome.Biome UTOPIS_BIOME =
+            new com.nick1416.wormholetech.utopis.BiomeUtopis().setRegistryName(WormholeTech.MODID, "utopis_city");
     public static final net.minecraft.world.biome.Biome ELYNDRA_BIOME =
             new com.nick1416.wormholetech.elyndra.BiomeElyndra().setRegistryName(WormholeTech.MODID, "elyndra_wilds");
     public static final net.minecraft.world.biome.Biome SEL_VORA_BIOME =
@@ -422,6 +424,9 @@ public class Registration {
         e.getRegistry().register(TAL_VORA_BIOME);
         e.getRegistry().register(SEL_VORA_BIOME);
         e.getRegistry().register(ELYNDRA_BIOME);
+        e.getRegistry().register(UTOPIS_BIOME);
+        net.minecraftforge.common.BiomeDictionary.addTypes(UTOPIS_BIOME, net.minecraftforge.common.BiomeDictionary.Type.WASTELAND,
+                net.minecraftforge.common.BiomeDictionary.Type.DEAD);
         net.minecraftforge.common.BiomeDictionary.addTypes(ELYNDRA_BIOME, net.minecraftforge.common.BiomeDictionary.Type.FOREST,
                 net.minecraftforge.common.BiomeDictionary.Type.MAGICAL);
         net.minecraftforge.common.BiomeDictionary.addTypes(SEL_VORA_BIOME, net.minecraftforge.common.BiomeDictionary.Type.COLD,

@@ -60,6 +60,8 @@ public class EntityEmeraldWisp extends EntityFlying implements IMob {
 
     @Override
     public boolean getCanSpawnHere() {
+        if (world.getDifficulty() != EnumDifficulty.PEACEFUL && com.nick1416.wormholetech.world.ModDimensions.isUtopis(world.provider.getDimension()))
+            return world.getCollisionBoxes(this, getEntityBoundingBox()).isEmpty();
         return world.getDifficulty() != EnumDifficulty.PEACEFUL && DerelictSpawner.isDerelict(world)
                 && DerelictSpawner.canSpawnAt(posX, posY, posZ, height) && world.getCollisionBoxes(this, getEntityBoundingBox()).isEmpty() && !world.containsAnyLiquid(getEntityBoundingBox());
     }

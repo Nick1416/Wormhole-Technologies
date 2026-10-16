@@ -15,7 +15,15 @@ import java.util.Random;
 
 /** Sel'Vora sky: black, dense with stars, and Tal'Vora hanging huge and red above the horizon. */
 public class SelVoraSkyRenderer extends IRenderHandler {
-    private static final ResourceLocation PLANET = new ResourceLocation(WormholeTech.MODID, "textures/environment/tal_vora_planet.png");
+    private final ResourceLocation planet;
+    private final float size, yaw, pitch;
+
+    public SelVoraSkyRenderer() { this(new ResourceLocation(WormholeTech.MODID, "textures/environment/tal_vora_planet.png"), 9.5F, -20F, 55F); }
+
+    /** Same starfield with a different body fixed in the sky (Utopis uses it for the black hole). */
+    public SelVoraSkyRenderer(ResourceLocation planet, float size, float yaw, float pitch) {
+        this.planet = planet; this.size = size; this.yaw = yaw; this.pitch = pitch;
+    }
     private static final int STARS = 2200;
     private float[] stars;
 
@@ -65,10 +73,10 @@ public class SelVoraSkyRenderer extends IRenderHandler {
         GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         GlStateManager.pushMatrix();
         GlStateManager.color(1F, 1F, 1F, 1F);
-        GlStateManager.rotate(-20F, 0F, 1F, 0F);
-        GlStateManager.rotate(55F, 1F, 0F, 0F);
-        mc.getTextureManager().bindTexture(PLANET);
-        float s = 9.5F; // half-size of the Tal'Vora quad at distance 100 (~11 deg across)
+        GlStateManager.rotate(yaw, 0F, 1F, 0F);
+        GlStateManager.rotate(pitch, 1F, 0F, 0F);
+        mc.getTextureManager().bindTexture(planet);
+        float s = size; // half-size of the Tal'Vora quad at distance 100 (~11 deg across)
         b.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
         b.pos(-s, 100D, -s).tex(0D, 0D).endVertex();
         b.pos(s, 100D, -s).tex(1D, 0D).endVertex();

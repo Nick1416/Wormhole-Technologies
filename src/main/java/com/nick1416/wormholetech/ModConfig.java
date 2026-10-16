@@ -60,6 +60,9 @@ public final class ModConfig {
     public static int talVoraVillageChance = 70;
     public static int selVoraDimensionId = -1419;
     public static int elyndraDimensionId = -1420;
+    public static int utopisDimensionId = -1421;
+    public static float utopisGravity = 1.4F;
+    public static float utopisFallDamageMultiplier = 1.5F;
     public static double selVoraGravity = 0.85D;
     public static double selVoraFallDamageMultiplier = 0.6D;
     public static int selVoraOutpostRegionChunks = 20;
@@ -207,6 +210,10 @@ public final class ModConfig {
                 "Percent chance that a Tal'Vora region holds an alien village (0 = none)", 0, 100);
         if (vc.getInt() == 50 || vc.getInt() == 65) vc.set(70); // migrate the old default
         talVoraVillageChance = Math.max(0, Math.min(100, vc.getInt()));
+        utopisDimensionId = cfg.getInt("utopisDimensionId", sg, -1421, Integer.MIN_VALUE, Integer.MAX_VALUE,
+                "Dimension ID of Utopis, the forbidden city world. Keep it stable; must not clash with another mod");
+        utopisGravity = cfg.getFloat("utopisGravity", sg, 1.4F, 1.0F, 2.0F, "Gravity on Utopis relative to normal (1.4 = lower jumps, faster falls)");
+        utopisFallDamageMultiplier = cfg.getFloat("utopisFallDamageMultiplier", sg, 1.5F, 1.0F, 3.0F, "Fall damage multiplier on Utopis");
         elyndraDimensionId = cfg.getInt("elyndraDimensionId", sg, -1420, Integer.MIN_VALUE, Integer.MAX_VALUE,
                 "Dimension ID of Elyndra, the far-away home world of the gate builders. Keep it stable; must not clash with another mod");
         selVoraDimensionId = cfg.getInt("selVoraDimensionId", sg, -1419, Integer.MIN_VALUE, Integer.MAX_VALUE,
