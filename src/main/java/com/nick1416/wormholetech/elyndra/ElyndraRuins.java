@@ -28,7 +28,7 @@ public final class ElyndraRuins {
         if (cx == (SHRINE_X - 8) >> 4 && cz == (SHRINE_Z - 8) >> 4) { shrine(w, SHRINE_X, SHRINE_Z); return; }
         if (nearArrival) return;
         int roll = r.nextInt(100);
-        if (roll < 14) plaza(w, ox, oz, r);
+        if (roll < 14) { if (r.nextInt(5) < 2) temple(w, ox, oz, r); else plaza(w, ox, oz, r); } // ~40% of temples stand intact
         else if (roll < 22) ship(w, ox, oz, r);
         else if (roll < 23) shrine(w, ox, oz);
         if (r.nextInt(9) == 0) island(w, ox, oz, r);
@@ -59,6 +59,55 @@ public final class ElyndraRuins {
     private static int surface(World w, int x, int z) { return w.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY() - 1; }
 
     private static void set(World w, BlockPos p, IBlockState s) { w.setBlockState(p, s, FLAGS); }
+
+    /** An intact temple: quartz hall with glowstone inlays, gold accents, a fountain and a flower garden around it. */
+    private static void temple(World w, int x0, int z0, Random r) {
+        int y = surface(w, x0, z0);
+        if (w.getBlockState(new BlockPos(x0, y, z0)).getMaterial().isLiquid()) return;
+        IBlockState quartz = Blocks.QUARTZ_BLOCK.getDefaultState(), glow = Blocks.GLOWSTONE.getDefaultState(), gold = Blocks.GOLD_BLOCK.getDefaultState();
+        IBlockState chisel = quartz.withProperty(BlockQuartz.VARIANT, BlockQuartz.EnumType.CHISELED);
+        IBlockState pillar = quartz.withProperty(BlockQuartz.VARIANT, BlockQuartz.EnumType.LINES_Y);
+        IBlockState slab = Blocks.STONE_SLAB.getDefaultState().withProperty(net.minecraft.block.BlockStoneSlab.VARIANT, net.minecraft.block.BlockStoneSlab.EnumType.QUARTZ);
+        IBlockState air = Blocks.AIR.getDefaultState(), water = Blocks.WATER.getDefaultState();
+        for (int dx = -7; dx <= 7; dx++)
+            for (int dz = -7; dz <= 7; dz++) {
+                BlockPos p = new BlockPos(x0 + dx, y, z0 + dz);
+                for (int k = 1; k <= 9; k++) set(w, p.up(k), air);
+                for (int k = 1; k <= 4; k++) if (!w.getBlockState(p.down(k)).getMaterial().isSolid()) set(w, p.down(k), Blocks.STONE.getDefaultState());
+                int m = Math.max(Math.abs(dx), Math.abs(dz));
+                if (m >= 6) { // garden
+                    set(w, p, Blocks.GRASS.getDefaultState());
+                    if ((dx == -7 || dx == 7) && (dz == -7 || dz == 7)) { set(w, p.up(), Blocks.LEAVES.getDefaultState()
+                            .withProperty(net.minecraft.block.BlockLeaves.DECAYABLE, false).withProperty(net.minecraft.block.BlockLeaves.CHECK_DECAY, false)); continue; }
+                    if (m == 6 && (dx == 0 || dz == 0)) continue; // garden paths
+                    set(w, p.up(), r.nextInt(3) == 0 ? Blocks.YELLOW_FLOWER.getDefaultState() : Blocks.RED_FLOWER.getStateFromMeta(r.nextInt(9)));
+                    continue;
+                }
+                boolean inlay = dx == 0 || dz == 0 || Math.abs(dx) == Math.abs(dz);
+                set(w, p, m == 5 ? chisel : inlay && m > 2 ? glow : quartz);
+                if (m == 5) set(w, p.up(6), slab);                            // roof rim
+                else if (m == 4) set(w, p.up(6), slab);
+                else if (m == 3) set(w, p.up(6), (dx + dz & 1) == 0 ? glow : slab);
+            }
+        int[][] pillars = { { 5, 5 }, { -5, 5 }, { 5, -5 }, { -5, -5 }, { 5, 0 }, { -5, 0 }, { 0, 5 }, { 0, -5 }, { 5, 2 }, { 5, -2 }, { -5, 2 }, { -5, -2 }, { 2, 5 }, { -2, 5 }, { 2, -5 }, { -2, -5 } };
+        for (int[] c : pillars) {
+            boolean door = c[0] == 0 || c[1] == 0;
+            if (door) { set(w, new BlockPos(x0 + c[0], y + 5, z0 + c[1]), gold); continue; } // gilded lintel over the entrances
+            set(w, new BlockPos(x0 + c[0], y + 1, z0 + c[1]), gold);
+            for (int k = 2; k <= 4; k++) set(w, new BlockPos(x0 + c[0], y + k, z0 + c[1]), pillar);
+            set(w, new BlockPos(x0 + c[0], y + 5, z0 + c[1]), chisel);
+        }
+        // fountain: 5x5 basin, a spout pillar pouring into it
+        for (int dx = -2; dx <= 2; dx++)
+            for (int dz = -2; dz <= 2; dz++) {
+                BlockPos p = new BlockPos(x0 + dx, y + 1, z0 + dz);
+                if (Math.abs(dx) == 2 || Math.abs(dz) == 2) set(w, p, slab);
+                else { set(w, p.down(), quartz); w.setBlockState(p, water, 3); }
+            }
+        for (int k = 1; k <= 3; k++) set(w, new BlockPos(x0, y + k, z0), k == 3 ? chisel : pillar);
+        w.setBlockState(new BlockPos(x0, y + 4, z0), water, 3);
+        if (r.nextInt(3) == 0) set(w, new BlockPos(x0 + 4, y + 1, z0 + 4), Registration.NAQUADAH_CRYSTAL.getDefaultState());
+    }
 
     /** A worn plaza of glowstone and quartz tiles, a few tiles missing, with broken pillars. */
     private static void plaza(World w, int x0, int z0, Random r) {
@@ -126,7 +175,7 @@ public final class ElyndraRuins {
                 for (int k = 0; k < depth; k++) {
                     BlockPos p = new BlockPos(x0 + dx, y0 - k, z0 + dz);
                     IBlockState s = k == 0 ? Blocks.GRASS.getDefaultState() : k < 3 ? Blocks.DIRT.getDefaultState()
-                            : r.nextInt(14) == 0 ? Registration.NATURAL_NAQUADAH_ORE.getDefaultState()
+                            : r.nextInt(14) == 0 ? Registration.ELYNDRA_NAQUADAH_ORE.getDefaultState()
                             : r.nextInt(30) == 0 ? Blocks.DIAMOND_ORE.getDefaultState() : Blocks.STONE.getDefaultState();
                     set(w, p, s);
                 }

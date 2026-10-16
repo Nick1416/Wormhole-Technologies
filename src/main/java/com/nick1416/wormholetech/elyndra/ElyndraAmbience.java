@@ -18,6 +18,7 @@ import java.util.Random;
 @Mod.EventBusSubscriber(value = Side.CLIENT, modid = com.nick1416.wormholetech.WormholeTech.MODID)
 public final class ElyndraAmbience {
     private static final Random R = new Random();
+    private static final float[][] BUTTERFLY = { { 1.0F, 0.55F, 0.1F }, { 0.3F, 0.6F, 1.0F }, { 1.0F, 0.95F, 0.3F }, { 0.95F, 0.4F, 0.9F }, { 1.0F, 1.0F, 1.0F } };
 
     private ElyndraAmbience() {}
 
@@ -37,7 +38,14 @@ public final class ElyndraAmbience {
             else if (R.nextInt(3) == 0)
                 mc.world.spawnParticle(EnumParticleTypes.END_ROD, x, y, z, (R.nextDouble() - 0.5) * 0.01, 0.005, (R.nextDouble() - 0.5) * 0.01);
         }
-        if (!night && R.nextInt(400) == 0)
+        if (!night) for (int i = 0; i < 2; i++) { // butterflies: bright flecks fluttering just above the ground
+            double x = p.posX + (R.nextDouble() - 0.5) * 24, z = p.posZ + (R.nextDouble() - 0.5) * 24;
+            BlockPos g = mc.world.getHeight(new BlockPos(x, 0, z));
+            if (Math.abs(g.getY() - p.posY) > 12) continue;
+            float[] c = BUTTERFLY[R.nextInt(BUTTERFLY.length)];
+            mc.world.spawnParticle(EnumParticleTypes.REDSTONE, x, g.getY() + 0.4 + R.nextDouble() * 1.5, z, c[0], c[1], c[2]);
+        }
+        if (!night && R.nextInt(160) == 0)
             mc.world.playSound(p.posX + (R.nextDouble() - 0.5) * 24, p.posY + 6, p.posZ + (R.nextDouble() - 0.5) * 24,
                     SoundEvents.ENTITY_PARROT_AMBIENT, SoundCategory.AMBIENT, 0.4F, 1.2F + R.nextFloat() * 0.4F, false);
     }

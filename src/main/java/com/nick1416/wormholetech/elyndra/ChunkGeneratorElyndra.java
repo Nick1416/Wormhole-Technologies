@@ -26,7 +26,7 @@ public class ChunkGeneratorElyndra extends ChunkGeneratorOverworld {
     public void populate(int x, int z) {
         super.populate(x, z);
         Random r = new Random(world.getSeed() ^ (x * 341873128712L + z * 132897987541L) ^ 0xE1D7A0L);
-        WorldGenMinable naq = new WorldGenMinable(Registration.NATURAL_NAQUADAH_ORE.getDefaultState(), 8);
+        WorldGenMinable naq = new WorldGenMinable(Registration.ELYNDRA_NAQUADAH_ORE.getDefaultState(), 8);
         for (int i = 0; i < NAQUADAH_VEINS; i++)
             naq.generate(world, r, new BlockPos((x << 4) + r.nextInt(16), 5 + r.nextInt(66), (z << 4) + r.nextInt(16)));
         WorldGenMinable dia = new WorldGenMinable(Blocks.DIAMOND_ORE.getDefaultState(), 8);
