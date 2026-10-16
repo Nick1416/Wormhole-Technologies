@@ -63,6 +63,7 @@ public final class ModConfig {
     public static double selVoraFallDamageMultiplier = 0.6D;
     public static int selVoraOutpostRegionChunks = 20;
     public static int selVoraOutpostChance = 75;
+    public static int miniatureFactoryRfPerTick = 10000;
     public static int regolithCrawlerSpawnWeight = 30;
     public static int derelictModulatorRoomChance = 384;
     public static int derelictRoomChance = 7;
@@ -213,6 +214,8 @@ public final class ModConfig {
                 "Fall damage multiplier on Sel'Vora");
         selVoraOutpostRegionChunks = cfg.getInt("selVoraOutpostRegionChunks", sg, 20, 6, 1000,
                 "Sel'Vora is split into square regions of this many chunks; each may hold one Vorani research outpost");
+        miniatureFactoryRfPerTick = cfg.getInt("miniatureFactoryRfPerTick", sg, 10000, 0, 1000000,
+                "RF per tick the Miniature Factory uses while crafting.");
         selVoraOutpostChance = cfg.getInt("selVoraOutpostChance", sg, 75, 0, 100,
                 "Percent chance that a Sel'Vora region holds a research outpost (0 = none)");
         regolithCrawlerSpawnWeight = cfg.getInt("regolithCrawlerSpawnWeight", sg, 30, 0, 1000,

@@ -55,6 +55,8 @@ public class WormholeTech {
                 new net.minecraft.util.ResourceLocation(MODID, "miner_drone"));
         GameRegistry.registerTileEntity(com.nick1416.wormholetech.moon.NeutroniumReactorBlock.Tile.class,
                 new ResourceLocation(MODID, "neutronium_reactor"));
+        GameRegistry.registerTileEntity(com.nick1416.wormholetech.factory.MiniatureFactoryTileEntity.class,
+                new ResourceLocation(MODID, "miniature_factory"));
         GameRegistry.registerTileEntity(GeneratorTileEntity.class,
                 new ResourceLocation(MODID, "rf_generator"));
 
@@ -168,6 +170,7 @@ public class WormholeTech {
     public static final int GUI_HIGH_ENERGY_REFINER = 3;
     public static final int GUI_ENERGY_CONVERTER = 4;
     public static final int GUI_DIALING_COMPUTER = 5;
+    public static final int GUI_MINIATURE_FACTORY = 6;
 
     @Mod.EventHandler
     public void serverStarting(net.minecraftforge.fml.common.event.FMLServerStartingEvent e) {

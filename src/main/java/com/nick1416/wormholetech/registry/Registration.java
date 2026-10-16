@@ -213,6 +213,9 @@ public class Registration {
     public static final Item NEUTRONIUM_SUPERCONDUCTOR = new ItemBlock(NEUTRONIUM_SUPERCONDUCTOR_BLOCK).setRegistryName(NEUTRONIUM_SUPERCONDUCTOR_BLOCK.getRegistryName());
     public static final Block NEUTRONIUM_REACTOR = new com.nick1416.wormholetech.moon.NeutroniumReactorBlock()
             .setRegistryName(WormholeTech.MODID, "neutronium_reactor").setUnlocalizedName(WormholeTech.MODID + ".neutronium_reactor");
+    public static final Block MINIATURE_FACTORY = new com.nick1416.wormholetech.factory.MiniatureFactoryBlock()
+            .setRegistryName(WormholeTech.MODID, "miniature_factory").setUnlocalizedName(WormholeTech.MODID + ".miniature_factory");
+    public static final Item ITEM_MINIATURE_FACTORY = new ItemBlock(MINIATURE_FACTORY).setRegistryName(MINIATURE_FACTORY.getRegistryName());
     public static final net.minecraft.world.biome.Biome SEL_VORA_BIOME =
             new com.nick1416.wormholetech.moon.BiomeSelVora().setRegistryName(WormholeTech.MODID, "sel_vora_highlands");
 
@@ -500,6 +503,7 @@ public class Registration {
         NEUTRONIUM_ORE.setCreativeTab(b);
         NEUTRONIUM_INGOT.setCreativeTab(m);
         NEUTRONIUM_SUPERCONDUCTOR_BLOCK.setCreativeTab(b);
+        MINIATURE_FACTORY.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
         for (Block blk : new Block[]{HULL_PLATING, HULL_BULKHEAD, HULL_LAMP, HULL_LAMP_GOLD, HULL_WINDOW, MODULATOR_CRADLE, XENOLITH, XENOLITH_TILES, XENO_LAMP}) blk.setCreativeTab(b);
         QUANTUM_FIELD_MODULATOR.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
         DERELICT_COORDINATES.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
@@ -541,7 +545,7 @@ public class Registration {
                 REINFORCED_GATE_FRAME,
                 HULL_PLATING, HULL_BULKHEAD, HULL_LAMP, HULL_LAMP_GOLD, HULL_WINDOW, MODULATOR_CRADLE, QUANTUM_FIELD_MODULATOR, VORANI_MODULATOR, XENOLITH, XENOLITH_TILES, XENO_LAMP, XENOLITH_ORE, MINER_DRONE, REPOSITORY,
                 TITANIUM_BLOCK,
-                MOON_REGOLITH, TITANIUM_ORE, RESEARCH_CONSOLE, NEUTRONIUM_ORE, NEUTRONIUM_REACTOR, NEUTRONIUM_SUPERCONDUCTOR_BLOCK,
+                MOON_REGOLITH, TITANIUM_ORE, RESEARCH_CONSOLE, NEUTRONIUM_ORE, NEUTRONIUM_REACTOR, NEUTRONIUM_SUPERCONDUCTOR_BLOCK, MINIATURE_FACTORY,
                 NATURAL_NAQUADAH_ORE,
                 PRYSMIAN_ORE,
                 NAQUADRIC_STONE,
@@ -609,7 +613,7 @@ public class Registration {
                 INTERGALACTIC_COORDINATES,
                 NANITE_CORE,
                 ITEM_TITANIUM_BLOCK,
-                ITEM_MOON_REGOLITH, ITEM_TITANIUM_ORE, ITEM_NEUTRONIUM_ORE, NEUTRONIUM_INGOT, NEUTRONIUM_SUPERCONDUCTOR,
+                ITEM_MOON_REGOLITH, ITEM_TITANIUM_ORE, ITEM_NEUTRONIUM_ORE, NEUTRONIUM_INGOT, NEUTRONIUM_SUPERCONDUCTOR, ITEM_MINIATURE_FACTORY,
                 TITANIUM_INGOT,
                 GATE_LOCATOR,
                 ITEM_NATURAL_NAQUADAH_ORE,

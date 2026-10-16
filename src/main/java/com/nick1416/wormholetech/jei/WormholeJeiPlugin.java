@@ -58,6 +58,9 @@ public class WormholeJeiPlugin implements IModPlugin {
         registry.handleRecipes(HighEnergyRefineRecipe.class, HighEnergyRefineWrapper::new, HighEnergyRefineCategory.UID);
         registry.addRecipes(HighEnergyRefineRecipe.createRecipes(), HighEnergyRefineCategory.UID);
         registry.addRecipeCatalyst(new ItemStack(Registration.HIGH_ENERGY_REFINER), HighEnergyRefineCategory.UID);
+        if (net.minecraftforge.fml.common.Loader.isModLoaded(CompactMachinesCompat.MODID))
+            registry.addRecipeCatalyst(new ItemStack(Registration.MINIATURE_FACTORY), CompactMachinesCompat.JEI_CATEGORY);
+        info(registry, Registration.ITEM_MINIATURE_FACTORY, "miniature_factory", 2);
         // Clicking the progress arrow in the refiner GUI opens this category.
         registry.addRecipeClickArea(com.nick1416.wormholetech.gui.GuiHighEnergyRefiner.class, 79, 36, 24, 16,
                 HighEnergyRefineCategory.UID);
