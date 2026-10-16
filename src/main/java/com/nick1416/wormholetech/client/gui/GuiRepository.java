@@ -64,13 +64,14 @@ public class GuiRepository extends GuiScreen {
         for (int[] r : rows) if (mx >= r[1] && mx < r[3] && my >= r[2] && my < r[4]) { info = r[0]; click(); return; }
     }
 
-    private int scroll, maxScroll, scrollFor = -1;
+    private int scroll, maxScroll, scrollFor = -1, listScroll, listMax;
 
     @Override
     public void handleMouseInput() throws java.io.IOException {
         super.handleMouseInput();
         int d = org.lwjgl.input.Mouse.getEventDWheel();
         if (d != 0 && tab == 0 && info >= 0) scroll = Math.max(0, Math.min(maxScroll, scroll + (d > 0 ? -10 : 10)));
+        else if (d != 0 && tab == 0) listScroll = Math.max(0, Math.min(listMax, listScroll + (d > 0 ? -11 : 11)));
     }
 
     private int pct(int planet) {
@@ -175,11 +176,21 @@ public class GuiRepository extends GuiScreen {
             drawInfo(x, ly, inner, bottom, mx, my);
         } else if (tab == 0) {
             String hint = I18n.format("gui.wormholetech.repository.planets_hint");
-            int hintH = Math.min(2, fontRenderer.listFormattedStringToWidth(hint, inner).size()) * 10;
-            int listEnd = bottom - hintH - 4;
+            int hintH = fontRenderer.listFormattedStringToWidth(hint, inner).size() * 10;
+            int listEnd = bottom - hintH - 4, listTop = ly - 2;
             NBTTagCompound pl = data.getCompoundTag("Planets");
             boolean any = false;
-            for (int i = 0; i < Planets.KEYS.length && ly + 16 <= listEnd; i++) {
+            int count = 0;
+            for (String k : Planets.KEYS) if (pl.hasKey(k)) count++;
+            listMax = Math.max(0, count * 22 - (listEnd - listTop) + 2);
+            if (listScroll > listMax) listScroll = listMax;
+            ly -= listScroll;
+            net.minecraft.client.gui.ScaledResolution sr = new net.minecraft.client.gui.ScaledResolution(mc);
+            int sf = sr.getScaleFactor();
+            org.lwjgl.opengl.GL11.glEnable(org.lwjgl.opengl.GL11.GL_SCISSOR_TEST);
+            org.lwjgl.opengl.GL11.glScissor(x * sf, mc.displayHeight - listEnd * sf, W * sf, (listEnd - listTop) * sf);
+            if (listMax > 0) inner -= 6;
+            for (int i = 0; i < Planets.KEYS.length; i++) {
                 String k = Planets.KEYS[i];
                 if (!pl.hasKey(k)) continue;
                 any = true;
@@ -187,7 +198,9 @@ public class GuiRepository extends GuiScreen {
                 String p = pct + "%";
                 int pw = fontRenderer.getStringWidth(p);
                 boolean open = pct >= 50, hov = open && mx >= x + PAD && mx < x + W - PAD && my >= ly - 2 && my < ly + 16;
-                if (open) rows.add(new int[] { i, x + PAD, ly - 2, x + W - PAD, ly + 16 });
+                hov = hov && my >= listTop && my < listEnd;
+                if (open && ly + 16 > listTop && ly - 2 < listEnd)
+                    rows.add(new int[] { i, x + PAD, Math.max(listTop, ly - 2), x + W - PAD, Math.min(listEnd, ly + 16) });
                 if (hov) drawRect(x + PAD - 2, ly - 2, x + W - PAD + 2, ly + 16, 0xFF24323E);
                 fontRenderer.drawString(trim(I18n.format("dimension.wormholetech." + k) + (open ? " >" : ""), inner - pw - 6), x + PAD, ly, open ? (hov ? 0x7FF0E6 : 0xFFFFFF) : 0xAAAAAA);
                 fontRenderer.drawString(p, x + W - PAD - pw, ly, pct >= 100 ? 0x7FFF7F : 0xCCCCCC);
@@ -195,8 +208,16 @@ public class GuiRepository extends GuiScreen {
                 drawRect(x + PAD, ly + 10, x + PAD + inner * pct / 100, ly + 14, 0xFF46C8BE);
                 ly += 22;
             }
+            org.lwjgl.opengl.GL11.glDisable(org.lwjgl.opengl.GL11.GL_SCISSOR_TEST);
+            if (listMax > 0) {
+                int view = listEnd - listTop, content = view + listMax, th = Math.max(10, view * view / content);
+                int sx = x + W - PAD - 3, tp = listTop + (view - th) * listScroll / listMax;
+                drawRect(sx, listTop, sx + 3, listEnd, 0xFF202A34);
+                drawRect(sx, tp, sx + 3, tp + th, 0xFF46C8BE);
+                inner += 6;
+            }
             if (!any) wrap(I18n.format("gui.wormholetech.repository.no_planets"), x + PAD, ly, inner, 2, 0xAAAAAA);
-            wrap(hint, x + PAD, bottom - hintH, inner, 2, 0x888888);
+            wrap(hint, x + PAD, bottom - hintH, inner, 99, 0x888888);
         } else if (tab == 1) {
             NBTTagCompound t = data.getCompoundTag("Tech");
             for (String k : KnowledgeEvents.TECH) {

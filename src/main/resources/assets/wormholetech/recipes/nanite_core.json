@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [ "CEC", "EQE", "CEC" ],
+  "key": {
+    "C": { "item": "wormholetech:nanite_cluster" },
+    "E": { "item": "minecraft:emerald_block" },
+    "Q": { "item": "wormholetech:quantum_circuit" }
+  },
+  "result": { "item": "wormholetech:nanite_core" }
+}

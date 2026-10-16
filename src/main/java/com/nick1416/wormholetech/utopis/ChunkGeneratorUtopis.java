@@ -23,6 +23,10 @@ import java.util.Random;
  */
 public class ChunkGeneratorUtopis implements IChunkGenerator {
     public static final int GROUND = 60, CELL = 32;
+    /** Towers with a guarded modulator lab in the lobby (about 9% of chunks; the vessel has about 3%). */
+    public static final int LAB_PERCENT = 35;
+    public static final net.minecraft.util.ResourceLocation LAB_LOOT = new net.minecraft.util.ResourceLocation(
+            com.nick1416.wormholetech.WormholeTech.MODID, "chests/utopis_lab");
     private final World world;
     private final long seed;
     private static final IBlockState BEDROCK = Blocks.BEDROCK.getDefaultState();
@@ -48,7 +52,8 @@ public class ChunkGeneratorUtopis implements IChunkGenerator {
         int x0 = cx * CELL + inset, z0 = cz * CELL + inset, x1 = cx * CELL + CELL - inset - r.nextInt(3), z1 = cz * CELL + CELL - inset - r.nextInt(3);
         int h = 10 + r.nextInt(r.nextInt(4) == 0 ? 120 : 50);
         int damage = r.nextInt(3) == 0 ? 0 : 5 + r.nextInt(30);
-        return new int[] { x0, z0, x1, z1, Math.min(250 - GROUND, h), damage, r.nextInt(3) };
+        boolean lab = r.nextInt(100) < LAB_PERCENT;
+        return new int[] { x0, z0, x1, z1, Math.min(250 - GROUND, h), damage, r.nextInt(3), lab ? 1 : 0 };
     }
 
     private static int hash(long s, int x, int y, int z) {
@@ -91,8 +96,18 @@ public class ChunkGeneratorUtopis implements IChunkGenerator {
                     if (s != null) p.setBlockState(lx, y, lz, s);
                 }
                 if (broken == top && !edge) p.setBlockState(lx, top, lz, FLOOR); // intact roof
-                if (x == (t[0] + t[2]) / 2 + 1 && z == (t[1] + t[3]) / 2 + 1 && hash(seed, x, 1, z) < 70) // a console in the lobby
+                int mxc = (t[0] + t[2]) / 2, mzc = (t[1] + t[3]) / 2;
+                int off = t[7] == 1 ? 3 : 1;
+                if (x == mxc + off && z == mzc + off && (t[7] == 1 || hash(seed, x, 1, z) < 70)) // a console in the lobby
                     p.setBlockState(lx, GROUND + 1, lz, Registration.UTOPIS_CONSOLE.getDefaultState());
+                if (t[7] == 1 && Math.abs(x - mxc) <= 1 && Math.abs(z - mzc) <= 1) { // modulator cradle, like the vessel's halls
+                    IBlockState cradle = Registration.MODULATOR_CRADLE.getDefaultState();
+                    p.setBlockState(lx, GROUND + 1, lz, cradle);
+                    if (x != mxc && z != mzc) { p.setBlockState(lx, GROUND + 2, lz, cradle); p.setBlockState(lx, GROUND + 3, lz, cradle); }
+                    else { p.setBlockState(lx, GROUND + 2, lz, Blocks.AIR.getDefaultState()); p.setBlockState(lx, GROUND + 3, lz, Blocks.AIR.getDefaultState()); }
+                    if (x == mxc && z == mzc) p.setBlockState(lx, GROUND + 2, lz, Registration.QUANTUM_FIELD_MODULATOR.getDefaultState()
+                            .withProperty(com.nick1416.wormholetech.derelict.QuantumFieldModulatorBlock.LOCKED, true));
+                }
             }
         Chunk c = new Chunk(world, p, chunkX, chunkZ);
         byte[] biomes = c.getBiomeArray();
@@ -102,7 +117,36 @@ public class ChunkGeneratorUtopis implements IChunkGenerator {
         return c;
     }
 
-    @Override public void populate(int x, int z) {}
+    /** Guards and loot for labs whose centre lies in this chunk. */
+    @Override
+    public void populate(int chunkX, int chunkZ) {
+        int bx = chunkX << 4, bz = chunkZ << 4;
+        for (int cx = Math.floorDiv(bx, CELL) - 1; cx <= Math.floorDiv(bx + 15, CELL); cx++)
+            for (int cz = Math.floorDiv(bz, CELL) - 1; cz <= Math.floorDiv(bz + 15, CELL); cz++) {
+                int[] t = tower(cx, cz);
+                if (t == null || t[7] != 1) continue;
+                int mx = (t[0] + t[2]) / 2, mz = (t[1] + t[3]) / 2;
+                if (mx >> 4 != chunkX || mz >> 4 != chunkZ) continue;
+                Random r = new Random(seed ^ (mx * 31L + mz));
+                BlockPos home = new BlockPos(mx, GROUND + 1, mz);
+                com.nick1416.wormholetech.entity.EntityGiantEmeraldSentinel g = new com.nick1416.wormholetech.entity.EntityGiantEmeraldSentinel(world);
+                g.setLocationAndAngles(mx + 3.5, GROUND + 1, mz + 0.5, r.nextFloat() * 360F, 0F);
+                g.setHome(home);
+                g.onInitialSpawn(world.getDifficultyForLocation(home), null);
+                world.spawnEntity(g);
+                for (int i = 0; i < 2; i++) {
+                    EntityEmeraldDroid d = new EntityEmeraldDroid(world);
+                    d.setLocationAndAngles(mx + 0.5 + i, GROUND + 1, mz + 3.5, r.nextFloat() * 360F, 0F);
+                    d.enablePersistence();
+                    d.onInitialSpawn(world.getDifficultyForLocation(home), null);
+                    world.spawnEntity(d);
+                }
+                BlockPos chest = new BlockPos(mx + 2, GROUND + 1, mz + 3); // stay on the +x/+z side: those chunks are loaded during populate
+                world.setBlockState(chest, Blocks.CHEST.getDefaultState(), 2);
+                net.minecraft.tileentity.TileEntity te = world.getTileEntity(chest);
+                if (te instanceof net.minecraft.tileentity.TileEntityChest) ((net.minecraft.tileentity.TileEntityChest) te).setLootTable(LAB_LOOT, r.nextLong());
+            }
+    }
     @Override public boolean generateStructures(Chunk chunkIn, int x, int z) { return false; }
     @Override public List<Biome.SpawnListEntry> getPossibleCreatures(EnumCreatureType type, BlockPos pos) {
         return Registration.UTOPIS_BIOME.getSpawnableList(type);

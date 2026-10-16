@@ -14,6 +14,7 @@ public class BiomeUtopis extends Biome {
         spawnableCaveCreatureList.clear();
         spawnableMonsterList.add(new SpawnListEntry(EntityEmeraldDrone.class, 100, 2, 4));
         spawnableMonsterList.add(new SpawnListEntry(EntityEmeraldWisp.class, 50, 1, 3));
+        spawnableMonsterList.add(new SpawnListEntry(EntityEmeraldDroid.class, 70, 1, 3));
     }
 
     @Override public int getSkyColorByTemp(float t) { return 0x020004; }
