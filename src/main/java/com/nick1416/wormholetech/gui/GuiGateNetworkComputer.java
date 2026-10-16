@@ -32,7 +32,7 @@ public class GuiGateNetworkComputer extends GuiDialingComputer {
     /** -1 = universe view, otherwise the galaxy shown. */
     private int view = -2;
     private static final int GALAXY_ICON = 44;
-    private static final int[] TINT = { 0xFFFFFF, 0xFF8C66 };
+    private static final int[] TINT = { 0xFFFFFF, 0xFF8C66, 0xC8A0FF };
 
     private int markerX(int i) { return MAP_X + Math.round(GateNetwork.MAP_POS[i][0] * MAP_S); }
     private int markerY(int i) { return MAP_Y + Math.round(GateNetwork.MAP_POS[i][1] * MAP_S); }

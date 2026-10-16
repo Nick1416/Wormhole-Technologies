@@ -18,29 +18,32 @@ public final class GateNetwork {
 
     public static final String VISITED_TAG = WormholeTech.MODID + ":visited_gates";
     /** Map destinations, in marker order. */
-    public static final String[] KEYS = { "p3x", "derelict", "home", "tal_vora", "sel_vora" };
+    public static final String[] KEYS = { "p3x", "derelict", "home", "tal_vora", "sel_vora", "elyndra" };
     /** Index of the Overworld home marker: always on the map. */
     public static final int HOME = 2;
     /** Tal'Vora sits in the other-galaxy inset of the map. */
     public static final int TAL_VORA = 3;
     /** Tal'Vora's moon, next to it in the inset; unlocked by Repository research (> 50% of Tal'Vora). */
     public static final int SEL_VORA = 4;
+    /** Elyndra: alone in the Primeval Expanse; unlocked by P3X-1416 research (> 50%). */
+    public static final int ELYNDRA = 5;
+    public static final ResourceLocation ELYNDRA_ADVANCEMENT = new ResourceLocation(WormholeTech.MODID, "leap_of_faith");
     public static final ResourceLocation SEL_VORA_ADVANCEMENT = new ResourceLocation(WormholeTech.MODID, "sel_vora");
     public static final ResourceLocation TAL_VORA_ADVANCEMENT = new ResourceLocation(WormholeTech.MODID, "tal_vora");
     /** Marker positions on their own galaxy's map (0..1 of the map area). */
-    public static final float[][] MAP_POS = { { 0.64F, 0.36F }, { 0.31F, 0.68F }, { 0.80F, 0.66F }, { 0.58F, 0.47F }, { 0.75F, 0.31F } };
+    public static final float[][] MAP_POS = { { 0.64F, 0.36F }, { 0.31F, 0.68F }, { 0.80F, 0.66F }, { 0.58F, 0.47F }, { 0.75F, 0.31F }, { 0.52F, 0.50F } };
     /** Galaxies on the universe view: 0 = Milky Way, 1 = Altra Galaxy (see ModDimensions.galaxy). */
-    public static final int GALAXIES = 2;
-    public static final float[][] GALAXY_POS = { { 0.33F, 0.62F }, { 0.72F, 0.30F } };
+    public static final int GALAXIES = 3;
+    public static final float[][] GALAXY_POS = { { 0.33F, 0.62F }, { 0.72F, 0.30F }, { 0.86F, 0.82F } };
 
     /** Galaxy of marker i (single source of truth: ModDimensions.galaxy, as used by the Modulator rule). */
     public static int galaxy(int i) { return ModDimensions.galaxy(dimension(i)); }
 
     public static int count() { return KEYS.length; }
 
-    public static int dimension(int i) { return i == SEL_VORA ? ModDimensions.selVoraId() : i == TAL_VORA ? ModDimensions.talVoraId() : i == HOME ? 0 : i == 0 ? ModDimensions.id() : ModDimensions.derelictId(); }
+    public static int dimension(int i) { return i == ELYNDRA ? ModDimensions.elyndraId() : i == SEL_VORA ? ModDimensions.selVoraId() : i == TAL_VORA ? ModDimensions.talVoraId() : i == HOME ? 0 : i == 0 ? ModDimensions.id() : ModDimensions.derelictId(); }
 
-    public static boolean registered(int i) { if (i == SEL_VORA) return ModDimensions.isSelVoraRegistered(); if (i == TAL_VORA) return ModDimensions.isTalVoraRegistered(); return i == HOME || (i == 0 ? ModDimensions.isRegistered() : ModDimensions.isDerelictRegistered()); }
+    public static boolean registered(int i) { if (i == ELYNDRA) return ModDimensions.isElyndraRegistered(); if (i == SEL_VORA) return ModDimensions.isSelVoraRegistered(); if (i == TAL_VORA) return ModDimensions.isTalVoraRegistered(); return i == HOME || (i == 0 ? ModDimensions.isRegistered() : ModDimensions.isDerelictRegistered()); }
 
     /** Marker index of the dimension a player is in, or -1. */
     public static int here(int dim) { return indexOf(dim); }
@@ -71,7 +74,13 @@ public final class GateNetwork {
         m |= done(p, StargateTravel.DERELICT_ADVANCEMENT) && registered(1) ? 2 : 0;
         m |= done(p, TAL_VORA_ADVANCEMENT) && registered(TAL_VORA) ? 1 << TAL_VORA : 0;
         m |= (done(p, SEL_VORA_ADVANCEMENT) || moonKnown(p)) && registered(SEL_VORA) ? 1 << SEL_VORA : 0;
+        m |= (done(p, ELYNDRA_ADVANCEMENT) || elyndraKnown(p)) && registered(ELYNDRA) ? 1 << ELYNDRA : 0;
         return m;
+    }
+
+    /** Elyndra's far address is known once the player's P3X-1416 research passes 50%. */
+    public static boolean elyndraKnown(EntityPlayerMP p) {
+        return com.nick1416.wormholetech.knowledge.KnowledgeData.get(p.world).percent(p.getUniqueID(), com.nick1416.wormholetech.knowledge.Planets.P3X) > 50;
     }
 
     /** The moon's address is known once the player's Tal'Vora research passes 50%. */

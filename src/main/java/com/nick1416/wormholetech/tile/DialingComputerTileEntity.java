@@ -32,10 +32,11 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
 
     public static final int STATUS_DISABLED = 0, STATUS_NO_ADDRESS = 1, STATUS_NEED_COMPUTER = 2,
             STATUS_NO_FRAME = 3, STATUS_NEED_POWER = 4, STATUS_READY = 5, STATUS_OPEN = 6, STATUS_NEED_CLOCK = 7,
-            STATUS_NEED_MODULATOR = 8, STATUS_UNREACHABLE = 9, STATUS_HERE = 10;
+            STATUS_NEED_MODULATOR = 8, STATUS_UNREACHABLE = 9, STATUS_HERE = 10,
+            STATUS_NEED_NEUTRONIUM = 11, STATUS_NEED_SUPERCONDUCTORS = 12;
     public static final String[] STATUS_KEYS = {
             "disabled", "no_address", "need_computer", "no_frame", "need_power", "ready", "open", "need_clock",
-            "need_modulator", "unreachable", "here" };
+            "need_modulator", "unreachable", "here", "need_neutronium", "need_superconductors" };
 
     private final Energy energy = new Energy(ModConfig.dialingComputerBuffer, ModConfig.dialingComputerMaxReceive);
     private final ItemStackHandler inv = new ItemStackHandler(1) {
@@ -72,6 +73,7 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
 
     /** A Modulator is needed only when the destination lies in another galaxy than this gate. */
     protected boolean needsModulator() {
+        if (ModDimensions.isElyndra(destination())) return false; // the superconductor arrays replace it
         return ModDimensions.galaxy(destination()) != ModDimensions.galaxy(world.provider.getDimension());
     }
 
@@ -125,7 +127,8 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
     public void evaluate() {
         GateShape found = null;
         int s;
-        if (!TitaniumFrame.available() || (!ModDimensions.isRegistered() && !ModDimensions.isDerelictRegistered() && !ModDimensions.isTalVoraRegistered())) s = STATUS_DISABLED;
+        if (ModDimensions.isElyndra(world.provider.getDimension())) s = STATUS_UNREACHABLE; // nothing answers out here
+        else if (!TitaniumFrame.available() || (!ModDimensions.isRegistered() && !ModDimensions.isDerelictRegistered() && !ModDimensions.isTalVoraRegistered())) s = STATUS_DISABLED;
         else if (!hasAddress()) s = STATUS_NO_ADDRESS;
         else if (!destinationAvailable()) s = STATUS_DISABLED;
         else if (destination() == world.provider.getDimension()) s = STATUS_HERE;
@@ -133,6 +136,8 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
         else if (!adjacentForwardClock()) s = STATUS_NEED_CLOCK;
         else if ((found = findGate()) == null) s = STATUS_NO_FRAME;
         else if (needsModulator() && !modulatorAtGate(found)) s = STATUS_NEED_MODULATOR;
+        else if (ModDimensions.isElyndra(destination()) && !ModDimensions.isNeutroniumWorld(world.provider.getDimension())) s = STATUS_NEED_NEUTRONIUM;
+        else if (ModDimensions.isElyndra(destination()) && !com.nick1416.wormholetech.elyndra.FarGate.arraysPowered(world, found)) s = STATUS_NEED_SUPERCONDUCTORS;
         else if (!open && energy.getEnergyStored() < ModConfig.dialingComputerRfPerTick()) s = STATUS_NEED_POWER;
         else s = open ? STATUS_OPEN : STATUS_READY;
 
@@ -163,7 +168,8 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
         if (status == STATUS_UNREACHABLE) {
             // the far galaxy has no gate to connect to yet
             world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, 0.5F);
-            if (by != null) by.sendStatusMessage(new net.minecraft.util.text.TextComponentTranslation("message.wormholetech.dialing.unreachable"), true);
+            if (by != null) by.sendStatusMessage(new net.minecraft.util.text.TextComponentTranslation(
+                    ModDimensions.isElyndra(world.provider.getDimension()) ? "message.wormholetech.dialing.silent" : "message.wormholetech.dialing.unreachable"), true);
             return;
         }
         if (status != STATUS_READY) return;
@@ -175,6 +181,7 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
         BlockPos c = gate.interior(gate.width / 2, gate.height / 2);
         world.playSound(null, c, SoundEvents.BLOCK_END_PORTAL_FRAME_FILL, SoundCategory.BLOCKS, 1.0F, 0.6F);
         world.playSound(null, c, SoundEvents.BLOCK_PORTAL_TRIGGER, SoundCategory.BLOCKS, 0.5F, 1.4F);
+        if (ModDimensions.isElyndra(destination())) com.nick1416.wormholetech.elyndra.FarGate.ignite((net.minecraft.world.WorldServer) world, gate, pos);
         markDirty();
     }
 

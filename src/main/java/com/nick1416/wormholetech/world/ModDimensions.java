@@ -85,9 +85,35 @@ public final class ModDimensions {
 
     public static int selVoraId() { return ModConfig.selVoraDimensionId; }
 
-    /** Worlds reached through a gate, with a return gate. */
-    /** Galaxy of a dimension: 1 = Altra Galaxy (Tal'Vora, Sel'Vora), 0 = Milky Way (everything else). */
+    public static final String ELYNDRA_NAME = "elyndra";
+    public static DimensionType ELYNDRA;
+
+    /** Elyndra, home world of the gate builders on the far side of the universe (one-way gate trip). */
+    public static void registerElyndra() {
+        if (!ModConfig.stargateEnabled) return;
+        int id = ModConfig.elyndraDimensionId;
+        if (DimensionManager.isDimensionRegistered(id)) {
+            WormholeTech.LOGGER.error("Dimension id {} is already taken; Elyndra is disabled. Change elyndraDimensionId in the config.", id);
+            return;
+        }
+        ELYNDRA = DimensionType.register(ELYNDRA_NAME, "_" + ELYNDRA_NAME, id,
+                com.nick1416.wormholetech.elyndra.WorldProviderElyndra.class, false);
+        DimensionManager.registerDimension(id, ELYNDRA);
+    }
+
+    public static boolean isElyndraRegistered() { return ELYNDRA != null; }
+
+    public static int elyndraId() { return ModConfig.elyndraDimensionId; }
+
+    public static boolean isElyndra(int dim) { return isElyndraRegistered() && dim == elyndraId(); }
+
+    /** Worlds rich in Neutronium (Neutronium Ore generates there): the far gate can draw power from them. */
+    public static boolean isNeutroniumWorld(int dim) { return isSelVoraRegistered() && dim == selVoraId(); }
+
+    /** Worlds reached through a gate, with a return gate (Elyndra has none: it is one-way). */
+    /** Galaxy of a dimension: 2 = Primeval Expanse (Elyndra), 1 = Altra Galaxy (Tal'Vora, Sel'Vora), 0 = Milky Way (everything else). */
     public static int galaxy(int dim) {
+        if (isElyndra(dim)) return 2;
         return (isTalVoraRegistered() && dim == talVoraId()) || (isSelVoraRegistered() && dim == selVoraId()) ? 1 : 0;
     }
 

@@ -1,0 +1,10 @@
+{
+  "parent": "wormholetech:sel_vora",
+  "display": {
+    "icon": { "item": "wormholetech:neutronium_superconductor" },
+    "title": { "translate": "advancements.wormholetech.leap_of_faith.title" },
+    "description": { "translate": "advancements.wormholetech.leap_of_faith.desc" },
+    "frame": "challenge", "show_toast": true, "announce_to_chat": true, "hidden": false
+  },
+  "criteria": { "arrived": { "trigger": "minecraft:impossible" } }
+}

@@ -90,6 +90,8 @@ public class GuiRepository extends GuiScreen {
             fontRenderer.drawString(I18n.format("gui.wormholetech.repository.info." + f), x + PAD, ly, 0xAAAAAA);
             ly += wrap(v, x + PAD + labelW, ly, inner - labelW, 3, "???".equals(v) ? 0x666666 : 0xFFFFFF) + 3;
         }
+        String nk = "gui.wormholetech.repository.info." + k + ".notes";
+        if (I18n.hasKey(nk) && ly < bottom - 18) wrap(I18n.format(nk), x + PAD, ly + 2, inner, Math.max(1, (bottom - 12 - ly) / 9), 0xE0C080);
         if (!full) wrap(I18n.format("gui.wormholetech.repository.info.more"), x + PAD, bottom - 10, inner, 1, 0x888888);
     }
 
@@ -177,6 +179,13 @@ public class GuiRepository extends GuiScreen {
                 ly += wrap(I18n.format(have ? "gui.wormholetech.repository.tech." + k + ".desc" : "gui.wormholetech.repository.undiscovered"),
                         x + PAD + 6, ly, inner - 6, 2, 0x999999) + 6;
             }
+        } else if (data.getInteger("Ascension") > 0) {
+            int asc = Math.min(100, data.getInteger("Ascension"));
+            fitCentered(I18n.format("gui.wormholetech.repository.ascension.level", asc), x + W / 2, ly + 4, inner, 0xE0B0FF);
+            int bw = inner - 20, bx = x + PAD + 10, byy = ly + 18;
+            drawRect(bx, byy, bx + bw, byy + 6, 0xFF202A34);
+            drawRect(bx, byy, bx + Math.max(1, bw * asc / 100), byy + 6, 0xFFC890FF);
+            wrap(I18n.format("gui.wormholetech.repository.ascension.desc"), x + PAD, byy + 14, inner, 6, 0xAAAAAA);
         } else {
             fitCentered(I18n.format("gui.wormholetech.repository.locked"), x + W / 2, (ly + bottom) / 2 - 4, inner, 0xFF7F7F);
         }
