@@ -34,7 +34,7 @@ public class EntityEmeraldDroid extends EntityMob implements IRangedAttackMob {
     @Override
     protected void initEntityAI() {
         tasks.addTask(1, new EntityAISwimming(this));
-        tasks.addTask(2, new EntityAIAttackRanged(this, 1.0D, 30, 16.0F));
+        tasks.addTask(2, new EntityAIAttackRanged(this, 1.0D, 60, 80, 16.0F));
         tasks.addTask(5, new EntityAIWanderAvoidWater(this, 0.8D));
         tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 12.0F));
         tasks.addTask(7, new EntityAILookIdle(this));
@@ -51,23 +51,54 @@ public class EntityEmeraldDroid extends EntityMob implements IRangedAttackMob {
         getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(4.0D);
     }
 
-    /** Hitscan laser: a visible green beam; damage about that of a skeleton arrow. */
+    /** Charge-up before each shot (ticks): the aim point is locked when charging starts, so the shot can be dodged. */
+    public static final int CHARGE = 20;
+    private int charge;
+    private Vec3d aim;
+    private EntityLivingBase aimed;
+
+    /** Starts a charge; the beam fires CHARGE ticks later at where the target was. */
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float pull) {
-        if (!canEntityBeSeen(target)) return;
-        Vec3d from = new Vec3d(posX, posY + getEyeHeight() - 0.1, posZ);
-        Vec3d to = new Vec3d(target.posX, target.posY + target.height * 0.6, target.posZ);
+        if (charge > 0 || !canEntityBeSeen(target)) return;
+        aimed = target;
+        aim = new Vec3d(target.posX, target.posY + target.height * 0.6, target.posZ);
+        if (rand.nextInt(5) == 0) aim = aim.addVector(rand.nextGaussian() * 1.2, rand.nextGaussian() * 0.6, rand.nextGaussian() * 1.2); // ~20% miss
+        charge = CHARGE;
+        world.playSound(null, posX, posY, posZ, SoundEvents.BLOCK_NOTE_PLING, SoundCategory.HOSTILE, 0.6F, 0.5F);
+    }
+
+    @Override
+    public void onLivingUpdate() {
+        super.onLivingUpdate();
+        if (world.isRemote || charge <= 0) return;
+        charge--;
+        Vec3d eye = new Vec3d(posX, posY + getEyeHeight() - 0.1, posZ);
+        if (world instanceof WorldServer && charge % 2 == 0) // glow building at the visor
+            ((WorldServer) world).spawnParticle(EnumParticleTypes.REDSTONE, true, eye.x, eye.y, eye.z, 0, 0.01, 1.0, 0.3, 1.0);
+        if (charge == 0 && isEntityAlive()) fire(eye);
+    }
+
+    private void fire(Vec3d from) {
+        Vec3d d = aim.subtract(from);
+        double len = d.lengthVector();
+        if (len < 0.1) return;
+        Vec3d to = from.add(d.scale(Math.min(24.0, len + 4.0) / len)); // beam carries a little past the aim point
+        net.minecraft.util.math.RayTraceResult wall = world.rayTraceBlocks(from, to, false, true, false);
+        if (wall != null) to = wall.hitVec;
         if (world instanceof WorldServer) {
-            Vec3d d = to.subtract(from);
-            int steps = (int) (d.lengthVector() * 4);
+            Vec3d seg = to.subtract(from);
+            int steps = (int) (seg.lengthVector() * 4);
             for (int i = 0; i <= steps; i++) {
-                Vec3d p = from.add(d.scale(i / (double) steps));
+                Vec3d p = from.add(seg.scale(i / (double) Math.max(1, steps)));
                 ((WorldServer) world).spawnParticle(EnumParticleTypes.REDSTONE, true, p.x, p.y, p.z, 0, 0.01, 1.0, 0.3, 1.0);
             }
         }
         world.playSound(null, posX, posY, posZ, SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.HOSTILE, 0.8F, 1.8F + rand.nextFloat() * 0.2F);
-        float dmg = 2.0F + rand.nextInt(3) + (world.getDifficulty() == EnumDifficulty.HARD ? 1 : 0);
-        target.attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, this), dmg);
+        if (aimed != null && aimed.isEntityAlive() && aimed.getEntityBoundingBox().grow(0.2).calculateIntercept(from, to) != null) {
+            float dmg = 1.0F + rand.nextInt(2) + (world.getDifficulty() == EnumDifficulty.HARD ? 1 : 0); // 1-2, max 3 on Hard
+            aimed.attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, this), dmg);
+        }
     }
 
     @Override public void setSwingingArms(boolean b) {}

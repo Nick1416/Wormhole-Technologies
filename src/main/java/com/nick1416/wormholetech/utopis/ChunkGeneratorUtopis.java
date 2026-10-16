@@ -77,7 +77,7 @@ public class ChunkGeneratorUtopis implements IChunkGenerator {
                 if (road) continue;
                 int[] t = tower(Math.floorDiv(x, CELL), Math.floorDiv(z, CELL));
                 if (t == null || x < t[0] || x > t[2] || z < t[1] || z > t[3]) {
-                    if ((mx == 8 || mz == 8) && (x * 31 + z * 17 & 15) == 0) p.setBlockState(lx, GROUND + 1, lz, Registration.HULL_LAMP.getDefaultState());
+                    if ((mx == 8 || mz == 8) && (x * 31 + z * 17 & 15) == 0) p.setBlockState(lx, GROUND + 1, lz, Blocks.SEA_LANTERN.getDefaultState());
                     continue;
                 }
                 boolean edge = x == t[0] || x == t[2] || z == t[1] || z == t[3];
@@ -89,9 +89,9 @@ public class ChunkGeneratorUtopis implements IChunkGenerator {
                     IBlockState s = null;
                     if (edge) {
                         boolean door = level <= 3 && ((x == (t[0] + t[2]) / 2) || (z == (t[1] + t[3]) / 2));
-                        if (!door) s = corner || level % 5 == 0 ? (t[6] == 0 && corner ? Registration.HULL_PLATING.getDefaultState() : WALL) : GLASS;
+                        if (!door) s = corner || level % 5 == 0 ? (t[6] == 0 && corner ? Blocks.IRON_BLOCK.getDefaultState() : WALL) : GLASS;
                     } else if (level % 5 == 0) s = FLOOR;
-                    else if (level % 5 == 1 && (x + z) % 7 == 0) s = Registration.HULL_LAMP.getDefaultState();
+                    else if (level % 5 == 1 && (x + z) % 7 == 0) s = Blocks.SEA_LANTERN.getDefaultState();
                     if (s != null && t[5] > 0 && y > GROUND + 4 && hash(seed, x, y, z) < t[5] / 2) s = null; // shattered walls
                     if (s != null) p.setBlockState(lx, y, lz, s);
                 }
