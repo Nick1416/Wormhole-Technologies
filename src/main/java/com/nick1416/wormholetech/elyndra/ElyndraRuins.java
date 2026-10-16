@@ -34,6 +34,28 @@ public final class ElyndraRuins {
         if (r.nextInt(9) == 0) island(w, ox, oz, r);
     }
 
+    /** Nature reclaiming the ruins: vines on exposed sides, flowers and tall grass on open ground. */
+    private static void overgrow(World w, int x0, int z0, int rad, int y0, int y1, Random r) {
+        for (int dx = -rad; dx <= rad; dx++)
+            for (int dz = -rad; dz <= rad; dz++)
+                for (int y = y0; y <= y1; y++) {
+                    BlockPos p = new BlockPos(x0 + dx, y, z0 + dz);
+                    if (!w.isAirBlock(p)) continue;
+                    IBlockState below = w.getBlockState(p.down());
+                    if ((below.getBlock() == Blocks.GRASS || below.getBlock() == Blocks.DIRT) && r.nextInt(3) == 0) {
+                        set(w, p, r.nextInt(3) == 0 ? Blocks.RED_FLOWER.getStateFromMeta(r.nextInt(9))
+                                : Blocks.TALLGRASS.getDefaultState().withProperty(net.minecraft.block.BlockTallGrass.TYPE, net.minecraft.block.BlockTallGrass.EnumType.GRASS));
+                        continue;
+                    }
+                    if (r.nextInt(4) != 0) continue;
+                    for (net.minecraft.util.EnumFacing f : net.minecraft.util.EnumFacing.Plane.HORIZONTAL) {
+                        if (!w.getBlockState(p.offset(f)).isFullCube()) continue;
+                        set(w, p, Blocks.VINE.getDefaultState().withProperty(net.minecraft.block.BlockVine.getPropertyFor(f), true));
+                        break;
+                    }
+                }
+    }
+
     private static int surface(World w, int x, int z) { return w.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY() - 1; }
 
     private static void set(World w, BlockPos p, IBlockState s) { w.setBlockState(p, s, FLAGS); }
@@ -61,6 +83,7 @@ public final class ElyndraRuins {
             if (r.nextBoolean()) set(w, new BlockPos(x0 + c[0], y + h + 1, z0 + c[1]), Blocks.VINE.getDefaultState());
         }
         if (r.nextInt(3) == 0) set(w, new BlockPos(x0, y + 1, z0), Registration.NAQUADAH_CRYSTAL.getDefaultState());
+        overgrow(w, x0, z0, 7, y - 1, y + 6, r);
     }
 
     /** A long-dead ship, nose-down in the ground, hull torn open. */
@@ -83,6 +106,13 @@ public final class ElyndraRuins {
         }
         BlockPos loot = alongX ? new BlockPos(x0 + 3, y + 1 + 10 / 3, z0) : new BlockPos(x0, y + 1 + 10 / 3, z0 + 3);
         if (r.nextInt(2) == 0) set(w, loot, Blocks.DIAMOND_BLOCK.getDefaultState());
+        for (int k = 0; k < 10; k++) { // moss and leaves on the hull
+            BlockPos q = new BlockPos(x0 + r.nextInt(11) - 5, 0, z0 + r.nextInt(11) - 5);
+            q = w.getHeight(q);
+            if (w.getBlockState(q.down()).getBlock() == Registration.HULL_PLATING) set(w, q, Blocks.LEAVES.getDefaultState()
+                    .withProperty(net.minecraft.block.BlockLeaves.CHECK_DECAY, false).withProperty(net.minecraft.block.BlockLeaves.DECAYABLE, false));
+        }
+        overgrow(w, x0, z0, 7, y - 3, y + 9, r);
     }
 
     /** A floating island: a grassy top over a rocky, ore-studded cone, sometimes with a tree. */
@@ -102,6 +132,11 @@ public final class ElyndraRuins {
                 }
                 if (d < rad - 1 && r.nextInt(6) == 0) set(w, new BlockPos(x0 + dx, y0 + 1, z0 + dz), Blocks.RED_FLOWER.getDefaultState());
             }
+        if (r.nextInt(2) == 0) { // a spring pours off the rim as a waterfall
+            BlockPos s = new BlockPos(x0 + rad - 1, y0, z0);
+            set(w, s, Blocks.STONE.getDefaultState());
+            w.setBlockState(new BlockPos(x0 + rad, y0, z0), Blocks.WATER.getDefaultState(), 3);
+        }
         if (r.nextInt(5) == 0) set(w, new BlockPos(x0, y0, z0), Blocks.GLOWSTONE.getDefaultState());
         else if (rad >= 6 && r.nextBoolean()) new WorldGenBigTree(false).generate(w, r, new BlockPos(x0, y0 + 1, z0));
     }

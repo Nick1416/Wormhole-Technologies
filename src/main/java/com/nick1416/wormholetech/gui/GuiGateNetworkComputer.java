@@ -48,10 +48,17 @@ public class GuiGateNetworkComputer extends GuiDialingComputer {
         return false;
     }
 
-    private int view() { if (view == -2) view = hereGalaxy(); return view; }
+    private int view() { if (view == -2) view = hereGalaxy() < GateNetwork.GALAXIES ? hereGalaxy() : -1; return view; }
+
+    private int farX() { return MAP_X + Math.round(GateNetwork.FAR_POS[0] * MAP_S); }
+    private int farY() { return MAP_Y + Math.round(GateNetwork.FAR_POS[1] * MAP_S); }
+    private boolean overFar(int mouseX, int mouseY) {
+        int mx = mouseX - guiLeft, my = mouseY - guiTop;
+        return view() < 0 && visited(GateNetwork.ELYNDRA) && Math.abs(mx - farX()) <= MARKER_S / 2 + 1 && Math.abs(my - farY()) <= MARKER_S / 2 + 1;
+    }
 
     private int hovered(int mouseX, int mouseY) {
-        if (view() < 0) return -1;
+        if (view() < 0) return overFar(mouseX, mouseY) ? GateNetwork.ELYNDRA : -1;
         int mx = mouseX - guiLeft, my = mouseY - guiTop;
         for (int i = 0; i < GateNetwork.count(); i++)
             if (visited(i) && GateNetwork.galaxy(i) == view() && Math.abs(mx - markerX(i)) <= MARKER_S / 2 + 1 && Math.abs(my - markerY(i)) <= MARKER_S / 2 + 1) return i;
@@ -98,6 +105,16 @@ public class GuiGateNetworkComputer extends GuiDialingComputer {
                 int s = GALAXY_ICON + (hg == g ? 4 : 0);
                 drawModalRectWithCustomSizedTexture(guiLeft + galaxyX(g) - s / 2, guiTop + galaxyY(g) - s / 2, 0, 0, s, s, s, s);
             }
+            if (visited(GateNetwork.ELYNDRA)) {
+                boolean sel = gnc.getClientSelected() == GateNetwork.ELYNDRA, hv = overFar(mouseX, mouseY);
+                float pulse = 0.7F + 0.3F * (float) Math.sin((t + partialTicks) * 0.15F);
+                if (sel) GlStateManager.color(0.55F, 1F, 0.75F, 1F);
+                else if (hv) GlStateManager.color(1F, 0.9F, 1F, 1F);
+                else GlStateManager.color(0.85F * pulse, 0.65F * pulse, 1F * pulse, 1F);
+                mc.getTextureManager().bindTexture(MARKER);
+                drawModalRectWithCustomSizedTexture(guiLeft + farX() - MARKER_S / 2, guiTop + farY() - MARKER_S / 2,
+                        sel ? MARKER_S : 0, 0, MARKER_S, MARKER_S, MARKER_S * 2, MARKER_S);
+            }
             GlStateManager.color(1f, 1f, 1f, 1f);
             GlStateManager.disableBlend();
             return;
@@ -143,6 +160,11 @@ public class GuiGateNetworkComputer extends GuiDialingComputer {
                 if (!galaxyKnown(g)) continue;
                 String n = I18n.format("gui.wormholetech.network.galaxy." + g);
                 fontRenderer.drawStringWithShadow(n, galaxyX(g) - fontRenderer.getStringWidth(n) / 2, galaxyY(g) + GALAXY_ICON / 2 + 2, 0xE8ECF6);
+            }
+            if (visited(GateNetwork.ELYNDRA)) {
+                String n = I18n.format("gui.wormholetech.network.far_point");
+                fontRenderer.drawStringWithShadow(n, Math.min(MAP_X + MAP_S - 2 - fontRenderer.getStringWidth(n), farX() - fontRenderer.getStringWidth(n) / 2),
+                        farY() - MARKER_S / 2 - 10, 0xD8C0FF);
             }
             return;
         }

@@ -76,13 +76,17 @@ public class EntityAncientSpirit extends EntityLiving {
             return true;
         }
         talk.remove(p.getUniqueID());
-        KnowledgeData.get(world).ascendTo(p.getUniqueID(), 1);
+        KnowledgeData kd = KnowledgeData.get(world);
+        boolean first = kd.discover(p.getUniqueID(), "spirit_ascension"); // saved flag: the +1% happens once per player
+        if (first) kd.ascendTo(p.getUniqueID(), kd.ascension(p.getUniqueID()) + 1);
         world.playSound(null, getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.NEUTRAL, 1.0F, 0.5F);
         StargateTravel.sendToOverworldBed(mp);
         StargateTravel.grant(mp, ADVANCEMENT);
-        TextComponentTranslation t = new TextComponentTranslation("message.wormholetech.spirit.ascended");
-        t.getStyle().setColor(TextFormatting.LIGHT_PURPLE);
-        mp.sendStatusMessage(t, true);
+        if (first) {
+            TextComponentTranslation t = new TextComponentTranslation("message.wormholetech.spirit.ascended");
+            t.getStyle().setColor(TextFormatting.LIGHT_PURPLE);
+            mp.sendStatusMessage(t, true);
+        }
         return true;
     }
 }
