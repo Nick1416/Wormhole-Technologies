@@ -57,6 +57,9 @@ public class EntityEmeraldDrone extends EntityMob {
     public boolean getCanSpawnHere() {
         if (world.getDifficulty() == EnumDifficulty.PEACEFUL) return false;
         BlockPos pos = new BlockPos(posX, getEntityBoundingBox().minY, posZ);
+        if (com.nick1416.wormholetech.world.ModDimensions.isUtopis(world.provider.getDimension())) // homeworld: anywhere on a solid floor
+            return world.getBlockState(pos.down()).isSideSolid(world, pos.down(), net.minecraft.util.EnumFacing.UP)
+                    && world.getCollisionBoxes(this, getEntityBoundingBox()).isEmpty() && !world.containsAnyLiquid(getEntityBoundingBox());
         if (com.nick1416.wormholetech.derelict.DerelictSpawner.isDerelict(world)) {
             // anywhere on the ship's deck (not on the outer hull)
             if (!com.nick1416.wormholetech.derelict.DerelictSpawner.canSpawnAt(posX, posY, posZ, height)) return false;

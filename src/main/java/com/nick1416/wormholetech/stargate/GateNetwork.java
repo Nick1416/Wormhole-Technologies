@@ -18,7 +18,7 @@ public final class GateNetwork {
 
     public static final String VISITED_TAG = WormholeTech.MODID + ":visited_gates";
     /** Map destinations, in marker order. */
-    public static final String[] KEYS = { "p3x", "derelict", "home", "tal_vora", "sel_vora", "elyndra" };
+    public static final String[] KEYS = { "p3x", "derelict", "home", "tal_vora", "sel_vora", "elyndra", "utopis" };
     /** Index of the Overworld home marker: always on the map. */
     public static final int HOME = 2;
     /** Tal'Vora sits in the other-galaxy inset of the map. */
@@ -28,10 +28,15 @@ public final class GateNetwork {
     /** Elyndra: a lone far-away point outside every galaxy; unlocked by P3X-1416 research (>= 50%). */
     public static final int ELYNDRA = 5;
     public static final ResourceLocation ELYNDRA_ADVANCEMENT = new ResourceLocation(WormholeTech.MODID, "leap_of_faith");
+    /** Utopis: at the Milky Way's core beside the black hole; unlocked by derelict vessel research (>= 50%). */
+    public static final int UTOPIS = 6;
+    public static final ResourceLocation UTOPIS_ADVANCEMENT = new ResourceLocation(WormholeTech.MODID, "utopis");
+    /** The black hole at the Milky Way's centre (galaxy map). */
+    public static final float[] BLACK_HOLE_POS = { 0.50F, 0.50F };
     public static final ResourceLocation SEL_VORA_ADVANCEMENT = new ResourceLocation(WormholeTech.MODID, "sel_vora");
     public static final ResourceLocation TAL_VORA_ADVANCEMENT = new ResourceLocation(WormholeTech.MODID, "tal_vora");
     /** Marker positions on their own galaxy's map (0..1 of the map area). */
-    public static final float[][] MAP_POS = { { 0.64F, 0.36F }, { 0.31F, 0.68F }, { 0.80F, 0.66F }, { 0.58F, 0.47F }, { 0.75F, 0.31F }, { 0.52F, 0.50F } };
+    public static final float[][] MAP_POS = { { 0.64F, 0.36F }, { 0.31F, 0.68F }, { 0.80F, 0.66F }, { 0.58F, 0.47F }, { 0.75F, 0.31F }, { 0.52F, 0.50F }, { 0.57F, 0.56F } };
     /** Galaxies on the universe view: 0 = Milky Way, 1 = Altra Galaxy (see ModDimensions.galaxy). */
     public static final int GALAXIES = 2; // Elyndra lies outside every galaxy: a lone point (FAR_POS)
     public static final float[][] GALAXY_POS = { { 0.33F, 0.62F }, { 0.72F, 0.30F } };
@@ -43,9 +48,9 @@ public final class GateNetwork {
 
     public static int count() { return KEYS.length; }
 
-    public static int dimension(int i) { return i == ELYNDRA ? ModDimensions.elyndraId() : i == SEL_VORA ? ModDimensions.selVoraId() : i == TAL_VORA ? ModDimensions.talVoraId() : i == HOME ? 0 : i == 0 ? ModDimensions.id() : ModDimensions.derelictId(); }
+    public static int dimension(int i) { return i == UTOPIS ? ModDimensions.utopisId() : i == ELYNDRA ? ModDimensions.elyndraId() : i == SEL_VORA ? ModDimensions.selVoraId() : i == TAL_VORA ? ModDimensions.talVoraId() : i == HOME ? 0 : i == 0 ? ModDimensions.id() : ModDimensions.derelictId(); }
 
-    public static boolean registered(int i) { if (i == ELYNDRA) return ModDimensions.isElyndraRegistered(); if (i == SEL_VORA) return ModDimensions.isSelVoraRegistered(); if (i == TAL_VORA) return ModDimensions.isTalVoraRegistered(); return i == HOME || (i == 0 ? ModDimensions.isRegistered() : ModDimensions.isDerelictRegistered()); }
+    public static boolean registered(int i) { if (i == UTOPIS) return ModDimensions.isUtopisRegistered(); if (i == ELYNDRA) return ModDimensions.isElyndraRegistered(); if (i == SEL_VORA) return ModDimensions.isSelVoraRegistered(); if (i == TAL_VORA) return ModDimensions.isTalVoraRegistered(); return i == HOME || (i == 0 ? ModDimensions.isRegistered() : ModDimensions.isDerelictRegistered()); }
 
     /** Marker index of the dimension a player is in, or -1. */
     public static int here(int dim) { return indexOf(dim); }
@@ -77,6 +82,8 @@ public final class GateNetwork {
         m |= done(p, TAL_VORA_ADVANCEMENT) && registered(TAL_VORA) ? 1 << TAL_VORA : 0;
         m |= (done(p, SEL_VORA_ADVANCEMENT) || moonKnown(p)) && registered(SEL_VORA) ? 1 << SEL_VORA : 0;
         m |= (done(p, ELYNDRA_ADVANCEMENT) || elyndraKnown(p)) && registered(ELYNDRA) ? 1 << ELYNDRA : 0;
+        m |= (done(p, UTOPIS_ADVANCEMENT) || com.nick1416.wormholetech.knowledge.KnowledgeData.get(p.world).percent(p.getUniqueID(),
+                com.nick1416.wormholetech.knowledge.Planets.DERELICT) >= 50) && registered(UTOPIS) ? 1 << UTOPIS : 0;
         return m;
     }
 

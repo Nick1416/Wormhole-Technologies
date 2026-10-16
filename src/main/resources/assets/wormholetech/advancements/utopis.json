@@ -1,0 +1,10 @@
+{
+  "parent": "wormholetech:utopis_address",
+  "display": {
+    "icon": { "item": "minecraft:ender_eye" },
+    "title": { "translate": "advancements.wormholetech.utopis.title" },
+    "description": { "translate": "advancements.wormholetech.utopis.desc" },
+    "frame": "challenge", "show_toast": true, "announce_to_chat": true, "hidden": false
+  },
+  "criteria": { "unlocked": { "trigger": "minecraft:impossible" } }
+}

@@ -32,6 +32,8 @@ public class GuiGateNetworkComputer extends GuiDialingComputer {
     /** -1 = universe view, otherwise the galaxy shown. */
     private int view = -2;
     private static final int GALAXY_ICON = 44;
+    private static final net.minecraft.util.ResourceLocation BLACK_HOLE = new net.minecraft.util.ResourceLocation(
+            com.nick1416.wormholetech.WormholeTech.MODID, "textures/environment/black_hole.png");
     private static final int[] TINT = { 0xFFFFFF, 0xFF8C66, 0xC8A0FF };
 
     private int markerX(int i) { return MAP_X + Math.round(GateNetwork.MAP_POS[i][0] * MAP_S); }
@@ -123,6 +125,13 @@ public class GuiGateNetworkComputer extends GuiDialingComputer {
         mc.getTextureManager().bindTexture(GALAXY);
         drawModalRectWithCustomSizedTexture(guiLeft + MAP_X, guiTop + MAP_Y, 0, 0, MAP_S, MAP_S, MAP_S, MAP_S);
         GlStateManager.color(1f, 1f, 1f, 1f);
+        if (view() == 0) { // the black hole at the Milky Way's core
+            int bs = 18, bx = MAP_X + Math.round(GateNetwork.BLACK_HOLE_POS[0] * MAP_S), by = MAP_Y + Math.round(GateNetwork.BLACK_HOLE_POS[1] * MAP_S);
+            GlStateManager.enableBlend();
+            mc.getTextureManager().bindTexture(BLACK_HOLE);
+            drawModalRectWithCustomSizedTexture(guiLeft + bx - bs / 2, guiTop + by - bs / 2, 0, 0, bs, bs, bs, bs);
+            GlStateManager.disableBlend();
+        }
         {
             boolean ob = overButton(mouseX, mouseY);
             Gui.drawRect(guiLeft + btnX0(), guiTop + MAP_Y + 2, guiLeft + MAP_X + MAP_S - 3, guiTop + MAP_Y + 14, ob ? 0xC0405070 : 0xA0202838);

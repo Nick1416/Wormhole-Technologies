@@ -34,6 +34,11 @@ public final class KnowledgeEvents {
             if (d.discover(p.getUniqueID(), "elyndra_address")) d.findPlanet(p.getUniqueID(), Planets.ELYNDRA);
             grant(p, "elyndra_address");
         }
+        // Derelict vessel research >= 50% reveals the address of Utopis (the drones' homeworld)
+        if (d.percent(p.getUniqueID(), Planets.DERELICT) >= 50 && com.nick1416.wormholetech.world.ModDimensions.isUtopisRegistered()) {
+            if (d.discover(p.getUniqueID(), "utopis_address")) d.findPlanet(p.getUniqueID(), Planets.UTOPIS);
+            grant(p, "utopis_address");
+        }
     }
 
     private static void grant(EntityPlayer p, String id) {

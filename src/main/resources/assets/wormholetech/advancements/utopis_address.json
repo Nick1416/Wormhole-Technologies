@@ -1,0 +1,10 @@
+{
+  "parent": "wormholetech:derelict_vessel",
+  "display": {
+    "icon": { "item": "minecraft:emerald" },
+    "title": { "translate": "advancements.wormholetech.utopis_address.title" },
+    "description": { "translate": "advancements.wormholetech.utopis_address.desc" },
+    "frame": "goal", "show_toast": true, "announce_to_chat": false, "hidden": false
+  },
+  "criteria": { "unlocked": { "trigger": "minecraft:impossible" } }
+}

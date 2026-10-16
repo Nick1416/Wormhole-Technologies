@@ -5,8 +5,8 @@ import com.nick1416.wormholetech.ModConfig;
 /** Worlds the Repository of Knowledge can study, in display order. */
 public final class Planets {
     private Planets() {}
-    public static final String[] KEYS = { "overworld", "p3x_1416", "derelict_vessel", "tal_vora", "sel_vora", "elyndra" };
-    public static final int P3X = 1, TAL_VORA = 3, SEL_VORA = 4, ELYNDRA = 5;
+    public static final String[] KEYS = { "overworld", "p3x_1416", "derelict_vessel", "tal_vora", "sel_vora", "elyndra", "utopis" };
+    public static final int P3X = 1, TAL_VORA = 3, SEL_VORA = 4, ELYNDRA = 5, UTOPIS = 6, DERELICT = 2;
 
     public static int dim(int i) {
         switch (i) {
@@ -15,7 +15,8 @@ public final class Planets {
             case 2: return ModConfig.derelictDimensionId;
             case 3: return ModConfig.talVoraDimensionId;
             case 4: return ModConfig.selVoraDimensionId;
-            default: return ModConfig.elyndraDimensionId;
+            case 5: return ModConfig.elyndraDimensionId;
+            default: return ModConfig.utopisDimensionId;
         }
     }
 

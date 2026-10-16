@@ -27,19 +27,25 @@ public final class TalVoraGravity {
         return ModDimensions.isSelVoraRegistered() && e.world.provider.getDimension() == ModDimensions.selVoraId();
     }
 
+    /** Utopis: crushing gravity near the black hole. */
+    public static boolean utopis(EntityLivingBase e) { return ModDimensions.isUtopis(e.world.provider.getDimension()); }
+
     @SubscribeEvent
     public static void onUpdate(LivingEvent.LivingUpdateEvent ev) {
         EntityLivingBase e = ev.getEntityLiving();
         if (e.onGround || e.isInWater() || e.isInLava() || e.hasNoGravity() || e.isElytraFlying()) return;
-        boolean heavy = on(e), light = !heavy && moon(e);
-        if (!heavy && !light) return;
+        boolean heavy = on(e), light = !heavy && moon(e), crushing = utopis(e);
+        if (!heavy && !light && !crushing) return;
         if (e instanceof EntityPlayer && ((EntityPlayer) e).capabilities.isFlying) return;
-        e.motionY -= 0.08D * ((heavy ? ModConfig.talVoraGravity : ModConfig.selVoraGravity) - 1.0D);
+        if (crushing && !(e instanceof EntityPlayer) && !(e instanceof net.minecraft.entity.passive.EntityAnimal)) return; // drones are built for it
+        double g = crushing ? ModConfig.utopisGravity : heavy ? ModConfig.talVoraGravity : ModConfig.selVoraGravity;
+        e.motionY -= 0.08D * (g - 1.0D);
     }
 
     @SubscribeEvent
     public static void onFall(LivingFallEvent ev) {
         if (on(ev.getEntityLiving())) ev.setDamageMultiplier(ev.getDamageMultiplier() * (float) ModConfig.talVoraFallDamageMultiplier);
+        else if (utopis(ev.getEntityLiving())) ev.setDamageMultiplier(ev.getDamageMultiplier() * ModConfig.utopisFallDamageMultiplier);
         else if (moon(ev.getEntityLiving())) ev.setDamageMultiplier(ev.getDamageMultiplier() * (float) ModConfig.selVoraFallDamageMultiplier);
     }
 }

@@ -107,6 +107,25 @@ public final class ModDimensions {
 
     public static boolean isElyndra(int dim) { return isElyndraRegistered() && dim == elyndraId(); }
 
+    public static final String UTOPIS_NAME = "utopis";
+    public static DimensionType UTOPIS;
+
+    /** Utopis: the failed utopia near the Milky Way's central black hole, homeworld of the Emerald Drones. */
+    public static void registerUtopis() {
+        if (!ModConfig.stargateEnabled) return;
+        int id = ModConfig.utopisDimensionId;
+        if (DimensionManager.isDimensionRegistered(id)) {
+            WormholeTech.LOGGER.error("Dimension id {} is already taken; Utopis is disabled. Change utopisDimensionId in the config.", id);
+            return;
+        }
+        UTOPIS = DimensionType.register(UTOPIS_NAME, "_" + UTOPIS_NAME, id, com.nick1416.wormholetech.utopis.WorldProviderUtopis.class, false);
+        DimensionManager.registerDimension(id, UTOPIS);
+    }
+
+    public static boolean isUtopisRegistered() { return UTOPIS != null; }
+    public static int utopisId() { return ModConfig.utopisDimensionId; }
+    public static boolean isUtopis(int dim) { return isUtopisRegistered() && dim == utopisId(); }
+
     /** Worlds rich in Neutronium (Neutronium Ore generates there): the far gate can draw power from them. */
     public static boolean isNeutroniumWorld(int dim) { return isSelVoraRegistered() && dim == selVoraId(); }
 
@@ -120,7 +139,7 @@ public final class ModDimensions {
     public static boolean isGateWorld(int dim) {
         return (isRegistered() && dim == id()) || (isDerelictRegistered() && dim == derelictId())
                 || (isTalVoraRegistered() && dim == talVoraId())
-                || (isSelVoraRegistered() && dim == selVoraId());
+                || (isSelVoraRegistered() && dim == selVoraId()) || isUtopis(dim);
     }
 
     public static boolean isRegistered() { return P3X != null; }
