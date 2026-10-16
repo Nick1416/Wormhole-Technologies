@@ -114,7 +114,7 @@ public final class AlienVillages {
                 IBlockState cradle = Registration.MODULATOR_CRADLE.getDefaultState();
                 set(w, x, y0 + 1, z, cradle);
                 if (ax == 1 && az == 1) { set(w, x, y0 + 2, z, cradle); set(w, x, y0 + 3, z, cradle); }
-                else if (ax + az == 0) set(w, x, y0 + 2, z, Registration.VORANI_MODULATOR.getDefaultState());
+                else if (ax + az == 0) set(w, x, y0 + 2, z, Registration.NEUTRONIUM_REACTOR.getDefaultState());
             }
             // landmark: a glowing needle rising high above the dome, visible across the dunes
             if (ax + az <= 1) {
