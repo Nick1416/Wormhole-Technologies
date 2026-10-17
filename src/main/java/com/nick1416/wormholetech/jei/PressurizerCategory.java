@@ -63,7 +63,7 @@ public class PressurizerCategory implements IRecipeCategory<PressurizerCategory.
     public static class Wrapper implements IRecipeWrapper {
         @Override public void getIngredients(IIngredients ing) {
             ing.setInputLists(VanillaTypes.ITEM, Arrays.asList(
-                    Collections.singletonList(new ItemStack(Items.WATER_BUCKET)),
+                    Collections.singletonList(new ItemStack(Items.WATER_BUCKET, PressurizerRecipe.WATER_PER_EMERALD / 1000)),
                     withCount(PressurizerRecipe.stacks(PressurizerRecipe.COAL), PressurizerRecipe.COAL_PER_EMERALD),
                     PressurizerRecipe.stacks(PressurizerRecipe.ALUMINUM),
                     PressurizerRecipe.stacks(PressurizerRecipe.CHROMIUM),
@@ -71,7 +71,8 @@ public class PressurizerCategory implements IRecipeCategory<PressurizerCategory.
             ing.setOutput(VanillaTypes.ITEM, new ItemStack(Items.EMERALD));
         }
         @Override public void drawInfo(Minecraft mc, int w, int h, int mx, int my) {
-            mc.fontRenderer.drawString(I18n.format("jei.wormholetech.pressurizer.hint"), 26, 38, 0x444444);
+            String t = I18n.format("jei.wormholetech.pressurizer.hint");
+            mc.fontRenderer.drawString(t, 100 - mc.fontRenderer.getStringWidth(t) / 2, 32, 0x444444); // centred under the arrow
         }
     }
 }
