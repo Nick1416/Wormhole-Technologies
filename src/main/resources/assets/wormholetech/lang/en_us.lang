@@ -652,3 +652,4 @@ gui.wormholetech.repository.tech.nanite_core.desc=A self-repairing machine core.
 tooltip.wormholetech.naquadah_ore.summary=Blow it up to refine
 tooltip.wormholetech.naquadah_ore.detail.1=Mining returns the ore (any tool).
 tooltip.wormholetech.naquadah_ore.detail.2=Explosions: 75%% chance per block to drop Refined Naquadah.
+gui.wormholetech.tablet.jei_hint=Click/R: recipe · Right-click/U: uses

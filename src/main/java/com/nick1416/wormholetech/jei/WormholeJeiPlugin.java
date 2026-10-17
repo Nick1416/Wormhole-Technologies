@@ -18,6 +18,14 @@ import net.minecraft.item.ItemStack;
 
 @JEIPlugin
 public class WormholeJeiPlugin implements IModPlugin {
+    private static IJeiRuntime RUNTIME;
+
+    /** Opens JEI's recipe (uses=false) or uses (uses=true) view for the stack. Only call when JEI is loaded. */
+    public static void showRecipes(ItemStack stack, boolean uses) {
+        if (RUNTIME == null || stack.isEmpty()) return;
+        RUNTIME.getRecipesGui().show(RUNTIME.getRecipeRegistry().createFocus(
+                uses ? mezz.jei.api.recipe.IFocus.Mode.INPUT : mezz.jei.api.recipe.IFocus.Mode.OUTPUT, stack));
+    }
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry) {
@@ -150,6 +158,7 @@ public class WormholeJeiPlugin implements IModPlugin {
 
     @Override
     public void onRuntimeAvailable(IJeiRuntime runtime) {
+        RUNTIME = runtime;
         // Hide the power-state variants of our CM3 miniaturization recipes so only one entry shows.
         IRecipeRegistry recipes = runtime.getRecipeRegistry();
         for (Object variant : CompactMachinesCompat.getHiddenVariants()) {
