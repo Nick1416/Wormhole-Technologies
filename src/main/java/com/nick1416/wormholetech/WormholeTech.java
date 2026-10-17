@@ -154,6 +154,8 @@ public class WormholeTech {
             com.nick1416.wormholetech.registry.Registration.SEL_VORA_BIOME.getSpawnableList(net.minecraft.entity.EnumCreatureType.MONSTER).add(
                     new net.minecraft.world.biome.Biome.SpawnListEntry(com.nick1416.wormholetech.moon.EntityRegolithCrawler.class,
                             ModConfig.regolithCrawlerSpawnWeight, 1, 2));
+        GameRegistry.addSmelting(com.nick1416.wormholetech.registry.Registration.ITEM_CHROMIUM_ORE,
+                new ItemStack(com.nick1416.wormholetech.registry.Registration.CHROMIUM), 0.7F);
         GameRegistry.addSmelting(com.nick1416.wormholetech.registry.Registration.RAW_XENOLITH,
                 new ItemStack(com.nick1416.wormholetech.registry.Registration.XENOLITH), 0.2F);
         net.minecraftforge.fml.common.registry.GameRegistry.addSmelting(com.nick1416.wormholetech.registry.Registration.ITEM_NATURAL_NAQUADAH_ORE,

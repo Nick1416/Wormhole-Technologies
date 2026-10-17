@@ -452,7 +452,8 @@ public class Registration {
         net.minecraftforge.oredict.OreDictionary.registerOre("ingotNeutronium", NEUTRONIUM_INGOT);
         net.minecraftforge.oredict.OreDictionary.registerOre("oreXenolith", XENOLITH_ORE);
         net.minecraftforge.oredict.OreDictionary.registerOre("oreChromium", CHROMIUM_ORE);
-        net.minecraftforge.oredict.OreDictionary.registerOre("gemChromium", CHROMIUM);
+        net.minecraftforge.oredict.OreDictionary.registerOre("ingotChromium", CHROMIUM);
+        net.minecraftforge.oredict.OreDictionary.registerOre("gemChromium", CHROMIUM); // kept for compatibility
         net.minecraftforge.oredict.OreDictionary.registerOre("gemXenolith", RAW_XENOLITH);
     }
 
