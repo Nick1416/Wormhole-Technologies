@@ -13,7 +13,7 @@ public final class PressurizerRecipe {
     public static final int TANK = 16000;
 
     public static final String[] ALUMINUM = {"ingotAluminum", "ingotAluminium", "dustAluminum", "dustAluminium"};
-    public static final String[] CHROMIUM = {"gemChromium"};
+    public static final String[] CHROMIUM = {"ingotChromium", "gemChromium"};
     public static final String[] SILICON = {com.nick1416.wormholetech.tile.RefinerRecipes.SILICON, "silicon"};
     public static final String[] COAL = {"coal", "charcoal"};
     /** Mineral slot index (0..2) -> accepted oredict names. */
