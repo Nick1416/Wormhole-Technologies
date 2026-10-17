@@ -36,9 +36,9 @@ public class PressurizerTileEntity extends TileEntity implements ITickable {
 
     private final ItemStackHandler inv = new ItemStackHandler(6) {
         @Override protected void onContentsChanged(int slot) { markDirty(); }
-        @Override public boolean isItemValid(int slot, ItemStack s) { return valid(slot, s); }
+        @Override public boolean isItemValid(int slot, ItemStack s) { return canPlace(slot, s); }
         @Override public ItemStack insertItem(int slot, ItemStack s, boolean sim) {
-            return valid(slot, s) ? super.insertItem(slot, s, sim) : s;
+            return canPlace(slot, s) ? super.insertItem(slot, s, sim) : s;
         }
     };
 
@@ -52,8 +52,25 @@ public class PressurizerTileEntity extends TileEntity implements ITickable {
             return f != null && f.getFluid() == FluidRegistry.WATER;
         }
         if (slot == COAL) return PressurizerRecipe.isCoal(s);
-        if (slot >= MIN0 && slot < OUT) return PressurizerRecipe.matches(s, PressurizerRecipe.MINERALS[slot - MIN0]);
+        if (slot >= MIN0 && slot < OUT) return mineralType(s) >= 0;
         return false;
+    }
+
+    /** 0 aluminum, 1 chromium, 2 silicon, -1 none. */
+    public static int mineralType(ItemStack s) {
+        for (int t = 0; t < PressurizerRecipe.MINERALS.length; t++)
+            if (PressurizerRecipe.matches(s, PressurizerRecipe.MINERALS[t])) return t;
+        return -1;
+    }
+
+    /** Mineral slots take any mineral, in any order, but never a type another mineral slot already holds. */
+    public boolean canPlace(int slot, ItemStack s) {
+        if (!valid(slot, s)) return false;
+        if (slot < MIN0 || slot >= OUT) return true;
+        int t = mineralType(s);
+        for (int i = MIN0; i < OUT; i++)
+            if (i != slot && !inv.getStackInSlot(i).isEmpty() && mineralType(inv.getStackInSlot(i)) == t) return false;
+        return true;
     }
 
     @Override
@@ -71,7 +88,9 @@ public class PressurizerTileEntity extends TileEntity implements ITickable {
             markDirty();
             return;
         }
-        for (int i = MIN0; i < OUT; i++) if (inv.getStackInSlot(i).isEmpty()) { status = STATUS_IDLE; return; }
+        int types = 0;
+        for (int i = MIN0; i < OUT; i++) { int t = mineralType(inv.getStackInSlot(i)); if (t >= 0) types |= 1 << t; }
+        if (types != 7) { status = STATUS_IDLE; return; }
         if (tank.getFluidAmount() < PressurizerRecipe.WATER_PER_EMERALD) { status = STATUS_NEED_WATER; return; }
         if (inv.getStackInSlot(COAL).isEmpty()) { status = STATUS_NEED_COAL; return; }
         if (!room) { status = STATUS_OUTPUT_FULL; return; }

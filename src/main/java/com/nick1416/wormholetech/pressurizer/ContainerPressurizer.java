@@ -45,7 +45,7 @@ public class ContainerPressurizer extends SyncedIntsContainer {
         } else {
             boolean moved = false;
             for (int i = 0; i < 5 && !moved; i++)
-                if (PressurizerTileEntity.valid(i, in)) moved = mergeItemStack(in, i, i + 1, false);
+                if (te.canPlace(i, in)) moved = mergeItemStack(in, i, i + 1, false);
             if (!moved) return ItemStack.EMPTY;
         }
         if (in.isEmpty()) slot.putStack(ItemStack.EMPTY); else slot.onSlotChanged();
