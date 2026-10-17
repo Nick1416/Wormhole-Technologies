@@ -44,6 +44,8 @@ public class GuiHandler implements IGuiHandler {
         if (te instanceof com.nick1416.wormholetech.factory.MiniatureFactoryTileEntity) {
             return new com.nick1416.wormholetech.factory.ContainerMiniatureFactory(player.inventory, (com.nick1416.wormholetech.factory.MiniatureFactoryTileEntity) te);
         }
+        if (te instanceof com.nick1416.wormholetech.pressurizer.PressurizerTileEntity)
+            return new com.nick1416.wormholetech.pressurizer.ContainerPressurizer(player.inventory, (com.nick1416.wormholetech.pressurizer.PressurizerTileEntity) te);
         if (te instanceof GeneratorTileEntity) {
             return new ContainerEnergyConverter(player.inventory, (GeneratorTileEntity) te);
         }
@@ -82,6 +84,8 @@ public class GuiHandler implements IGuiHandler {
         if (te instanceof com.nick1416.wormholetech.tile.DialingComputerTileEntity) {
             return new GuiDialingComputer(player.inventory, (com.nick1416.wormholetech.tile.DialingComputerTileEntity) te);
         }
+        if (te instanceof com.nick1416.wormholetech.pressurizer.PressurizerTileEntity)
+            return new com.nick1416.wormholetech.pressurizer.GuiPressurizer(player.inventory, (com.nick1416.wormholetech.pressurizer.PressurizerTileEntity) te);
         if (te instanceof GeneratorTileEntity) {
             return new GuiEnergyConverter(player.inventory, (GeneratorTileEntity) te);
         }

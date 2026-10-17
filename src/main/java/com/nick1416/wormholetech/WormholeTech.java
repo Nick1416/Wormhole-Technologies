@@ -86,6 +86,8 @@ public class WormholeTech {
                 com.nick1416.wormholetech.tile.AetheriusRefinerTileEntity.class,
                 new ResourceLocation(MODID, "high_energy_refiner"));
 
+        GameRegistry.registerTileEntity(com.nick1416.wormholetech.pressurizer.PressurizerTileEntity.class,
+                new ResourceLocation(MODID, "hydrothermal_pressurizer"));
         GameRegistry.registerTileEntity(
                 com.nick1416.wormholetech.tile.DialingComputerTileEntity.class,
                 new ResourceLocation(MODID, "dialing_computer"));
@@ -106,6 +108,7 @@ public class WormholeTech {
         com.nick1416.wormholetech.world.ModDimensions.registerElyndra();
         com.nick1416.wormholetech.world.ModDimensions.registerUtopis();
         GameRegistry.registerWorldGenerator(new com.nick1416.wormholetech.world.P3XOreGenerator(), 10);
+        GameRegistry.registerWorldGenerator(new com.nick1416.wormholetech.world.ChromiumOreGenerator(), 10);
 
         PROXY.preInit();
     }
@@ -172,6 +175,7 @@ public class WormholeTech {
     public static final int GUI_ENERGY_CONVERTER = 4;
     public static final int GUI_DIALING_COMPUTER = 5;
     public static final int GUI_MINIATURE_FACTORY = 6;
+    public static final int GUI_PRESSURIZER = 7;
 
     @Mod.EventHandler
     public void serverStarting(net.minecraftforge.fml.common.event.FMLServerStartingEvent e) {

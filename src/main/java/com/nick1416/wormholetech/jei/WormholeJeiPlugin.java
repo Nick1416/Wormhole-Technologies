@@ -35,6 +35,7 @@ public class WormholeJeiPlugin implements IModPlugin {
         registry.addRecipeCategories(new ExplosionRefineCategory(guiHelper));
         registry.addRecipeCategories(new OreDropCategory(guiHelper));
         registry.addRecipeCategories(new HighEnergyRefineCategory(guiHelper));
+        registry.addRecipeCategories(new PressurizerCategory(guiHelper));
     }
 
     @Override
@@ -61,6 +62,13 @@ public class WormholeJeiPlugin implements IModPlugin {
         registry.handleRecipes(OreDropRecipe.class, OreDropWrapper::new, OreDropCategory.UID);
         registry.addRecipes(OreDropRecipe.createRecipes(), OreDropCategory.UID);
         registry.addRecipeCatalyst(new ItemStack(Registration.UNSTABLE_NAQUADAH_BLOCK), OreDropCategory.UID);
+
+        registry.handleRecipes(PressurizerCategory.Wrapper.class, w -> w, PressurizerCategory.UID);
+        registry.addRecipes(PressurizerCategory.recipes(), PressurizerCategory.UID);
+        registry.addRecipeCatalyst(new ItemStack(Registration.PRESSURIZER), PressurizerCategory.UID);
+        registry.addRecipeClickArea(com.nick1416.wormholetech.pressurizer.GuiPressurizer.class, 117, 36, 24, 16, PressurizerCategory.UID);
+        info(registry, Registration.ITEM_PRESSURIZER, "hydrothermal_pressurizer", 2);
+        info(registry, Registration.CHROMIUM, "chromium", 1);
 
         registry.handleRecipes(HighEnergyRefineRecipe.class, HighEnergyRefineWrapper::new, HighEnergyRefineCategory.UID);
         registry.addRecipes(HighEnergyRefineRecipe.createRecipes(), HighEnergyRefineCategory.UID);
