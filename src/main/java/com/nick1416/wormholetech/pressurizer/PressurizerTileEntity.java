@@ -79,25 +79,27 @@ public class PressurizerTileEntity extends TileEntity implements ITickable {
         drainWaterSlot();
         ItemStack out = inv.getStackInSlot(OUT);
         boolean room = out.isEmpty() || (out.getItem() == Items.EMERALD && out.getCount() < out.getMaxStackSize());
-        if (cook > 0) {
-            if (cook < PressurizerRecipe.TICKS) { cook++; status = STATUS_FORMING; markDirty(); return; }
-            if (!room) { status = STATUS_OUTPUT_FULL; return; }
-            if (out.isEmpty()) inv.setStackInSlot(OUT, new ItemStack(Items.EMERALD));
-            else { out.grow(1); inv.setStackInSlot(OUT, out); }
-            cook = 0;
-            markDirty();
+        int types = 0;
+        for (int k = MIN0; k < OUT; k++) { int t = mineralType(inv.getStackInSlot(k)); if (t >= 0) types |= 1 << t; }
+        boolean ready = types == 7
+                && tank.getFluidAmount() >= PressurizerRecipe.WATER_PER_EMERALD
+                && inv.getStackInSlot(COAL).getCount() >= PressurizerRecipe.COAL_PER_EMERALD;
+        // Everything must stay in place while forming; taking anything out resets progress.
+        if (!ready) {
+            if (cook != 0) { cook = 0; markDirty(); }
+            status = STATUS_IDLE;
             return;
         }
-        int types = 0;
-        for (int i = MIN0; i < OUT; i++) { int t = mineralType(inv.getStackInSlot(i)); if (t >= 0) types |= 1 << t; }
-        if (types != 7) { status = STATUS_IDLE; return; }
-        if (tank.getFluidAmount() < PressurizerRecipe.WATER_PER_EMERALD) { status = STATUS_NEED_WATER; return; }
-        if (inv.getStackInSlot(COAL).isEmpty()) { status = STATUS_NEED_COAL; return; }
+        if (cook < PressurizerRecipe.TICKS) { cook++; status = STATUS_FORMING; markDirty(); return; }
         if (!room) { status = STATUS_OUTPUT_FULL; return; }
-        for (int i = COAL; i < OUT; i++) inv.extractItem(i, 1, false);
+        // Completed: only now are minerals, coal and water used up.
+        for (int k = MIN0; k < OUT; k++) inv.extractItem(k, 1, false);
+        inv.extractItem(COAL, PressurizerRecipe.COAL_PER_EMERALD, false);
         tank.drainInternal(PressurizerRecipe.WATER_PER_EMERALD, true);
-        cook = 1;
-        status = STATUS_FORMING;
+        if (out.isEmpty()) inv.setStackInSlot(OUT, new ItemStack(Items.EMERALD));
+        else { out.grow(1); inv.setStackInSlot(OUT, out); }
+        cook = 0;
+        status = STATUS_IDLE;
         markDirty();
     }
 

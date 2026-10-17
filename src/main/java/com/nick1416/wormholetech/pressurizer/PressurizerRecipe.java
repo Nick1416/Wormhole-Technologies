@@ -8,8 +8,9 @@ public final class PressurizerRecipe {
     private PressurizerRecipe() {}
 
     public static final int TICKS = 2400;          // 2 minutes
-    public static final int WATER_PER_EMERALD = 1000;
-    public static final int TANK = 8000;
+    public static final int WATER_PER_EMERALD = 8000;   // 8 buckets
+    public static final int COAL_PER_EMERALD = 8;
+    public static final int TANK = 16000;
 
     public static final String[] ALUMINUM = {"ingotAluminum", "ingotAluminium", "dustAluminum", "dustAluminium"};
     public static final String[] CHROMIUM = {"gemChromium"};
