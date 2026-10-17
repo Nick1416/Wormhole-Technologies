@@ -1,10 +1,23 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": ["QRQ","RER","QRQ"],
+  "pattern": [
+    "QRQ",
+    "RER",
+    "QRQ"
+  ],
   "key": {
-    "Q": { "item": "minecraft:clock" },
-    "R": { "item": "wormholetech:refined_naquadah" },
-    "E": { "item": "wormholetech:prysmian_logic_frame" }
+    "Q": {
+      "item": "minecraft:clock"
+    },
+    "R": {
+      "type": "forge:ore_dict",
+      "ore": "ingotNaquadah"
+    },
+    "E": {
+      "item": "wormholetech:prysmian_logic_frame"
+    }
   },
-  "result": { "item": "wormholetech:relativistic_computer" }
+  "result": {
+    "item": "wormholetech:relativistic_computer"
+  }
 }

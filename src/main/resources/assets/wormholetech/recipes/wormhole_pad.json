@@ -6,10 +6,22 @@
     "EOE"
   ],
   "key": {
-    "E": { "item": "minecraft:ender_pearl" },
-    "O": { "item": "minecraft:obsidian" },
-    "N": { "item": "wormholetech:refined_naquadah" },
-    "R": { "item": "wormholetech:naquadah_crystal" }
+    "E": {
+      "item": "minecraft:ender_pearl"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    },
+    "N": {
+      "type": "forge:ore_dict",
+      "ore": "ingotNaquadah"
+    },
+    "R": {
+      "item": "wormholetech:naquadah_crystal"
+    }
   },
-  "result": { "item": "wormholetech:wormhole_pad", "count": 2 }
+  "result": {
+    "item": "wormholetech:wormhole_pad",
+    "count": 2
+  }
 }

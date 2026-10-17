@@ -1,6 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": ["NNN", "NNN", "NNN"],
-  "key": { "N": { "item": "wormholetech:refined_naquadah" } },
-  "result": { "item": "wormholetech:refined_naquadah_block" }
+  "pattern": [
+    "NNN",
+    "NNN",
+    "NNN"
+  ],
+  "key": {
+    "N": {
+      "type": "forge:ore_dict",
+      "ore": "ingotNaquadah"
+    }
+  },
+  "result": {
+    "item": "wormholetech:refined_naquadah_block"
+  }
 }

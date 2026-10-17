@@ -59,8 +59,6 @@ public class AdvancementBootstrap {
         Item item = out.getItem();
         if (item == Registration.ITEM_NAQUADAH_ORE) {
             grant(player, "craft_synthetic_ore");
-        } else if (item == Registration.RAW_NAQUADAH) {
-            grant(player, "get_raw_naquadah");
         } else if (item == Registration.REFINED_NAQUADAH) {
             grant(player, "refined_naquadah");
         }
@@ -91,9 +89,6 @@ public class AdvancementBootstrap {
     private static void syncItemAdvancements(EntityPlayerMP player) {
         if (hasItem(player, Registration.ITEM_NAQUADAH_ORE)) {
             grant(player, "craft_synthetic_ore");
-        }
-        if (hasItem(player, Registration.RAW_NAQUADAH)) {
-            grant(player, "get_raw_naquadah");
         }
         if (hasItem(player, Registration.REFINED_NAQUADAH)) {
             grant(player, "refined_naquadah");

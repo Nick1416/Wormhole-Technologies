@@ -1,11 +1,27 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [" R ","ICI"," Q "],
+  "pattern": [
+    " R ",
+    "ICI",
+    " Q "
+  ],
   "key": {
-    "R": { "item": "wormholetech:refined_naquadah" },
-    "I": { "type": "forge:ore_dict", "ore": "ingotIron" },
-    "C": { "item": "minecraft:compass" },
-    "Q": { "item": "wormholetech:quantum_circuit" }
+    "R": {
+      "type": "forge:ore_dict",
+      "ore": "ingotNaquadah"
+    },
+    "I": {
+      "type": "forge:ore_dict",
+      "ore": "ingotIron"
+    },
+    "C": {
+      "item": "minecraft:compass"
+    },
+    "Q": {
+      "item": "wormholetech:quantum_circuit"
+    }
   },
-  "result": { "item": "wormholetech:gate_locator" }
+  "result": {
+    "item": "wormholetech:gate_locator"
+  }
 }

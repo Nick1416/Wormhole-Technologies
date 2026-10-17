@@ -47,7 +47,7 @@ public class GuiAncientTablet extends GuiScreen {
                 },
                 new ItemStack[] {
                         new ItemStack(Registration.NAQUADAH_ORE),
-                        new ItemStack(Registration.RAW_NAQUADAH),
+                        new ItemStack(net.minecraft.init.Blocks.TNT),
                         new ItemStack(Registration.REFINED_NAQUADAH)
                 }));
         pages.add(new Page(
@@ -213,6 +213,7 @@ public class GuiAncientTablet extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         drawDefaultBackground();
+        hoveredIcon = ItemStack.EMPTY;
         int cx = width / 2;
         int cy = height / 2;
         int left = cx - 120;
@@ -239,6 +240,7 @@ public class GuiAncientTablet extends GuiScreen {
             RenderHelper.enableGUIStandardItemLighting();
             int x = left + 12;
             for (int i = 0; i < p.icons.length; i++) {
+                if (mouseX >= x && mouseX < x + 16 && mouseY >= y && mouseY < y + 16) hoveredIcon = p.icons[i];
                 itemRender.renderItemAndEffectIntoGUI(p.icons[i], x, y);
                 itemRender.renderItemOverlayIntoGUI(fontRenderer, p.icons[i], x, y, null);
                 if (i < p.icons.length - 1) {
@@ -253,6 +255,25 @@ public class GuiAncientTablet extends GuiScreen {
         String footer = I18n.format("gui.wormholetech.tablet.page", page + 1, leaves.size());
         fontRenderer.drawString(footer, left + 12, top + 155, 0x5A4A3A);
         super.drawScreen(mouseX, mouseY, partialTicks);
+        if (!hoveredIcon.isEmpty()) {
+            List<String> tip = getItemToolTip(hoveredIcon);
+            if (JEI) tip.add(TextFormatting.GRAY + I18n.format("gui.wormholetech.tablet.jei_hint"));
+            drawHoveringText(tip, mouseX, mouseY);
+        }
+    }
+
+    private static final boolean JEI = net.minecraftforge.fml.common.Loader.isModLoaded("jei");
+    private ItemStack hoveredIcon = ItemStack.EMPTY;
+
+    /** Separate method so JEI classes are only touched when JEI is present. */
+    private static void openJei(ItemStack stack, boolean uses) {
+        com.nick1416.wormholetech.jei.WormholeJeiPlugin.showRecipes(stack, uses);
+    }
+
+    @Override
+    protected void mouseClicked(int mouseX, int mouseY, int button) throws IOException {
+        if (JEI && !hoveredIcon.isEmpty() && (button == 0 || button == 1)) { openJei(hoveredIcon, button == 1); return; }
+        super.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override
@@ -264,6 +285,10 @@ public class GuiAncientTablet extends GuiScreen {
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
         if (keyCode == Keyboard.KEY_ESCAPE) {
             mc.player.closeScreen();
+            return;
+        }
+        if (JEI && !hoveredIcon.isEmpty() && (keyCode == Keyboard.KEY_R || keyCode == Keyboard.KEY_U)) {
+            openJei(hoveredIcon, keyCode == Keyboard.KEY_U);
             return;
         }
         if (keyCode == Keyboard.KEY_LEFT && page > 0) { page--; updateButtons(); return; }

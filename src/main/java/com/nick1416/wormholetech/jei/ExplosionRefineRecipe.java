@@ -17,7 +17,7 @@ public final class ExplosionRefineRecipe {
 
     public static List<ExplosionRefineRecipe> createRecipes() {
         return Collections.singletonList(new ExplosionRefineRecipe(
-                new ItemStack(Registration.RAW_NAQUADAH),
+                new ItemStack(Registration.NAQUADAH_ORE),
                 new ItemStack(Registration.REFINED_NAQUADAH)
         ));
     }

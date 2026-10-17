@@ -1,11 +1,31 @@
 {
-  "conditions": [ { "type": "wormholetech:fallback", "fallback": "frame" } ],
+  "conditions": [
+    {
+      "type": "wormholetech:fallback",
+      "fallback": "frame"
+    }
+  ],
   "type": "minecraft:crafting_shaped",
-  "pattern": [ "INI", "NON", "INI" ],
+  "pattern": [
+    "INI",
+    "NON",
+    "INI"
+  ],
   "key": {
-    "I": { "type": "forge:ore_dict", "ore": "ingotIron" },
-    "N": { "item": "wormholetech:refined_naquadah" },
-    "O": { "item": "minecraft:obsidian" }
+    "I": {
+      "type": "forge:ore_dict",
+      "ore": "ingotIron"
+    },
+    "N": {
+      "type": "forge:ore_dict",
+      "ore": "ingotNaquadah"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    }
   },
-  "result": { "item": "wormholetech:reinforced_gate_frame", "count": 2 }
+  "result": {
+    "item": "wormholetech:reinforced_gate_frame",
+    "count": 2
+  }
 }

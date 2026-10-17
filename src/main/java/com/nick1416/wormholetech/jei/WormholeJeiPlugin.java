@@ -18,6 +18,14 @@ import net.minecraft.item.ItemStack;
 
 @JEIPlugin
 public class WormholeJeiPlugin implements IModPlugin {
+    private static IJeiRuntime RUNTIME;
+
+    /** Opens JEI's recipe (uses=false) or uses (uses=true) view for the stack. Only call when JEI is loaded. */
+    public static void showRecipes(ItemStack stack, boolean uses) {
+        if (RUNTIME == null || stack.isEmpty()) return;
+        RUNTIME.getRecipesGui().show(RUNTIME.getRecipeRegistry().createFocus(
+                uses ? mezz.jei.api.recipe.IFocus.Mode.INPUT : mezz.jei.api.recipe.IFocus.Mode.OUTPUT, stack));
+    }
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry) {
@@ -52,7 +60,6 @@ public class WormholeJeiPlugin implements IModPlugin {
 
         registry.handleRecipes(OreDropRecipe.class, OreDropWrapper::new, OreDropCategory.UID);
         registry.addRecipes(OreDropRecipe.createRecipes(), OreDropCategory.UID);
-        registry.addRecipeCatalyst(new ItemStack(Registration.NAQUADAH_ORE), OreDropCategory.UID);
         registry.addRecipeCatalyst(new ItemStack(Registration.UNSTABLE_NAQUADAH_BLOCK), OreDropCategory.UID);
 
         registry.handleRecipes(HighEnergyRefineRecipe.class, HighEnergyRefineWrapper::new, HighEnergyRefineCategory.UID);
@@ -77,7 +84,7 @@ public class WormholeJeiPlugin implements IModPlugin {
                     "tooltip.wormholetech.unstable_naquadah_block.detail.1.normal",
                     "tooltip.wormholetech.unstable_naquadah_block.detail.2");
         }
-        info(registry, Registration.RAW_NAQUADAH, "raw_naquadah", 2);
+        info(registry, Registration.ITEM_NAQUADAH_ORE, "naquadah_ore", 2);
         info(registry, Registration.REFINED_NAQUADAH, "refined_naquadah", 0);
         info(registry, Registration.UNSTABLE_NAQUADAH, "unstable_naquadah", 2);
         info(registry, Registration.PRYSMIAN, "prysmian", 0);
@@ -151,6 +158,7 @@ public class WormholeJeiPlugin implements IModPlugin {
 
     @Override
     public void onRuntimeAvailable(IJeiRuntime runtime) {
+        RUNTIME = runtime;
         // Hide the power-state variants of our CM3 miniaturization recipes so only one entry shows.
         IRecipeRegistry recipes = runtime.getRecipeRegistry();
         for (Object variant : CompactMachinesCompat.getHiddenVariants()) {

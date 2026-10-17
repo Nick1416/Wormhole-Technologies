@@ -112,9 +112,6 @@ public class Registration {
                     .setRegistryName(REFINED_NAQUADAH_BLOCK.getRegistryName());
 
     // --- Raw Naquadah ---
-    public static final Item RAW_NAQUADAH = new Item()
-    		.setRegistryName(WormholeTech.MODID, "raw_naquadah")
-    		.setUnlocalizedName(WormholeTech.MODID + ".raw_naquadah");
 
     // --- Refined Naquadah ---
     public static final Item REFINED_NAQUADAH = new Item()
@@ -424,6 +421,34 @@ public class Registration {
             new com.nick1416.wormholetech.world.BiomeNaquadahWastes()
                     .setRegistryName(WormholeTech.MODID, "naquadah_wastes");
 
+    /** Standard ore dictionary names so other mods (Tinkers etc.) can use our materials. */
+    public static void registerOreDict() {
+        net.minecraftforge.oredict.OreDictionary.registerOre("oreNaquadah", NATURAL_NAQUADAH_ORE);
+        net.minecraftforge.oredict.OreDictionary.registerOre("oreNaquadah", ELYNDRA_NAQUADAH_ORE);
+        net.minecraftforge.oredict.OreDictionary.registerOre("ingotNaquadah", REFINED_NAQUADAH);
+        net.minecraftforge.oredict.OreDictionary.registerOre("ingotRefinedNaquadah", REFINED_NAQUADAH);
+        net.minecraftforge.oredict.OreDictionary.registerOre("blockNaquadah", REFINED_NAQUADAH_BLOCK);
+        net.minecraftforge.oredict.OreDictionary.registerOre("blockRefinedNaquadah", REFINED_NAQUADAH_BLOCK);
+        net.minecraftforge.oredict.OreDictionary.registerOre("orePrysmian", PRYSMIAN_ORE);
+        net.minecraftforge.oredict.OreDictionary.registerOre("gemPrysmian", PRYSMIAN);
+        net.minecraftforge.oredict.OreDictionary.registerOre("blockPrysmian", PRYSMIAN_BLOCK);
+        net.minecraftforge.oredict.OreDictionary.registerOre("oreTitanium", TITANIUM_ORE);
+        net.minecraftforge.oredict.OreDictionary.registerOre("ingotTitanium", TITANIUM_INGOT);
+        net.minecraftforge.oredict.OreDictionary.registerOre("blockTitanium", TITANIUM_BLOCK);
+        net.minecraftforge.oredict.OreDictionary.registerOre("oreNeutronium", NEUTRONIUM_ORE);
+        net.minecraftforge.oredict.OreDictionary.registerOre("ingotNeutronium", NEUTRONIUM_INGOT);
+        net.minecraftforge.oredict.OreDictionary.registerOre("oreXenolith", XENOLITH_ORE);
+        net.minecraftforge.oredict.OreDictionary.registerOre("gemXenolith", RAW_XENOLITH);
+    }
+
+    /** Raw Naquadah was removed: old worlds get Refined Naquadah instead. */
+    @SubscribeEvent
+    public static void onMissingItems(RegistryEvent.MissingMappings<Item> event) {
+        for (RegistryEvent.MissingMappings.Mapping<Item> m : event.getAllMappings()) {
+            if (m.key != null && "wormholetech:raw_naquadah".equals(m.key.toString())) m.remap(REFINED_NAQUADAH);
+        }
+    }
+
     @SubscribeEvent
     public static void onRegisterBiomes(RegistryEvent.Register<net.minecraft.world.biome.Biome> e) {
         e.getRegistry().register(NAQUADAH_WASTES);
@@ -552,7 +577,7 @@ public class Registration {
         REPOSITORY.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
         COMPANION_DRONE.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
         TITANIUM_INGOT.setCreativeTab(m);
-        for (Item i : new Item[]{RAW_NAQUADAH, REFINED_NAQUADAH, PRYSMIAN, UNSTABLE_NAQUADAH,
+        for (Item i : new Item[]{REFINED_NAQUADAH, PRYSMIAN, UNSTABLE_NAQUADAH,
                 NAQUADAH_REACTOR, UNSTABLE_NAQUADAH_REACTOR}) i.setCreativeTab(m);
     }
 
@@ -597,7 +622,6 @@ public class Registration {
         e.getRegistry().registerAll(
                 ITEM_RF_GENERATOR,
                 ITEM_NAQUADAH_ORE,
-                RAW_NAQUADAH,
                 REFINED_NAQUADAH,
                 PRYSMIAN,
                 DIAMOND_NUGGET,
@@ -659,12 +683,6 @@ public class Registration {
                 ITEM_NAQUADAH_CRYSTAL,
                 ITEM_ANCIENT_STONE
         );
-        net.minecraftforge.oredict.OreDictionary.registerOre("ingotTitanium", TITANIUM_INGOT);
-        net.minecraftforge.oredict.OreDictionary.registerOre("oreTitanium", TITANIUM_ORE);
-        net.minecraftforge.oredict.OreDictionary.registerOre("oreNeutronium", NEUTRONIUM_ORE);
-        net.minecraftforge.oredict.OreDictionary.registerOre("ingotNeutronium", NEUTRONIUM_INGOT);
-        net.minecraftforge.oredict.OreDictionary.registerOre("oreXenolith", XENOLITH_ORE);
-        net.minecraftforge.oredict.OreDictionary.registerOre("gemXenolith", RAW_XENOLITH);
-        net.minecraftforge.oredict.OreDictionary.registerOre("blockTitanium", TITANIUM_BLOCK);
+        registerOreDict();
     }
 }

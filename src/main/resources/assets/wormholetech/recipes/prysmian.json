@@ -6,10 +6,21 @@
     " E "
   ],
   "key": {
-    "E": { "item": "minecraft:emerald" },
-    "D": { "item": "minecraft:diamond" },
-    "N": { "item": "wormholetech:refined_naquadah" },
-	"R": { "item": "minecraft:redstone"}
+    "E": {
+      "item": "minecraft:emerald"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "N": {
+      "type": "forge:ore_dict",
+      "ore": "ingotNaquadah"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
   },
-  "result": { "item": "wormholetech:prysmian" }
+  "result": {
+    "item": "wormholetech:prysmian"
+  }
 }

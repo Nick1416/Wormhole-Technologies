@@ -6,9 +6,18 @@
     " S "
   ],
   "key": {
-    "N": { "item": "wormholetech:refined_naquadah" },
-    "R": { "item": "minecraft:redstone" },
-    "S": { "item": "minecraft:stick" }
+    "N": {
+      "type": "forge:ore_dict",
+      "ore": "ingotNaquadah"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
   },
-  "result": { "item": "wormholetech:wormhole_linker" }
+  "result": {
+    "item": "wormholetech:wormhole_linker"
+  }
 }

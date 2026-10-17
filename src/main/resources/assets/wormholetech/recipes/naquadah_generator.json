@@ -6,10 +6,21 @@
     "IRI"
   ],
   "key": {
-    "G": { "item": "minecraft:glass" },
-    "I": { "item": "minecraft:iron_block" },
-    "R": { "item": "minecraft:redstone_block" },
-	"N": { "item": "wormholetech:refined_naquadah"}
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "I": {
+      "item": "minecraft:iron_block"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    },
+    "N": {
+      "type": "forge:ore_dict",
+      "ore": "ingotNaquadah"
+    }
   },
-  "result": { "item": "wormholetech:naquadah_generator" }
+  "result": {
+    "item": "wormholetech:naquadah_generator"
+  }
 }

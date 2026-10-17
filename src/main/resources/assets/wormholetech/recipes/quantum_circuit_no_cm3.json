@@ -2,7 +2,10 @@
   "conditions": [
     {
       "type": "forge:not",
-      "value": { "type": "forge:mod_loaded", "modid": "compactmachines3" }
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "compactmachines3"
+      }
     }
   ],
   "type": "minecraft:crafting_shaped",
@@ -12,11 +15,25 @@
     "DTD"
   ],
   "key": {
-    "D": { "item": "minecraft:redstone" },
-    "C": { "item": "minecraft:comparator" },
-    "R": { "item": "minecraft:repeater" },
-    "T": { "item": "minecraft:redstone_torch" },
-    "N": { "item": "wormholetech:refined_naquadah" }
+    "D": {
+      "item": "minecraft:redstone"
+    },
+    "C": {
+      "item": "minecraft:comparator"
+    },
+    "R": {
+      "item": "minecraft:repeater"
+    },
+    "T": {
+      "item": "minecraft:redstone_torch"
+    },
+    "N": {
+      "type": "forge:ore_dict",
+      "ore": "ingotNaquadah"
+    }
   },
-  "result": { "item": "wormholetech:quantum_circuit", "count": 2 }
+  "result": {
+    "item": "wormholetech:quantum_circuit",
+    "count": 2
+  }
 }

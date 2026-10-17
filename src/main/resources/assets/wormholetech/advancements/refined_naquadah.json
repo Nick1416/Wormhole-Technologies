@@ -1,5 +1,5 @@
 {
-  "parent": "wormholetech:get_raw_naquadah",
+  "parent": "wormholetech:craft_synthetic_ore",
   "display": {
     "icon": { "item": "wormholetech:refined_naquadah" },
     "title": { "translate": "advancements.wormholetech.refined.title" },

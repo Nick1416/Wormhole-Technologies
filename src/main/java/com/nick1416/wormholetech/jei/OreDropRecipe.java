@@ -22,11 +22,6 @@ public final class OreDropRecipe {
     public static List<OreDropRecipe> createRecipes() {
         return Arrays.asList(
                 new OreDropRecipe(
-                        new ItemStack(Registration.NAQUADAH_ORE),
-                        new ItemStack(Registration.RAW_NAQUADAH),
-                        "jei.wormholetech.ore_drop.hint.chance",
-                        "jei.wormholetech.ore_drop.tooltip.raw"),
-                new OreDropRecipe(
                         new ItemStack(Registration.UNSTABLE_NAQUADAH_BLOCK),
                         new ItemStack(Registration.UNSTABLE_NAQUADAH, 4),
                         "jei.wormholetech.ore_drop.hint.always",

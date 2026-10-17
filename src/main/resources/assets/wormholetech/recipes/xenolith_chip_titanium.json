@@ -7,7 +7,8 @@
   ],
   "key": {
     "M": {
-      "item": "wormholetech:titanium_ingot"
+      "type": "forge:ore_dict",
+      "ore": "ingotTitanium"
     },
     "Q": {
       "item": "wormholetech:quantum_circuit"
