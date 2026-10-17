@@ -333,6 +333,19 @@ public class Registration {
             new ItemBlock(HIGH_ENERGY_REFINER).setRegistryName(HIGH_ENERGY_REFINER.getRegistryName());
 
 
+    // --- Hydrothermal Pressurizer + Chromium ---
+    public static final Block PRESSURIZER = new com.nick1416.wormholetech.pressurizer.PressurizerBlock()
+            .setRegistryName(WormholeTech.MODID, "hydrothermal_pressurizer")
+            .setUnlocalizedName(WormholeTech.MODID + ".hydrothermal_pressurizer");
+    public static final Item ITEM_PRESSURIZER = new ItemBlock(PRESSURIZER).setRegistryName(PRESSURIZER.getRegistryName());
+    public static final Block CHROMIUM_ORE = new com.nick1416.wormholetech.block.ChromiumOreBlock()
+            .setRegistryName(WormholeTech.MODID, "chromium_ore")
+            .setUnlocalizedName(WormholeTech.MODID + ".chromium_ore");
+    public static final Item ITEM_CHROMIUM_ORE = new ItemBlock(CHROMIUM_ORE).setRegistryName(CHROMIUM_ORE.getRegistryName());
+    public static final Item CHROMIUM = new Item()
+            .setRegistryName(WormholeTech.MODID, "chromium")
+            .setUnlocalizedName(WormholeTech.MODID + ".chromium");
+
     // -- Stargate --
     public static final Block DIALING_COMPUTER = new com.nick1416.wormholetech.block.DialingComputerBlock()
             .setRegistryName(WormholeTech.MODID, "dialing_computer")
@@ -438,6 +451,8 @@ public class Registration {
         net.minecraftforge.oredict.OreDictionary.registerOre("oreNeutronium", NEUTRONIUM_ORE);
         net.minecraftforge.oredict.OreDictionary.registerOre("ingotNeutronium", NEUTRONIUM_INGOT);
         net.minecraftforge.oredict.OreDictionary.registerOre("oreXenolith", XENOLITH_ORE);
+        net.minecraftforge.oredict.OreDictionary.registerOre("oreChromium", CHROMIUM_ORE);
+        net.minecraftforge.oredict.OreDictionary.registerOre("gemChromium", CHROMIUM);
         net.minecraftforge.oredict.OreDictionary.registerOre("gemXenolith", RAW_XENOLITH);
     }
 
@@ -554,6 +569,8 @@ public class Registration {
             for (Item t : MINERAL_TUNERS) t.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
         }
         NAQUADAH_ORE.setCreativeTab(b);
+        CHROMIUM_ORE.setCreativeTab(b);
+        CHROMIUM.setCreativeTab(m);
         UNSTABLE_NAQUADAH_BLOCK.setCreativeTab(b);
         PRYSMIAN_BLOCK.setCreativeTab(b);
         UNSTABLE_PRYSMIAN_BLOCK.setCreativeTab(b);
@@ -599,6 +616,7 @@ public class Registration {
                 COMPRESSED_NAQUADAH,
                 RELATIVISTIC_COMPUTER,
                 HIGH_ENERGY_REFINER,
+                PRESSURIZER, CHROMIUM_ORE,
                 DIALING_COMPUTER,
                 GATE_NETWORK_COMPUTER,
                 STARGATE_PORTAL,
@@ -663,6 +681,7 @@ public class Registration {
                 ITEM_COMPRESSED_NAQUADAH,
                 ITEM_RELATIVISTIC_COMPUTER,
                 ITEM_HIGH_ENERGY_REFINER,
+                ITEM_PRESSURIZER, ITEM_CHROMIUM_ORE, CHROMIUM,
                 ITEM_DIALING_COMPUTER,
                 ITEM_GATE_NETWORK_COMPUTER,
                 ITEM_ANCIENT_GATE_FRAME,

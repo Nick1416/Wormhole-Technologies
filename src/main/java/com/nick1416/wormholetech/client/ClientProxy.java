@@ -24,7 +24,7 @@ public class ClientProxy extends com.nick1416.wormholetech.common.CommonProxy {
 
 	@SubscribeEvent
 	public static void onModels(ModelRegistryEvent e) {
-	    for (Item it : new Item[] { Registration.ITEM_XENOLITH_ORE, Registration.RAW_XENOLITH, Registration.INACTIVE_DRONE })
+	    for (Item it : new Item[] { Registration.ITEM_XENOLITH_ORE, Registration.RAW_XENOLITH, Registration.INACTIVE_DRONE, Registration.ITEM_PRESSURIZER, Registration.ITEM_CHROMIUM_ORE, Registration.CHROMIUM })
 	        ModelLoader.setCustomModelResourceLocation(it, 0, new ModelResourceLocation(it.getRegistryName(), "inventory"));
 	    for (int m = 0; m < com.nick1416.wormholetech.drone.DroneProgram.VALUES.length; m++)
 	        ModelLoader.setCustomModelResourceLocation(Registration.XENOLITH_CHIP, m, new ModelResourceLocation(Registration.XENOLITH_CHIP.getRegistryName(), "inventory"));

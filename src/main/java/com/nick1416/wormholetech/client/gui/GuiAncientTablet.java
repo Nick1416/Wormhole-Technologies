@@ -89,6 +89,18 @@ public class GuiAncientTablet extends GuiScreen {
                     }));
         }
         pages.add(new Page(
+                "gui.wormholetech.tablet.p9.title",
+                new String[] {
+                        "gui.wormholetech.tablet.p9.l1",
+                        "gui.wormholetech.tablet.p9.l2"
+                },
+                new ItemStack[] {
+                        new ItemStack(Registration.CHROMIUM_ORE),
+                        new ItemStack(Registration.CHROMIUM),
+                        new ItemStack(Registration.PRESSURIZER),
+                        new ItemStack(net.minecraft.init.Items.EMERALD)
+                }));
+        pages.add(new Page(
                 "gui.wormholetech.tablet.p6.title",
                 new String[] {
                         TextFormatting.OBFUSCATED + "tttt uuuuu",
