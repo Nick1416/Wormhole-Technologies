@@ -1,9 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": ["BBB","BRB","BBB"],
+  "pattern": [
+    "BBB",
+    "BRB",
+    "BBB"
+  ],
   "key": {
-    "B": { "item": "minecraft:bedrock" },
-    "R": { "item": "wormholetech:refined_naquadah" }
+    "B": {
+      "item": "minecraft:bedrock"
+    },
+    "R": {
+      "type": "forge:ore_dict",
+      "ore": "ingotNaquadah"
+    }
   },
-  "result": { "item": "wormholetech:compressed_naquadah" }
+  "result": {
+    "item": "wormholetech:compressed_naquadah"
+  }
 }

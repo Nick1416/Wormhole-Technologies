@@ -1,10 +1,23 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": ["IRI","RFR","IRI"],
+  "pattern": [
+    "IRI",
+    "RFR",
+    "IRI"
+  ],
   "key": {
-    "I": { "item": "minecraft:iron_ingot" },
-    "R": { "item": "wormholetech:refined_naquadah" },
-    "F": { "item": "minecraft:furnace" }
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "R": {
+      "type": "forge:ore_dict",
+      "ore": "ingotNaquadah"
+    },
+    "F": {
+      "item": "minecraft:furnace"
+    }
   },
-  "result": { "item": "wormholetech:high_energy_refiner" }
+  "result": {
+    "item": "wormholetech:high_energy_refiner"
+  }
 }

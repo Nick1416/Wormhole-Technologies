@@ -421,6 +421,26 @@ public class Registration {
             new com.nick1416.wormholetech.world.BiomeNaquadahWastes()
                     .setRegistryName(WormholeTech.MODID, "naquadah_wastes");
 
+    /** Standard ore dictionary names so other mods (Tinkers etc.) can use our materials. */
+    public static void registerOreDict() {
+        net.minecraftforge.oredict.OreDictionary.registerOre("oreNaquadah", NATURAL_NAQUADAH_ORE);
+        net.minecraftforge.oredict.OreDictionary.registerOre("oreNaquadah", ELYNDRA_NAQUADAH_ORE);
+        net.minecraftforge.oredict.OreDictionary.registerOre("ingotNaquadah", REFINED_NAQUADAH);
+        net.minecraftforge.oredict.OreDictionary.registerOre("ingotRefinedNaquadah", REFINED_NAQUADAH);
+        net.minecraftforge.oredict.OreDictionary.registerOre("blockNaquadah", REFINED_NAQUADAH_BLOCK);
+        net.minecraftforge.oredict.OreDictionary.registerOre("blockRefinedNaquadah", REFINED_NAQUADAH_BLOCK);
+        net.minecraftforge.oredict.OreDictionary.registerOre("orePrysmian", PRYSMIAN_ORE);
+        net.minecraftforge.oredict.OreDictionary.registerOre("gemPrysmian", PRYSMIAN);
+        net.minecraftforge.oredict.OreDictionary.registerOre("blockPrysmian", PRYSMIAN_BLOCK);
+        net.minecraftforge.oredict.OreDictionary.registerOre("oreTitanium", TITANIUM_ORE);
+        net.minecraftforge.oredict.OreDictionary.registerOre("ingotTitanium", TITANIUM_INGOT);
+        net.minecraftforge.oredict.OreDictionary.registerOre("blockTitanium", TITANIUM_BLOCK);
+        net.minecraftforge.oredict.OreDictionary.registerOre("oreNeutronium", NEUTRONIUM_ORE);
+        net.minecraftforge.oredict.OreDictionary.registerOre("ingotNeutronium", NEUTRONIUM_INGOT);
+        net.minecraftforge.oredict.OreDictionary.registerOre("oreXenolith", XENOLITH_ORE);
+        net.minecraftforge.oredict.OreDictionary.registerOre("gemXenolith", RAW_XENOLITH);
+    }
+
     /** Raw Naquadah was removed: old worlds get Refined Naquadah instead. */
     @SubscribeEvent
     public static void onMissingItems(RegistryEvent.MissingMappings<Item> event) {
@@ -663,12 +683,6 @@ public class Registration {
                 ITEM_NAQUADAH_CRYSTAL,
                 ITEM_ANCIENT_STONE
         );
-        net.minecraftforge.oredict.OreDictionary.registerOre("ingotTitanium", TITANIUM_INGOT);
-        net.minecraftforge.oredict.OreDictionary.registerOre("oreTitanium", TITANIUM_ORE);
-        net.minecraftforge.oredict.OreDictionary.registerOre("oreNeutronium", NEUTRONIUM_ORE);
-        net.minecraftforge.oredict.OreDictionary.registerOre("ingotNeutronium", NEUTRONIUM_INGOT);
-        net.minecraftforge.oredict.OreDictionary.registerOre("oreXenolith", XENOLITH_ORE);
-        net.minecraftforge.oredict.OreDictionary.registerOre("gemXenolith", RAW_XENOLITH);
-        net.minecraftforge.oredict.OreDictionary.registerOre("blockTitanium", TITANIUM_BLOCK);
+        registerOreDict();
     }
 }

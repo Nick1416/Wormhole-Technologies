@@ -7,7 +7,8 @@
   ],
   "key": {
     "M": {
-      "item": "wormholetech:refined_naquadah"
+      "type": "forge:ore_dict",
+      "ore": "ingotNaquadah"
     },
     "Q": {
       "item": "wormholetech:quantum_circuit"

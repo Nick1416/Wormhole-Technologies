@@ -5,7 +5,12 @@
     "PP"
   ],
   "key": {
-    "P": { "item": "wormholetech:prysmian" }
+    "P": {
+      "type": "forge:ore_dict",
+      "ore": "gemPrysmian"
+    }
   },
-  "result": { "item": "wormholetech:prysmian_block" }
+  "result": {
+    "item": "wormholetech:prysmian_block"
+  }
 }

@@ -1,5 +1,13 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "ingredients": [ { "item": "wormholetech:titanium_block" } ],
-  "result": { "item": "wormholetech:titanium_ingot", "count": 9 }
+  "ingredients": [
+    {
+      "type": "forge:ore_dict",
+      "ore": "blockTitanium"
+    }
+  ],
+  "result": {
+    "item": "wormholetech:titanium_ingot",
+    "count": 9
+  }
 }

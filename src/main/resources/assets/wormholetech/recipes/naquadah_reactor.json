@@ -6,11 +6,24 @@
     "SRS"
   ],
   "key": {
-    "P": { "item": "wormholetech:prysmian_logic_frame" },
-    "N": { "item": "wormholetech:refined_naquadah" },
-	"C": { "item": "minecraft:comparator"},
-	"R": { "item": "minecraft:repeater"},
-	"S": { "item": "minecraft:redstone"}
+    "P": {
+      "item": "wormholetech:prysmian_logic_frame"
+    },
+    "N": {
+      "type": "forge:ore_dict",
+      "ore": "ingotNaquadah"
+    },
+    "C": {
+      "item": "minecraft:comparator"
+    },
+    "R": {
+      "item": "minecraft:repeater"
+    },
+    "S": {
+      "item": "minecraft:redstone"
+    }
   },
-  "result": { "item": "wormholetech:naquadah_reactor" }
+  "result": {
+    "item": "wormholetech:naquadah_reactor"
+  }
 }
