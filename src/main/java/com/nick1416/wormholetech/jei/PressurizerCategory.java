@@ -55,11 +55,16 @@ public class PressurizerCategory implements IRecipeCategory<PressurizerCategory.
 
     public static List<Wrapper> recipes() { return Collections.singletonList(new Wrapper()); }
 
+    private static List<ItemStack> withCount(List<ItemStack> l, int n) {
+        for (ItemStack s : l) s.setCount(n);
+        return l;
+    }
+
     public static class Wrapper implements IRecipeWrapper {
         @Override public void getIngredients(IIngredients ing) {
             ing.setInputLists(VanillaTypes.ITEM, Arrays.asList(
                     Collections.singletonList(new ItemStack(Items.WATER_BUCKET)),
-                    PressurizerRecipe.stacks(PressurizerRecipe.COAL),
+                    withCount(PressurizerRecipe.stacks(PressurizerRecipe.COAL), PressurizerRecipe.COAL_PER_EMERALD),
                     PressurizerRecipe.stacks(PressurizerRecipe.ALUMINUM),
                     PressurizerRecipe.stacks(PressurizerRecipe.CHROMIUM),
                     PressurizerRecipe.stacks(PressurizerRecipe.SILICON)));
