@@ -68,7 +68,6 @@ public class WormholeJeiPlugin implements IModPlugin {
         registry.addRecipeCatalyst(new ItemStack(Registration.PRESSURIZER), PressurizerCategory.UID);
         registry.addRecipeClickArea(com.nick1416.wormholetech.pressurizer.GuiPressurizer.class, 117, 36, 24, 16, PressurizerCategory.UID);
         info(registry, Registration.ITEM_PRESSURIZER, "hydrothermal_pressurizer", 2);
-        info(registry, Registration.CHROMIUM, "chromium", 1);
 
         registry.handleRecipes(HighEnergyRefineRecipe.class, HighEnergyRefineWrapper::new, HighEnergyRefineCategory.UID);
         registry.addRecipes(HighEnergyRefineRecipe.createRecipes(), HighEnergyRefineCategory.UID);

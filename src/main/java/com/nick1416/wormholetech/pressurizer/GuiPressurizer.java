@@ -35,16 +35,13 @@ public class GuiPressurizer extends GuiContainer {
     @Override
     protected void drawGuiContainerForegroundLayer(int mx, int my) {
         fontRenderer.drawString(I18n.format("tile.wormholetech.hydrothermal_pressurizer.name"), 8, 6, 0x404040);
-        String key; int color = 0x604020;
-        switch (c.status()) {
-            case PressurizerTileEntity.STATUS_FORMING: key = "gui.wormholetech.pressurizer.forming"; color = 0x206020; break;
-            case PressurizerTileEntity.STATUS_NEED_WATER: key = "gui.wormholetech.pressurizer.need_water"; color = 0x902020; break;
-            case PressurizerTileEntity.STATUS_NEED_COAL: key = "gui.wormholetech.pressurizer.need_coal"; color = 0x902020; break;
-            case PressurizerTileEntity.STATUS_OUTPUT_FULL: key = "gui.wormholetech.status.output_full"; break;
-            default: key = "gui.wormholetech.pressurizer.idle"; break;
+        int st = c.status();
+        if (st == PressurizerTileEntity.STATUS_FORMING) {
+            int pct = (int) ((long) c.cook() * 100 / PressurizerRecipe.TICKS);
+            fontRenderer.drawString(I18n.format("gui.wormholetech.pressurizer.forming", pct), 30, 76, 0x206020);
+        } else if (st == PressurizerTileEntity.STATUS_OUTPUT_FULL) {
+            fontRenderer.drawString(I18n.format("gui.wormholetech.status.output_full"), 30, 76, 0x604020);
         }
-        int pct = (int) ((long) c.cook() * 100 / PressurizerRecipe.TICKS);
-        fontRenderer.drawString(I18n.format(key, pct), 30, 76, color);
         fontRenderer.drawString(I18n.format("container.inventory"), 8, ySize - 94, 0x404040);
     }
 
