@@ -1,6 +1,5 @@
 tile.wormholetech.rf_generator.name=Wormhole Energy Converter
 tile.wormholetech.naquadah_ore.name=Synthetic Naquadah Ore
-item.wormholetech.raw_naquadah.name=Raw Naquadah
 item.wormholetech.refined_naquadah.name=Refined Naquadah
 item.wormholetech.prysmian.name=Prysmian
 tile.wormholetech.prysmian_block.name=Block of Prysmian
@@ -51,9 +50,6 @@ tooltip.wormholetech.unstable_naquadah_block.detail.1=Left by expired generators
 tooltip.wormholetech.unstable_naquadah_block.detail.1.normal=Left by expired generators and decayed Refined Naquadah blocks.
 tooltip.wormholetech.unstable_naquadah_block.detail.2=Player harvest (no Silk Touch) yields 4 Unstable Naquadah.
 
-tooltip.wormholetech.raw_naquadah.summary=Unrefined wormhole matter
-tooltip.wormholetech.raw_naquadah.detail.1=Drop as an item and detonate nearby to refine (1:1).
-tooltip.wormholetech.raw_naquadah.detail.2=See JEI for how to obtain it.
 
 tooltip.wormholetech.refined_naquadah.summary=Core crafting material for Wormhole tech
 
@@ -78,8 +74,8 @@ tooltip.wormholetech.unstable_naquadah_reactor.summary=Unstable crafting part fo
 
 
 jei.wormholetech.explosion_refine=Explosion Refining
-jei.wormholetech.explosion_refine.hint=Explosion (item entity)
-jei.wormholetech.explosion_refine.tooltip=Drop Raw Naquadah as an item, then detonate nearby.
+jei.wormholetech.explosion_refine.hint=Explosion: 75%% chance per block
+jei.wormholetech.explosion_refine.tooltip=Blow up placed Synthetic Naquadah Ore (TNT, creeper...). Each block: 75%% Refined Naquadah.
 jei.wormholetech.high_energy_refine=High Energy Refining
 jei.wormholetech.high_energy_refine.hint=%s RF/t · %s
 jei.wormholetech.high_energy_refine.tooltip=Process in a High Energy Refiner while powered.
@@ -113,9 +109,7 @@ tooltip.wormholetech.mineral_tuner.detail.2=Right-click: set the mineral vein he
 tooltip.wormholetech.mineral_tuner.jei.1=Sets this chunk's IE excavator mineral (see item name for which).
 
 jei.wormholetech.ore_drop=Wormhole Drops
-jei.wormholetech.ore_drop.hint.chance=25%% drop chance
 jei.wormholetech.ore_drop.hint.always=Always drops ×4 when mined
-jei.wormholetech.ore_drop.tooltip.raw=Craft Synthetic Naquadah Ore, place it, mine it (no Silk Touch).
 jei.wormholetech.ore_drop.tooltip.unstable=Mine Unstable Block of Naquadah (no Silk Touch).
 
 advancements.wormholetech.root.title=Wormhole Technologies
@@ -124,8 +118,6 @@ advancements.wormholetech.discovery.title=Discovery of the Ancient Tablet
 advancements.wormholetech.discovery.desc=Receive the Ancient Tablet and begin translating its fragments.
 advancements.wormholetech.craft_ore.title=Synthetic Vein
 advancements.wormholetech.craft_ore.desc=Craft Synthetic Naquadah Ore
-advancements.wormholetech.raw.title=Unstable Harvest
-advancements.wormholetech.raw.desc=Obtain Raw Naquadah from Synthetic Ore
 advancements.wormholetech.refined.title=Refined by Fire
 advancements.wormholetech.refined.desc=Obtain Refined Naquadah
 
@@ -147,8 +139,8 @@ gui.wormholetech.tablet.p0.l3=[Translation] Whatever can be automated, automate.
 
 
 gui.wormholetech.tablet.p2.title=Fragment II — Matter
-gui.wormholetech.tablet.p2.l1=[Translation] Matter path (craft the ore, mine it, then refine):
-gui.wormholetech.tablet.p2.l2=[Translation] Synthetic Ore -> Raw Naquadah (25%%) -> Refined Naquadah (explode the raw item).
+gui.wormholetech.tablet.p2.l1=[Translation] Matter path: craft the ore, place it, then blow it up.
+gui.wormholetech.tablet.p2.l2=[Translation] Synthetic Ore + explosion -> Refined Naquadah (75%% per block). Mining just returns the ore.
 
 gui.wormholetech.tablet.p3.title=Fragment III — Power
 gui.wormholetech.tablet.p3.l1=[Translation] Power path — each step borrows more of the wormhole:
@@ -164,8 +156,6 @@ gui.wormholetech.tablet.p5.l2=[Translation] Requires Immersive Engineering Excav
 
 advancements.wormholetech.craft_synthetic_ore.title=Synthetic Vein
 advancements.wormholetech.craft_synthetic_ore.desc=Craft Synthetic Naquadah Ore
-advancements.wormholetech.get_raw_naquadah.title=Unstable Harvest
-advancements.wormholetech.get_raw_naquadah.desc=Obtain Raw Naquadah from Synthetic Ore
 advancements.wormholetech.refined_naquadah.title=Refined by Fire
 advancements.wormholetech.refined_naquadah.desc=Obtain Refined Naquadah
 
@@ -659,3 +649,6 @@ tooltip.wormholetech.nanite_cluster.detail.2=4 make a Nanite Core (with emerald 
 tooltip.wormholetech.nanite_core.detail.3=Craftable from Nanite Clusters found on Utopis.
 entity.wormholetech.emerald_droid.name=Emerald Droid
 gui.wormholetech.repository.tech.nanite_core.desc=A self-repairing machine core. Utopis' labs hold the nanites to build your own.
+tooltip.wormholetech.naquadah_ore.summary=Blow it up to refine
+tooltip.wormholetech.naquadah_ore.detail.1=Mining returns the ore (any tool).
+tooltip.wormholetech.naquadah_ore.detail.2=Explosions: 75%% chance per block to drop Refined Naquadah.

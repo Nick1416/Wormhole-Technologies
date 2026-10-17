@@ -70,9 +70,6 @@ public class ClientProxy extends com.nick1416.wormholetech.common.CommonProxy {
 	    ModelLoader.setCustomModelResourceLocation(
 	    		logicFrame, 0, new ModelResourceLocation(logicFrame.getRegistryName(), "inventory"));
 
-	    Item raw = Registration.RAW_NAQUADAH;
-	    ModelLoader.setCustomModelResourceLocation(
-	        raw, 0, new ModelResourceLocation(raw.getRegistryName(), "inventory"));
 
 	    // refined_naquadah
 	    Item refined = Registration.REFINED_NAQUADAH;

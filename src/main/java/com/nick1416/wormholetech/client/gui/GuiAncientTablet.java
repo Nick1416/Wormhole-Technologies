@@ -47,7 +47,7 @@ public class GuiAncientTablet extends GuiScreen {
                 },
                 new ItemStack[] {
                         new ItemStack(Registration.NAQUADAH_ORE),
-                        new ItemStack(Registration.RAW_NAQUADAH),
+                        new ItemStack(net.minecraft.init.Blocks.TNT),
                         new ItemStack(Registration.REFINED_NAQUADAH)
                 }));
         pages.add(new Page(

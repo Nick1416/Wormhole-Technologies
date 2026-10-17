@@ -52,7 +52,6 @@ public class WormholeJeiPlugin implements IModPlugin {
 
         registry.handleRecipes(OreDropRecipe.class, OreDropWrapper::new, OreDropCategory.UID);
         registry.addRecipes(OreDropRecipe.createRecipes(), OreDropCategory.UID);
-        registry.addRecipeCatalyst(new ItemStack(Registration.NAQUADAH_ORE), OreDropCategory.UID);
         registry.addRecipeCatalyst(new ItemStack(Registration.UNSTABLE_NAQUADAH_BLOCK), OreDropCategory.UID);
 
         registry.handleRecipes(HighEnergyRefineRecipe.class, HighEnergyRefineWrapper::new, HighEnergyRefineCategory.UID);
@@ -77,7 +76,7 @@ public class WormholeJeiPlugin implements IModPlugin {
                     "tooltip.wormholetech.unstable_naquadah_block.detail.1.normal",
                     "tooltip.wormholetech.unstable_naquadah_block.detail.2");
         }
-        info(registry, Registration.RAW_NAQUADAH, "raw_naquadah", 2);
+        info(registry, Registration.ITEM_NAQUADAH_ORE, "naquadah_ore", 2);
         info(registry, Registration.REFINED_NAQUADAH, "refined_naquadah", 0);
         info(registry, Registration.UNSTABLE_NAQUADAH, "unstable_naquadah", 2);
         info(registry, Registration.PRYSMIAN, "prysmian", 0);

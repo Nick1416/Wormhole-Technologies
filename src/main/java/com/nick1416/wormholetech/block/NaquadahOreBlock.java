@@ -11,4 +11,8 @@ public class NaquadahOreBlock extends Block {
         setResistance(5.0F);
         setSoundType(SoundType.STONE);
     }
+
+    /** Any tool (or a bare hand) harvests it; it always drops itself. Explosions refine it (see DropHandler). */
+    @Override
+    public boolean canHarvestBlock(net.minecraft.world.IBlockAccess world, net.minecraft.util.math.BlockPos pos, net.minecraft.entity.player.EntityPlayer player) { return true; }
 }
