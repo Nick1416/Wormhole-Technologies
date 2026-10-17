@@ -53,5 +53,10 @@ public class GuiPressurizer extends GuiContainer {
         int x = mx - guiLeft, y = my - guiTop;
         if (x >= BAR_X - 1 && x < BAR_X + BAR_W + 1 && y >= BAR_Y - 1 && y < BAR_Y + BAR_H + 1)
             drawHoveringText(Collections.singletonList(I18n.format("gui.wormholetech.pressurizer.water", c.water(), PressurizerRecipe.TANK)), mx, my);
+        // Empty coal slot: the only "needs" hint in this GUI.
+        net.minecraft.inventory.Slot coal = c.getSlot(PressurizerTileEntity.COAL);
+        if (!coal.getHasStack() && mc.player.inventory.getItemStack().isEmpty()
+                && x >= coal.xPos - 1 && x < coal.xPos + 17 && y >= coal.yPos - 1 && y < coal.yPos + 17)
+            drawHoveringText(Collections.singletonList(I18n.format("gui.wormholetech.pressurizer.need_coal")), mx, my);
     }
 }
