@@ -1,5 +1,5 @@
 {
-  "parent": "wormholetech:relativistic_computer",
+  "parent": "wormholetech:high_energy_refiner",
   "display": {
     "icon": { "item": "wormholetech:dialing_computer" },
     "title": { "translate": "advancements.wormholetech.p3x_1416.title" },

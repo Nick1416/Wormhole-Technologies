@@ -39,6 +39,10 @@ public class GuiHighEnergyRefiner extends GuiContainer {
         GlStateManager.color(1f, 1f, 1f, 1f);
         mc.getTextureManager().bindTexture(BG);
         drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+        drawTank();
+        slotFrame(ContainerHighEnergyRefiner.BUCKET_X, ContainerHighEnergyRefiner.BUCKET_Y);
+        mc.getTextureManager().bindTexture(BG);
+        GlStateManager.color(1f, 1f, 1f, 1f);
 
         // Fill by real progress
         int fill = (int) (container.getClientProgress() * ARROW_W);
@@ -63,6 +67,40 @@ public class GuiHighEnergyRefiner extends GuiContainer {
         }
     }
 
+    private void slotFrame(int x, int y) {
+        int l = guiLeft + x - 1, t = guiTop + y - 1;
+        drawRect(l, t, l + 18, t + 18, 0xFFFFFFFF);
+        drawRect(l, t, l + 17, t + 17, 0xFF373737);
+        drawRect(l + 1, t + 1, l + 17, t + 17, 0xFF8B8B8B);
+    }
+
+    /** Hydrothermal Fluid tank: sunken frame, fluid texture filled from the bottom, gauge ticks. */
+    private void drawTank() {
+        int x = guiLeft + ContainerHighEnergyRefiner.TANK_X, y = guiTop + ContainerHighEnergyRefiner.TANK_Y;
+        int w = ContainerHighEnergyRefiner.TANK_W, h = ContainerHighEnergyRefiner.TANK_H;
+        drawRect(x - 1, y - 1, x + w + 1, y + h + 1, 0xFFFFFFFF);
+        drawRect(x - 1, y - 1, x + w, y + h, 0xFF373737);
+        drawRect(x, y, x + w, y + h, 0xFF2A2A30);
+        int amount = container.getClientFluid();
+        int fill = Math.min(h, (int) Math.ceil(h * amount / (double) AetheriusRefinerTileEntity.TANK_CAPACITY));
+        if (amount > 0 && fill > 0) {
+            net.minecraft.client.renderer.texture.TextureAtlasSprite sprite = mc.getTextureMapBlocks().getAtlasSprite(
+                    com.nick1416.wormholetech.fluid.HydrothermalFluid.fluid().getStill().toString());
+            mc.getTextureManager().bindTexture(net.minecraft.client.renderer.texture.TextureMap.LOCATION_BLOCKS_TEXTURE);
+            GlStateManager.color(1f, 1f, 1f, 1f);
+            int top = y + h - fill;
+            for (int yy = y + h; yy > top; yy -= 16) {
+                int seg = Math.min(16, yy - top);
+                drawTexturedModalRect(x, yy - seg, sprite, w, seg);
+            }
+        }
+        for (int i = 1; i < 8; i++) {
+            int ty = y + h - h * i / 8;
+            drawRect(x, ty, x + (i % 2 == 0 ? 6 : 3), ty + 1, 0x90FFFFFF);
+        }
+        GlStateManager.color(1f, 1f, 1f, 1f);
+    }
+
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         fontRenderer.drawString(I18n.format("container.wormholetech.high_energy_refiner"), 8, TITLE_Y, 0x404040);
@@ -78,6 +116,7 @@ public class GuiHighEnergyRefiner extends GuiContainer {
             case AetheriusRefinerTileEntity.STATUS_REFINING: key = "gui.wormholetech.status.refining"; color = 0x206020; break;
             case AetheriusRefinerTileEntity.STATUS_NEED_RF: key = "gui.wormholetech.status.need_rf"; color = 0x902020; break;
             case AetheriusRefinerTileEntity.STATUS_OUTPUT_FULL: key = "gui.wormholetech.status.output_full"; color = 0x604020; break;
+            case AetheriusRefinerTileEntity.STATUS_NEED_FLUID: key = "gui.wormholetech.status.need_fluid"; color = 0x902020; break;
             default: key = "gui.wormholetech.status.idle"; color = 0x604020; break;
         }
         fontRenderer.drawString(I18n.format(key), 8, STATUS_Y, color);
@@ -90,5 +129,18 @@ public class GuiHighEnergyRefiner extends GuiContainer {
         this.drawDefaultBackground();
         super.drawScreen(mouseX, mouseY, partialTicks);
         this.renderHoveredToolTip(mouseX, mouseY);
+        int rx = mouseX - guiLeft, ry = mouseY - guiTop;
+        if (rx >= ContainerHighEnergyRefiner.TANK_X - 1 && rx <= ContainerHighEnergyRefiner.TANK_X + ContainerHighEnergyRefiner.TANK_W
+                && ry >= ContainerHighEnergyRefiner.TANK_Y - 1 && ry <= ContainerHighEnergyRefiner.TANK_Y + ContainerHighEnergyRefiner.TANK_H) {
+            drawHoveringText(java.util.Arrays.asList(
+                    I18n.format("fluid.wormholetech.hydrothermal_fluid"),
+                    net.minecraft.util.text.TextFormatting.GRAY + I18n.format("gui.wormholetech.tank_mb",
+                            String.format("%,d", container.getClientFluid()), String.format("%,d", AetheriusRefinerTileEntity.TANK_CAPACITY))),
+                    mouseX, mouseY);
+        } else {
+            net.minecraft.inventory.Slot sl = getSlotUnderMouse();
+            if (sl != null && sl.slotNumber == 2 && !sl.getHasStack())
+                drawHoveringText(java.util.Collections.singletonList(I18n.format("gui.wormholetech.refiner.bucket_slot")), mouseX, mouseY);
+        }
     }
 }

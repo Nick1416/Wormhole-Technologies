@@ -110,8 +110,7 @@ public class GuiAncientTablet extends GuiScreen {
                 },
                 new ItemStack[] {
                         new ItemStack(Registration.HIGH_ENERGY_REFINER),
-                        new ItemStack(Registration.AETHERIUS),
-                        new ItemStack(Registration.RELATIVISTIC_COMPUTER)
+                        new ItemStack(Registration.AETHERIUS)
                 }));
         pages.add(new Page(
                 "gui.wormholetech.tablet.p7.title",
@@ -119,12 +118,12 @@ public class GuiAncientTablet extends GuiScreen {
                         "gui.wormholetech.tablet.p7.l1",
                         "gui.wormholetech.tablet.p7.l2",
                         "gui.wormholetech.tablet.p7.l3",
-                        "gui.wormholetech.tablet.p7.l4"
+                        "gui.wormholetech.tablet.p7.l4",
+                        "gui.wormholetech.tablet.p7.l5"
                 },
                 new ItemStack[] {
                         titaniumIcon(),
                         new ItemStack(Registration.DIALING_COMPUTER),
-                        new ItemStack(Registration.RELATIVISTIC_COMPUTER),
                         new ItemStack(Registration.ANCIENT_TABLET),
                         new ItemStack(Registration.GATE_LOCATOR)
                 }));
@@ -137,6 +136,18 @@ public class GuiAncientTablet extends GuiScreen {
                 new ItemStack[] {
                         new ItemStack(Registration.NAQUADAH_CRYSTAL),
                         new ItemStack(Registration.WORMHOLE_PAD),
+                        new ItemStack(Registration.WORMHOLE_LINKER)
+                }));
+        pages.add(new Page(
+                "gui.wormholetech.tablet.p10.title",
+                new String[] {
+                        "gui.wormholetech.tablet.p10.l1",
+                        "gui.wormholetech.tablet.p10.l2",
+                        "gui.wormholetech.tablet.p10.l3"
+                },
+                new ItemStack[] {
+                        new ItemStack(Registration.TIME_DILATED_CHIP),
+                        new ItemStack(Registration.GATE_NETWORK_COMPUTER),
                         new ItemStack(Registration.RELATIVISTIC_COMPUTER)
                 }));
     }

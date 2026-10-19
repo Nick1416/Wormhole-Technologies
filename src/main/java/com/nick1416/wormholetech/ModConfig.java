@@ -28,14 +28,14 @@ public final class ModConfig {
     public static int stableConverterBuffer = 10_000_000;
     public static int stableConverterMaxExtract = 100_000;
 
-    // Relativistic Computer
+    // Relativistic Computer (config names kept; the block is now the Chrono Field Generator)
     public static int relativisticComputerUpkeepRfPerTick = 50_000;
     public static int relativisticComputerBuffer = 2_000_000;
     public static int relativisticComputerMaxReceive = 100_000;
 
     // High Energy Refiner (Aetherius)
     public static int highEnergyRefinerRfPerTick = 100;
-    public static int highEnergyRefinerCookTimeTicks = 36_000;
+    public static int highEnergyRefinerCookTimeTicks = 18_000;
     public static int highEnergyRefinerTitaniumTicks = 200;
     /** Ticks a full Aetherius lasts at quantum clock +1 (and takes to recover fully at -1). */
     public static int aetheriusDecayTicks = 36_000;
@@ -61,7 +61,15 @@ public final class ModConfig {
     public static int selVoraDimensionId = -1419;
     public static int elyndraDimensionId = -1420;
     public static int utopisDimensionId = -1421;
-    public static float utopisGravity = 1.4F;
+    /** Gravity during an Utopis surge; between surges it is normal. */
+    public static float utopisGravity = 1.2F;
+    public static int utopisSurgeCycleTicks = 6000;   // one surge somewhere in every 5 minutes
+    public static int utopisSurgeMinTicks = 600;      // 30 s
+    public static int utopisSurgeMaxTicks = 1800;     // 90 s
+    public static int p3xHydrothermalSpringChance = 10; // 1 in N chunks, 0 = off
+    // Chrono Field Generator (the former Relativistic Computer block)
+    public static int chronoFieldRfPerBlockPerTick = 10_000;
+    public static int chronoFieldExtraTicks = 1;
     public static float utopisFallDamageMultiplier = 1.5F;
     public static double selVoraGravity = 0.85D;
     public static double selVoraFallDamageMultiplier = 0.6D;
@@ -157,25 +165,25 @@ public final class ModConfig {
 
         final String late = "late_game";
         relativisticComputerUpkeepRfPerTick = cfg.getInt("relativisticComputerUpkeepRfPerTick", late, 50_000, 0, Integer.MAX_VALUE,
-                "Relativistic Computer RF upkeep per tick while active");
+                "Base RF for the Dialing Computer upkeep: open wormholes cost half of this per tick (unless dialingComputerRfPerTick is set)");
         relativisticComputerBuffer = cfg.getInt("relativisticComputerBuffer", late, 2_000_000, 1, Integer.MAX_VALUE,
-                "Relativistic Computer RF buffer");
+                "Chrono Field Generator RF buffer");
         relativisticComputerMaxReceive = cfg.getInt("relativisticComputerMaxReceive", late, 100_000, 0, Integer.MAX_VALUE,
-                "Relativistic Computer max RF receive per tick");
+                "Chrono Field Generator max RF receive per tick");
+        chronoFieldRfPerBlockPerTick = cfg.getInt("chronoFieldRfPerBlockPerTick", late, 10_000, 0, Integer.MAX_VALUE,
+                "Chrono Field Generator RF per tick for each adjacent machine it speeds up");
+        chronoFieldExtraTicks = cfg.getInt("chronoFieldExtraTicks", late, 1, 1, 9,
+                "Extra ticks per tick the Chrono Field Generator gives each adjacent machine (1 = twice as fast)");
 
         highEnergyRefinerRfPerTick = cfg.getInt("highEnergyRefinerRfPerTick", late, 100, 0, Integer.MAX_VALUE,
                 "High Energy Refiner RF consumed per tick while refining");
-        net.minecraftforge.common.config.Property refineTime = cfg.get(late, "highEnergyRefinerCookTimeTicks", 36_000,
-                "High Energy Refiner cook time in ticks (~30 minutes at 20 TPS)", 1, Integer.MAX_VALUE);
-        if (refineTime.getInt() == 72_000) {
-            // Migrate the old 1-hour default; custom values are left alone.
-            refineTime.set(36_000);
-        }
-        highEnergyRefinerCookTimeTicks = refineTime.getInt();
+        // Migrate the old 1-hour and 30-minute defaults; custom values are left alone.
+        highEnergyRefinerCookTimeTicks = migrated(cfg, late, "highEnergyRefinerCookTimeTicks", 18_000, new int[] { 72_000, 36_000 }, 1, Integer.MAX_VALUE,
+                "High Energy Refiner Compressed Naquadah -> Aetherius time in ticks (~15 minutes at 20 TPS)");
         highEnergyRefinerTitaniumTicks = cfg.getInt("highEnergyRefinerTitaniumTicks", late, 200, 1, Integer.MAX_VALUE,
                 "High Energy Refiner ticks to turn one silicon into a Titanium Ingot (200 = furnace speed)");
         aetheriusDecayTicks = cfg.getInt("aetheriusDecayTicks", late, 36_000, 20, Integer.MAX_VALUE,
-                "Ticks a full Aetherius lasts in a Relativistic Computer at quantum clock +1 (lost at zero); it recovers at the same rate at -1");
+                "Ticks a full Aetherius lasts in a Gate Network Computer while a wormhole is open (lost at zero); it recovers at the same rate while closed");
         highEnergyRefinerBuffer = cfg.getInt("highEnergyRefinerBuffer", late, 1_000_000, 1, Integer.MAX_VALUE,
                 "High Energy Refiner RF buffer");
         highEnergyRefinerMaxReceive = cfg.getInt("highEnergyRefinerMaxReceive", late, 10_000, 0, Integer.MAX_VALUE,
@@ -212,8 +220,16 @@ public final class ModConfig {
         talVoraVillageChance = Math.max(0, Math.min(100, vc.getInt()));
         utopisDimensionId = cfg.getInt("utopisDimensionId", sg, -1421, Integer.MIN_VALUE, Integer.MAX_VALUE,
                 "Dimension ID of Utopis, the forbidden city world. Keep it stable; must not clash with another mod");
-        utopisGravity = cfg.getFloat("utopisGravity", sg, 1.4F, 1.0F, 2.0F, "Gravity on Utopis relative to normal (1.4 = lower jumps, faster falls)");
-        utopisFallDamageMultiplier = cfg.getFloat("utopisFallDamageMultiplier", sg, 1.5F, 1.0F, 3.0F, "Fall damage multiplier on Utopis");
+        // values above 1.2 (the old constant 1.4) are clamped: they stopped one-block jumps
+        utopisGravity = cfg.getFloat("utopisGravity", sg, 1.2F, 1.0F, 1.2F,
+                "Gravity on Utopis during a gravity surge, relative to normal (between surges it is normal). Capped at 1.2 so one-block steps stay jumpable");
+        utopisSurgeCycleTicks = cfg.getInt("utopisSurgeCycleTicks", sg, 6000, 200, 1_000_000,
+                "Utopis has one gravity surge at a random moment in every window of this many ticks (6000 = 5 min)");
+        utopisSurgeMinTicks = cfg.getInt("utopisSurgeMinTicks", sg, 600, 20, 1_000_000, "Shortest Utopis gravity surge in ticks (600 = 30 s)");
+        utopisSurgeMaxTicks = cfg.getInt("utopisSurgeMaxTicks", sg, 1800, 20, 1_000_000, "Longest Utopis gravity surge in ticks (1800 = 90 s)");
+        utopisFallDamageMultiplier = cfg.getFloat("utopisFallDamageMultiplier", sg, 1.5F, 1.0F, 3.0F, "Fall damage multiplier on Utopis during a gravity surge");
+        p3xHydrothermalSpringChance = cfg.getInt("p3xHydrothermalSpringChance", sg, 10, 0, 100000,
+                "1 in N chunks on P3X-1416 try to place a small Hydrothermal Fluid spring on flat ground (0 = off)");
         elyndraDimensionId = cfg.getInt("elyndraDimensionId", sg, -1420, Integer.MIN_VALUE, Integer.MAX_VALUE,
                 "Dimension ID of Elyndra, the far-away home world of the gate builders. Keep it stable; must not clash with another mod");
         selVoraDimensionId = cfg.getInt("selVoraDimensionId", sg, -1419, Integer.MIN_VALUE, Integer.MAX_VALUE,
@@ -238,7 +254,7 @@ public final class ModConfig {
         derelictCrawlerCap = cfg.getInt("derelictCrawlerCap", sg, 10, 0, 200,
                 "Extra crawler spawning stops while this many hostile mobs are within 32 blocks of the player");
         dialingComputerRfPerTickSetting = cfg.getInt("dialingComputerRfPerTick", sg, -1, -1, Integer.MAX_VALUE,
-                "Dialing Computer RF per tick while the wormhole is open (-1 = half of relativisticComputerUpkeepRfPerTick)");
+                "Dialing Computer RF per tick while the wormhole is open (-1 = half of relativisticComputerUpkeepRfPerTick, 25,000 by default)");
         dialingComputerBuffer = cfg.getInt("dialingComputerBuffer", sg, 1_000_000, 1, Integer.MAX_VALUE, "Dialing Computer RF buffer");
         dialingComputerMaxReceive = cfg.getInt("dialingComputerMaxReceive", sg, 100_000, 0, Integer.MAX_VALUE,
                 "Dialing Computer max RF receive per tick");

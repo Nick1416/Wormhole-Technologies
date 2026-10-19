@@ -46,6 +46,11 @@ public class WormholeTech {
 
     public static ItemStack DIAMOND_NUGGET = ItemStack.EMPTY;
 
+    static {
+        // must happen before any fluid registers its bucket (registry events run before preInit)
+        net.minecraftforge.fluids.FluidRegistry.enableUniversalBucket();
+    }
+
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent e) {
         ModConfig.load(e.getSuggestedConfigurationFile());
@@ -109,6 +114,7 @@ public class WormholeTech {
         com.nick1416.wormholetech.world.ModDimensions.registerUtopis();
         GameRegistry.registerWorldGenerator(new com.nick1416.wormholetech.world.P3XOreGenerator(), 10);
         GameRegistry.registerWorldGenerator(new com.nick1416.wormholetech.world.ChromiumOreGenerator(), 10);
+        GameRegistry.registerWorldGenerator(new com.nick1416.wormholetech.fluid.HydrothermalSprings(), 12);
 
         PROXY.preInit();
     }

@@ -15,6 +15,8 @@ import java.util.List;
 public class HighEnergyRefineWrapper implements IRecipeWrapper {
     private final HighEnergyRefineRecipe recipe;
 
+    public HighEnergyRefineRecipe recipe() { return recipe; }
+
     public HighEnergyRefineWrapper(HighEnergyRefineRecipe recipe) {
         this.recipe = recipe;
     }
@@ -23,6 +25,7 @@ public class HighEnergyRefineWrapper implements IRecipeWrapper {
     public void getIngredients(IIngredients ingredients) {
         ingredients.setInputLists(VanillaTypes.ITEM, Collections.singletonList(recipe.input));
         ingredients.setOutput(VanillaTypes.ITEM, recipe.output);
+        if (recipe.fluid != null) ingredients.setInput(VanillaTypes.FLUID, recipe.fluid);
     }
 
     @Override

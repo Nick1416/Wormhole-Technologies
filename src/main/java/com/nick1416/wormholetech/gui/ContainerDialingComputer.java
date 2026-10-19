@@ -11,6 +11,8 @@ public class ContainerDialingComputer extends SyncedIntsContainer {
 
     public static final int GUI_HEIGHT = 184;
     public static final int SLOT_X = 80, SLOT_Y = 30;
+    /** Upgrade slot (right) and the Gate Network Computer's Aetherius slot (left), same row as the address. */
+    public static final int UPGRADE_X = 152, AETHERIUS_X = 8;
     public static final int PLAYER_INV_Y = GUI_HEIGHT - 82;   // 102
     public static final int HOTBAR_Y = PLAYER_INV_Y + 58;      // 160
     public static final int BUTTON_ID = 0;
@@ -18,13 +20,20 @@ public class ContainerDialingComputer extends SyncedIntsContainer {
     private static final int ENERGY = 0, STATUS = 1, OPEN = 2;
 
     protected final DialingComputerTileEntity te;
+    /** Machine slots before the player inventory. */
+    public final int teSlots;
+
+    public DialingComputerTileEntity getTe() { return te; }
 
     public ContainerDialingComputer(InventoryPlayer playerInv, DialingComputerTileEntity te) { this(playerInv, te, 0); }
 
     protected ContainerDialingComputer(InventoryPlayer playerInv, DialingComputerTileEntity te, int extraInts) {
         super(3 + extraInts);
         this.te = te;
-        addSlotToContainer(new SlotItemHandler(te.items(), 0, SLOT_X, SLOT_Y));
+        addSlotToContainer(new SlotItemHandler(te.items(), DialingComputerTileEntity.SLOT_ADDRESS, SLOT_X, SLOT_Y));
+        addSlotToContainer(new SlotItemHandler(te.items(), DialingComputerTileEntity.SLOT_UPGRADE, UPGRADE_X, SLOT_Y));
+        if (te.isNetwork()) addSlotToContainer(new SlotItemHandler(te.items(), DialingComputerTileEntity.SLOT_AETHERIUS, AETHERIUS_X, SLOT_Y));
+        teSlots = te.isNetwork() ? 3 : 2;
         for (int r = 0; r < 3; r++)
             for (int c = 0; c < 9; c++)
                 addSlotToContainer(new Slot(playerInv, c + r * 9 + 9, 8 + c * 18, PLAYER_INV_Y + r * 18));
@@ -61,13 +70,13 @@ public class ContainerDialingComputer extends SyncedIntsContainer {
         if (slot == null || !slot.getHasStack()) return ItemStack.EMPTY;
         ItemStack in = slot.getStack();
         ItemStack ret = in.copy();
-        if (index == 0) {
-            if (!this.mergeItemStack(in, 1, this.inventorySlots.size(), true)) return ItemStack.EMPTY;
-        } else if (getSlot(0).isItemValid(in) && !getSlot(0).getHasStack()) {
-            ItemStack one = in.splitStack(1);
-            getSlot(0).putStack(one);
+        if (index < teSlots) {
+            if (!this.mergeItemStack(in, teSlots, this.inventorySlots.size(), true)) return ItemStack.EMPTY;
         } else {
-            return ItemStack.EMPTY;
+            int to = -1;
+            for (int i = 0; i < teSlots && to < 0; i++) if (getSlot(i).isItemValid(in) && !getSlot(i).getHasStack()) to = i;
+            if (to < 0) return ItemStack.EMPTY;
+            getSlot(to).putStack(in.splitStack(1));
         }
         if (in.isEmpty()) slot.putStack(ItemStack.EMPTY); else slot.onSlotChanged();
         if (in.getCount() == ret.getCount()) return ItemStack.EMPTY;

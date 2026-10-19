@@ -54,6 +54,18 @@ public class GuiDialingComputer extends GuiContainer {
         GlStateManager.color(1f, 1f, 1f, 1f);
         mc.getTextureManager().bindTexture(BG);
         drawTexturedModalRect(guiLeft, guiTop, 0, 0, PANEL_W, ySize);
+        slotFrame(ContainerDialingComputer.UPGRADE_X, ContainerDialingComputer.SLOT_Y, 0xFF7A5FB0);
+        if (container.teSlots > 2) slotFrame(ContainerDialingComputer.AETHERIUS_X, ContainerDialingComputer.SLOT_Y, 0xFF5FA8B0);
+    }
+
+    /** Vanilla-style 18x18 slot box around an item position, with a thin coloured accent. */
+    protected void slotFrame(int x, int y, int accent) {
+        int l = guiLeft + x - 1, t = guiTop + y - 1;
+        drawRect(l - 1, t - 1, l + 19, t + 19, accent);
+        drawRect(l, t, l + 18, t + 18, 0xFFFFFFFF);
+        drawRect(l, t, l + 17, t + 17, 0xFF373737);
+        drawRect(l + 1, t + 1, l + 17, t + 17, 0xFF8B8B8B);
+        GlStateManager.color(1f, 1f, 1f, 1f);
     }
 
     @Override
@@ -93,5 +105,11 @@ public class GuiDialingComputer extends GuiContainer {
         drawDefaultBackground();
         super.drawScreen(mouseX, mouseY, partialTicks);
         renderHoveredToolTip(mouseX, mouseY);
+        // empty-slot hints
+        net.minecraft.inventory.Slot h = getSlotUnderMouse();
+        if (h != null && !h.getHasStack() && h.slotNumber > 0 && h.slotNumber < container.teSlots) {
+            String key = h.slotNumber == 1 ? "gui.wormholetech.dialing.slot.upgrade" : "gui.wormholetech.dialing.slot.aetherius";
+            drawHoveringText(java.util.Collections.singletonList(I18n.format(key)), mouseX, mouseY);
+        }
     }
 }

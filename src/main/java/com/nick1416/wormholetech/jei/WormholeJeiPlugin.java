@@ -102,12 +102,17 @@ public class WormholeJeiPlugin implements IModPlugin {
         info(registry, Registration.NAQUADAH_REACTOR, "naquadah_reactor", 1);
         info(registry, Registration.UNSTABLE_NAQUADAH_REACTOR, "unstable_naquadah_reactor", 0);
         info(registry, Registration.AETHERIUS, "aetherius", 1);
-        info(registry, Registration.ITEM_RELATIVISTIC_COMPUTER, "relativistic_computer", 1);
+        info(registry, Registration.ITEM_RELATIVISTIC_COMPUTER, "relativistic_computer", 2);
         info(registry, Registration.ITEM_COMPRESSED_NAQUADAH, "compressed_naquadah", 0);
         info(registry, Registration.ITEM_HIGH_ENERGY_REFINER, "high_energy_refiner", 0);
         info(registry, Registration.ITEM_DIALING_COMPUTER, "dialing_computer", 0);
-        info(registry, Registration.ITEM_GATE_NETWORK_COMPUTER, "gate_network_computer", 0);
-        info(registry, Registration.ITEM_QUANTUM_FIELD_MODULATOR, "quantum_field_modulator", 1);
+        info(registry, Registration.TIME_DILATED_CHIP, "time_dilated_chip", 1);
+        info(registry, Registration.EMERALD_NUGGET, "emerald_nugget", 0);
+        addInfo(registry, com.nick1416.wormholetech.fluid.HydrothermalFluid.bucket(), VanillaTypes.FLUID,
+                "jei.wormholetech.hydrothermal_fluid.info");
+        addInfo(registry, net.minecraftforge.fluids.FluidUtil.getFilledBucket(com.nick1416.wormholetech.fluid.HydrothermalFluid.bucket()), VanillaTypes.ITEM,
+                "jei.wormholetech.hydrothermal_fluid.info");
+        info(registry, Registration.ITEM_QUANTUM_FIELD_MODULATOR, "quantum_field_modulator", 2);
         info(registry, Registration.INTERGALACTIC_COORDINATES, "intergalactic_coordinates", 1);
         info(registry, Registration.NANITE_CORE, "nanite_core", 2);
         ItemStack droneEgg = new ItemStack(net.minecraft.init.Items.SPAWN_EGG);
@@ -181,9 +186,17 @@ public class WormholeJeiPlugin implements IModPlugin {
      * key here (the same way item tooltips are) and hand JEI the finished text.
      */
     private static void addInfo(IModRegistry registry, ItemStack stack, Object type, String... keys) {
+        registry.addIngredientInfo(stack, VanillaTypes.ITEM, lines(keys));
+    }
+
+    private static void addInfo(IModRegistry registry, net.minecraftforge.fluids.FluidStack fluid, mezz.jei.api.recipe.IIngredientType<net.minecraftforge.fluids.FluidStack> type, String... keys) {
+        registry.addIngredientInfo(fluid, type, lines(keys));
+    }
+
+    private static String[] lines(String... keys) {
         String[] lines = new String[keys.length];
-        for (int i = 0; i < keys.length; i++) lines[i] = net.minecraft.client.resources.I18n.format(keys[i]);
-        registry.addIngredientInfo(stack, VanillaTypes.ITEM, lines);
+        for (int i = 0; i < keys.length; i++) lines[i] = net.minecraft.client.resources.I18n.format(keys[i], com.nick1416.wormholetech.util.TextArgs.args(keys[i]));
+        return lines;
     }
 
     private static void info(IModRegistry registry, Item item, String path, int detailCount) {

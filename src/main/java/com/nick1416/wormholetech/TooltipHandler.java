@@ -44,7 +44,7 @@ public class TooltipHandler {
             "unstable_naquadah_reactor",
             "ancient_tablet",
             "high_energy_refiner",
-            "relativistic_computer",
+            "relativistic_computer", "time_dilated_chip", "emerald_nugget",
             "compressed_naquadah",
             "aetherius",
             "wormhole_pad",
@@ -109,9 +109,6 @@ public class TooltipHandler {
                 int pct = Math.min(100, (cook * 100) / ModConfig.highEnergyRefinerCookTimeTicks);
                 event.getToolTip().add(net.minecraft.util.text.TextFormatting.GRAY + "Refine progress: " + pct + "%");
             }
-        } else if ("relativistic_computer".equals(path) && stack.hasTagCompound()
-                && stack.getTagCompound().hasKey("Aetherius")) {
-            event.getToolTip().add(net.minecraft.util.text.TextFormatting.GRAY + "Contains Aetherius");
         }
     }
 
@@ -152,7 +149,7 @@ public class TooltipHandler {
 
     private static void addDocumentedTooltips(ItemTooltipEvent event, String path) {
         String summaryKey = "tooltip.wormholetech." + path + ".summary";
-        String summary = net.minecraft.client.resources.I18n.format(summaryKey);
+        String summary = net.minecraft.client.resources.I18n.format(summaryKey, com.nick1416.wormholetech.util.TextArgs.args(summaryKey));
         if (!summary.equals(summaryKey)) {
             event.getToolTip().add(TextFormatting.GRAY + summary);
         }
@@ -160,7 +157,7 @@ public class TooltipHandler {
         if (GuiScreen.isShiftKeyDown()) {
             for (int i = 1; i <= 6; i++) {
                 String key = "tooltip.wormholetech." + path + ".detail." + i;
-                String line = net.minecraft.client.resources.I18n.format(key);
+                String line = net.minecraft.client.resources.I18n.format(key, com.nick1416.wormholetech.util.TextArgs.args(key));
                 if (!line.equals(key)) {
                     event.getToolTip().add(TextFormatting.DARK_GRAY + line);
                 }
