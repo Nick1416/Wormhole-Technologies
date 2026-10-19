@@ -180,14 +180,14 @@ message.wormholetech.linker.failed=Link failed
 
 item.wormholetech.aetherius.name=Aetherius
 tooltip.wormholetech.aetherius.summary=Glass-like stellar matter
-tooltip.wormholetech.aetherius.detail.1=Seat it in a Gate Network Computer. One lasts %s of open wormhole (lost at zero) and recovers while closed.
+tooltip.wormholetech.aetherius.detail.1=Fuel for the Gate Network Computer and the Chrono Field Generator: one lasts %s of use, then it is lost. Recovers in a Gate Network Computer while its wormhole is closed.
 
 tile.wormholetech.compressed_naquadah.name=Compressed Naquadah
 tooltip.wormholetech.compressed_naquadah.summary=Bedrock-bound refined naquadah
 
 
 tile.wormholetech.relativistic_computer.name=Chrono Field Generator
-tooltip.wormholetech.relativistic_computer.summary=Speeds up adjacent machines
+tooltip.wormholetech.relativistic_computer.summary=Speeds up adjacent machines; burns Aetherius
 tooltip.wormholetech.relativistic_computer.detail.1=%s RF/t per machine; each runs at %s speed.
 
 message.wormholetech.refiner.inserted=Compressed Naquadah loaded
@@ -205,7 +205,7 @@ tile.wormholetech.high_energy_refiner.name=High Energy Refiner
 tooltip.wormholetech.high_energy_refiner.summary=High-energy refining machine
 gui.wormholetech.tablet.p6.title=Fragment VI — Trajectories
 gui.wormholetech.tablet.p6.l1=[Translation] Compress refined matter beneath bedrock pressure, then hold it in a High Energy Refiner for %s.
-gui.wormholetech.tablet.p6.l2=[Translation] Aetherius bends time. A Gate Network Computer burns it to hold its wormholes open.
+gui.wormholetech.tablet.p6.l2=[Translation] Aetherius bends time; one lasts %s. A Gate Network Computer burns it to hold its wormholes open, a Chrono Field Generator to hasten machines.
 tooltip.wormholetech.naquadah_generator.detail.4=Breaking the block keeps remaining lifetime.
 
 container.wormholetech.relativistic_computer=Chrono Field Generator
@@ -470,7 +470,8 @@ item.wormholetech.hard_diamond_helmet.name=Hard Diamond Helmet
 item.wormholetech.hard_diamond_chestplate.name=Hard Diamond Chestplate
 item.wormholetech.hard_diamond_leggings.name=Hard Diamond Leggings
 item.wormholetech.hard_diamond_boots.name=Hard Diamond Boots
-tooltip.wormholetech.relativistic_computer.detail.2=Works on furnaces and most ticking machines, not on gates or pads.
+tooltip.wormholetech.relativistic_computer.detail.3=Works on furnaces and most ticking machines, not on gates or pads.
+tooltip.wormholetech.relativistic_computer.detail.2=Needs Aetherius in its slot; one lasts %s of acceleration.
 
 jei.wormholetech.bedrock.info=Mine with a Hard Diamond Pickaxe.
 advancements.wormholetech.raw_xenolith.title=Alien Mineral
@@ -670,10 +671,16 @@ gui.wormholetech.chrono_field.on=On
 gui.wormholetech.chrono_field.off=Off
 gui.wormholetech.chrono_field.status.off=Field off
 gui.wormholetech.chrono_field.status.idle=Idle: no machine or RF
+gui.wormholetech.chrono_field.status.need_aetherius=Needs Aetherius
+gui.wormholetech.chrono_field.slot.aetherius=Aetherius: %s of acceleration each
+gui.wormholetech.chrono_field.aetherius_left=Aetherius: %s of acceleration left
+tooltip.wormholetech.relativistic_computer.contains=Contains Aetherius (%s left)
+advancements.wormholetech.chrono_field_generator.title=Hastened Hours
+advancements.wormholetech.chrono_field_generator.desc=Craft a Chrono Field Generator
 gui.wormholetech.chrono_field.status.active=Speeding up %s (%s RF/t)
 gui.wormholetech.tablet.p10.title=Fragment X — Bent Time
 gui.wormholetech.tablet.p10.l1=[Translation] Seat a Time Dilated Chip in a Dialing Computer and it becomes a Gate Network Computer, remembering every gate you have passed. One Aetherius holds its wormholes open for %s.
-gui.wormholetech.tablet.p10.l2=[Translation] Wrapped around the chip, a Chrono Field Generator hastens every machine it touches: %s RF/t each, %s speed.
+gui.wormholetech.tablet.p10.l2=[Translation] Wrapped around the chip, a Chrono Field Generator hastens every machine it touches: %s RF/t each, %s speed. It burns Aetherius while it works, %s per crystal.
 gui.wormholetech.tablet.p10.l3=[Translation] A Quantum Field Modulator feeds only gates and drones. Ordinary machinery was not built for that kind of energy.
 tooltip.wormholetech.quantum_field_modulator.detail.2=Other machines and cables get nothing: its energy would overwhelm them.
 message.wormholetech.modulator.overwhelm=The modulator's output would overwhelm it with too much energy

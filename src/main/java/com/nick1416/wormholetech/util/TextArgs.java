@@ -71,12 +71,18 @@ public final class TextArgs {
                 return new Object[] { rf(ModConfig.stableConverterRfPerTick) };
             // Chrono Field Generator
             case "tooltip.wormholetech.relativistic_computer.detail.1":
-            case "gui.wormholetech.tablet.p10.l2":
                 return new Object[] { rf(ModConfig.chronoFieldRfPerBlockPerTick), mult(ModConfig.chronoFieldExtraTicks + 1) };
+            case "tooltip.wormholetech.relativistic_computer.detail.2":
+                return new Object[] { duration(ModConfig.aetheriusDecayTicks) };
+            case "gui.wormholetech.tablet.p10.l2":
+                return new Object[] { rf(ModConfig.chronoFieldRfPerBlockPerTick), mult(ModConfig.chronoFieldExtraTicks + 1),
+                        duration(ModConfig.aetheriusDecayTicks) };
             // Aetherius / Gate Network Computer
             case "tooltip.wormholetech.aetherius.detail.1":
             case "tooltip.wormholetech.gate_network_computer.detail.1":
             case "gui.wormholetech.tablet.p10.l1":
+                return new Object[] { duration(ModConfig.aetheriusDecayTicks) };
+            case "gui.wormholetech.tablet.p6.l2":
                 return new Object[] { duration(ModConfig.aetheriusDecayTicks) };
             case "gui.wormholetech.tablet.p6.l1":
                 return new Object[] { duration(ModConfig.highEnergyRefinerCookTimeTicks) };

@@ -1,0 +1,30 @@
+{
+  "parent": "wormholetech:relativistic_computer",
+  "display": {
+    "icon": {
+      "item": "wormholetech:relativistic_computer"
+    },
+    "title": {
+      "translate": "advancements.wormholetech.chrono_field_generator.title"
+    },
+    "description": {
+      "translate": "advancements.wormholetech.chrono_field_generator.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "wormholetech:relativistic_computer"
+          }
+        ]
+      }
+    }
+  }
+}

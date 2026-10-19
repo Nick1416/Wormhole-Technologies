@@ -148,7 +148,8 @@ public class GuiAncientTablet extends GuiScreen {
                 new ItemStack[] {
                         new ItemStack(Registration.TIME_DILATED_CHIP),
                         new ItemStack(Registration.GATE_NETWORK_COMPUTER),
-                        new ItemStack(Registration.RELATIVISTIC_COMPUTER)
+                        new ItemStack(Registration.RELATIVISTIC_COMPUTER),
+                        new ItemStack(Registration.AETHERIUS)
                 }));
     }
 
