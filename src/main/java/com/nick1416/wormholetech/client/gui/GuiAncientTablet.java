@@ -172,7 +172,7 @@ public class GuiAncientTablet extends GuiScreen {
             List<String> rows = new ArrayList<String>();
             for (int i = 0; i < p.lines.length; i++) {
                 String line = p.lines[i];
-                String text = line.startsWith("gui.wormholetech.") ? I18n.format(line) : line;
+                String text = line.startsWith("gui.wormholetech.") ? com.nick1416.wormholetech.util.TextArgs.format(line) : line;
                 if (i > 0) rows.add(null);
                 rows.addAll(fontRenderer.listFormattedStringToWidth(text, WRAP));
             }
