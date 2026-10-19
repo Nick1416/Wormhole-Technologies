@@ -1,0 +1,30 @@
+{
+  "pools": [
+    {
+      "name": "raw_xenolith",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "wormholetech:raw_xenolith",
+          "weight": 1,
+          "functions": [
+            { "function": "set_count", "count": { "min": 0, "max": 2 } },
+            { "function": "looting_enchant", "count": { "min": 0, "max": 1 } }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "neutronium_ore",
+      "rolls": 1,
+      "conditions": [
+        { "condition": "killed_by_player" },
+        { "condition": "random_chance_with_looting", "chance": 0.25, "looting_multiplier": 0.05 }
+      ],
+      "entries": [
+        { "type": "item", "name": "wormholetech:neutronium_ore", "weight": 1 }
+      ]
+    }
+  ]
+}

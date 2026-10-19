@@ -108,6 +108,12 @@ public final class TextArgs {
                 if (q == null) return new Object[] { 1, 1, 4, duration(200) };
                 return new Object[] { trim(q.fluidMb / 1000.0), 1, q.outputCount, duration(q.ticks() / Math.max(1, q.outputCount)) };
             }
+            // Sel'Vora mining sites
+            case "gui.wormholetech.tablet.p11.l1":
+            case "gui.wormholetech.repository.info.sel_vora.structures":
+                return new Object[] { com.nick1416.wormholetech.moon.SelVoraMiningSites.regionChunks(), com.nick1416.wormholetech.moon.SelVoraMiningSites.regionChunks() };
+            case "tooltip.wormholetech.vorani_mining_drone.detail.2":
+                return new Object[] { trim(ModConfig.voraniMiningDroneDamage / 2.0) };
             // Planet gravity (Repository)
             case "gui.wormholetech.repository.info.utopis.gravity":
                 return new Object[] { mult(ModConfig.utopisGravity) };

@@ -75,6 +75,11 @@ public final class ModConfig {
     public static double selVoraFallDamageMultiplier = 0.6D;
     public static int selVoraOutpostRegionChunks = 20;
     public static int selVoraOutpostChance = 75;
+    public static int selVoraMiningSiteRegionChunks = 6;  // one site per 6x6 chunks...
+    public static int selVoraMiningSiteChance = 65;       // ...with this % chance
+    public static int voraniMiningDronesPerSite = 3;
+    public static int voraniMiningDroneSpawnWeight = 6;   // natural respawn at sites, 0 = off
+    public static double voraniMiningDroneDamage = 3.0D;
     public static int miniatureFactoryRfPerTick = 10000;
     public static int regolithCrawlerSpawnWeight = 30;
     public static int derelictModulatorRoomChance = 384;
@@ -244,6 +249,16 @@ public final class ModConfig {
                 "RF per tick the Miniature Factory uses while crafting.");
         selVoraOutpostChance = cfg.getInt("selVoraOutpostChance", sg, 75, 0, 100,
                 "Percent chance that a Sel'Vora region holds a research outpost (0 = none)");
+        selVoraMiningSiteRegionChunks = cfg.getInt("selVoraMiningSiteRegionChunks", sg, 6, 3, 64,
+                "Sel'Vora has at most one Vorani mining site per square region of this many chunks");
+        selVoraMiningSiteChance = cfg.getInt("selVoraMiningSiteChance", sg, 65, 0, 100,
+                "Percent of those regions that get a mining site (0 = none)");
+        voraniMiningDronesPerSite = cfg.getInt("voraniMiningDronesPerSite", sg, 3, 0, 16,
+                "Vorani Mining Drones placed at each new mining site (natural spawns refill a site up to one more)");
+        voraniMiningDroneSpawnWeight = cfg.getInt("voraniMiningDroneSpawnWeight", sg, 6, 0, 1000,
+                "Spawn weight of Vorani Mining Drones at Sel'Vora mining sites (0 = only the ones placed with the site)");
+        voraniMiningDroneDamage = cfg.get(sg, "voraniMiningDroneDamage", 3.0D,
+                "Damage per zap when a provoked Vorani Mining Drone defends itself (half-hearts)", 0.0D, 100.0D).getDouble();
         regolithCrawlerSpawnWeight = cfg.getInt("regolithCrawlerSpawnWeight", sg, 30, 0, 1000,
                 "Spawn weight of the hostile Regolith Crawler on Sel'Vora (never inside outposts; 0 = off)");
         derelictModulatorRoomChance = Math.max(0, Math.min(1_000_000, modRoom.getInt()));

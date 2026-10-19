@@ -559,8 +559,8 @@ gui.wormholetech.repository.info.sel_vora.cycle=Always night, Tal'Vora overhead
 gui.wormholetech.repository.info.sel_vora.galaxy=Altra Galaxy
 gui.wormholetech.repository.info.sel_vora.ores=Titanium, Neutronium
 gui.wormholetech.repository.info.sel_vora.ores_partial=Titanium, ???
-gui.wormholetech.repository.info.sel_vora.mobs=Regolith Crawler, Vorani researchers, Xenolith Drone
-gui.wormholetech.repository.info.sel_vora.structures=Vorani research outposts
+gui.wormholetech.repository.info.sel_vora.mobs=Regolith Crawler, Vorani researchers, Vorani Mining Drone, Xenolith Drone
+gui.wormholetech.repository.info.sel_vora.structures=Research outposts; mining pits (1 per %sx%s chunks)
 tile.wormholetech.neutronium_superconductor.name=Neutronium Superconductor
 message.wormholetech.pad.need_computer_dest=The destination pad in %s needs an active computer
 message.wormholetech.vorani.meditating=Deep in meditation...
@@ -701,3 +701,12 @@ gui.wormholetech.refiner.bucket_slot=Hydrothermal Fluid bucket
 # --- Utopis gravity ---
 message.wormholetech.utopis.surge=Gravity surges...
 message.wormholetech.utopis.steady=Gravity steadies.
+
+# --- Sel'Vora mining sites ---
+entity.wormholetech.vorani_mining_drone.name=Vorani Mining Drone
+tooltip.wormholetech.vorani_mining_drone.summary=Vorani drone that mines neutronium on Sel'Vora
+tooltip.wormholetech.vorani_mining_drone.detail.1=Works the open pits beside Neutronium Reactors and draws power from them.
+tooltip.wormholetech.vorani_mining_drone.detail.2=Peaceful until provoked; then the whole crew zaps back (%s hearts per hit).
+gui.wormholetech.tablet.p11.title=Fragment XI — Moon Miners
+gui.wormholetech.tablet.p11.l1=[Translation] On the moon the Vorani dig for neutronium. Look for shallow pits beside a blue reactor, about one in every %s by %s chunks.
+gui.wormholetech.tablet.p11.l2=[Translation] Their drones cut the rock with light and drink from the reactor. Leave them to their work: strike one and the whole crew answers.

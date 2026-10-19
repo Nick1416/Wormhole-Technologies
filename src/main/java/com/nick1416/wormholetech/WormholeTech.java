@@ -160,6 +160,10 @@ public class WormholeTech {
             com.nick1416.wormholetech.registry.Registration.SEL_VORA_BIOME.getSpawnableList(net.minecraft.entity.EnumCreatureType.MONSTER).add(
                     new net.minecraft.world.biome.Biome.SpawnListEntry(com.nick1416.wormholetech.moon.EntityRegolithCrawler.class,
                             ModConfig.regolithCrawlerSpawnWeight, 1, 2));
+        if (ModConfig.voraniMiningDroneSpawnWeight > 0)
+            com.nick1416.wormholetech.registry.Registration.SEL_VORA_BIOME.getSpawnableList(net.minecraft.entity.EnumCreatureType.AMBIENT).add(
+                    new net.minecraft.world.biome.Biome.SpawnListEntry(com.nick1416.wormholetech.moon.EntityVoraniMiningDrone.class,
+                            ModConfig.voraniMiningDroneSpawnWeight, 1, 1));
         GameRegistry.addSmelting(com.nick1416.wormholetech.registry.Registration.ITEM_CHROMIUM_ORE,
                 new ItemStack(com.nick1416.wormholetech.registry.Registration.CHROMIUM), 0.7F);
         GameRegistry.addSmelting(com.nick1416.wormholetech.registry.Registration.RAW_XENOLITH,

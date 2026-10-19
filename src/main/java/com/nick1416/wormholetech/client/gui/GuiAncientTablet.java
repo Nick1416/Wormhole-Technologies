@@ -151,6 +151,17 @@ public class GuiAncientTablet extends GuiScreen {
                         new ItemStack(Registration.RELATIVISTIC_COMPUTER),
                         new ItemStack(Registration.AETHERIUS)
                 }));
+        pages.add(new Page(
+                "gui.wormholetech.tablet.p11.title",
+                new String[] {
+                        "gui.wormholetech.tablet.p11.l1",
+                        "gui.wormholetech.tablet.p11.l2"
+                },
+                new ItemStack[] {
+                        new ItemStack(Registration.ITEM_NEUTRONIUM_ORE),
+                        new ItemStack(Registration.NEUTRONIUM_INGOT),
+                        new ItemStack(Registration.RAW_XENOLITH)
+                }));
     }
 
     /** Galacticraft Titanium Block if present, else any oredict blockTitanium, else the Ancient Gate Frame. */

@@ -549,6 +549,13 @@ public class Registration {
                 .egg(0xB8B6B0, 0x46C8BE)
                 .build());
         e.getRegistry().register(net.minecraftforge.fml.common.registry.EntityEntryBuilder.create()
+                .entity(com.nick1416.wormholetech.moon.EntityVoraniMiningDrone.class)
+                .id(new net.minecraft.util.ResourceLocation(WormholeTech.MODID, "vorani_mining_drone"), 10)
+                .name(WormholeTech.MODID + ".vorani_mining_drone")
+                .tracker(80, 2, true)
+                .egg(0x76489F, 0x5AA0FF)
+                .build());
+        e.getRegistry().register(net.minecraftforge.fml.common.registry.EntityEntryBuilder.create()
                 .entity(com.nick1416.wormholetech.utopis.EntityEmeraldDroid.class)
                 .id(new net.minecraft.util.ResourceLocation(WormholeTech.MODID, "emerald_droid"), 9)
                 .name(WormholeTech.MODID + ".emerald_droid")
