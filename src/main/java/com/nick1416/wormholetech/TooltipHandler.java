@@ -76,12 +76,12 @@ public class TooltipHandler {
             addDocumentedTooltips(event, path);
             event.getToolTip().add(Math.min(1, event.getToolTip().size()), TextFormatting.YELLOW + net.minecraft.client.resources.I18n.format(
                     com.nick1416.wormholetech.drone.DroneProgram.byMeta(stack.getMetadata()).whereKey()));
-            event.getToolTip().add(Math.min(2, event.getToolTip().size()), TextFormatting.YELLOW + net.minecraft.client.resources.I18n.format("tooltip.wormholetech.drone_modulator"));
+            event.getToolTip().add(Math.min(2, event.getToolTip().size()), TextFormatting.YELLOW + com.nick1416.wormholetech.util.TextArgs.format("tooltip.wormholetech.drone_modulator"));
             event.getToolTip().add(Math.min(3, event.getToolTip().size()), TextFormatting.AQUA + net.minecraft.client.resources.I18n.format("tooltip.wormholetech.drone.charge",
                     com.nick1416.wormholetech.drone.DroneCharge.percent(com.nick1416.wormholetech.drone.DroneCharge.of(stack))));
         } else if ("companion_drone".equals(path)) {
             addDocumentedTooltips(event, stack.getMetadata() == 1 ? "research_drone" : "defensive_drone");
-            event.getToolTip().add(Math.min(2, event.getToolTip().size()), TextFormatting.YELLOW + net.minecraft.client.resources.I18n.format("tooltip.wormholetech.drone_modulator"));
+            event.getToolTip().add(Math.min(2, event.getToolTip().size()), TextFormatting.YELLOW + com.nick1416.wormholetech.util.TextArgs.format("tooltip.wormholetech.drone_modulator"));
             event.getToolTip().add(Math.min(3, event.getToolTip().size()), TextFormatting.AQUA + net.minecraft.client.resources.I18n.format("tooltip.wormholetech.drone.charge",
                     com.nick1416.wormholetech.drone.DroneCharge.percent(com.nick1416.wormholetech.drone.DroneCharge.of(stack))));
         } else if (path.startsWith("mineral_tuner_")) {
@@ -103,6 +103,17 @@ public class TooltipHandler {
         } else if (("wormhole_duplicator".equals(path) || "unstable_wormhole_duplicator".equals(path)
                 || "rf_generator".equals(path)) && stack.hasTagCompound()) {
             addLinkedMachineTooltip(event, stack);
+        } else if ("relativistic_computer".equals(path) && stack.hasTagCompound()
+                && stack.getTagCompound().hasKey("Items")) {
+            net.minecraftforge.items.ItemStackHandler saved = new net.minecraftforge.items.ItemStackHandler(1);
+            saved.deserializeNBT(stack.getTagCompound().getCompoundTag("Items"));
+            ItemStack a = saved.getSlots() > 0 ? saved.getStackInSlot(0) : ItemStack.EMPTY;
+            if (com.nick1416.wormholetech.tile.RelativisticComputerTileEntity.isAetherius(a)) {
+                int left = Math.max(0, com.nick1416.wormholetech.item.ItemAetherius.maxWear() - com.nick1416.wormholetech.item.ItemAetherius.getWear(a));
+                event.getToolTip().add(TextFormatting.GRAY + net.minecraft.client.resources.I18n.format(
+                        "tooltip.wormholetech.relativistic_computer.contains",
+                        com.nick1416.wormholetech.util.TextArgs.duration(left)));
+            }
         } else if ("high_energy_refiner".equals(path) && stack.hasTagCompound()) {
             int cook = stack.getTagCompound().getInteger("Cook");
             if (cook > 0) {

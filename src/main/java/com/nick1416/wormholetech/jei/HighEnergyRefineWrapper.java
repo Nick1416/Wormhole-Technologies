@@ -31,17 +31,13 @@ public class HighEnergyRefineWrapper implements IRecipeWrapper {
     @Override
     public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
         minecraft.fontRenderer.drawString(I18n.format("jei.wormholetech.high_energy_refine.hint",
-                String.format("%,d", ModConfig.highEnergyRefinerRfPerTick), formatTime(recipe.recipe.ticks())),
+                com.nick1416.wormholetech.util.TextArgs.rf(ModConfig.highEnergyRefinerRfPerTick), formatTime(recipe.recipe.ticks())),
                 2, 2, 0x444444);
     }
 
-    /** Ticks to a short human-readable duration at 20 TPS ("~30 min", "~45 s"). */
+    /** Ticks to a short human-readable duration at 20 TPS ("15 min", "40 s"). */
     static String formatTime(int ticks) {
-        int seconds = Math.round(ticks / 20f);
-        if (seconds >= 60) {
-            return I18n.format("jei.wormholetech.time.minutes", Math.round(seconds / 60f));
-        }
-        return I18n.format("jei.wormholetech.time.seconds", seconds);
+        return com.nick1416.wormholetech.util.TextArgs.duration(ticks);
     }
 
     @Override

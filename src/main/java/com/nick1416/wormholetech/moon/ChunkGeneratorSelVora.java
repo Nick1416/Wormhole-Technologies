@@ -59,6 +59,7 @@ public class ChunkGeneratorSelVora extends ChunkGeneratorOverworld {
             nVein.generate(world, r, new BlockPos((x << 4) + r.nextInt(16), 4 + r.nextInt(64), (z << 4) + r.nextInt(16)));
         SelVoraBarrens.populate(world, x, z, r);
         SelVoraOutposts.populate(world, x, z);
+        SelVoraMiningSites.populate(world, x, z, r);
     }
 
     @Override

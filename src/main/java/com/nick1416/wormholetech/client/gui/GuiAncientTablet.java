@@ -148,7 +148,19 @@ public class GuiAncientTablet extends GuiScreen {
                 new ItemStack[] {
                         new ItemStack(Registration.TIME_DILATED_CHIP),
                         new ItemStack(Registration.GATE_NETWORK_COMPUTER),
-                        new ItemStack(Registration.RELATIVISTIC_COMPUTER)
+                        new ItemStack(Registration.RELATIVISTIC_COMPUTER),
+                        new ItemStack(Registration.AETHERIUS)
+                }));
+        pages.add(new Page(
+                "gui.wormholetech.tablet.p11.title",
+                new String[] {
+                        "gui.wormholetech.tablet.p11.l1",
+                        "gui.wormholetech.tablet.p11.l2"
+                },
+                new ItemStack[] {
+                        new ItemStack(Registration.ITEM_NEUTRONIUM_ORE),
+                        new ItemStack(Registration.NEUTRONIUM_INGOT),
+                        new ItemStack(Registration.RAW_XENOLITH)
                 }));
     }
 
@@ -172,7 +184,7 @@ public class GuiAncientTablet extends GuiScreen {
             List<String> rows = new ArrayList<String>();
             for (int i = 0; i < p.lines.length; i++) {
                 String line = p.lines[i];
-                String text = line.startsWith("gui.wormholetech.") ? I18n.format(line) : line;
+                String text = line.startsWith("gui.wormholetech.") ? com.nick1416.wormholetech.util.TextArgs.format(line) : line;
                 if (i > 0) rows.add(null);
                 rows.addAll(fontRenderer.listFormattedStringToWidth(text, WRAP));
             }

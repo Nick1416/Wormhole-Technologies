@@ -102,12 +102,12 @@ public class WormholeJeiPlugin implements IModPlugin {
         info(registry, Registration.NAQUADAH_REACTOR, "naquadah_reactor", 1);
         info(registry, Registration.UNSTABLE_NAQUADAH_REACTOR, "unstable_naquadah_reactor", 0);
         info(registry, Registration.AETHERIUS, "aetherius", 1);
-        info(registry, Registration.ITEM_RELATIVISTIC_COMPUTER, "relativistic_computer", 2);
+        info(registry, Registration.ITEM_RELATIVISTIC_COMPUTER, "relativistic_computer", 3);
         info(registry, Registration.ITEM_COMPRESSED_NAQUADAH, "compressed_naquadah", 0);
         info(registry, Registration.ITEM_HIGH_ENERGY_REFINER, "high_energy_refiner", 0);
         info(registry, Registration.ITEM_DIALING_COMPUTER, "dialing_computer", 0);
         info(registry, Registration.TIME_DILATED_CHIP, "time_dilated_chip", 1);
-        info(registry, Registration.EMERALD_NUGGET, "emerald_nugget", 0);
+        info(registry, Registration.EMERALD_NUGGET, "emerald_nugget", 1);
         addInfo(registry, com.nick1416.wormholetech.fluid.HydrothermalFluid.bucket(), VanillaTypes.FLUID,
                 "jei.wormholetech.hydrothermal_fluid.info");
         addInfo(registry, net.minecraftforge.fluids.FluidUtil.getFilledBucket(com.nick1416.wormholetech.fluid.HydrothermalFluid.bucket()), VanillaTypes.ITEM,
@@ -122,6 +122,10 @@ public class WormholeJeiPlugin implements IModPlugin {
         info(registry, Registration.ITEM_TITANIUM_ORE, "titanium_ore", 1);
         info(registry, Registration.RAW_XENOLITH, "raw_xenolith", 1);
         info(registry, Registration.INACTIVE_DRONE, "inactive_xenolith_drone", 1);
+        ItemStack miningEgg = new ItemStack(net.minecraft.init.Items.SPAWN_EGG);
+        net.minecraft.item.ItemMonsterPlacer.applyEntityIdToItemStack(miningEgg, new net.minecraft.util.ResourceLocation(com.nick1416.wormholetech.WormholeTech.MODID, "vorani_mining_drone"));
+        addInfo(registry, miningEgg, VanillaTypes.ITEM, "tooltip.wormholetech.vorani_mining_drone.summary",
+                "tooltip.wormholetech.vorani_mining_drone.detail.1", "tooltip.wormholetech.vorani_mining_drone.detail.2");
         for (int m = 0; m < com.nick1416.wormholetech.drone.DroneProgram.VALUES.length; m++)
             addInfo(registry, new ItemStack(Registration.XENOLITH_CHIP, 1, m), VanillaTypes.ITEM,
                     "tooltip.wormholetech.xenolith_chip.summary", "tooltip.wormholetech.xenolith_chip.detail.1");

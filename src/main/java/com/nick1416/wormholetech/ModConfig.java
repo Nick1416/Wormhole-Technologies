@@ -75,6 +75,11 @@ public final class ModConfig {
     public static double selVoraFallDamageMultiplier = 0.6D;
     public static int selVoraOutpostRegionChunks = 20;
     public static int selVoraOutpostChance = 75;
+    public static int selVoraMiningSiteRegionChunks = 6;  // one site per 6x6 chunks...
+    public static int selVoraMiningSiteChance = 65;       // ...with this % chance
+    public static int voraniMiningDronesPerSite = 3;
+    public static int voraniMiningDroneSpawnWeight = 6;   // natural respawn at sites, 0 = off
+    public static double voraniMiningDroneDamage = 3.0D;
     public static int miniatureFactoryRfPerTick = 10000;
     public static int regolithCrawlerSpawnWeight = 30;
     public static int derelictModulatorRoomChance = 384;
@@ -154,7 +159,7 @@ public final class ModConfig {
         naquadahGeneratorMaxExtract = cfg.getInt("naquadahGeneratorMaxExtract", gen, 5000, 0, Integer.MAX_VALUE,
                 "Naquadah Generator max RF extract per tick");
         naquadahGeneratorLifetimeTicks = cfg.getInt("naquadahGeneratorLifetimeTicks", gen, 12_000, 1, Integer.MAX_VALUE,
-                "Naquadah Generator lifetime in ticks (~10 min at 20 TPS)");
+                "Naquadah Generator lifetime in ticks (20 ticks = 1 s; 12000 = 10 min, 72000 = 60 min)");
 
         stableConverterRfPerTick = cfg.getInt("stableConverterRfPerTick", gen, 100_000, 0, Integer.MAX_VALUE,
                 "Wormhole Energy Converter RF per tick while connected to a wormhole");
@@ -179,7 +184,7 @@ public final class ModConfig {
                 "High Energy Refiner RF consumed per tick while refining");
         // Migrate the old 1-hour and 30-minute defaults; custom values are left alone.
         highEnergyRefinerCookTimeTicks = migrated(cfg, late, "highEnergyRefinerCookTimeTicks", 18_000, new int[] { 72_000, 36_000 }, 1, Integer.MAX_VALUE,
-                "High Energy Refiner Compressed Naquadah -> Aetherius time in ticks (~15 minutes at 20 TPS)");
+                "High Energy Refiner Compressed Naquadah -> Aetherius time in ticks (20 ticks = 1 s; 18000 = 15 min)");
         highEnergyRefinerTitaniumTicks = cfg.getInt("highEnergyRefinerTitaniumTicks", late, 200, 1, Integer.MAX_VALUE,
                 "High Energy Refiner ticks to turn one silicon into a Titanium Ingot (200 = furnace speed)");
         aetheriusDecayTicks = cfg.getInt("aetheriusDecayTicks", late, 36_000, 20, Integer.MAX_VALUE,
@@ -191,7 +196,7 @@ public final class ModConfig {
 
         refinedNaquadahBlockDecayTicks = cfg.getInt("refinedNaquadahBlockDecayTicks", "wormhole_connection", 12_000, 1,
                 Integer.MAX_VALUE, "Game ticks one Block of Refined Naquadah keeps a wormhole connection open "
-                        + "(Duplicators, Energy Converter) before it becomes an Unstable Block of Naquadah (~10 minutes at 20 TPS)");
+                        + "(Duplicators, Energy Converter) before it becomes an Unstable Block of Naquadah (20 ticks = 1 s; 12000 = 10 min)");
 
         final String sg = "stargate";
         stargateEnabled = cfg.getBoolean("stargateEnabled", sg, true,
@@ -244,6 +249,16 @@ public final class ModConfig {
                 "RF per tick the Miniature Factory uses while crafting.");
         selVoraOutpostChance = cfg.getInt("selVoraOutpostChance", sg, 75, 0, 100,
                 "Percent chance that a Sel'Vora region holds a research outpost (0 = none)");
+        selVoraMiningSiteRegionChunks = cfg.getInt("selVoraMiningSiteRegionChunks", sg, 6, 3, 64,
+                "Sel'Vora has at most one Vorani mining site per square region of this many chunks");
+        selVoraMiningSiteChance = cfg.getInt("selVoraMiningSiteChance", sg, 65, 0, 100,
+                "Percent of those regions that get a mining site (0 = none)");
+        voraniMiningDronesPerSite = cfg.getInt("voraniMiningDronesPerSite", sg, 3, 0, 16,
+                "Vorani Mining Drones placed at each new mining site (natural spawns refill a site up to one more)");
+        voraniMiningDroneSpawnWeight = cfg.getInt("voraniMiningDroneSpawnWeight", sg, 6, 0, 1000,
+                "Spawn weight of Vorani Mining Drones at Sel'Vora mining sites (0 = only the ones placed with the site)");
+        voraniMiningDroneDamage = cfg.get(sg, "voraniMiningDroneDamage", 3.0D,
+                "Damage per zap when a provoked Vorani Mining Drone defends itself (half-hearts)", 0.0D, 100.0D).getDouble();
         regolithCrawlerSpawnWeight = cfg.getInt("regolithCrawlerSpawnWeight", sg, 30, 0, 1000,
                 "Spawn weight of the hostile Regolith Crawler on Sel'Vora (never inside outposts; 0 = off)");
         derelictModulatorRoomChance = Math.max(0, Math.min(1_000_000, modRoom.getInt()));
