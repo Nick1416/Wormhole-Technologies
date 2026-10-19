@@ -71,7 +71,7 @@ public class PressurizerCategory implements IRecipeCategory<PressurizerCategory.
             ing.setOutput(VanillaTypes.ITEM, new ItemStack(Items.EMERALD));
         }
         @Override public void drawInfo(Minecraft mc, int w, int h, int mx, int my) {
-            String t = I18n.format("jei.wormholetech.pressurizer.hint");
+            String t = com.nick1416.wormholetech.util.TextArgs.format("jei.wormholetech.pressurizer.hint");
             mc.fontRenderer.drawString(t, 100 - mc.fontRenderer.getStringWidth(t) / 2, 32, 0x444444); // centred under the arrow
         }
     }

@@ -102,10 +102,10 @@ public class GuiRepository extends GuiScreen {
         labelW += 6;
         for (int i = 0; i < FIELDS.length; i++) {
             String f = FIELDS[i];
-            String v = full ? I18n.format("gui.wormholetech.repository.info." + k + "." + f)
+            String v = full ? com.nick1416.wormholetech.util.TextArgs.format("gui.wormholetech.repository.info." + k + "." + f)
                     : !AT_HALF[i] ? "???"
                     : f.equals("ores") ? I18n.format("gui.wormholetech.repository.info." + k + ".ores_partial")
-                    : I18n.format("gui.wormholetech.repository.info." + k + "." + f);
+                    : com.nick1416.wormholetech.util.TextArgs.format("gui.wormholetech.repository.info." + k + "." + f);
             fontRenderer.drawString(I18n.format("gui.wormholetech.repository.info." + f), x + PAD, ly, 0xAAAAAA);
             ly += wrap(v, x + PAD + labelW, ly, inner - labelW, 99, "???".equals(v) ? 0x666666 : 0xFFFFFF) + 3;
         }
