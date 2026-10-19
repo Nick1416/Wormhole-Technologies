@@ -6,8 +6,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 /**
- * Aetherius. Wears down while seated in a Relativistic Computer whose quantum clock runs at +1 and
- * recovers at the same rate at -1. The wear is shown like tool durability; fresh Aetherius has no
+ * Aetherius. Wears down in a Gate Network Computer while a wormhole is open and recovers at the
+ * same rate while it is closed. The wear is shown like tool durability; fresh Aetherius has no
  * NBT so it still stacks.
  */
 public class ItemAetherius extends Item {

@@ -1,7 +1,7 @@
 {
   "name": "wormholetech:quantum_circuit",
   "target-item": "wormholetech:quantum_circuit",
-  "target-count": 2,
+  "target-count": 16,
   "duration": 400,
   "catalyst": "wormholetech:refined_naquadah",
   "input-types": {

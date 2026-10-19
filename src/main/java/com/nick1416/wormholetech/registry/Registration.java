@@ -151,6 +151,13 @@ public class Registration {
     public static final Item NANITE_CORE = new Item()
             .setRegistryName(WormholeTech.MODID, "nanite_core")
             .setUnlocalizedName(WormholeTech.MODID + ".nanite_core");
+    /** Upgrade for the Dialing Computer's upgrade slot: turns it into a Gate Network Computer. */
+    public static final Item TIME_DILATED_CHIP = new Item().setMaxStackSize(16)
+            .setRegistryName(WormholeTech.MODID, "time_dilated_chip")
+            .setUnlocalizedName(WormholeTech.MODID + ".time_dilated_chip");
+    public static final Item EMERALD_NUGGET = new Item()
+            .setRegistryName(WormholeTech.MODID, "emerald_nugget")
+            .setUnlocalizedName(WormholeTech.MODID + ".emerald_nugget");
 
     public static final Block HULL_PLATING = new com.nick1416.wormholetech.derelict.HullBlock(net.minecraft.block.material.MapColor.GRAY, 0F)
             .setRegistryName(WormholeTech.MODID, "hull_plating").setUnlocalizedName(WormholeTech.MODID + ".hull_plating");
@@ -452,8 +459,10 @@ public class Registration {
         net.minecraftforge.oredict.OreDictionary.registerOre("ingotNeutronium", NEUTRONIUM_INGOT);
         net.minecraftforge.oredict.OreDictionary.registerOre("oreXenolith", XENOLITH_ORE);
         net.minecraftforge.oredict.OreDictionary.registerOre("oreChromium", CHROMIUM_ORE);
-        net.minecraftforge.oredict.OreDictionary.registerOre("gemChromium", CHROMIUM);
+        net.minecraftforge.oredict.OreDictionary.registerOre("ingotChromium", CHROMIUM);
+        net.minecraftforge.oredict.OreDictionary.registerOre("gemChromium", CHROMIUM); // kept for compatibility
         net.minecraftforge.oredict.OreDictionary.registerOre("gemXenolith", RAW_XENOLITH);
+        net.minecraftforge.oredict.OreDictionary.registerOre("nuggetEmerald", EMERALD_NUGGET);
     }
 
     /** Raw Naquadah was removed: old worlds get Refined Naquadah instead. */
@@ -587,6 +596,8 @@ public class Registration {
         DERELICT_COORDINATES.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
         INTERGALACTIC_COORDINATES.setCreativeTab(net.minecraft.creativetab.CreativeTabs.MISC);
         NANITE_CORE.setCreativeTab(m);
+        TIME_DILATED_CHIP.setCreativeTab(net.minecraft.creativetab.CreativeTabs.REDSTONE);
+        EMERALD_NUGGET.setCreativeTab(m);
         com.nick1416.wormholetech.item.HardDiamond.assignTabs();
         XENOLITH_ORE.setCreativeTab(b);
         for (Item i : new Item[]{RAW_XENOLITH, INACTIVE_DRONE, XENOLITH_CHIP}) i.setCreativeTab(m);
@@ -630,7 +641,8 @@ public class Registration {
                 NAQUADRIC_STONE,
                 ASHEN_REGOLITH,
                 NAQUADAH_CRYSTAL,
-                ANCIENT_STONE
+                ANCIENT_STONE,
+                com.nick1416.wormholetech.fluid.HydrothermalFluid.block()
         );
     }
 
@@ -690,7 +702,7 @@ public class Registration {
                 ITEM_XENOLITH_ORE, RAW_XENOLITH, INACTIVE_DRONE, XENOLITH_CHIP, ITEM_MINER_DRONE, COMPANION_DRONE, ITEM_REPOSITORY,
                 DERELICT_COORDINATES,
                 INTERGALACTIC_COORDINATES,
-                NANITE_CORE,
+                NANITE_CORE, TIME_DILATED_CHIP, EMERALD_NUGGET,
                 ITEM_TITANIUM_BLOCK,
                 ITEM_MOON_REGOLITH, ITEM_TITANIUM_ORE, ITEM_NEUTRONIUM_ORE, NEUTRONIUM_INGOT, NEUTRONIUM_SUPERCONDUCTOR, ITEM_MINIATURE_FACTORY,
                 TITANIUM_INGOT,

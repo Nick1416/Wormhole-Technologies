@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/** High Energy Refiner recipes: one input item makes one output item after a number of powered ticks. */
+/** High Energy Refiner recipes: one input item (plus fluid for some) makes its output after a number of powered ticks. */
 public final class RefinerRecipes {
     private RefinerRecipes() {}
 
@@ -23,6 +23,10 @@ public final class RefinerRecipes {
         public final Item output;
         private final boolean titanium;
         private int fixedTicks;
+        /** Hydrothermal Fluid used per batch (0 = none). */
+        public int fluidMb;
+        /** Output items per batch. */
+        public int outputCount = 1;
 
         Recipe(Item item, String ore, Item output, boolean titanium) {
             this.item = item; this.ore = ore; this.output = output; this.titanium = titanium;
@@ -62,6 +66,12 @@ public final class RefinerRecipes {
                 hd.fixedTicks = 6000;
                 l.add(hd);
             }
+            // 1 stone + 1000 mB Hydrothermal Fluid -> 4 Nether Quartz, 10 s per quartz
+            Recipe quartz = new Recipe(Item.getItemFromBlock(net.minecraft.init.Blocks.STONE), null, net.minecraft.init.Items.QUARTZ, false);
+            quartz.fluidMb = 1000;
+            quartz.outputCount = 4;
+            quartz.fixedTicks = 800;
+            l.add(quartz);
             all = l;
         }
         return all;

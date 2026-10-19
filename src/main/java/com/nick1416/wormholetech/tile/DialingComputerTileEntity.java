@@ -24,30 +24,49 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 
 /**
- * Opens a wormhole in an adjacent titanium gate frame. Needs RF, an Ancient Tablet (the address)
- * and an adjacent active Relativistic Computer. Conditions are re-checked every 20 ticks and on
- * neighbour changes; any failure collapses the wormhole and the player has to dial again.
+ * Opens a wormhole in an adjacent titanium gate frame. Needs RF and an Ancient Tablet (the address).
+ * Slot 1 is the upgrade slot: a Time Dilated Chip there turns the block into a Gate Network Computer
+ * (and taking it out turns it back). The Gate Network Computer also needs Aetherius in slot 2, which
+ * wears down while a wormhole is open and recovers while closed. Conditions are re-checked every 20
+ * ticks and on neighbour changes; any failure collapses the wormhole and the player has to dial again.
  */
 public class DialingComputerTileEntity extends TileEntity implements ITickable {
 
-    public static final int STATUS_DISABLED = 0, STATUS_NO_ADDRESS = 1, STATUS_NEED_COMPUTER = 2,
+    public static final int SLOT_ADDRESS = 0, SLOT_UPGRADE = 1, SLOT_AETHERIUS = 2, SLOTS = 3;
+    public static final int STATUS_DISABLED = 0, STATUS_NO_ADDRESS = 1, STATUS_NEED_AETHERIUS = 2,
             STATUS_NO_FRAME = 3, STATUS_NEED_POWER = 4, STATUS_READY = 5, STATUS_OPEN = 6, STATUS_NEED_CLOCK = 7,
             STATUS_NEED_MODULATOR = 8, STATUS_UNREACHABLE = 9, STATUS_HERE = 10,
             STATUS_NEED_NEUTRONIUM = 11, STATUS_NEED_SUPERCONDUCTORS = 12;
     public static final String[] STATUS_KEYS = {
-            "disabled", "no_address", "need_computer", "no_frame", "need_power", "ready", "open", "need_clock",
+            "disabled", "no_address", "need_aetherius", "no_frame", "need_power", "ready", "open", "need_clock",
             "need_modulator", "unreachable", "here", "need_neutronium", "need_superconductors" };
 
     private final Energy energy = new Energy(ModConfig.dialingComputerBuffer, ModConfig.dialingComputerMaxReceive);
-    private final ItemStackHandler inv = new ItemStackHandler(1) {
+    private final ItemStackHandler inv = new ItemStackHandler(SLOTS) {
         @Override protected void onContentsChanged(int slot) { markDirty(); requestCheck(); }
         @Override public int getSlotLimit(int slot) { return 1; }
-        @Override public boolean isItemValid(int slot, ItemStack stack) { return accepts(stack); }
+        @Override public boolean isItemValid(int slot, ItemStack stack) { return valid(slot, stack); }
         @Override public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-            if (!accepts(stack)) return stack;
+            if (!valid(slot, stack)) return stack;
             return super.insertItem(slot, stack, simulate);
         }
     };
+
+    /** What each slot takes: the address, the Time Dilated Chip, and (Gate Network Computer only) Aetherius. */
+    public boolean valid(int slot, ItemStack s) {
+        if (s.isEmpty()) return false;
+        if (slot == SLOT_ADDRESS) return accepts(s);
+        if (slot == SLOT_UPGRADE) return s.getItem() == Registration.TIME_DILATED_CHIP;
+        if (slot == SLOT_AETHERIUS) return isNetwork() && s.getItem() == Registration.AETHERIUS;
+        return false;
+    }
+
+    /** True for the Gate Network Computer (a Dialing Computer with the Time Dilated Chip). */
+    public boolean isNetwork() { return this instanceof GateNetworkComputerTileEntity; }
+
+    public boolean hasUpgrade() { return inv.getStackInSlot(SLOT_UPGRADE).getItem() == Registration.TIME_DILATED_CHIP; }
+
+    public boolean hasAetherius() { return inv.getStackInSlot(SLOT_AETHERIUS).getItem() == Registration.AETHERIUS; }
 
     private boolean open;
     private GateShape gate;
@@ -106,6 +125,8 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
     @Override
     public void update() {
         if (world == null || world.isRemote) return;
+        if (isNetwork() != hasUpgrade()) { com.nick1416.wormholetech.block.DialingComputerBlock.swap(this); return; }
+        if (isNetwork()) wearAetherius();
         if (open) {
             int cost = ModConfig.dialingComputerRfPerTick();
             if (energy.getEnergyStored() < cost) {
@@ -123,6 +144,25 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
         }
     }
 
+    /** Gate Network Computer: the Aetherius wears while a wormhole is open (lost at zero) and recovers while closed. */
+    private void wearAetherius() {
+        ItemStack a = inv.getStackInSlot(SLOT_AETHERIUS);
+        if (a.isEmpty() || a.getItem() != Registration.AETHERIUS) return;
+        int wear = com.nick1416.wormholetech.item.ItemAetherius.getWear(a);
+        if (open) {
+            if (wear + 1 >= com.nick1416.wormholetech.item.ItemAetherius.maxWear()) {
+                inv.setStackInSlot(SLOT_AETHERIUS, ItemStack.EMPTY); // worn out: lost, the wormhole collapses
+                world.playSound(null, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 0.8F, 0.6F);
+            } else {
+                com.nick1416.wormholetech.item.ItemAetherius.setWear(a, wear + 1);
+            }
+            markDirty();
+        } else if (wear > 0) {
+            com.nick1416.wormholetech.item.ItemAetherius.setWear(a, wear - 1);
+            markDirty();
+        }
+    }
+
     /** Recompute status; collapses the wormhole if a condition failed. */
     public void evaluate() {
         GateShape found = null;
@@ -132,8 +172,7 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
         else if (!hasAddress()) s = STATUS_NO_ADDRESS;
         else if (!destinationAvailable()) s = STATUS_DISABLED;
         else if (destination() == world.provider.getDimension()) s = STATUS_HERE;
-        else if (!adjacentActiveComputer()) s = STATUS_NEED_COMPUTER;
-        else if (!adjacentForwardClock()) s = STATUS_NEED_CLOCK;
+        else if (isNetwork() && !hasAetherius()) s = STATUS_NEED_AETHERIUS;
         else if ((found = findGate()) == null) s = STATUS_NO_FRAME;
         else if (needsModulator() && !modulatorAtGate(found)) s = STATUS_NEED_MODULATOR;
         else if (ModDimensions.isElyndra(destination()) && !ModDimensions.isNeutroniumWorld(world.provider.getDimension())) s = STATUS_NEED_NEUTRONIUM;
@@ -220,34 +259,21 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
         return null;
     }
 
-    /** An adjacent active Relativistic Computer with its quantum clock at +1. */
-    private boolean adjacentForwardClock() {
-        for (EnumFacing f : EnumFacing.VALUES) {
-            TileEntity te = world.getTileEntity(pos.offset(f));
-            if (te instanceof RelativisticComputerTileEntity && ((RelativisticComputerTileEntity) te).isClockActiveForward()) return true;
-        }
-        return false;
-    }
-
-    private boolean adjacentActiveComputer() {
-        for (EnumFacing f : EnumFacing.VALUES) {
-            TileEntity te = world.getTileEntity(pos.offset(f));
-            if (te instanceof RelativisticComputerTileEntity && ((RelativisticComputerTileEntity) te).isActive()) return true;
-        }
-        return false;
-    }
-
     public boolean isOpen() { return open; }
     public int getStatus() { return status; }
     public int getEnergyStored() { return energy.getEnergyStored(); }
     public int getMaxEnergy() { return energy.getMaxEnergyStored(); }
     public IItemHandlerModifiable items() { return inv; }
 
+    /** Used when the block swaps between Dialing and Gate Network Computer. */
+    public void setEnergyStored(int e) { energy.setEnergy(e); markDirty(); }
+
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
         tag.setInteger("Energy", energy.getEnergyStored());
         tag.setTag("Items", inv.serializeNBT());
+        tag.setBoolean("UpgradeSlot", true);
         tag.setBoolean("Open", open);
         if (gate != null) tag.setTag("Gate", gate.write());
         return tag;
@@ -257,7 +283,15 @@ public class DialingComputerTileEntity extends TileEntity implements ITickable {
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
         energy.setEnergy(tag.getInteger("Energy"));
-        if (tag.hasKey("Items")) inv.deserializeNBT(tag.getCompoundTag("Items"));
+        if (tag.hasKey("Items")) {
+            // older saves had 1 slot; ItemStackHandler would shrink to the saved size, so copy across
+            ItemStackHandler old = new ItemStackHandler();
+            old.deserializeNBT(tag.getCompoundTag("Items"));
+            for (int i = 0; i < SLOTS; i++) inv.setStackInSlot(i, i < old.getSlots() ? old.getStackInSlot(i) : ItemStack.EMPTY);
+        }
+        // a Gate Network Computer from before the upgrade slot existed keeps working: give it its chip
+        if (isNetwork() && !tag.getBoolean("UpgradeSlot") && inv.getStackInSlot(SLOT_UPGRADE).isEmpty())
+            inv.setStackInSlot(SLOT_UPGRADE, new ItemStack(Registration.TIME_DILATED_CHIP));
         open = tag.getBoolean("Open");
         gate = GateShape.read(tag.getCompoundTag("Gate"));
         if (gate == null) open = false;

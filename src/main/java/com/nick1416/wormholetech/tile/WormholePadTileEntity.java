@@ -151,11 +151,8 @@ public class WormholePadTileEntity extends TileEntity implements ITickable {
     }
 
     /**
-     * True if a Relativistic Computer beside {@code pos} can calculate cross-dimension paths.
-     * If the area was loaded (ticking) the computer must be active (Aetherius + power).
-     * If it was NOT loaded (typically the far end of a cross-dimension link while you stand at
-     * the other end) the computer has not been ticking, so its saved active flag is stale; then
-     * it only needs Aetherius seated. Works in any dimension and loads the chunks if needed.
+     * True if a Gate Network Computer with Aetherius sits beside {@code pos} (cross-dimension pad
+     * links are disabled; kept for older saves). Works in any dimension and loads the chunks if needed.
      */
     public static boolean hasActiveComputer(World world, BlockPos pos, boolean areaWasLoaded) {
         if (world == null || pos == null || world.isRemote) return false;
@@ -164,11 +161,7 @@ public class WormholePadTileEntity extends TileEntity implements ITickable {
             ensureLoaded(world, cp);
             if (!world.isBlockLoaded(cp)) continue;
             TileEntity te = world.getTileEntity(cp);
-            if (te instanceof RelativisticComputerTileEntity) {
-                RelativisticComputerTileEntity c = (RelativisticComputerTileEntity) te;
-                if (c.isActive()) return true;
-                if (!areaWasLoaded && c.hasAetherius()) return true;
-            }
+            if (te instanceof GateNetworkComputerTileEntity && ((GateNetworkComputerTileEntity) te).hasAetherius()) return true;
         }
         return false;
     }
@@ -245,7 +238,7 @@ public class WormholePadTileEntity extends TileEntity implements ITickable {
 
     public boolean tryTeleport(EntityLivingBase entity) {
         if (world == null || world.isRemote) return false;
-        if (!linked || !powered) return false;
+        if (!linked) return false;
 
         NBTTagCompound data = entity.getEntityData();
         long now = world.getTotalWorldTime();
@@ -263,11 +256,14 @@ public class WormholePadTileEntity extends TileEntity implements ITickable {
 
         World destWorld = resolveWorld(world, partnerDim);
         BlockPos destPad = new BlockPos(partnerX, partnerY, partnerZ);
-        // A destination in an unloaded area is not ticking, so its upkeep/powered flag is stale;
-        // only require power from a destination that is actually loaded.
+        // Only one of the two linked pads needs power. A destination in an unloaded area is not
+        // ticking, so its powered flag is stale; there its buffered RF counts instead.
         boolean destWasLoaded = destWorld != null && destWorld.isBlockLoaded(destPad);
         WormholePadTileEntity partner = getPad(destWorld, destPad);
-        if (partner == null || !partner.linked || (destWasLoaded && !partner.powered)) return false;
+        if (partner == null || !partner.linked) return false;
+        boolean partnerPowered = destWasLoaded ? partner.powered
+                : partner.energy.getEnergyStored() >= ModConfig.wormholePadUpkeepRfPerTick;
+        if (!powered && !partnerPowered) return false;
         if (partner.partnerX != pos.getX() || partner.partnerY != pos.getY() || partner.partnerZ != pos.getZ()
                 || partner.partnerDim != world.provider.getDimension()) {
             return false;

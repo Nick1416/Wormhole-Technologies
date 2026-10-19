@@ -46,6 +46,11 @@ public class WormholeTech {
 
     public static ItemStack DIAMOND_NUGGET = ItemStack.EMPTY;
 
+    static {
+        // must happen before any fluid registers its bucket (registry events run before preInit)
+        net.minecraftforge.fluids.FluidRegistry.enableUniversalBucket();
+    }
+
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent e) {
         ModConfig.load(e.getSuggestedConfigurationFile());
@@ -109,6 +114,7 @@ public class WormholeTech {
         com.nick1416.wormholetech.world.ModDimensions.registerUtopis();
         GameRegistry.registerWorldGenerator(new com.nick1416.wormholetech.world.P3XOreGenerator(), 10);
         GameRegistry.registerWorldGenerator(new com.nick1416.wormholetech.world.ChromiumOreGenerator(), 10);
+        GameRegistry.registerWorldGenerator(new com.nick1416.wormholetech.fluid.HydrothermalSprings(), 12);
 
         PROXY.preInit();
     }
@@ -154,6 +160,8 @@ public class WormholeTech {
             com.nick1416.wormholetech.registry.Registration.SEL_VORA_BIOME.getSpawnableList(net.minecraft.entity.EnumCreatureType.MONSTER).add(
                     new net.minecraft.world.biome.Biome.SpawnListEntry(com.nick1416.wormholetech.moon.EntityRegolithCrawler.class,
                             ModConfig.regolithCrawlerSpawnWeight, 1, 2));
+        GameRegistry.addSmelting(com.nick1416.wormholetech.registry.Registration.ITEM_CHROMIUM_ORE,
+                new ItemStack(com.nick1416.wormholetech.registry.Registration.CHROMIUM), 0.7F);
         GameRegistry.addSmelting(com.nick1416.wormholetech.registry.Registration.RAW_XENOLITH,
                 new ItemStack(com.nick1416.wormholetech.registry.Registration.XENOLITH), 0.2F);
         net.minecraftforge.fml.common.registry.GameRegistry.addSmelting(com.nick1416.wormholetech.registry.Registration.ITEM_NATURAL_NAQUADAH_ORE,

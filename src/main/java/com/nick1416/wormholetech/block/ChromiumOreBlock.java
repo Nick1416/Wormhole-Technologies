@@ -12,7 +12,7 @@ import net.minecraft.world.IBlockAccess;
 
 import java.util.Random;
 
-/** Overworld ore with gold's distribution. Drops Chromium (Fortune applies); Silk Touch gives the block. */
+/** Overworld ore with gold's distribution. Drops itself; smelt it into Chromium. */
 public class ChromiumOreBlock extends Block {
     public ChromiumOreBlock() {
         super(Material.ROCK);
@@ -20,20 +20,6 @@ public class ChromiumOreBlock extends Block {
         setResistance(5.0F);
         setSoundType(SoundType.STONE);
         setHarvestLevel("pickaxe", 2);
-    }
-
-    @Override public Item getItemDropped(IBlockState state, Random rand, int fortune) { return Registration.CHROMIUM; }
-
-    @Override
-    public int quantityDroppedWithBonus(int fortune, Random random) {
-        if (fortune <= 0) return 1;
-        return Math.max(0, random.nextInt(fortune + 2) - 1) + 1;
-    }
-
-    @Override
-    public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune) {
-        Random rand = world instanceof net.minecraft.world.World ? ((net.minecraft.world.World) world).rand : new Random();
-        return MathHelper.getInt(rand, 1, 4);
     }
 
     @Override protected boolean canSilkHarvest() { return true; }

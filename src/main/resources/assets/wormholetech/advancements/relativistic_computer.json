@@ -1,8 +1,8 @@
 {
-  "parent": "wormholetech:aetherius",
+  "parent": "wormholetech:quantum_field_modulator",
   "display": {
     "icon": {
-      "item": "wormholetech:relativistic_computer"
+      "item": "wormholetech:time_dilated_chip"
     },
     "title": {
       "translate": "advancements.wormholetech.relativistic_computer.title"
@@ -21,7 +21,7 @@
       "conditions": {
         "items": [
           {
-            "item": "wormholetech:relativistic_computer"
+            "item": "wormholetech:time_dilated_chip"
           }
         ]
       }

@@ -1,7 +1,6 @@
 package com.nick1416.wormholetech.tile;
 
 import com.nick1416.wormholetech.ModConfig;
-import com.nick1416.wormholetech.registry.Registration;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -12,105 +11,80 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 
+/**
+ * Chrono Field Generator (registry name relativistic_computer, kept for old worlds). While switched on
+ * and powered it gives every adjacent ticking machine chronoFieldExtraTicks extra ticks per tick (twice
+ * as fast by default) for chronoFieldRfPerBlockPerTick RF each. Works on this mod's machines and on other
+ * ticking blocks such as vanilla furnaces. Gate machinery, pads, modulators, the Repository and other
+ * field generators are left alone.
+ */
 public class RelativisticComputerTileEntity extends TileEntity implements ITickable {
 
     private final CompEnergy energy = new CompEnergy(
             ModConfig.relativisticComputerBuffer, ModConfig.relativisticComputerMaxReceive);
-    private final ItemStackHandler inv = new ItemStackHandler(1) {
-        @Override
-        protected void onContentsChanged(int slot) {
-            markDirty();
-        }
+    /** Old Relativistic Computers held Aetherius: it is handed back (dropped on top) once. */
+    private final ItemStackHandler legacy = new ItemStackHandler(1);
+    private boolean enabled = true;
+    /** Machines sped up during the last tick (server; synced to the GUI). */
+    private int boosted;
 
-        @Override
-        public boolean isItemValid(int slot, ItemStack stack) {
-            return slot == 0 && !stack.isEmpty() && stack.getItem() == Registration.AETHERIUS;
-        }
-
-        @Override
-        public int getSlotLimit(int slot) { return 1; }
-
-        @Override
-        public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-            if (!isItemValid(slot, stack)) return stack;
-            return super.insertItem(slot, stack, simulate);
-        }
-    };
-    private boolean active;
-    /** Quantum clock: true = +1 (time runs fast: the Stargate can dial, Aetherius wears), false = -1 (Aetherius recovers). */
-    private boolean clockForward;
+    public static boolean canBoost(TileEntity te) {
+        return te instanceof ITickable && !te.isInvalid()
+                && !(te instanceof RelativisticComputerTileEntity)
+                && !(te instanceof DialingComputerTileEntity)
+                && !(te instanceof WormholePadTileEntity)
+                && !(te instanceof com.nick1416.wormholetech.derelict.QuantumFieldModulatorTileEntity)
+                && !(te instanceof com.nick1416.wormholetech.knowledge.RepositoryTileEntity);
+    }
 
     @Override
     public void update() {
         if (world == null || world.isRemote) return;
-        boolean was = active;
-        ItemStack aetherius = inv.getStackInSlot(0);
-        if (!aetherius.isEmpty() && aetherius.getItem() == Registration.AETHERIUS
-                && energy.getEnergyStored() >= ModConfig.relativisticComputerUpkeepRfPerTick) {
-            energy.consume(ModConfig.relativisticComputerUpkeepRfPerTick);
-            active = true;
-            // The quantum clock only runs while the computer is powered with Aetherius seated.
-            int wear = com.nick1416.wormholetech.item.ItemAetherius.getWear(aetherius);
-            if (clockForward) {
-                if (wear + 1 >= com.nick1416.wormholetech.item.ItemAetherius.maxWear()) {
-                    inv.setStackInSlot(0, ItemStack.EMPTY); // worn out: lost
-                    active = false;
-                    world.playSound(null, pos, net.minecraft.init.SoundEvents.BLOCK_GLASS_BREAK,
-                            net.minecraft.util.SoundCategory.BLOCKS, 0.8F, 0.6F);
-                } else {
-                    com.nick1416.wormholetech.item.ItemAetherius.setWear(aetherius, wear + 1);
-                }
-            } else if (wear > 0) {
-                com.nick1416.wormholetech.item.ItemAetherius.setWear(aetherius, wear - 1);
+        ItemStack old = legacy.getStackInSlot(0);
+        if (!old.isEmpty()) {
+            net.minecraft.inventory.InventoryHelper.spawnItemStack(world, pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5, old);
+            legacy.setStackInSlot(0, ItemStack.EMPTY);
+            markDirty();
+        }
+        int was = boosted;
+        boosted = 0;
+        if (enabled) {
+            int cost = ModConfig.chronoFieldRfPerBlockPerTick, extra = Math.max(1, ModConfig.chronoFieldExtraTicks);
+            for (EnumFacing f : EnumFacing.VALUES) {
+                BlockPos p = pos.offset(f);
+                if (!world.isBlockLoaded(p)) continue;
+                TileEntity te = world.getTileEntity(p);
+                if (te == null || !canBoost(te)) continue;
+                if (energy.getEnergyStored() < cost) break;
+                energy.consume(cost);
+                boosted++;
+                for (int k = 0; k < extra && !te.isInvalid(); k++) ((ITickable) te).update();
             }
-        } else {
-            active = false;
+            if (boosted > 0 && world.rand.nextInt(20) == 0 && world instanceof net.minecraft.world.WorldServer)
+                ((net.minecraft.world.WorldServer) world).spawnParticle(net.minecraft.util.EnumParticleTypes.PORTAL,
+                        pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 6, 0.6, 0.6, 0.6, 0.2);
         }
-        if (was != active) markDirty();
-        else if (active) markDirty();
+        if (boosted > 0 || was != boosted) markDirty();
     }
 
-    public boolean isActive() { return active; }
+    public boolean isEnabled() { return enabled; }
+    public int getBoosted() { return boosted; }
+    public boolean isActive() { return boosted > 0; }
 
-    public boolean isClockForward() { return clockForward; }
-
-    /** Active and running the quantum clock at +1 (what the Stargate needs). */
-    public boolean isClockActiveForward() { return active && clockForward; }
-
-    public void toggleClock() {
-        clockForward = !clockForward;
+    public void toggle() {
+        enabled = !enabled;
         markDirty();
-        if (world != null) {
-            net.minecraft.block.state.IBlockState st = world.getBlockState(pos);
-            world.notifyBlockUpdate(pos, st, st, 3);
-        }
-    }
-
-    /** Aetherius wear in the slot, 0 = full, maxWear = gone; -1 if empty. */
-    public int getAetheriusWear() {
-        ItemStack s = inv.getStackInSlot(0);
-        return s.isEmpty() ? -1 : com.nick1416.wormholetech.item.ItemAetherius.getWear(s);
-    }
-
-    /** True if an Aetherius is seated (the computer can calculate once powered). */
-    public boolean hasAetherius() {
-        ItemStack s = inv.getStackInSlot(0);
-        return !s.isEmpty() && s.getItem() == Registration.AETHERIUS;
     }
 
     public int getEnergyStored() { return energy.getEnergyStored(); }
 
-    public IItemHandlerModifiable items() { return inv; }
-
     public void dropContents(World world, BlockPos pos) {
-        ItemStack stack = inv.getStackInSlot(0);
+        ItemStack stack = legacy.getStackInSlot(0);
         if (!stack.isEmpty()) {
             net.minecraft.inventory.InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
-            inv.setStackInSlot(0, ItemStack.EMPTY);
+            legacy.setStackInSlot(0, ItemStack.EMPTY);
         }
     }
 
@@ -132,9 +106,8 @@ public class RelativisticComputerTileEntity extends TileEntity implements ITicka
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
         tag.setInteger("Energy", energy.getEnergyStored());
-        tag.setBoolean("Active", active);
-        tag.setBoolean("ClockForward", clockForward);
-        tag.setTag("Items", inv.serializeNBT());
+        tag.setBoolean("Enabled", enabled);
+        tag.setTag("Items", legacy.serializeNBT());
         return tag;
     }
 
@@ -142,28 +115,24 @@ public class RelativisticComputerTileEntity extends TileEntity implements ITicka
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
         energy.setEnergy(tag.getInteger("Energy"));
-        active = tag.getBoolean("Active");
-        clockForward = tag.getBoolean("ClockForward");
+        enabled = !tag.hasKey("Enabled") || tag.getBoolean("Enabled");
         if (tag.hasKey("Items")) {
-            inv.deserializeNBT(tag.getCompoundTag("Items"));
+            legacy.deserializeNBT(tag.getCompoundTag("Items"));
+            if (legacy.getSlots() != 1) legacy.setSize(1);
         } else if (tag.hasKey("Aetherius")) {
-            // Migrate PR #19 item/world NBT that stored a single Aetherius stack
-            inv.setStackInSlot(0, new ItemStack(tag.getCompoundTag("Aetherius")));
+            legacy.setStackInSlot(0, new ItemStack(tag.getCompoundTag("Aetherius")));
         }
     }
 
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-        return capability == CapabilityEnergy.ENERGY
-                || capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY
-                || super.hasCapability(capability, facing);
+        return capability == CapabilityEnergy.ENERGY || super.hasCapability(capability, facing);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
         if (capability == CapabilityEnergy.ENERGY) return (T) energy;
-        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return (T) inv;
         return super.getCapability(capability, facing);
     }
 

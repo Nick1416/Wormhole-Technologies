@@ -18,15 +18,18 @@ public class ContainerHighEnergyRefiner extends SyncedIntsContainer {
     // Item positions (the drawn 18x18 boxes in high_energy_refiner.png sit at x-1, y-1)
     public static final int INPUT_X = 56, INPUT_Y = 36;
     public static final int OUTPUT_X = 116, OUTPUT_Y = 36;
+    /** Hydrothermal Fluid tank (drawn by the GUI) and its bucket slot below it. */
+    public static final int TANK_X = 153, TANK_Y = 17, TANK_W = 14, TANK_H = 52;
+    public static final int BUCKET_X = 152, BUCKET_Y = 74;
     public static final int PLAYER_INV_Y = GUI_HEIGHT - 82;   // 98
     public static final int HOTBAR_Y = PLAYER_INV_Y + 58;      // 156
 
-    private static final int ENERGY = 0, COOK = 1, COOK_TOTAL = 2, STATUS = 3;
+    private static final int ENERGY = 0, COOK = 1, COOK_TOTAL = 2, STATUS = 3, FLUID = 4;
 
     private final AetheriusRefinerTileEntity te;
 
     public ContainerHighEnergyRefiner(InventoryPlayer playerInv, AetheriusRefinerTileEntity te) {
-        super(4);
+        super(5);
         this.te = te;
         IItemHandlerModifiable inv = te.items();
 
@@ -34,6 +37,7 @@ public class ContainerHighEnergyRefiner extends SyncedIntsContainer {
         addSlotToContainer(new SlotItemHandler(inv, 1, OUTPUT_X, OUTPUT_Y) {
             @Override public boolean isItemValid(ItemStack stack) { return false; }
         });
+        addSlotToContainer(new SlotItemHandler(inv, AetheriusRefinerTileEntity.SLOT_BUCKET, BUCKET_X, BUCKET_Y));
 
         for (int r = 0; r < 3; r++)
             for (int c = 0; c < 9; c++)
@@ -46,7 +50,7 @@ public class ContainerHighEnergyRefiner extends SyncedIntsContainer {
 
     @Override
     protected int[] readServerValues() {
-        return new int[] { te.getEnergyStored(), te.getCookTime(), te.getCookTimeTotal(), te.getStatus() };
+        return new int[] { te.getEnergyStored(), te.getCookTime(), te.getCookTimeTotal(), te.getStatus(), te.getFluidAmount() };
     }
 
     public int getClientEnergy() { return synced(ENERGY); }
@@ -56,6 +60,8 @@ public class ContainerHighEnergyRefiner extends SyncedIntsContainer {
     public int getClientCookTotal() { return synced(COOK_TOTAL); }
 
     public int getClientStatus() { return synced(STATUS); }
+
+    public int getClientFluid() { return synced(FLUID); }
 
     /** Progress 0..1 at full tick precision. */
     public double getClientProgress() {
@@ -78,12 +84,15 @@ public class ContainerHighEnergyRefiner extends SyncedIntsContainer {
         ItemStack in = slot.getStack();
         ret = in.copy();
 
-        final int teSlots = 2;
+        final int teSlots = 3;
         if (index < teSlots) {
             if (!this.mergeItemStack(in, teSlots, this.inventorySlots.size(), true)) return ItemStack.EMPTY;
             slot.onSlotChange(in, ret);
         } else {
-            if (com.nick1416.wormholetech.tile.RefinerRecipes.find(in) != null) {
+            if (AetheriusRefinerTileEntity.isFluidContainer(in)) {
+                if (getSlot(2).getHasStack()) return ItemStack.EMPTY;
+                getSlot(2).putStack(in.splitStack(1));
+            } else if (com.nick1416.wormholetech.tile.RefinerRecipes.find(in) != null) {
                 if (!this.mergeItemStack(in, 0, 1, false)) return ItemStack.EMPTY;
             } else {
                 return ItemStack.EMPTY;

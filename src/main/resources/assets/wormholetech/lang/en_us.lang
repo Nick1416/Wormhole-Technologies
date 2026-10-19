@@ -38,9 +38,9 @@ jei.wormholetech.duplication.catalyst_note=Accepts most items without NBT.
 tooltip.wormholetech.rf_generator.summary=100,000 RF/t into neighbors while connected to a wormhole
 
 
-tooltip.wormholetech.naquadah_generator.summary=5,000 RF/t for 10 minutes, then Unstable Naquadah
-tooltip.wormholetech.naquadah_generator.detail.1=Buffer 500,000 RF. Extract up to 5,000 RF/t.
-tooltip.wormholetech.naquadah_generator.detail.2=Lifetime: 12,000 ticks (~10 minutes at 20 TPS).
+tooltip.wormholetech.naquadah_generator.summary=%s RF/t for %s, then Unstable Naquadah
+tooltip.wormholetech.naquadah_generator.detail.1=Buffer %s RF. Extract up to %s RF/t.
+tooltip.wormholetech.naquadah_generator.detail.2=Lifetime: %s ticks (~%s at 20 TPS).
 tooltip.wormholetech.naquadah_generator.detail.3=When time runs out, becomes Unstable Block of Naquadah.
 
 # --- World / drops ---
@@ -163,7 +163,7 @@ advancements.wormholetech.refined_naquadah.desc=Obtain Refined Naquadah
 tile.wormholetech.wormhole_pad.name=Wormhole Teleport Pad
 item.wormholetech.wormhole_linker.name=Wormhole Linker
 
-tooltip.wormholetech.wormhole_pad.summary=Linked pad teleport — 50,000 RF/t upkeep each while linked
+tooltip.wormholetech.wormhole_pad.summary=Linked pad teleport. Only one pad of a pair needs power (50,000 RF/t)
 
 tooltip.wormholetech.wormhole_linker.summary=Right-click pads to create a bidirectional link
 tooltip.wormholetech.wormhole_linker.detail.1=First right-click stores pad A; second links A↔B (clears old links).
@@ -182,28 +182,23 @@ message.wormholetech.linker.failed=Link failed
 
 item.wormholetech.aetherius.name=Aetherius
 tooltip.wormholetech.aetherius.summary=Glass-like stellar matter
-tooltip.wormholetech.aetherius.detail.1=Seat it in a Relativistic Computer. Quantum clock +1 wears it down over 30 minutes (lost at zero); -1 restores it at the same rate.
+tooltip.wormholetech.aetherius.detail.1=Seat it in a Gate Network Computer. It wears down while a wormhole is open (30 min, lost at zero) and recovers while closed.
 
 tile.wormholetech.compressed_naquadah.name=Compressed Naquadah
 tooltip.wormholetech.compressed_naquadah.summary=Bedrock-bound refined naquadah
 
 
-tile.wormholetech.relativistic_computer.name=Relativistic Computer
-tooltip.wormholetech.relativistic_computer.summary=Runs a quantum clock that bends local time
-tooltip.wormholetech.relativistic_computer.detail.1=Needs Aetherius and 50k RF/t. Clock +1: the gate can dial, Aetherius wears (30 min). Clock -1: Aetherius recovers.
+tile.wormholetech.relativistic_computer.name=Chrono Field Generator
+tooltip.wormholetech.relativistic_computer.summary=Speeds up adjacent machines
+tooltip.wormholetech.relativistic_computer.detail.1=%s RF/t per machine; each runs %sx as fast.
 
-message.wormholetech.computer.inserted=Aetherius seated in the Relativistic Computer
-message.wormholetech.computer.ejected=Aetherius removed
-message.wormholetech.computer.full=The computer already holds Aetherius
-message.wormholetech.computer.active=Active (%s RF buffered)
-message.wormholetech.computer.idle=Idle — needs Aetherius and 50k RF/t (%s RF buffered)
 message.wormholetech.refiner.inserted=Compressed Naquadah loaded
 message.wormholetech.refiner.took=Collected Aetherius
 message.wormholetech.refiner.status=Refining %s%% — %s RF buffered
 advancements.wormholetech.aetherius.title=Glass of the Void
 advancements.wormholetech.aetherius.desc=Obtain Aetherius from the High Energy Refiner
 advancements.wormholetech.relativistic_computer.title=Time Dilated
-advancements.wormholetech.relativistic_computer.desc=Craft a Relativistic Computer to bend time
+advancements.wormholetech.relativistic_computer.desc=Craft a Time Dilated Chip
 advancements.wormholetech.wormhole_pad.title=Folded Path
 advancements.wormholetech.wormhole_pad.desc=Craft a Wormhole Teleport Pad with a Naquadah Crystal
 advancements.wormholetech.high_energy_refiner.title=High Energy
@@ -211,11 +206,11 @@ advancements.wormholetech.high_energy_refiner.desc=Craft a High Energy Refiner
 tile.wormholetech.high_energy_refiner.name=High Energy Refiner
 tooltip.wormholetech.high_energy_refiner.summary=High-energy refining machine
 gui.wormholetech.tablet.p6.title=Fragment VI — Trajectories
-gui.wormholetech.tablet.p6.l1=[Translation] Compress refined matter beneath bedrock pressure, then hold it in a High Energy Refiner for thirty minutes.
-gui.wormholetech.tablet.p6.l2=[Translation] Seat Aetherius in a Relativistic Computer (50k RF/t). Its quantum clock bends time: +1 races, -1 rests.
+gui.wormholetech.tablet.p6.l1=[Translation] Compress refined matter beneath bedrock pressure, then hold it in a High Energy Refiner for fifteen minutes.
+gui.wormholetech.tablet.p6.l2=[Translation] Aetherius bends time. A Gate Network Computer burns it to hold its wormholes open.
 tooltip.wormholetech.naquadah_generator.detail.4=Breaking the block keeps remaining lifetime.
 
-container.wormholetech.relativistic_computer=Relativistic Computer
+container.wormholetech.relativistic_computer=Chrono Field Generator
 container.wormholetech.high_energy_refiner=High Energy Refiner
 gui.wormholetech.rf_stored=RF: %s
 gui.wormholetech.status.active=Active
@@ -262,7 +257,7 @@ gui.wormholetech.dialing.close=Close
 gui.wormholetech.dialing.rate=%s RF/t
 gui.wormholetech.dialing.status.disabled=Gate disabled (no gate frame block)
 gui.wormholetech.dialing.status.no_address=No address
-gui.wormholetech.dialing.status.need_computer=Need Relativistic Computer
+gui.wormholetech.dialing.status.need_aetherius=Need Aetherius
 gui.wormholetech.dialing.status.no_frame=Frame not found
 gui.wormholetech.dialing.status.need_power=Need RF
 gui.wormholetech.dialing.status.ready=Ready to dial
@@ -271,9 +266,10 @@ dimension.wormholetech.p3x_1416=P3X-1416
 biome.wormholetech.naquadah_wastes=Naquadah Wastes
 gui.wormholetech.tablet.p7.title=Fragment VII — The Gate
 gui.wormholetech.tablet.p7.l1=[Translation] Raise a doorway of Blocks of Titanium, at least four wide and five tall. Titanium is refined from silicon in a High Energy Refiner.
-gui.wormholetech.tablet.p7.l2=[Translation] A Dialing Computer touches it, beside a Relativistic Computer racing at +1.
+gui.wormholetech.tablet.p7.l2=[Translation] A Dialing Computer touches it. Feed it power and an address.
 gui.wormholetech.tablet.p7.l3=[Translation] This tablet is the address of P3X-1416, where naquadah lies thick in the rock.
 gui.wormholetech.tablet.p7.l4=[Translation] A Gate Locator points the way back.
+gui.wormholetech.tablet.p7.l5=[Translation] Hot springs well up from its ash. A bucket of their fluid and a stone, held in a High Energy Refiner, become quartz.
 advancements.wormholetech.p3x_1416.title=Off-World
 advancements.wormholetech.p3x_1416.desc=Step through a gate to P3X-1416
 item.wormholetech.gate_locator.name=Gate Locator
@@ -301,12 +297,9 @@ advancements.wormholetech.guardian_sentinel.title=Guardian Fallen
 advancements.wormholetech.guardian_sentinel.desc=Defeat the Emerald Sentinel of a guardian temple
 gui.wormholetech.tablet.p8.title=Fragment VIII — Folded Paths
 gui.wormholetech.tablet.p8.l1=[Translation] Beyond the gate grow crystals of light. Only a silken touch frees them whole.
-gui.wormholetech.tablet.p8.l2=[Translation] Set a crystal into each pad; linked pads fold a path within one world.
+gui.wormholetech.tablet.p8.l2=[Translation] Set a crystal into each pad; linked pads fold a path within one world. One powered pad carries both.
 message.wormholetech.linker.same_dim_only=Pads only link within one dimension (stored pad is in %s)
 message.wormholetech.pad.same_dim_only=This pad is linked to another dimension; pads only work within one dimension now
-gui.wormholetech.dialing.status.need_clock=Set computer clock to +1
-gui.wormholetech.computer.clock.forward=Quantum clock +1: time runs fast. The gate can dial; Aetherius wears down.
-gui.wormholetech.computer.clock.back=Quantum clock -1: time runs slow. Aetherius recovers.
 
 message.wormholetech.disabled_normal_mode=This machine is disabled (mode=normal in wormholetech.cfg)
 tile.wormholetech.prysmian_ore.name=Prysmian Ore
@@ -335,7 +328,7 @@ tooltip.wormholetech.hull_window.summary=Unbreakable window to space
 tile.wormholetech.modulator_cradle.name=Modulator Cradle
 tooltip.wormholetech.modulator_cradle.summary=Unbreakable machinery
 tile.wormholetech.quantum_field_modulator.name=Quantum Field Modulator
-tooltip.wormholetech.quantum_field_modulator.summary=Placed: endless RF to adjacent blocks
+tooltip.wormholetech.quantum_field_modulator.summary=Placed: powers gates and drones only
 message.wormholetech.modulator.locked=The cradle holds it fast while its guardian lives
 entity.wormholetech.emerald_wisp.name=Emerald Wisp
 entity.wormholetech.giant_emerald_sentinel.name=Giant Emerald Sentinel
@@ -464,7 +457,7 @@ gui.wormholetech.repository.planets_hint=Research drones near a Repository study
 gui.wormholetech.repository.undiscovered=Not yet discovered.
 gui.wormholetech.repository.locked=Locked
 gui.wormholetech.repository.tech.quantum_field_modulator=Quantum Field Modulator
-gui.wormholetech.repository.tech.quantum_field_modulator.desc=Powerful energy source.
+gui.wormholetech.repository.tech.quantum_field_modulator.desc=Powers gates and drones. Ordinary machinery cannot take its energy.
 gui.wormholetech.repository.tech.nanite_core=Nanite Core
 message.wormholetech.knowledge.discovered=New knowledge: %s
 dimension.wormholetech.overworld=Overworld
@@ -479,7 +472,7 @@ item.wormholetech.hard_diamond_helmet.name=Hard Diamond Helmet
 item.wormholetech.hard_diamond_chestplate.name=Hard Diamond Chestplate
 item.wormholetech.hard_diamond_leggings.name=Hard Diamond Leggings
 item.wormholetech.hard_diamond_boots.name=Hard Diamond Boots
-tooltip.wormholetech.relativistic_computer.detail.2=Clock +1 next to a High Energy Refiner: it refines twice as fast.
+tooltip.wormholetech.relativistic_computer.detail.2=Works on furnaces and most ticking machines, not on gates or pads.
 
 jei.wormholetech.bedrock.info=Mine with a Hard Diamond Pickaxe.
 advancements.wormholetech.raw_xenolith.title=Alien Mineral
@@ -615,7 +608,7 @@ advancements.wormholetech.utopis_address.title=The Forbidden Address
 advancements.wormholetech.utopis_address.desc=An address no one should dial. Check the Gate Network Computer
 advancements.wormholetech.utopis.title=Into the Failed Utopia
 advancements.wormholetech.utopis.desc=Step through a gate onto Utopis, homeworld of the Emerald Drones
-gui.wormholetech.repository.info.utopis.gravity=Crushing (about 1.4x), hard falls
+gui.wormholetech.repository.info.utopis.gravity=Unstable: normal, with surges to about 1.2x and hard falls
 gui.wormholetech.repository.info.utopis.cycle=Endless night under a black hole
 gui.wormholetech.repository.info.utopis.galaxy=Milky Way, at the core
 gui.wormholetech.repository.info.utopis.ores=None, nothing natural remains
@@ -659,11 +652,46 @@ item.wormholetech.chromium.name=Chromium
 tooltip.wormholetech.hydrothermal_pressurizer.summary=Grows emeralds. No RF needed.
 tooltip.wormholetech.hydrothermal_pressurizer.detail.1=8 buckets of water + 8 coal per emerald, 2 min.
 tooltip.wormholetech.hydrothermal_pressurizer.detail.2=Inputs from top/sides, output and empty buckets from the bottom.
-tooltip.wormholetech.chromium_ore.summary=Found like gold: below Y 32, more in mesas
+tooltip.wormholetech.chromium_ore.summary=Found like gold: below Y 32, more in mesas. Smelt it.
 gui.wormholetech.pressurizer.forming=Forming %d%%
 gui.wormholetech.pressurizer.water=Water: %d / %d mB
-jei.wormholetech.pressurizer.hint=8000 mB water, 8 coal, 2 min
+jei.wormholetech.pressurizer.hint=2 min
 gui.wormholetech.tablet.p9.title=Fragment IX — Pressure
 gui.wormholetech.tablet.p9.l1=[Translation] Chromium lies deep, where gold sleeps. Heat and water under pressure turn stone into gems.
 gui.wormholetech.tablet.p9.l2=[Translation] Hydrothermal Pressurizer: aluminum + chromium + silicon, with water and coal -> emerald (2 min).
 gui.wormholetech.pressurizer.need_coal=Needs coal
+
+# --- Time Dilated Chip, Chrono Field Generator, gate network upgrade ---
+item.wormholetech.time_dilated_chip.name=Time Dilated Chip
+tooltip.wormholetech.time_dilated_chip.summary=Upgrade: turns a Dialing Computer into a Gate Network Computer
+tooltip.wormholetech.time_dilated_chip.detail.1=Goes in the Dialing Computer's upgrade slot. The Gate Network Computer then burns Aetherius while a wormhole is open.
+tooltip.wormholetech.gate_network_computer.detail.1=Needs Aetherius; it wears while a wormhole is open.
+gui.wormholetech.dialing.slot.upgrade=Upgrade slot
+gui.wormholetech.dialing.slot.aetherius=Aetherius
+gui.wormholetech.chrono_field.on=On
+gui.wormholetech.chrono_field.off=Off
+gui.wormholetech.chrono_field.status.off=Field off
+gui.wormholetech.chrono_field.status.idle=Idle: no machine or RF
+gui.wormholetech.chrono_field.status.active=Speeding up %s (%s RF/t)
+gui.wormholetech.tablet.p10.title=Fragment X — Bent Time
+gui.wormholetech.tablet.p10.l1=[Translation] Seat a Time Dilated Chip in a Dialing Computer and it becomes a Gate Network Computer, remembering every gate you have passed. It burns Aetherius while a wormhole is open.
+gui.wormholetech.tablet.p10.l2=[Translation] Wrapped around the chip, a Chrono Field Generator hastens every machine it touches.
+gui.wormholetech.tablet.p10.l3=[Translation] A Quantum Field Modulator feeds only gates and drones. Ordinary machinery was not built for that kind of energy.
+tooltip.wormholetech.quantum_field_modulator.detail.2=Other machines and cables get nothing: its energy would overwhelm them.
+message.wormholetech.modulator.overwhelm=The modulator's output would overwhelm it with too much energy
+
+# --- Emerald Nugget ---
+item.wormholetech.emerald_nugget.name=Emerald Nugget
+tooltip.wormholetech.emerald_nugget.summary=Nine make an emerald
+
+# --- Hydrothermal Fluid ---
+fluid.wormholetech.hydrothermal_fluid=Hydrothermal Fluid
+tile.wormholetech.hydrothermal_fluid.name=Hydrothermal Fluid
+jei.wormholetech.hydrothermal_fluid.info=Wells up in small hot springs on the naquadah world. In a High Energy Refiner, 1 bucket and 1 stone become 4 Nether Quartz (10 s each).
+gui.wormholetech.status.need_fluid=Need Hydrothermal Fluid
+gui.wormholetech.tank_mb=%s / %s mB
+gui.wormholetech.refiner.bucket_slot=Hydrothermal Fluid bucket
+
+# --- Utopis gravity ---
+message.wormholetech.utopis.surge=Gravity surges...
+message.wormholetech.utopis.steady=Gravity steadies.

@@ -24,6 +24,12 @@ public class ClientProxy extends com.nick1416.wormholetech.common.CommonProxy {
 
 	@SubscribeEvent
 	public static void onModels(ModelRegistryEvent e) {
+	    final net.minecraft.client.renderer.block.model.ModelResourceLocation fluidModel =
+	            new net.minecraft.client.renderer.block.model.ModelResourceLocation(
+	                    new net.minecraft.util.ResourceLocation(com.nick1416.wormholetech.WormholeTech.MODID, com.nick1416.wormholetech.fluid.HydrothermalFluid.NAME), "fluid");
+	    ModelLoader.setCustomStateMapper(com.nick1416.wormholetech.fluid.HydrothermalFluid.block(), new net.minecraft.client.renderer.block.statemap.StateMapperBase() {
+	        @Override protected net.minecraft.client.renderer.block.model.ModelResourceLocation getModelResourceLocation(net.minecraft.block.state.IBlockState state) { return fluidModel; }
+	    });
 	    for (Item it : new Item[] { Registration.ITEM_XENOLITH_ORE, Registration.RAW_XENOLITH, Registration.INACTIVE_DRONE, Registration.ITEM_PRESSURIZER, Registration.ITEM_CHROMIUM_ORE, Registration.CHROMIUM })
 	        ModelLoader.setCustomModelResourceLocation(it, 0, new ModelResourceLocation(it.getRegistryName(), "inventory"));
 	    for (int m = 0; m < com.nick1416.wormholetech.drone.DroneProgram.VALUES.length; m++)
@@ -145,7 +151,7 @@ public class ClientProxy extends com.nick1416.wormholetech.common.CommonProxy {
 	    		refiner, 0, new ModelResourceLocation(refiner.getRegistryName(), "inventory"));
 
 	    for (Item it : new Item[] { Registration.ITEM_DIALING_COMPUTER, Registration.ITEM_ANCIENT_GATE_FRAME, Registration.GATE_LOCATOR,
-	            Registration.ITEM_NATURAL_NAQUADAH_ORE, Registration.ITEM_ELYNDRA_NAQUADAH_ORE, Registration.ITEM_UTOPIS_CONSOLE, Registration.NANITE_CLUSTER, Registration.ITEM_PRYSMIAN_ORE, Registration.DIAMOND_NUGGET, Registration.ITEM_REINFORCED_GATE_FRAME, Registration.ITEM_HULL_PLATING, Registration.ITEM_HULL_BULKHEAD, Registration.ITEM_HULL_LAMP, Registration.ITEM_HULL_LAMP_GOLD, Registration.ITEM_HULL_WINDOW, Registration.ITEM_MODULATOR_CRADLE, Registration.ITEM_QUANTUM_FIELD_MODULATOR, Registration.DERELICT_COORDINATES, Registration.INTERGALACTIC_COORDINATES, Registration.NANITE_CORE, Registration.ITEM_GATE_NETWORK_COMPUTER, Registration.ITEM_XENOLITH, Registration.ITEM_XENOLITH_TILES, Registration.ITEM_REPOSITORY, Registration.ITEM_XENO_LAMP, Registration.TITANIUM_INGOT, Registration.ITEM_TITANIUM_BLOCK, Registration.ITEM_NAQUADRIC_STONE, Registration.ITEM_ASHEN_REGOLITH, Registration.ITEM_MOON_REGOLITH, Registration.ITEM_TITANIUM_ORE, Registration.ITEM_NEUTRONIUM_ORE, Registration.NEUTRONIUM_INGOT, Registration.NEUTRONIUM_SUPERCONDUCTOR, Registration.ITEM_MINIATURE_FACTORY,
+	            Registration.ITEM_NATURAL_NAQUADAH_ORE, Registration.ITEM_ELYNDRA_NAQUADAH_ORE, Registration.ITEM_UTOPIS_CONSOLE, Registration.NANITE_CLUSTER, Registration.ITEM_PRYSMIAN_ORE, Registration.DIAMOND_NUGGET, Registration.ITEM_REINFORCED_GATE_FRAME, Registration.ITEM_HULL_PLATING, Registration.ITEM_HULL_BULKHEAD, Registration.ITEM_HULL_LAMP, Registration.ITEM_HULL_LAMP_GOLD, Registration.ITEM_HULL_WINDOW, Registration.ITEM_MODULATOR_CRADLE, Registration.ITEM_QUANTUM_FIELD_MODULATOR, Registration.DERELICT_COORDINATES, Registration.INTERGALACTIC_COORDINATES, Registration.NANITE_CORE, Registration.TIME_DILATED_CHIP, Registration.EMERALD_NUGGET, Registration.ITEM_GATE_NETWORK_COMPUTER, Registration.ITEM_XENOLITH, Registration.ITEM_XENOLITH_TILES, Registration.ITEM_REPOSITORY, Registration.ITEM_XENO_LAMP, Registration.TITANIUM_INGOT, Registration.ITEM_TITANIUM_BLOCK, Registration.ITEM_NAQUADRIC_STONE, Registration.ITEM_ASHEN_REGOLITH, Registration.ITEM_MOON_REGOLITH, Registration.ITEM_TITANIUM_ORE, Registration.ITEM_NEUTRONIUM_ORE, Registration.NEUTRONIUM_INGOT, Registration.NEUTRONIUM_SUPERCONDUCTOR, Registration.ITEM_MINIATURE_FACTORY,
 	            Registration.ITEM_NAQUADAH_CRYSTAL, Registration.ITEM_ANCIENT_STONE }) {
 	        ModelLoader.setCustomModelResourceLocation(it, 0, new ModelResourceLocation(it.getRegistryName(), "inventory"));
 	    }

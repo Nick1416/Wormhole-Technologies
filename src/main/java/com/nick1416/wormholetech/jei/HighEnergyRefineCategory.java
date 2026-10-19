@@ -53,5 +53,11 @@ public class HighEnergyRefineCategory implements IRecipeCategory<HighEnergyRefin
         stacks.init(1, false, 84, 16);
         stacks.set(0, ingredients.getInputs(VanillaTypes.ITEM).get(0));
         stacks.set(1, ingredients.getOutputs(VanillaTypes.ITEM).get(0));
+        if (recipeWrapper.recipe().fluid != null) {
+            // fluid input to the left of the item input
+            mezz.jei.api.gui.IGuiFluidStackGroup fluids = recipeLayout.getFluidStacks();
+            fluids.init(0, true, 1, 17, 16, 16, recipeWrapper.recipe().fluid.amount, false, null);
+            fluids.set(0, recipeWrapper.recipe().fluid);
+        }
     }
 }
