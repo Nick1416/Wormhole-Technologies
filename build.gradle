@@ -3,7 +3,6 @@ buildscript {
         jcenter()
         maven { url = "https://files.minecraftforge.net/maven" }
         maven { url "https://maven.blamejared.com" } // hosts IE 1.12 API
-        maven { url = "https://dvs1.progwml3.me/maven" } // JEI
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
@@ -12,7 +11,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 repositories {
-    maven { url = "https://dvs1.progwml3.me/maven" } // JEI
+    maven { url = "https://maven.blamejared.com" } // JEI (progwml3 host is dead)
 }
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
@@ -65,7 +64,10 @@ dependencies {
     provided files("libs/ImmersiveEngineering-0.12-98.jar")
 
     // JEI (compile-only; soft dependency at runtime)
-    deobfProvided "mezz.jei:jei_1.12.2:4.15.0.291"
+    // Prefer a local jar in libs/ if you have one from your pack, e.g.:
+    // provided files("libs/jei_1.12.2-4.15.0.296.jar")
+    // Otherwise download from BlameJared:
+    deobfProvided "mezz.jei:jei_1.12.2:4.16.1.1013"
 
 
 
